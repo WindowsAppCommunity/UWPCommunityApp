@@ -5,10 +5,72 @@
     xmlns:local="using:UWPCommunity"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource SystemControlAltLowAcrylicWindowBrush}"
+    RequestedTheme="Dark">
 
-    <Grid>
+    <NavigationView x:Name="MainNav" Windows10version1809:PaneDisplayMode="Top" SelectionChanged="NavigationView_SelectionChanged">
 
-    </Grid>
+        <Windows10version1809:NavigationView.PaneHeader>
+            <Viewbox Margin="0,2.5,0,2.5">
+                <StackPanel Orientation="Horizontal">
+                    <Viewbox Height="120" Width="120">
+                        <FontIcon Glyph="🐱‍🏍" FontFamily="Segoe UI Emoji"/>
+                    </Viewbox>
+                    
+                    <StackPanel>
+                        <TextBlock Text="UWP" FontSize="60" FontWeight="Bold"/>
+                        <TextBlock Text="Community" FontSize="40" Margin="0,-15,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </Viewbox>
+        </Windows10version1809:NavigationView.PaneHeader>
+        
+        <NavigationView.MenuItems>
+            <NavigationViewItem Icon="Home" Content="Home"/>
+            <NavigationViewItem Icon="Library" Content="Projects"/>
+            <NavigationViewItem Content="Launch">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xF3B3;" FontFamily="Assets/FabricMDL2Assets.ttf#Fabric MDL2 Assets"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+        </NavigationView.MenuItems>
+
+        <NavigationView.PaneFooter>
+            <Button Background="Transparent">
+                <Button.Content>
+                    <Viewbox>
+                        <PersonPicture Initials="YA" PreferSmallImage="True" ProfilePicture="https://cdn.discordapp.com/avatars/270372582795116545/172ee4b543ba47ffaf0cd32935b59dc1.png"/>
+                    </Viewbox>
+                </Button.Content>
+                
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Dashboard">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#62022;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Edit Profile">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#61395;" FontFamily="Assets/FabricMDL2Assets.ttf#Fabric MDL2 Assets"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Logout">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#62385;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+
+                </Button.Flyout>
+            </Button>
+        </NavigationView.PaneFooter>
+
+        <Frame x:Name="MainFrame"/>
+
+    </NavigationView>
 </Page>
