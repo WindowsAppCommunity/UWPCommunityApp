@@ -1,20 +1,7 @@
 ﻿using Refit;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using UWPCommLib.Api.UWPComm.Models;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+using Windows.Security.Authentication.Web;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -31,18 +18,29 @@ namespace UWPCommunity
             this.InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // Selects and navigates to the Home page
             MainNav.SelectedItem = MainNav.MenuItems[0];
+            Common.OnLoggedIn += Common_OnLoggedIn;
             base.OnNavigatedTo(e);
+        }
+
+        private void Common_OnLoggedIn()
+        {
+            UnloadObject(SignInButton);
+            FindName("UserButton");
+            DashboardNavItem.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            Type navTo = typeof(MainPage);
+            // Set the default navigation to the Home page
+            Type navTo = typeof(Views.HomeView);
             if (args.IsSettingsSelected)
             {
-                navTo = typeof(MainPage);
+                // TODO: Navigate to Settings page
+                navTo = typeof(Views.HomeView);
             }
 
             switch (((NavigationViewItem)args.SelectedItem).Content)
@@ -56,11 +54,22 @@ namespace UWPCommunity
                     break;
 
                 case "Launch":
-                    //navTo = typeof(Views.LaunchView);
+                    // TODO: Navigate to Launch page
+                    navTo = typeof(Views.LaunchView);
+                    break;
+
+                case "Dashboard":
+                    navTo = typeof(Views.Dashboard);
                     break;
             }
 
+            // Navigate the internal frame to the selected page
             MainFrame.Navigate(navTo, null, args.RecommendedNavigationTransitionInfo);
+        }
+
+        private void SignInButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            MainFrame.Navigate(typeof(Views.LoginView));
         }
     }
 }

@@ -9,8 +9,7 @@
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     mc:Ignorable="d"
-    Background="{ThemeResource SystemControlAltLowAcrylicWindowBrush}"
-    RequestedTheme="Dark">
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
     <NavigationView x:Name="MainNav" Windows10version1809:PaneDisplayMode="Top" SelectionChanged="NavigationView_SelectionChanged">
 
@@ -37,37 +36,45 @@
                     <FontIcon Glyph="&#xF3B3;" FontFamily="Assets/FabricMDL2Assets.ttf#Fabric MDL2 Assets"/>
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
+            
+            <NavigationViewItem x:Name="DashboardNavItem" Content="Dashboard" Visibility="Collapsed">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#62022;"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
         </NavigationView.MenuItems>
 
         <NavigationView.PaneFooter>
-            <Button Background="Transparent">
-                <Button.Content>
-                    <Viewbox>
-                        <PersonPicture Initials="YA" PreferSmallImage="True" ProfilePicture="https://cdn.discordapp.com/avatars/270372582795116545/172ee4b543ba47ffaf0cd32935b59dc1.png"/>
-                    </Viewbox>
-                </Button.Content>
-                
-                <Button.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem Text="Dashboard">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#62022;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem Text="Edit Profile">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#61395;" FontFamily="Assets/FabricMDL2Assets.ttf#Fabric MDL2 Assets"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem Text="Logout">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#62385;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                    </MenuFlyout>
 
-                </Button.Flyout>
-            </Button>
+            <Grid>
+                <Button x:Name="SignInButton" x:Load="True"
+                        Click="SignInButton_Click"
+                        Content="Sign in" Style="{ThemeResource AccentButtonStyle}"/>
+
+                <Button x:Name="UserButton" x:Load="False" Background="Transparent">
+                    <Button.Content>
+                        <Viewbox>
+                            <PersonPicture Initials="YA" PreferSmallImage="True" ProfilePicture="https://cdn.discordapp.com/avatars/270372582795116545/172ee4b543ba47ffaf0cd32935b59dc1.png"/>
+                        </Viewbox>
+                    </Button.Content>
+
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Edit Profile">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#61395;" FontFamily="Assets/FabricMDL2Assets.ttf#Fabric MDL2 Assets"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Log out">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#62385;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+
+                    </Button.Flyout>
+                </Button>
+            </Grid>
         </NavigationView.PaneFooter>
 
         <Frame x:Name="MainFrame"/>

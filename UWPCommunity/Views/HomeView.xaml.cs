@@ -1,9 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
-using Refit;
-using System.Collections.ObjectModel;
-using UWPCommLib.Api.UWPComm.Models;
+﻿using Windows.Foundation.Metadata;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -14,32 +10,36 @@ namespace UWPCommunity.Views
     /// </summary>
     public sealed partial class HomeView : Page
     {
-        //UWPCommLib.Api.UWPComm.IUWPCommAPI api = RestService.For<UWPCommLib.Api.UWPComm.IUWPCommAPI>("https://uwpcommunity-site-backend.herokuapp.com");
-        //public ObservableCollection<Project> Projects { get; set; } = new ObservableCollection<Project>();
-
         public HomeView()
         {
             this.InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        private void Page_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            /*var projs = await api.GetProjects();
-            foreach (var project in projs)
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                Projects.Add(project);
-            }*/
-            base.OnNavigatedTo(e);
+                // Allows the cards to cast a shadow on the background
+                CardThemeShadow.Receivers.Add(BackgroundGrid);
+            }
         }
 
-        private void card_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void Card_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            Windows.UI.Xaml.VisualStateManager.GoToState((DropShadowPanel)sender, "PointerOver", true);
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                // Raise the Z translation so the ThemeShadow gets 'larger'
+                ((Grid)sender).Translation = new System.Numerics.Vector3(0, 0, 70);
+            }
         }
 
-        private void card_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void Card_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            Windows.UI.Xaml.VisualStateManager.GoToState((DropShadowPanel)sender, "PointerExit", true);
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                // Lower the Z translation so the ThemeShadow gets 'smaller'
+                ((Grid)sender).Translation = new System.Numerics.Vector3(0, 0, 32);
+            }
         }
     }
 }
