@@ -23,6 +23,11 @@ namespace UWPCommunity
             Navigate(typeof(HomeView));
         }
 
+        public static void NavigateToSettings()
+        {
+            Navigate(typeof(HomeView));
+        }
+
         public static void RequestSignIn(Type returnToPage)
         {
             if (!Common.IsLoggedIn)

@@ -39,10 +39,16 @@ namespace UWPCommunity
 
         private void MainFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            // TODO: Update the NavView when the frame navigates on its own
             MainNav.IsBackEnabled = MainFrame.CanGoBack;
-            var page = Pages.ToList().Find((info) => info.PageType == e.SourcePageType);
-            MainNav.SelectedItem = page == null ? null : page;
+            try
+            {
+                // Update the NavView when the frame navigates on its own
+                //     This is in a try-catch block so that I don't have to do a dozen
+                //     null checks.
+                var page = Pages.Find((info) => info.PageType == e.SourcePageType);
+                MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as NavigationViewItem).Content.ToString() == page.Title);
+            }
+            catch {}
         }
 
         private void Common_OnLoginStateChanged(bool isLoggedIn)
@@ -81,8 +87,8 @@ namespace UWPCommunity
 
             if (args.IsSettingsSelected)
             {
-                if (args.IsSettingsSelected)
-                    MainFrame.Navigate(typeof(Views.HomeView));
+                // TODO: Navigate to settings
+                NavigationManager.NavigateToSettings();
                 return;
             }
 
