@@ -2,13 +2,20 @@
     x:Class="UWPCommunity.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UWPCommunity">
+    xmlns:local="using:UWPCommunity"
+    xmlns:flui="using:FluiFramework.UWP.Core"
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)">
 
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!-- Other merged dictionaries here -->
+                <flui:FluiFrameworkThemeResources/>
+
+                <ResourceDictionary>
+                    <Windows10version1903:ThemeShadow x:Name="CardThemeShadow"/>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
         </ResourceDictionary>

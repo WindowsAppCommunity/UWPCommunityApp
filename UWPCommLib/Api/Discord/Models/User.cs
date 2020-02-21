@@ -24,5 +24,12 @@ namespace UWPCommLib.Api.Discord.Models
 
         [JsonProperty(PropertyName = "locale")]
         public string Locale { get; set; }
+
+        [JsonIgnore]
+        public System.Uri AvatarUri {
+            get {
+                return new System.Uri($"https://cdn.discordapp.com/avatars/{DiscordId}/{Avatar}.png");
+            }
+        }
     }
 }

@@ -16,15 +16,21 @@ namespace UWPCommunity.Views
     /// </summary>
     public sealed partial class LoginView : Page
     {
+        private Type DestinationPage;
+
         public LoginView()
         {
             this.InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             LoginWrapper.NavigationCompleted += LoginWrapper_NavigationCompleted;
             LoginWrapper.Navigate(new Uri("https://discordapp.com/api/oauth2/authorize?client_id=611491369470525463&redirect_uri=http%3A%2F%2Fuwpcommunity-site-backend.herokuapp.com%2Fsignin%2Fredirect&response_type=code&scope=identify%20guilds"));
+            
+            Type page = e.Parameter as Type;
+            DestinationPage = page == null ? typeof(HomeView) : page;
+
             base.OnNavigatedTo(e);
         }
 
@@ -41,14 +47,9 @@ namespace UWPCommunity.Views
                 byte[] data = Convert.FromBase64String(authResponseBase64);
                 var authResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<TokenResponse>(System.Text.Encoding.ASCII.GetString(data));
 
-                Console.WriteLine(authResponse.Token);
-                Common.DiscordToken = authResponse.Token;
-                Common.DiscordRefreshToken = authResponse.RefreshToken;
-                Common.IsLoggedIn = true;
+                await Common.SignIn(authResponse.Token, authResponse.RefreshToken);
 
-                Common.DiscordUser = await Common.DiscordApi.GetCurrentUser(Common.DiscordToken);
-
-                Frame.Navigate(typeof(Dashboard));
+                NavigationManager.Navigate(DestinationPage);
             }
         }
     }

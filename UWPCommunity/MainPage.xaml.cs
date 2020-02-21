@@ -1,6 +1,6 @@
-﻿using Refit;
-using System;
-using Windows.Security.Authentication.Web;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -20,56 +20,99 @@ namespace UWPCommunity
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // Selects and navigates to the Home page
-            MainNav.SelectedItem = MainNav.MenuItems[0];
-            Common.OnLoggedIn += Common_OnLoggedIn;
+            Common.OnLoginStateChanged += Common_OnLoginStateChanged;
+            MainFrame.Navigated += MainFrame_Navigated;
+            NavigationManager.PageFrame = MainFrame;
             base.OnNavigatedTo(e);
         }
 
-        private void Common_OnLoggedIn()
+        private void MainFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            UnloadObject(SignInButton);
-            FindName("UserButton");
-            DashboardNavItem.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            // TODO: Update the NavView when the frame navigates on its own
+            MainNav.IsBackEnabled = MainFrame.CanGoBack;
+            var page = Pages.ToList().Find((info) => info.PageType == e.SourcePageType);
+            MainNav.SelectedItem = page == null ? null : page;
+        }
+
+        private void Common_OnLoginStateChanged(bool isLoggedIn)
+        {
+            if (isLoggedIn)
+            {
+                UnloadObject(SignInButton);
+                FindName("UserButton");
+                UserProfilePicture.ProfilePicture =
+                    new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
+                ((ObservableCollection<PageInfo>)MainNav.MenuItemsSource)[3].Visibility = Windows.UI.Xaml.Visibility.Visible;
+            }
+            else
+            {
+                FindName("SignInButton");
+                UnloadObject(UserButton);
+                ((ObservableCollection<PageInfo>)MainNav.MenuItemsSource)[3].Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            // Set the default navigation to the Home page
-            Type navTo = typeof(Views.HomeView);
+            if (args.SelectedItem == null) NavigationManager.NavigateToHome();
+
             if (args.IsSettingsSelected)
             {
-                // TODO: Navigate to Settings page
-                navTo = typeof(Views.HomeView);
+                if (args.IsSettingsSelected)
+                    MainFrame.Navigate(typeof(Views.HomeView));
+                return;
             }
 
-            switch (((NavigationViewItem)args.SelectedItem).Content)
-            {
-                case "Home":
-                    navTo = typeof(Views.HomeView);
-                    break;
-
-                case "Projects":
-                    navTo = typeof(Views.ProjectsView);
-                    break;
-
-                case "Launch":
-                    // TODO: Navigate to Launch page
-                    navTo = typeof(Views.LaunchView);
-                    break;
-
-                case "Dashboard":
-                    navTo = typeof(Views.Dashboard);
-                    break;
-            }
-
-            // Navigate the internal frame to the selected page
-            MainFrame.Navigate(navTo, null, args.RecommendedNavigationTransitionInfo);
+            PageInfo pageInfo = (PageInfo)args.SelectedItem;
+            if (pageInfo != null && pageInfo.PageType.BaseType == typeof(Page))
+                MainFrame.Navigate(pageInfo.PageType, null, args.RecommendedNavigationTransitionInfo);
         }
 
         private void SignInButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            MainFrame.Navigate(typeof(Views.LoginView));
+            NavigationManager.RequestSignIn(typeof(Views.DashboardView));
         }
+        private void SignOutButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Common.SignOut();
+        }
+
+        public ObservableCollection<PageInfo> Pages = new ObservableCollection<PageInfo>
+        {
+            new PageInfo()
+            {
+                PageType = typeof(Views.HomeView),
+                Icon = new SymbolIcon(Symbol.Home),
+                Title = "Home",
+            },
+
+            new PageInfo()
+            {
+                PageType = typeof(Views.ProjectsView),
+                Icon = new SymbolIcon(Symbol.Library),
+                Title = "Projects",
+            },
+
+            new PageInfo()
+            {
+                PageType = typeof(Views.LaunchView),
+                Icon = new FontIcon() {
+                    Glyph = "\uF3B3",
+                    FontFamily = Common.FabricMDL2Assets
+                },
+                Title = "Launch",
+            },
+
+            new PageInfo()
+            {
+                PageType = typeof(Views.DashboardView),
+                Icon = new FontIcon() {
+                    Glyph = "\uF246",
+                    FontFamily = Common.FabricMDL2Assets
+                },
+                Title = "Dashboard",
+                Visibility = Windows.UI.Xaml.Visibility.Collapsed
+            },
+        };        
     }
 }

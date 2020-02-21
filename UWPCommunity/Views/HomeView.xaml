@@ -8,16 +8,8 @@
     xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
-    mc:Ignorable="d"
-    Loaded="Page_Loaded">
-
-    <Page.Resources>
-        <ResourceDictionary>
-
-            <Windows10version1903:ThemeShadow x:Name="CardThemeShadow"/>
-            
-        </ResourceDictionary>
-    </Page.Resources>
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    mc:Ignorable="d">
 
 
     <Grid>
@@ -27,63 +19,56 @@
             <TextBlock Text="The homepage for the unofficial Discord server" controls:DockPanel.Dock="Top" Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Top" HorizontalAlignment="Stretch" TextAlignment="Center" Margin="0,0,0,10"/>
 
             <ScrollViewer>
-                <StackPanel x:Name="MainPanel" MaxWidth="700" Margin="25,0,25,0">
+                <StackPanel x:Name="MainPanel" MaxWidth="700" Margin="25,0,25,0" Padding="0,0,0,10">
 
-                    <Grid x:Name="Launch2020Card" CornerRadius="2"
-                      Windows10version1903:Shadow="{StaticResource CardThemeShadow}" Windows10version1903:Translation="0, 0, 32"
-                      Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"
-                      PointerEntered="Card_PointerEntered" PointerExited="Card_PointerExited">
+                    <controls:DropShadowPanel BlurRadius="20" OffsetY="2" ShadowOpacity="0.5" >
+                        <Grid x:Name="Launch2020Card" CornerRadius="2"
+                          Background="{ThemeResource SystemRevealChromeMediumColor}"
+                          BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="66*"/>
+                                <RowDefinition Height="33*"/>
+                            </Grid.RowDefinitions>
+
+                            <Image Source="https://uwpcommunity.com/assets/img/LaunchAppsHero.png"/>
+
+                            <StackPanel Margin="10,10,10,10" Grid.Row="1">
+                                <TextBlock Text="Project registration now open!"
+                                   Style="{StaticResource FlyoutPickerTitleTextBlockStyle}"/>
+                                <TextBlock Text="Register your apps/projects to showcase on our website and participate in Launch 2020!"
+                                   TextWrapping="WrapWholeWords" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <Button Content="Get started" Margin="0,10,0,0" Style="{StaticResource AccentButtonStyle}" Click="Launch2020Button_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </controls:DropShadowPanel>
+
+                    <controls:DropShadowPanel BlurRadius="10" OffsetY="2" ShadowOpacity="0.5" >
+                        <Grid x:Name="DiscordCard" CornerRadius="2" 
+                          Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"
+                          Margin="0,10,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="66*"/>
+                                <RowDefinition Height="33*"/>
+                            </Grid.RowDefinitions>
+
+                            <Image Source="https://uwpcommunity.com/assets/img/discordchatexample.png"/>
+
+                            <StackPanel Margin="10,10,10,10" Grid.Row="1">
+                                <TextBlock Text="Discuss the platform with other enthusiasts, get help as a developer, and interact with the devs of your favorite apps"
+                                   TextWrapping="WrapWholeWords" Style="{StaticResource BodyTextBlockStyle}"/>
+                                <HyperlinkButton Content="Join our Discord server" Click="DiscordButton_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </controls:DropShadowPanel>
+
+                    <controls:DropShadowPanel BlurRadius="10" OffsetY="2" ShadowOpacity="0.5" >
+                        <Grid x:Name="GitHubCard" CornerRadius="2" 
+                          Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"
+                          Margin="0,10,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="66*"/>
                             <RowDefinition Height="33*"/>
                         </Grid.RowDefinitions>
-                        <Windows10version1903:Grid.TranslationTransition>
-                            <Vector3Transition Duration="0:0:0.4"/>
-                        </Windows10version1903:Grid.TranslationTransition>
-
-                        <Image Source="https://uwpcommunity.com/assets/img/LaunchAppsHero.png"/>
-
-                        <StackPanel Margin="10,10,10,10" Grid.Row="1">
-                            <TextBlock Text="Project registration now open!"
-                               Style="{StaticResource FlyoutPickerTitleTextBlockStyle}"/>
-                            <TextBlock Text="Register your apps/projects to showcase on our website and participate in Launch 2020!"
-                               TextWrapping="WrapWholeWords" Style="{StaticResource BodyTextBlockStyle}"/>
-                            <Button Content="Get started" Margin="0,10,0,0" Style="{StaticResource AccentButtonStyle}"/>
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid x:Name="DiscordCard" CornerRadius="2" 
-                      Windows10version1903:Shadow="{StaticResource CardThemeShadow}" Windows10version1903:Translation="0, 0, 32"
-                      Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"
-                      PointerEntered="Card_PointerEntered" PointerExited="Card_PointerExited" Margin="0,10,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="66*"/>
-                            <RowDefinition Height="33*"/>
-                        </Grid.RowDefinitions>
-                        <Windows10version1903:Grid.TranslationTransition>
-                            <Vector3Transition Duration="0:0:0.4"/>
-                        </Windows10version1903:Grid.TranslationTransition>
-
-                        <Image Source="https://uwpcommunity.com/assets/img/discordchatexample.png"/>
-
-                        <StackPanel Margin="10,10,10,10" Grid.Row="1">
-                            <TextBlock Text="Discuss the platform with other enthusiasts, get help as a developer, and interact with the devs of your favorite apps"
-                               TextWrapping="WrapWholeWords" Style="{StaticResource BodyTextBlockStyle}"/>
-                            <HyperlinkButton Content="Join our Discord server" />
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid x:Name="GitHubCard" CornerRadius="2" 
-                      Windows10version1903:Shadow="{StaticResource CardThemeShadow}" Windows10version1903:Translation="0, 0, 32"
-                      Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"
-                      PointerEntered="Card_PointerEntered" PointerExited="Card_PointerExited" Margin="0,10,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="66*"/>
-                            <RowDefinition Height="33*"/>
-                        </Grid.RowDefinitions>
-                        <Windows10version1903:Grid.TranslationTransition>
-                            <Vector3Transition Duration="0:0:0.4"/>
-                        </Windows10version1903:Grid.TranslationTransition>
 
                         <Image Source="https://uwpcommunity.com/assets/img/githuborgscreenshot.png"/>
 
@@ -93,18 +78,16 @@
                             <HyperlinkButton Content="See our open source projects" />
                         </StackPanel>
                     </Grid>
+                    </controls:DropShadowPanel>
 
-                    <Grid x:Name="Launch2019Card" CornerRadius="2" 
-                      Windows10version1903:Shadow="{StaticResource CardThemeShadow}" Windows10version1903:Translation="0, 0, 32"
-                      Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"
-                      PointerEntered="Card_PointerEntered" PointerExited="Card_PointerExited" Margin="0,10,0,0">
+                    <controls:DropShadowPanel BlurRadius="10" OffsetY="2" ShadowOpacity="0.5" >
+                        <Grid x:Name="Launch2019Card" CornerRadius="2" 
+                          Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"
+                          Margin="0,10,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="66*"/>
                             <RowDefinition Height="33*"/>
                         </Grid.RowDefinitions>
-                        <Windows10version1903:Grid.TranslationTransition>
-                            <Vector3Transition Duration="0:0:0.4"/>
-                        </Windows10version1903:Grid.TranslationTransition>
 
                         <Image Source="https://uwpcommunity.com/assets/img/LaunchHero.png"/>
 
@@ -114,6 +97,7 @@
                             <HyperlinkButton Content="Read about Launch 2019" />
                         </StackPanel>
                     </Grid>
+                    </controls:DropShadowPanel>
 
                 </StackPanel>
             </ScrollViewer>

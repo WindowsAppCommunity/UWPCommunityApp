@@ -22,21 +22,29 @@ namespace UWPCommunity.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class Dashboard : Page
+    public sealed partial class DashboardView : Page
     {
         public ObservableCollection<Project> Projects { get; set; } = new ObservableCollection<Project>();
-        public Dashboard()
+        public DashboardView()
         {
             this.InitializeComponent();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            var projs = await Common.UwpCommApi.GetUserProjects(Common.DiscordUser.DiscordId);
-            foreach (var project in projs)
+            if (Common.IsInternetAvailable())
             {
-                Projects.Add(project);
+                var projs = await Common.UwpCommApi.GetUserProjects(Common.DiscordUser.DiscordId);
+                foreach (var project in projs)
+                {
+                    Projects.Add(project);
+                }
             }
+            else
+            {
+                Console.WriteLine("Internet not available");
+            }
+            
             base.OnNavigatedTo(e);
         }
     }

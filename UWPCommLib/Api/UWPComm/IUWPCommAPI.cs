@@ -24,6 +24,15 @@ namespace UWPCommLib.Api.UWPComm
         Task<List<Project>> GetUserProjects(string userId, [Authorize] string token);
 
         /// <summary>
+        /// Gets the complete list of projects that are registered for the specified Launch year
+        /// </summary>
+        [Get("/projects/{year}")]
+        Task<List<Project>> GetLaunchProjects(uint year);
+        Task<List<Project>> GetLaunchProjects(uint year, [Authorize] string token);
+        Task<List<Project>> GetLaunchProjects(int year);
+        Task<List<Project>> GetLaunchProjects(int year, [Authorize] string token);
+
+        /// <summary>
         /// Gets the user's profile information
         /// </summary>
         /// <param name="userId"></param>

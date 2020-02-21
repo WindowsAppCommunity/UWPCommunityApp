@@ -12,6 +12,6 @@ namespace UWPCommLib.Api.Discord
         /// Gets the user's registered projects (requires authentication)
         /// </summary>
         [Get("/users/@me")]
-        Task<User> GetCurrentUser([Authorize] string token);
+        Task<User> GetCurrentUser();
     }
 }
