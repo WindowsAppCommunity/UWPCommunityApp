@@ -30,20 +30,6 @@
                             </Image.Source>
                         </Image>
 
-                        <StackPanel controls:DockPanel.Dock="Right">
-                            <Button Margin="0,0,5,0">
-                                <Button.Content>
-                                    <SymbolIcon Symbol="Edit"/>
-                                </Button.Content>
-                            </Button>
-
-                            <Button Margin="0,0,5,0">
-                                <Button.Content>
-                                    <SymbolIcon Symbol="Delete"/>
-                                </Button.Content>
-                            </Button>
-                        </StackPanel>
-
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="{x:Bind AppName}" Margin="0,0,5,0" Style="{StaticResource BaseTextBlockStyle}" />
                             <TextBlock Text="{x:Bind Description}" Margin="0,0,5,0" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>

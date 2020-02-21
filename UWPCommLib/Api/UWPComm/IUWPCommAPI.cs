@@ -8,6 +8,7 @@ namespace UWPCommLib.Api.UWPComm
     [Headers("Authorization: Bearer")]
     public interface IUwpCommApi
     {
+        #region /projects/
         /// <summary>
         /// Gets the complete list of registered projects
         /// </summary>
@@ -15,16 +16,9 @@ namespace UWPCommLib.Api.UWPComm
         Task<List<Project>> GetProjects();
 
         /// <summary>
-        /// Gets the user's registered projects (requires authentication)
-        /// </summary>
-        /// <param name="userId">The Discord ID of the user</param>
-        [Get("/user/{userId}/projects")]
-        Task<List<Project>> GetUserProjects(string userId);
-
-        /// <summary>
         /// Gets the complete list of projects that are registered for the specified Launch year
         /// </summary>
-        [Get("/projects/{year}")]
+        [Get("/projects/launch/{year}")]
         Task<List<Project>> GetLaunchProjects(int year);
 
         /// <summary>
@@ -34,16 +28,26 @@ namespace UWPCommLib.Api.UWPComm
         Task<Project> GetProject(int projectId);
 
         /// <summary>
+        /// Gets the list of collaborators for the specified project
+        /// </summary>
+        [Get("/projects/collaborators?projectId={projectId}")]
+        Task<List<Collaborator>> GetProjectCollaborators(string projectId);
+        #endregion
+
+        #region /user/
+        /// <summary>
+        /// Gets the user's registered projects (requires authentication)
+        /// </summary>
+        /// <param name="userId">The Discord ID of the user</param>
+        [Get("/user/{userId}/projects")]
+        Task<List<Project>> GetUserProjects(string userId);
+
+        /// <summary>
         /// Gets the user's profile information
         /// </summary>
         /// <param name="userId"></param>
         [Get("/user/{userId}")]
         Task<List<Project>> GetUser(string userId);
-
-        /// <summary>
-        /// Gets the list of collaborators for the specified project
-        /// </summary>
-        [Get("/projects/collaborators?projectId={projectId}")]
-        Task<List<Collaborator>> GetProjectCollaborators(string projectId);
+        #endregion
     }
 }
