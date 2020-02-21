@@ -11,7 +11,7 @@
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
     <NavigationView x:Name="MainNav" Windows10version1809:PaneDisplayMode="Top"
-                    SelectionChanged="NavigationView_SelectionChanged" MenuItemsSource="{x:Bind Pages, Mode=OneWay}">
+                    SelectionChanged="NavigationView_SelectionChanged" >
 
         <Windows10version1809:NavigationView.PaneHeader>
             <Viewbox Margin="0,2.5,0,2.5">

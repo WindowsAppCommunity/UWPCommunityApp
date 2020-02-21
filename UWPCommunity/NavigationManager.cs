@@ -20,7 +20,7 @@ namespace UWPCommunity
 
         public static void NavigateToHome()
         {
-            RequestSignIn(typeof(HomeView));
+            Navigate(typeof(HomeView));
         }
 
         public static void RequestSignIn(Type returnToPage)
@@ -52,6 +52,25 @@ namespace UWPCommunity
 
     public class PageInfo
     {
+        public PageInfo() {}
+        
+        public PageInfo(string title, string subhead, IconElement icon)
+        {
+            Title = title;
+            Subhead = subhead;
+            Icon = icon;
+        }
+
+        public PageInfo(NavigationViewItem navItem)
+        {
+            Title = (navItem.Content == null) ? "" : navItem.Content.ToString();
+            Icon = (navItem.Icon == null) ? new SymbolIcon(Symbol.Document) : navItem.Icon;
+            Visibility = navItem.Visibility;
+
+            var tooltip = ToolTipService.GetToolTip(navItem);
+            Tooltip = (tooltip == null) ? "" : tooltip.ToString();
+        }
+
         public string Title { get; set; }
         public string Subhead { get; set; }
         public IconElement Icon { get; set; }
@@ -65,6 +84,7 @@ namespace UWPCommunity
                 {
                     Icon = Icon,
                     Content = Title,
+                    Visibility = Visibility
                 };
                 ToolTipService.SetToolTip(item, new ToolTip() { Content = Tooltip });
 

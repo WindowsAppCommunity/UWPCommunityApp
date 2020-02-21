@@ -23,6 +23,17 @@ namespace UWPCommunity
             Common.OnLoginStateChanged += Common_OnLoginStateChanged;
             MainFrame.Navigated += MainFrame_Navigated;
             NavigationManager.PageFrame = MainFrame;
+
+            foreach (PageInfo page in Pages)
+            {
+                MainNav.MenuItems.Add(new NavigationViewItem()
+                {
+                    Content = page.Title,
+                    Icon = page.Icon,
+                    Visibility = page.Visibility,
+                });
+            }
+
             base.OnNavigatedTo(e);
         }
 
@@ -42,19 +53,31 @@ namespace UWPCommunity
                 FindName("UserButton");
                 UserProfilePicture.ProfilePicture =
                     new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
-                ((ObservableCollection<PageInfo>)MainNav.MenuItemsSource)[3].Visibility = Windows.UI.Xaml.Visibility.Visible;
+                (MainNav.MenuItems[3] as NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
             else
             {
                 FindName("SignInButton");
                 UnloadObject(UserButton);
-                ((ObservableCollection<PageInfo>)MainNav.MenuItemsSource)[3].Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                ((List<NavigationViewItem>)MainNav.MenuItems)[3].Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            if (args.SelectedItem == null) NavigationManager.NavigateToHome();
+            NavigationViewItem navItem = args.SelectedItem as NavigationViewItem;
+            if (navItem == null)
+            {
+                NavigationManager.NavigateToHome();
+                return;
+            }
+
+            PageInfo pageInfo = Pages.Find((info) => info.Title == navItem.Content.ToString());
+            if (pageInfo == null)
+            {
+                NavigationManager.NavigateToHome();
+                return;
+            }
 
             if (args.IsSettingsSelected)
             {
@@ -63,9 +86,8 @@ namespace UWPCommunity
                 return;
             }
 
-            PageInfo pageInfo = (PageInfo)args.SelectedItem;
             if (pageInfo != null && pageInfo.PageType.BaseType == typeof(Page))
-                MainFrame.Navigate(pageInfo.PageType, null, args.RecommendedNavigationTransitionInfo);
+                MainFrame.Navigate(pageInfo.PageType);
         }
 
         private void SignInButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -77,7 +99,7 @@ namespace UWPCommunity
             Common.SignOut();
         }
 
-        public ObservableCollection<PageInfo> Pages = new ObservableCollection<PageInfo>
+        public List<PageInfo> Pages = new List<PageInfo>
         {
             new PageInfo()
             {
