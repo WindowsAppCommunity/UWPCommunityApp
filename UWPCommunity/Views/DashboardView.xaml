@@ -10,37 +10,33 @@
     mc:Ignorable="d">
 
     <controls:DockPanel LastChildFill="True">
-        
-        <CommandBar Background="{ThemeResource SystemAccentColor}" Foreground="{ThemeResource SystemAltHighColor}"
-                    DefaultLabelPosition="Right" IsDynamicOverflowEnabled="False" controls:DockPanel.Dock="Top" IsSticky="True">
-            <CommandBar.PrimaryCommands>
-                <AppBarButton Label="Register an app" Foreground="{StaticResource SystemAltHighColor}">
-                    <AppBarButton.Icon>
-                        <FontIcon FontFamily="Assets/FabricMDL2Assets.ttf#Fabric External MDL2 Assets" Glyph="&#xEFDA;" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarButton Label="Manage roles" Foreground="{StaticResource SystemAltHighColor}" IsEnabled="False">
-                    <AppBarButton.Icon>
-                        <FontIcon FontFamily="Assets/FabricMDL2Assets.ttf#Fabric External MDL2 Assets" Glyph="&#xE99A;" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-            </CommandBar.PrimaryCommands>
-            
-            <CommandBar.Content>
-                <Viewbox Height="40">
-                    <StackPanel Orientation="Horizontal" Margin="5,5,0,5">
-                        <PersonPicture x:Name="ProfilePictureFrame"/>
-                        <TextBlock x:Name="ProfileUsernameBlock" Foreground="{StaticResource SystemAltHighColor}"
-                                   FontWeight="SemiBold"
-                                   Style="{StaticResource SubheaderTextBlockStyle}" VerticalAlignment="Center"
-                                   Margin="10,0,0,0"/>
-                    </StackPanel>
-                </Viewbox>
-                
-            </CommandBar.Content>
-        </CommandBar>
-        
-        
+
+        <controls:DockPanel controls:DockPanel.Dock="Top" Background="{ThemeResource SystemAccentColor}" Height="120">
+            <StackPanel x:Name="UserProfilePanel" Orientation="Horizontal"
+                        Margin="10,10,0,10" controls:DockPanel.Dock="Left">
+                <PersonPicture x:Name="ProfilePictureFrame"/>
+                <TextBlock x:Name="ProfileUsernameBlock" Text="Username"
+                            FontWeight="SemiBold" Foreground="{StaticResource SystemAltHighColor}"
+                            Style="{StaticResource SubheaderTextBlockStyle}" VerticalAlignment="Center"
+                            Margin="10,0,0,0"/>
+            </StackPanel>
+
+            <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <AppBarButton Label="Register an app" Foreground="{StaticResource SystemAltHighColor}">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Assets/FabricMDL2Assets.ttf#Fabric External MDL2 Assets" Glyph="&#xEFDA;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Label="Manage roles" Foreground="{StaticResource SystemAltHighColor}" IsEnabled="False">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Assets/FabricMDL2Assets.ttf#Fabric External MDL2 Assets" Glyph="&#xE99A;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </StackPanel>
+            </Viewbox>
+        </controls:DockPanel>
+
         <GridView ItemsSource="{x:Bind Projects}"
             IsItemClickEnabled="True"
             CanDragItems="False"
@@ -56,7 +52,7 @@
                     <controls:DropShadowPanel BlurRadius="20" OffsetY="2" ShadowOpacity="0.5" >
                         <controls:DockPanel LastChildFill="True" Padding="5,5,5,5" HorizontalAlignment="Stretch"
                                             Background="{ThemeResource SystemRevealChromeMediumColor}">
-                            
+
                             <controls:DockPanel.ContextFlyout>
                                 <MenuFlyout>
                                     <MenuFlyoutItem Text="Edit" Icon="Edit"/>
@@ -95,9 +91,9 @@
 
                 </DataTemplate>
             </GridView.ItemTemplate>
-        
+
         </GridView>
-        
+
     </controls:DockPanel>
-    
+
 </Page>
