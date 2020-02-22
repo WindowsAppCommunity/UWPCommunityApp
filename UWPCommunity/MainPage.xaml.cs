@@ -65,12 +65,19 @@ namespace UWPCommunity
             {
                 FindName("SignInButton");
                 UnloadObject(UserButton);
-                ((List<NavigationViewItem>)MainNav.MenuItems)[3].Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                (MainNav.MenuItems[3] as NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
+            if (args.IsSettingsSelected)
+            {
+                // TODO: Navigate to settings
+                NavigationManager.NavigateToSettings();
+                return;
+            }
+
             NavigationViewItem navItem = args.SelectedItem as NavigationViewItem;
             if (navItem == null)
             {
@@ -83,14 +90,7 @@ namespace UWPCommunity
             {
                 NavigationManager.NavigateToHome();
                 return;
-            }
-
-            if (args.IsSettingsSelected)
-            {
-                // TODO: Navigate to settings
-                NavigationManager.NavigateToSettings();
-                return;
-            }
+            }            
 
             if (pageInfo != null && pageInfo.PageType.BaseType == typeof(Page))
                 MainFrame.Navigate(pageInfo.PageType);

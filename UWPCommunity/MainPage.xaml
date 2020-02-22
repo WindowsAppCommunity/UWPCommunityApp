@@ -39,7 +39,7 @@
             <NavigationViewItem Icon="Library" Content="Projects"/>
             <NavigationViewItem Content="Launch">
                 <NavigationViewItem.Icon>
-                    <FontIcon Glyph="&#xF3B3;" FontFamily="Assets/FabricMDL2Assets.ttf#Fabric MDL2 Assets"/>
+                    <FontIcon Glyph="&#xF3B3;" FontFamily="Assets/FabricMDL2Assets.ttf#Assets/FabricMDL2Assets.ttf#Fabric External MDL2 Assets"/>
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
             
@@ -68,7 +68,7 @@
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Edit Profile">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#61395;" FontFamily="Assets/FabricMDL2Assets.ttf#Fabric MDL2 Assets"/>
+                                    <FontIcon FontFamily="Assets/FabricMDL2Assets.ttf#Fabric External MDL2 Assets" Glyph="&#xEFD3;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem Text="Log out" Click="SignOutButton_Click">

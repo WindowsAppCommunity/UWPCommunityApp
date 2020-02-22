@@ -68,7 +68,7 @@ namespace UWPCommunity
             OnLoginStateChanged(IsLoggedIn);
         }
 
-        public static readonly FontFamily FabricMDL2Assets = new FontFamily("Assets/FabricMDL2Assets.ttf#Fabric MDL2 Assets");
+        public static readonly FontFamily FabricMDL2Assets = new FontFamily("Assets.ttf#Fabric External MDL2 Assets");
 
         public static bool IsInternetAvailable()
         {
