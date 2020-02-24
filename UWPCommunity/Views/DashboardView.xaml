@@ -11,11 +11,12 @@
 
     <controls:DockPanel LastChildFill="True">
 
-        <controls:DockPanel controls:DockPanel.Dock="Top" Background="{ThemeResource SystemAccentColor}" Height="120">
+        <controls:DockPanel Background="{ThemeResource SystemAccentColor}" Height="120" controls:DockPanel.Dock="Top"
+                            HorizontalAlignment="Stretch" LastChildFill="True">
             <StackPanel x:Name="UserProfilePanel" Orientation="Horizontal"
                         Margin="10,10,0,10" controls:DockPanel.Dock="Left">
-                <PersonPicture x:Name="ProfilePictureFrame"/>
-                <TextBlock x:Name="ProfileUsernameBlock" Text="Username"
+                <PersonPicture x:Name="UserProfilePicture"/>
+                <TextBlock x:Name="UserProfileUsername" Text="Username"
                             FontWeight="SemiBold" Foreground="{StaticResource SystemAltHighColor}"
                             Style="{StaticResource SubheaderTextBlockStyle}" VerticalAlignment="Center"
                             Margin="10,0,0,0"/>
@@ -36,14 +37,19 @@
                 </StackPanel>
             </Viewbox>
         </controls:DockPanel>
+        
+        <!-- TODO: Figure out how to keep this DropShadow above the GridView -->
+        <!--Rectangle controls:DockPanel.Dock="Top" Height="30" Margin="0,0,0,-30" >
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#55000000" Offset="0.0"/>
+                    <GradientStop Color="#00000000" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle-->
 
-        <GridView ItemsSource="{x:Bind Projects}"
-            IsItemClickEnabled="True"
-            CanDragItems="False"
-            AllowDrop="False"
-            CanReorderItems="False"
-            SelectionMode="None"
-            FlowDirection="LeftToRight">
+        <GridView ItemsSource="{x:Bind Projects}" IsItemClickEnabled="True" CanDragItems="False" Padding="10,10,10,0"
+                  AllowDrop="False" CanReorderItems="False" SelectionMode="None" FlowDirection="LeftToRight">
 
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="models:Project">
@@ -66,14 +72,14 @@
                                 </Image.Source>
                             </Image>
 
-                            <StackPanel controls:DockPanel.Dock="Right">
-                                <Button Margin="0,0,5,0">
+                            <StackPanel controls:DockPanel.Dock="Right" Spacing="5">
+                                <Button>
                                     <Button.Content>
                                         <SymbolIcon Symbol="Edit"/>
                                     </Button.Content>
                                 </Button>
 
-                                <Button Margin="0,0,5,0">
+                                <Button>
                                     <Button.Content>
                                         <SymbolIcon Symbol="Delete"/>
                                     </Button.Content>

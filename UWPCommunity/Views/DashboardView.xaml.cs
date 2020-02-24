@@ -39,6 +39,10 @@ namespace UWPCommunity.Views
                 {
                     Projects.Add(project);
                 }
+
+                UserProfilePicture.ProfilePicture =
+                    new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
+                UserProfileUsername.Text = Common.DiscordUser.Username;
             }
             else
             {
