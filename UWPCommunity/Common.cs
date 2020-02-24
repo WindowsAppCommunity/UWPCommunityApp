@@ -57,15 +57,68 @@ namespace UWPCommunity
             DiscordToken = discordToken;
             DiscordRefreshToken = refreshToken;
             DiscordUser = await DiscordApi.GetCurrentUser();
+
+            var vault = new Windows.Security.Credentials.PasswordVault();
+            vault.Add(new Windows.Security.Credentials.PasswordCredential(
+                resourceName, DiscordUser.DiscordId, DiscordToken));
+
             OnLoginStateChanged(IsLoggedIn);
+        }
+        public static async Task SignIn(string discordToken)
+        {
+            await SignIn(discordToken, null);
+        }
+        public static async Task TrySignIn(bool useUi = true)
+        {
+            try
+            {
+                var loginCredential = GetCredentialFromLocker();
+
+                if (loginCredential != null)
+                {
+                    // There is a credential stored in the locker.
+                    // Populate the Password property of the credential
+                    // for automatic login.
+                    loginCredential.RetrievePassword();
+
+                    await SignIn(loginCredential.Password);
+                }
+                else if (useUi)
+                {
+                    // There is no credential stored in the locker.
+                    // Display UI to get user credentials.
+                    NavigationManager.RequestSignIn(typeof(Views.HomeView));
+                }
+            }
+            catch {}
         }
         public static void SignOut()
         {
+            var vault = new Windows.Security.Credentials.PasswordVault();
+            vault.Remove(new Windows.Security.Credentials.PasswordCredential(
+                resourceName, DiscordUser.DiscordId, DiscordToken));
+
             IsLoggedIn = false;
             DiscordToken = "";
             DiscordRefreshToken = "";
-            DiscordUser = null;
+            DiscordUser = null;            
+
             OnLoginStateChanged(IsLoggedIn);
+        }
+
+        private static string resourceName = "Discord";
+        private static Windows.Security.Credentials.PasswordCredential GetCredentialFromLocker()
+        {
+            Windows.Security.Credentials.PasswordCredential credential = null;
+
+            var vault = new Windows.Security.Credentials.PasswordVault();
+            var credentialList = vault.FindAllByResource(resourceName);
+            if (credentialList.Count > 0)
+            {
+                credential = credentialList[0];
+            }
+
+            return credential;
         }
 
         public static readonly FontFamily FabricMDL2Assets = new FontFamily("Assets.ttf#Fabric External MDL2 Assets");

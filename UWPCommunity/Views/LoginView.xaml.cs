@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using Windows.Security.Authentication.Web;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -51,6 +48,11 @@ namespace UWPCommunity.Views
 
                 NavigationManager.Navigate(DestinationPage);
             }
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            LoginWrapper.NavigationCompleted -= LoginWrapper_NavigationCompleted;
         }
     }
 }

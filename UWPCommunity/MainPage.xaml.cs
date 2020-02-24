@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -18,7 +17,7 @@ namespace UWPCommunity
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             Common.OnLoginStateChanged += Common_OnLoginStateChanged;
             MainFrame.Navigated += MainFrame_Navigated;
@@ -33,6 +32,9 @@ namespace UWPCommunity
                     Visibility = page.Visibility,
                 });
             }
+            MainNav.SelectedItem = MainNav.MenuItems[0];
+
+            await Common.TrySignIn(false);
 
             base.OnNavigatedTo(e);
         }
