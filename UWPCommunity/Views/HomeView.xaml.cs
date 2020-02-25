@@ -17,7 +17,7 @@ namespace UWPCommunity.Views
 
         private async void DiscordButton_Click(object sender, RoutedEventArgs e)
         {
-            await NavigationManager.OpenDiscordInvite("HcxhrB");
+            await NavigationManager.OpenDiscordInvite("eBHZSKG");
         }
 
         private void Launch2020Button_Click(object sender, RoutedEventArgs e)

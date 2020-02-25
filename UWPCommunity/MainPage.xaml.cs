@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Windows.System;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -15,10 +17,18 @@ namespace UWPCommunity
         public MainPage()
         {
             this.InitializeComponent();
-        }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
+            KeyboardAccelerator GoBack = new KeyboardAccelerator();
+            GoBack.Key = VirtualKey.GoBack;
+            GoBack.Invoked += BackInvoked;
+            KeyboardAccelerator AltLeft = new KeyboardAccelerator();
+            AltLeft.Key = VirtualKey.Left;
+            AltLeft.Invoked += BackInvoked;
+            this.KeyboardAccelerators.Add(GoBack);
+            this.KeyboardAccelerators.Add(AltLeft);
+            // ALT routes here
+            AltLeft.Modifiers = VirtualKeyModifiers.Menu;
+
             Common.OnLoginStateChanged += Common_OnLoginStateChanged;
             MainFrame.Navigated += MainFrame_Navigated;
             NavigationManager.PageFrame = MainFrame;
@@ -34,6 +44,10 @@ namespace UWPCommunity
             }
             MainNav.SelectedItem = MainNav.MenuItems[0];
 
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
             await Common.TrySignIn(false);
 
             base.OnNavigatedTo(e);
@@ -143,6 +157,31 @@ namespace UWPCommunity
                 Title = "Dashboard",
                 Visibility = Windows.UI.Xaml.Visibility.Collapsed
             },
-        };        
+        };
+
+        /// <summary>
+        /// Handles system-level BackRequested events and page-level back button Click events
+        /// </summary>
+        private bool On_BackRequested()
+        {
+            return false;
+            if (MainFrame.CanGoBack)
+            {
+                MainFrame.GoBack();
+                return true;
+            }
+            return false;
+        }
+
+        private void BackInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            On_BackRequested();
+            args.Handled = true;
+        }
+
+        private void MainNav_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        {
+            On_BackRequested();
+        }
     }
 }

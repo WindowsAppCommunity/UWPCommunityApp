@@ -24,12 +24,12 @@
 
             <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
-                    <AppBarButton Label="Register an app" Foreground="{StaticResource SystemAltHighColor}">
+                    <AppBarButton Label="Register an app" Style="{StaticResource AppBarButtonRevealStyle}" Foreground="{StaticResource SystemAltHighColor}">
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="Assets/FabricMDL2Assets.ttf#Fabric External MDL2 Assets" Glyph="&#xEFDA;" />
                         </AppBarButton.Icon>
                     </AppBarButton>
-                    <AppBarButton Label="Manage roles" Foreground="{StaticResource SystemAltHighColor}" IsEnabled="False">
+                    <AppBarButton Label="Manage roles" Style="{StaticResource AppBarButtonRevealStyle}" Foreground="{StaticResource SystemAltHighColor}" IsEnabled="False">
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="Assets/FabricMDL2Assets.ttf#Fabric External MDL2 Assets" Glyph="&#xE99A;" />
                         </AppBarButton.Icon>

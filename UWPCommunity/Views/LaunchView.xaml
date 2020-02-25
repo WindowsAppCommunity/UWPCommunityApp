@@ -24,7 +24,7 @@
 
                     <Image Source="https://uwpcommunity.com/assets/img/LaunchAppsHero.png"/>
 
-                    <StackPanel Margin="10,10,10,10" Grid.Row="1">
+                    <StackPanel Margin="10,0,10,10" Grid.Row="1">
                         <TextBlock Text="// Launch"
                                    Style="{StaticResource SubheaderTextBlockStyle}" FontWeight="Bold"/>
                         <TextBlock Text="Learn, develop, and Launch together"

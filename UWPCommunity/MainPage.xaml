@@ -10,8 +10,8 @@
     mc:Ignorable="d"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
-    <NavigationView x:Name="MainNav" Windows10version1809:PaneDisplayMode="Top"
-                    SelectionChanged="NavigationView_SelectionChanged" >
+    <NavigationView x:Name="MainNav" Windows10version1809:PaneDisplayMode="Top" IsBackButtonVisible="Collapsed"
+                    SelectionChanged="NavigationView_SelectionChanged" BackRequested="MainNav_BackRequested" >
 
         <Windows10version1809:NavigationView.PaneHeader>
             <Viewbox Margin="0,2.5,0,2.5">

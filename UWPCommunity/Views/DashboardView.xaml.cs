@@ -32,6 +32,12 @@ namespace UWPCommunity.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (!Common.IsLoggedIn)
+            {
+                NavigationManager.RequestSignIn(typeof(DashboardView));
+                return;
+            }
+
             if (Common.IsInternetAvailable())
             {
                 var projs = await Common.UwpCommApi.GetUserProjects(Common.DiscordUser.DiscordId);
