@@ -183,5 +183,10 @@ namespace UWPCommunity
         {
             On_BackRequested();
         }
+
+        private void EditProfileButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            NavigationManager.Navigate(typeof(Views.Dialogs.EditProfileDialog));
+        }
     }
 }

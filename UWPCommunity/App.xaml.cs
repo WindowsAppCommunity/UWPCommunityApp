@@ -71,6 +71,14 @@ namespace UWPCommunity
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+
+            // If running in Debug, swtich to the localhost/development backend
+            #if DEBUG
+            Common.UwpCommApiHostUrl = "http://localhost:5000";
+            Common.UwpCommApi = Refit.RestService.For<UWPCommLib.Api.UWPComm.IUwpCommApi>(
+                Common.UwpCommApiHostUrl
+            );
+            #endif
         }
 
         /// <summary>

@@ -12,8 +12,9 @@ namespace UWPCommunity
 {
     public static class Common
     {
+        public static string UwpCommApiHostUrl = "https://uwpcommunity-site-backend.herokuapp.com";
         public static IUwpCommApi UwpCommApi = RestService.For<IUwpCommApi>(
-            "https://uwpcommunity-site-backend.herokuapp.com"
+            UwpCommApiHostUrl
         );
         public static IDiscordAPI DiscordApi = RestService.For<IDiscordAPI>(
             "https://discordapp.com/api"
@@ -28,7 +29,7 @@ namespace UWPCommunity
             set {
                 _token = value;
                 UwpCommApi = RestService.For<IUwpCommApi>(
-                    "https://uwpcommunity-site-backend.herokuapp.com",
+                    UwpCommApiHostUrl,
                     new RefitSettings()
                     {
                         AuthorizationHeaderValueGetter = () => Task.FromResult(_token)
@@ -46,6 +47,7 @@ namespace UWPCommunity
         public static string DiscordRefreshToken { get; set; }
 
         public static UWPCommLib.Api.Discord.Models.User DiscordUser { get; set; }
+        public static UWPCommLib.Api.UWPComm.Models.Collaborator UwpCommUser { get; set; }
 
         public static bool IsLoggedIn = false;
         public delegate void OnLoginStateChangedHandler(bool isLoggedIn);
@@ -63,6 +65,22 @@ namespace UWPCommunity
                 resourceName, DiscordUser.DiscordId, DiscordToken));
 
             OnLoginStateChanged(IsLoggedIn);
+
+            try
+            {
+                UwpCommUser = await UwpCommApi.GetUser(DiscordUser.DiscordId);
+            }
+            catch (ApiException ex) {
+                var error = await ex.GetContentAsAsync<UWPCommLib.Api.UWPComm.Models.Error>();
+                if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    // The user does not exist yet, so create an account for them
+                    await UwpCommApi.SetUser(new Dictionary<string, string>() {
+                        { "name", DiscordUser.Username },
+                        { "email", DiscordUser.Email }
+                    });
+                }
+            }
         }
         public static async Task SignIn(string discordToken)
         {

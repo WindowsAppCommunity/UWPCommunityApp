@@ -30,7 +30,7 @@ namespace UWPCommLib.Api.UWPComm.Models
         public List<Collaborator> Collaborators { get; set; }
 
         [JsonProperty(PropertyName = "launchYear")]
-        public short LaunchYear { get; set; }
+        public short? LaunchYear { get; set; }
 
         [JsonProperty(PropertyName = "category")]
         public string Category { get; set; }
@@ -55,6 +55,7 @@ namespace UWPCommLib.Api.UWPComm.Models
 
         public System.Uri HeroImageUri {
             get {
+                if (HeroImage == null) HeroImage = "https://images.freeimages.com/images/large-previews/809/phone-1635390.jpg";
                 return new System.Uri(HeroImage);
             }
         }

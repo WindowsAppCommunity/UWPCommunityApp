@@ -47,7 +47,13 @@ namespace UWPCommLib.Api.UWPComm
         /// </summary>
         /// <param name="userId"></param>
         [Get("/user/{userId}")]
-        Task<List<Project>> GetUser(string userId);
+        Task<Collaborator> GetUser(string userId);
+
+        /// <summary>
+        /// Sets the user's profile information
+        /// </summary>
+        [Post("/user")]
+        Task SetUser([Body(BodySerializationMethod.UrlEncoded)] Dictionary<string, string> userId);
         #endregion
     }
 }
