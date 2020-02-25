@@ -47,7 +47,10 @@ namespace UWPCommunity
         public static string DiscordRefreshToken { get; set; }
 
         public static UWPCommLib.Api.Discord.Models.User DiscordUser { get; set; }
-        public static UWPCommLib.Api.UWPComm.Models.Collaborator UwpCommUser { get; set; }
+        public static async Task<UWPCommLib.Api.UWPComm.Models.Collaborator> GetCurrentUser()
+        {
+            return await UwpCommApi.GetUser(DiscordUser.DiscordId);
+        }
 
         public static bool IsLoggedIn = false;
         public delegate void OnLoginStateChangedHandler(bool isLoggedIn);
@@ -68,16 +71,15 @@ namespace UWPCommunity
 
             try
             {
-                UwpCommUser = await UwpCommApi.GetUser(DiscordUser.DiscordId);
+                await GetCurrentUser();
             }
             catch (ApiException ex) {
                 var error = await ex.GetContentAsAsync<UWPCommLib.Api.UWPComm.Models.Error>();
                 if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
                     // The user does not exist yet, so create an account for them
-                    await UwpCommApi.SetUser(new Dictionary<string, string>() {
+                    await UwpCommApi.PostUser(new Dictionary<string, string>() {
                         { "name", DiscordUser.Username },
-                        { "email", DiscordUser.Email }
                     });
                 }
             }

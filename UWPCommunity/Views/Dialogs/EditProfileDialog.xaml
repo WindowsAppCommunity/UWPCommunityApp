@@ -16,7 +16,7 @@
         <TextBox x:Name="NameBox">
             <TextBox.Header>
                 <StackPanel Orientation="Horizontal" Spacing="2">
-                    <TextBlock Text="Email"/>
+                    <TextBlock Text="Name"/>
                     <TextBlock Text="*" Foreground="Red"/>
                 </StackPanel>
             </TextBox.Header>

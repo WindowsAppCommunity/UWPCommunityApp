@@ -52,8 +52,14 @@ namespace UWPCommLib.Api.UWPComm
         /// <summary>
         /// Sets the user's profile information
         /// </summary>
+        [Put("/user")]
+        Task SetUser([Body(BodySerializationMethod.UrlEncoded)] Dictionary<string, string> newInfo);
+
+        /// <summary>
+        /// Creates a user with the specified profile information
+        /// </summary>
         [Post("/user")]
-        Task SetUser([Body(BodySerializationMethod.UrlEncoded)] Dictionary<string, string> userId);
+        Task PostUser([Body(BodySerializationMethod.UrlEncoded)] Dictionary<string, string> info);
         #endregion
     }
 }

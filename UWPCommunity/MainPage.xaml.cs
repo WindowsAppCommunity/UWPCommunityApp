@@ -4,6 +4,7 @@ using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using System.Threading;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -186,7 +187,8 @@ namespace UWPCommunity
 
         private void EditProfileButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            NavigationManager.Navigate(typeof(Views.Dialogs.EditProfileDialog));
+            var dialog = new Views.Dialogs.EditProfileDialog();
+            dialog.ShowAsync();
         }
     }
 }
