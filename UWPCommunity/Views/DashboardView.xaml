@@ -24,7 +24,7 @@
 
             <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
-                    <AppBarButton Label="Register an app" Style="{StaticResource AppBarButtonRevealStyle}" Foreground="{StaticResource SystemAltHighColor}">
+                    <AppBarButton x:Name="RegisterAppButton" Label="Register an app" Style="{StaticResource AppBarButtonRevealStyle}" Foreground="{StaticResource SystemAltHighColor}" Click="RegisterAppButton_Click">
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="Assets/FabricMDL2Assets.ttf#Fabric External MDL2 Assets" Glyph="&#xEFDA;" />
                         </AppBarButton.Icon>
@@ -97,6 +97,15 @@
 
                 </DataTemplate>
             </GridView.ItemTemplate>
+            
+            <GridView.Header>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <FontIcon FontFamily="Assets/FabricMDL2Assets.ttf#Fabric External MDL2 Assets"
+                              Glyph="&#xEFDE;" FontSize="30"/>
+                    <TextBlock Text="My apps" Style="{StaticResource SubheaderTextBlockStyle}"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </GridView.Header>
 
         </GridView>
 

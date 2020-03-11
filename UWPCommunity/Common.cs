@@ -56,33 +56,42 @@ namespace UWPCommunity
         public delegate void OnLoginStateChangedHandler(bool isLoggedIn);
         public static event OnLoginStateChangedHandler OnLoginStateChanged;
 
-        public static async Task SignIn(string discordToken, string refreshToken)
+        public static async Task<bool> SignIn(string discordToken, string refreshToken)
         {
-            IsLoggedIn = true;
-            DiscordToken = discordToken;
-            DiscordRefreshToken = refreshToken;
-            DiscordUser = await DiscordApi.GetCurrentUser();
-
-            var vault = new Windows.Security.Credentials.PasswordVault();
-            vault.Add(new Windows.Security.Credentials.PasswordCredential(
-                resourceName, DiscordUser.DiscordId, DiscordToken));
-
-            OnLoginStateChanged(IsLoggedIn);
-
             try
             {
-                await GetCurrentUser();
-            }
-            catch (ApiException ex) {
-                var error = await ex.GetContentAsAsync<UWPCommLib.Api.UWPComm.Models.Error>();
-                if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                DiscordToken = discordToken;
+                DiscordRefreshToken = refreshToken;
+                DiscordUser = await DiscordApi.GetCurrentUser();
+
+                var vault = new Windows.Security.Credentials.PasswordVault();
+                vault.Add(new Windows.Security.Credentials.PasswordCredential(
+                    resourceName, DiscordUser.DiscordId, DiscordToken));
+
+                IsLoggedIn = true;
+                OnLoginStateChanged(IsLoggedIn);
+
+                try
                 {
-                    // The user does not exist yet, so create an account for them
-                    await UwpCommApi.PostUser(new Dictionary<string, string>() {
-                        { "name", DiscordUser.Username },
-                    });
+                    await GetCurrentUser();
+                }
+                catch (ApiException ex)
+                {
+                    var error = await ex.GetContentAsAsync<UWPCommLib.Api.UWPComm.Models.Error>();
+                    if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        // The user does not exist yet, so create an account for them
+                        await UwpCommApi.PostUser(new Dictionary<string, string>() {
+                            { "name", DiscordUser.Username },
+                        });
+                    }
                 }
             }
+            catch
+            {
+                IsLoggedIn = false;
+            }
+            return IsLoggedIn;
         }
         public static async Task SignIn(string discordToken)
         {

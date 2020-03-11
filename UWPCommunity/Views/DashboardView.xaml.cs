@@ -57,5 +57,10 @@ namespace UWPCommunity.Views
             
             base.OnNavigatedTo(e);
         }
+
+        private void RegisterAppButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -28,6 +28,11 @@ namespace UWPCommunity
             Navigate(typeof(HomeView));
         }
 
+        public static void NavigateToSubview(Type sender)
+        {
+
+        }
+
         public static void RequestSignIn(Type returnToPage)
         {
             if (!Common.IsLoggedIn)

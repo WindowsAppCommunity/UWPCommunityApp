@@ -32,6 +32,12 @@ namespace UWPCommLib.Api.UWPComm
         /// </summary>
         [Get("/projects/collaborators?projectId={projectId}")]
         Task<List<Collaborator>> GetProjectCollaborators(string projectId);
+
+        /// <summary>
+        /// Registers a project with the given details
+        /// </summary>
+        [Post("/projects")]
+        Task PostProject([Body(BodySerializationMethod.UrlEncoded)] Project info);
         #endregion
 
         #region /user/

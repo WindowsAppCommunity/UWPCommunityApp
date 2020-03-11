@@ -72,6 +72,7 @@ namespace UWPCommunity
                 Window.Current.Activate();
             }
 
+            return;
             // If running in Debug, swtich to the localhost/development backend
             #if DEBUG
             Common.UwpCommApiHostUrl = "http://localhost:5000";
