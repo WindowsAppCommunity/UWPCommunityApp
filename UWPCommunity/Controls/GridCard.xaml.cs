@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows.Input;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -33,5 +34,47 @@ namespace UWPCommunity.Controls
         {
             throw new NotImplementedException();
         }
+
+        public string TitleText {
+            get { return (string)GetValue(TitleTextProperty); }
+            set { SetValue(TitleTextProperty, value); }
+        }
+        public static readonly DependencyProperty TitleTextProperty =
+            DependencyProperty.Register("TitleText", typeof(string), typeof(GridView), null);
+
+        public string SubtitleText {
+            get { return (string)GetValue(SubtitleTextProperty); }
+            set { SetValue(SubtitleTextProperty, value); }
+        }
+        public static readonly DependencyProperty SubtitleTextProperty =
+            DependencyProperty.Register("SubtitleText", typeof(string), typeof(GridView), null);
+
+        public string DescriptionText {
+            get { return (string)GetValue(DescriptionTextProperty); }
+            set { SetValue(DescriptionTextProperty, value); }
+        }
+        public static readonly DependencyProperty DescriptionTextProperty =
+            DependencyProperty.Register("DescriptionText", typeof(string), typeof(GridView), null);
+
+        public string ButtonText {
+            get { return (string)GetValue(ButtonTextProperty); }
+            set { SetValue(ButtonTextProperty, value); }
+        }
+        public static readonly DependencyProperty ButtonTextProperty =
+            DependencyProperty.Register("ButtonText", typeof(string), typeof(GridView), null);
+
+        public ICommand ButtonCommand {
+            get { return (ICommand)GetValue(ButtonCommandProperty); }
+            set { SetValue(ButtonCommandProperty, value); }
+        }
+        public static readonly DependencyProperty ButtonCommandProperty =
+            DependencyProperty.Register("ButtonCommand", typeof(ICommand), typeof(GridView), null);
+
+        public ImageSource ImageSource {
+            get { return (ImageSource)GetValue(ImageSourceProperty); }
+            set { SetValue(ImageSourceProperty, value); }
+        }
+        public static readonly DependencyProperty ImageSourceProperty =
+            DependencyProperty.Register("CardImageSource", typeof(ImageSource), typeof(GridView), null);
     }
 }

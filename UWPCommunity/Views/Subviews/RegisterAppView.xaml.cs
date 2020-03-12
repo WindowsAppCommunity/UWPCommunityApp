@@ -18,7 +18,9 @@ namespace UWPCommunity.Views.Subviews
 
         private async void SubmitButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var project = new Project()
+            System.Diagnostics.Debug.WriteLine(Common.DiscordToken);
+
+            var project = new NewProjectRequest()
             {
                 // Required
                 AppName = NameBox.Text,
@@ -32,7 +34,6 @@ namespace UWPCommunity.Views.Subviews
                 DownloadLink = DownloadUrlBox.Text,
                 GitHubLink = GithubUrlBox.Text,
                 ExternalLink = ExternalUrlBox.Text,
-                
             };
 
             await Common.UwpCommApi.PostProject(project);

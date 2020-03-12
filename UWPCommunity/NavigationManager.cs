@@ -33,12 +33,25 @@ namespace UWPCommunity
 
         }
 
-        public static void RequestSignIn(Type returnToPage)
+        public static async void RequestSignIn(Type returnToPage)
         {
+            var privacyPolicyResult = await (new Views.Dialogs.ConfirmPrivacyPolicyDialog().ShowAsync());
+            if (privacyPolicyResult != ContentDialogResult.Primary)
+                return;
+
             if (!Common.IsLoggedIn)
                 PageFrame.Navigate(typeof(LoginView), returnToPage);
             else
                 PageFrame.Navigate(returnToPage);
+        }
+
+        public async static Task<bool> OpenInBrowser(Uri uri)
+        {
+            return await Launcher.LaunchUriAsync(uri);
+        }
+        public async static Task<bool> OpenInBrowser(string url)
+        {
+            return await OpenInBrowser(new Uri(url));
         }
 
         public static async Task<bool> OpenDiscordInvite(string inviteCode)
@@ -50,7 +63,7 @@ namespace UWPCommunity
                     return await Launcher.LaunchUriAsync(quarrelLaunchUri);
 
                 default:
-                    return await Launcher.LaunchUriAsync(launchUri);
+                    return await OpenInBrowser(launchUri);
             }
         }
 

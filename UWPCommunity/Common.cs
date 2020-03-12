@@ -46,7 +46,7 @@ namespace UWPCommunity
         }
         public static string DiscordRefreshToken { get; set; }
 
-        public static UWPCommLib.Api.Discord.Models.User DiscordUser { get; set; }
+        public static UWPCommLib.Api.Discord.Models.User DiscordUser { get; private set; }
         public static async Task<UWPCommLib.Api.UWPComm.Models.Collaborator> GetCurrentUser()
         {
             return await UwpCommApi.GetUser(DiscordUser.DiscordId);
@@ -68,12 +68,9 @@ namespace UWPCommunity
                 vault.Add(new Windows.Security.Credentials.PasswordCredential(
                     resourceName, DiscordUser.DiscordId, DiscordToken));
 
-                IsLoggedIn = true;
-                OnLoginStateChanged(IsLoggedIn);
-
                 try
                 {
-                    await GetCurrentUser();
+                    _ = await GetCurrentUser();
                 }
                 catch (ApiException ex)
                 {
@@ -86,6 +83,9 @@ namespace UWPCommunity
                         });
                     }
                 }
+
+                IsLoggedIn = true;
+                OnLoginStateChanged(IsLoggedIn);
             }
             catch
             {

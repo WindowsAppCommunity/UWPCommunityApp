@@ -8,32 +8,43 @@
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
-    d:DesignHeight="496"
-    d:DesignWidth="700"
+    d:DesignHeight="520"
+    d:DesignWidth="600"
     Background="Transparent">
 
-    <controls:DropShadowPanel BlurRadius="10" OffsetY="2" ShadowOpacity="0.5" >
-        <Grid x:Name="Launch2020Card" CornerRadius="2"
-              Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"
-              PointerEntered="Card_PointerEntered" PointerExited="Card_PointerExited">
+    <controls:DropShadowPanel BlurRadius="20" OffsetY="2" ShadowOpacity="0.5" MaxWidth="600"
+                              PointerEntered="Card_PointerEntered" PointerExited="Card_PointerExited">
+        <Grid CornerRadius="2" 
+                Background="{ThemeResource SystemRevealChromeMediumColor}"
+                BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
-                <RowDefinition Height="66*"/>
-                <RowDefinition Height="33*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <Windows10version1903:Grid.TranslationTransition>
-                <Vector3Transition Duration="0:0:0.4"/>
-            </Windows10version1903:Grid.TranslationTransition>
 
-            <Image Source="https://uwpcommunity.com/assets/img/LaunchAppsHero.png"/>
+            <Image Source="{x:Bind ImageSource}"/>
 
-            <StackPanel Margin="10,10,10,10" Grid.Row="1">
-                <TextBlock Text="Project registration now open!"
-                           Style="{StaticResource FlyoutPickerTitleTextBlockStyle}"/>
-                <TextBlock Text="Register your apps/projects to showcase on our website and participate in Launch 2020!"
-                           TextWrapping="WrapWholeWords" Style="{StaticResource BodyTextBlockStyle}"/>
-                    <Button Content="Get started" Margin="0,10,0,0" Style="{StaticResource AccentButtonStyle}"/>
+            <StackPanel Margin="10,0,10,10" Grid.Row="1">
+                <TextBlock Text="{x:Bind TitleText}"
+                            Style="{StaticResource SubheaderTextBlockStyle}" FontWeight="Bold"/>
+                <TextBlock Text="{x:Bind SubtitleText}"
+                            TextWrapping="WrapWholeWords" Style="{StaticResource TitleTextBlockStyle}" FontFamily="Segoe UI Semibold" FontWeight="Normal"/>
+                <TextBlock Text="{x:Bind DescriptionText}"
+                            TextWrapping="WrapWholeWords" Style="{StaticResource BodyTextBlockStyle}"/>
+                <Button Content="Get started" Margin="0,10,0,0" Style="{StaticResource AccentButtonStyle}"/>
             </StackPanel>
         </Grid>
+
+        <controls:DropShadowPanel.Resources>
+            <Storyboard x:Name="EnterStoryboard">
+                <DoubleAnimation Storyboard.TargetProperty="OffsetY" From="2" To="10" Duration="0:0:4" Storyboard.TargetName="Launch2020Panel"/>
+                <DoubleAnimation Storyboard.TargetProperty="BlurRadius" From="20" To="40" Duration="0:0:4" Storyboard.TargetName="Launch2020Panel"/>
+            </Storyboard>
+            <Storyboard x:Name="ExitStoryboard">
+                <DoubleAnimation Storyboard.TargetProperty="OffsetY" From="10" To="2" Duration="0:0:4" Storyboard.TargetName="Launch2020Panel"/>
+                <DoubleAnimation Storyboard.TargetProperty="BlurRadius" From="40" To="20" Duration="0:0:4" Storyboard.TargetName="Launch2020Panel"/>
+            </Storyboard>
+        </controls:DropShadowPanel.Resources>
     </controls:DropShadowPanel>
 
 </UserControl>

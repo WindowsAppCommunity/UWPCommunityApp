@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -38,7 +39,7 @@ namespace UWPCommunity.Views
                 return;
             }
 
-            if (Common.IsInternetAvailable())
+            try
             {
                 var projs = await Common.UwpCommApi.GetUserProjects(Common.DiscordUser.DiscordId);
                 foreach (var project in projs)
@@ -50,9 +51,9 @@ namespace UWPCommunity.Views
                     new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
                 UserProfileUsername.Text = Common.DiscordUser.Username;
             }
-            else
+            catch (Refit.ApiException ex)
             {
-                Console.WriteLine("Internet not available");
+                Debug.WriteLine("API Exception:\n" + ex.ReasonPhrase);
             }
             
             base.OnNavigatedTo(e);
@@ -60,7 +61,7 @@ namespace UWPCommunity.Views
 
         private void RegisterAppButton_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationManager.Navigate(typeof(Subviews.RegisterAppView));
         }
     }
 }
