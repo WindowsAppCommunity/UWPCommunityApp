@@ -18,21 +18,29 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UWPCommunity.Controls
 {
-    public sealed partial class GridCard : UserControl
+    public sealed partial class InfoCard : UserControl
     {
-        public GridCard()
+        public delegate void ButtonClickedHandler(object sender, RoutedEventArgs e);
+        public event ButtonClickedHandler ButtonClicked;
+
+        public InfoCard()
         {
             this.InitializeComponent();
         }
 
+        private void CardButton_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonClicked(sender, e);
+        }
+
         private void Card_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            throw new NotImplementedException();
+
         }
 
         private void Card_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
 
         public string TitleText {
@@ -42,6 +50,13 @@ namespace UWPCommunity.Controls
         public static readonly DependencyProperty TitleTextProperty =
             DependencyProperty.Register("TitleText", typeof(string), typeof(GridView), null);
 
+        public Visibility TitleTextVisibility {
+            get { return (Visibility)GetValue(TitleTextVisibilityProperty); }
+            set { SetValue(TitleTextVisibilityProperty, value); }
+        }
+        public static readonly DependencyProperty TitleTextVisibilityProperty =
+            DependencyProperty.Register("TitleTextVisibility", typeof(Visibility), typeof(GridView), null);
+
         public string SubtitleText {
             get { return (string)GetValue(SubtitleTextProperty); }
             set { SetValue(SubtitleTextProperty, value); }
@@ -49,12 +64,26 @@ namespace UWPCommunity.Controls
         public static readonly DependencyProperty SubtitleTextProperty =
             DependencyProperty.Register("SubtitleText", typeof(string), typeof(GridView), null);
 
-        public string DescriptionText {
-            get { return (string)GetValue(DescriptionTextProperty); }
-            set { SetValue(DescriptionTextProperty, value); }
+        public Visibility SubtitleTextVisibility {
+            get { return (Visibility)GetValue(SubtitleTextVisibilityProperty); }
+            set { SetValue(SubtitleTextVisibilityProperty, value); }
         }
-        public static readonly DependencyProperty DescriptionTextProperty =
-            DependencyProperty.Register("DescriptionText", typeof(string), typeof(GridView), null);
+        public static readonly DependencyProperty SubtitleTextVisibilityProperty =
+            DependencyProperty.Register("SubtitleTextVisibility", typeof(Visibility), typeof(GridView), null);
+
+        public string BodyText {
+            get { return (string)GetValue(BodyTextProperty); }
+            set { SetValue(BodyTextProperty, value); }
+        }
+        public static readonly DependencyProperty BodyTextProperty =
+            DependencyProperty.Register("BodyText", typeof(string), typeof(GridView), null);
+
+        public Visibility BodyTextVisibility {
+            get { return (Visibility)GetValue(BodyTextVisibilityProperty); }
+            set { SetValue(BodyTextVisibilityProperty, value); }
+        }
+        public static readonly DependencyProperty BodyTextVisibilityProperty =
+            DependencyProperty.Register("BodyTextVisibility", typeof(Visibility), typeof(GridView), null);
 
         public string ButtonText {
             get { return (string)GetValue(ButtonTextProperty); }

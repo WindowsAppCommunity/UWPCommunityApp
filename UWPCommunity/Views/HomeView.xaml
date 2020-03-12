@@ -9,6 +9,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:controls1="using:UWPCommunity.Controls"
     mc:Ignorable="d">
 
 
@@ -23,6 +24,21 @@
             <ScrollViewer>
                 <StackPanel x:Name="MainPanel" MaxWidth="700" Margin="25,15,25,0" Spacing="20">
 
+                    <controls1:InfoCard 
+                        TitleTextVisibility="Collapsed"
+                        SubtitleText="Launch 2020 participants have been decided"
+                        BodyText="Around 17 new apps will launch in June as part of the annual event"
+                        ButtonText="Take a look"
+                        ImageSource="https://uwpcommunity.com/assets/img/LaunchAppsHero.png"
+                        ButtonClicked="Launch2020Button_Click"/>
+                    
+                    <controls1:InfoCard
+                        TitleTextVisibility="Collapsed" SubtitleTextVisibility="Collapsed"
+                        BodyText="Discuss the platform with other enthusiasts, get help as a developer, and interact with the devs of your favorite apps"
+                        ButtonText="Join our Discord server"
+                        ImageSource="https://uwpcommunity.com/assets/img/discordchatexample.png"
+                        ButtonClicked="DiscordButton_Click"/>
+                    
                     <controls:DropShadowPanel BlurRadius="20" OffsetY="2" ShadowOpacity="0.5" >
                         <Grid x:Name="Launch2020Card" CornerRadius="2"
                           Background="{ThemeResource SystemRevealChromeMediumColor}"
