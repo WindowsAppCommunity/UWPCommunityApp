@@ -121,6 +121,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common.cs" />
+    <Compile Include="Controls\GridViewCardItem.xaml.cs">
+      <DependentUpon>GridViewCardItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\InfoCard.xaml.cs">
       <DependentUpon>InfoCard.xaml</DependentUpon>
     </Compile>
@@ -219,6 +222,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\GridViewCardItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\InfoCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

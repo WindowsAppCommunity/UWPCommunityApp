@@ -35,12 +35,14 @@ namespace UWPCommunity
 
         public static async void RequestSignIn(Type returnToPage)
         {
-            var privacyPolicyResult = await (new Views.Dialogs.ConfirmPrivacyPolicyDialog().ShowAsync());
-            if (privacyPolicyResult != ContentDialogResult.Primary)
-                return;
-
             if (!Common.IsLoggedIn)
+            {
+                var privacyPolicyResult = await (new Views.Dialogs.ConfirmPrivacyPolicyDialog().ShowAsync());
+                if (privacyPolicyResult != ContentDialogResult.Primary)
+                    return;
+
                 PageFrame.Navigate(typeof(LoginView), returnToPage);
+            }
             else
                 PageFrame.Navigate(returnToPage);
         }

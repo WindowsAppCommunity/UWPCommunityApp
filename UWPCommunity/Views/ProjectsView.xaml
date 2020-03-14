@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls1="using:UWPCommunity.Controls"
     mc:Ignorable="d">
 
     <Grid>
@@ -14,29 +15,9 @@
         <controls:AdaptiveGridView ItemsSource="{x:Bind Projects}" SelectionMode="Single" DesiredWidth="600">
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate x:DataType="models:Project">
-                    <!-- TODO: Create a template for showing projects-->
-                    <controls:DockPanel LastChildFill="True" Padding="5,5,5,5" HorizontalAlignment="Stretch">
 
-                        <controls:DockPanel.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Text="Edit" Icon="Edit"/>
-                                <MenuFlyoutItem Text="Delete" Icon="Delete"/>
-                            </MenuFlyout>
-                        </controls:DockPanel.ContextFlyout>
-
-                        <Image MaxWidth="150" Margin="0,0,5,0" controls:DockPanel.Dock="Left">
-                            <Image.Source>
-                                <BitmapImage UriSource="{x:Bind HeroImageUri}"/>
-                            </Image.Source>
-                        </Image>
-
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{x:Bind AppName}" Margin="0,0,5,0" Style="{StaticResource BaseTextBlockStyle}" />
-                            <TextBlock Text="{x:Bind Description}" Margin="0,0,5,0" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
-                            <StackPanel Orientation="Vertical"/>
-                        </StackPanel>
-
-                    </controls:DockPanel>
+                    <controls1:GridViewCardItem TitleText="{x:Bind AppName}"
+                                                BodyText="{x:Bind Description}"/>
 
                 </DataTemplate>
             </controls:AdaptiveGridView.ItemTemplate>
