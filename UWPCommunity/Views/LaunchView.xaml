@@ -12,7 +12,7 @@
     <ScrollViewer>
         <StackPanel Margin="10,10,10,10" x:Name="BackgroundGrid">
             <controls:DropShadowPanel x:Name="Launch2020Panel" BlurRadius="20" OffsetY="2" ShadowOpacity="0.5"
-                                      MaxWidth="600"
+                                      Margin="24,0" MaxHeight="500"
                                       PointerEntered="Card_PointerEntered" PointerExited="Card_PointerExited">
                 <Grid x:Name="Launch2020Card" CornerRadius="2" 
                       Background="{ThemeResource SystemRevealChromeMediumColor}"
@@ -22,7 +22,7 @@
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
 
-                    <Image Source="https://uwpcommunity.com/assets/img/LaunchAppsHero.png"/>
+                    <Image Source="https://uwpcommunity.com/assets/img/LaunchAppsHero.png" Stretch="UniformToFill"/>
 
                     <StackPanel Margin="10,0,10,10" Grid.Row="1">
                         <TextBlock Text="// Launch"
@@ -48,7 +48,7 @@
             </controls:DropShadowPanel>
 
             <controls:AdaptiveGridView ItemsSource="{x:Bind LaunchProjects}" SelectionMode="Single"
-                                       DesiredWidth="600" Margin="0,20,0,0">
+                                       DesiredWidth="600" Margin="24">
                 <controls:AdaptiveGridView.ItemTemplate>
                     <DataTemplate x:DataType="models:Project">
                         <!-- TODO: Create a template for showing projects-->
