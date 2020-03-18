@@ -1,24 +1,29 @@
 ﻿<Page
     x:Class="UWPCommunity.Views.ProjectsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UWPCommunity.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
     xmlns:controls1="using:UWPCommunity.Controls"
     mc:Ignorable="d">
 
     <Grid>
 
-        <controls:AdaptiveGridView ItemsSource="{x:Bind Projects}" SelectionMode="Single" DesiredWidth="600">
+        <controls:AdaptiveGridView ItemsSource="{x:Bind Projects}" DesiredWidth="550" ItemHeight="400" SelectionMode="None">
+            <controls:AdaptiveGridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="12"/>
+                </Style>
+            </controls:AdaptiveGridView.ItemContainerStyle>
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate x:DataType="models:Project">
-
-                    <controls1:GridViewCardItem TitleText="{x:Bind AppName}"
+                    <controls:DropShadowPanel BlurRadius="10" OffsetY="2" ShadowOpacity="0.5" >
+                        <controls1:GridViewCardItem TitleText="{x:Bind AppName}"
+                                                ImageSource="{x:Bind HeroImage}"
                                                 BodyText="{x:Bind Description}"/>
-
+                    </controls:DropShadowPanel>
                 </DataTemplate>
             </controls:AdaptiveGridView.ItemTemplate>
         </controls:AdaptiveGridView>

@@ -1,5 +1,4 @@
-﻿using Refit;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using UWPCommLib.Api.UWPComm.Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -17,7 +16,7 @@ namespace UWPCommunity.Views
 
         public ProjectsView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

@@ -5,8 +5,11 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -41,6 +44,14 @@ namespace UWPCommunity
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
+
+            ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = (Color)Current.Resources["SystemAccentColor"];
+            ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            ApplicationView.GetForCurrentView().TitleBar.ButtonHoverForegroundColor = (Color)Current.Resources["SystemAccentColor"];
+            ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
+
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -72,7 +83,7 @@ namespace UWPCommunity
                 Window.Current.Activate();
             }
 
-            //return;
+            return;
             // If running in Debug, swtich to the localhost/development backend
             #if DEBUG
             Common.UwpCommApiHostUrl = "http://localhost:5000";

@@ -23,6 +23,7 @@ namespace UWPCommunity.Controls
         public GridViewCardItem()
         {
             this.InitializeComponent();
+            DataContextChanged += (sender, args) => Bindings.Update();
         }
 
         #region Access Options

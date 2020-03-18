@@ -11,19 +11,19 @@
     d:DesignWidth="600"
     Background="Transparent">
 
-    <controls:DropShadowPanel BlurRadius="20" OffsetY="2" ShadowOpacity="0.5"
+    <controls:DropShadowPanel BlurRadius="20" OffsetY="2" ShadowOpacity="0.5" HorizontalContentAlignment="Stretch"
                               PointerEntered="Card_PointerEntered" PointerExited="Card_PointerExited">
         <Grid CornerRadius="2" 
                 Background="{ThemeResource SystemRevealChromeMediumColor}"
                 BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Image Source="{x:Bind ImageSource}"/>
+            <Image Source="{x:Bind ImageSource}" Stretch="UniformToFill" />
 
-            <StackPanel Margin="10,5,10,10" Grid.Row="1">
+            <StackPanel Margin="10,5,10,10" Grid.Row="1" HorizontalAlignment="Center">
                 <TextBlock Text="{x:Bind TitleText}" Visibility="{x:Bind TitleTextVisibility}"
                             Style="{StaticResource SubheaderTextBlockStyle}" FontWeight="Bold"/>
                 <TextBlock Text="{x:Bind SubtitleText}" Visibility="{x:Bind SubtitleTextVisibility}"
