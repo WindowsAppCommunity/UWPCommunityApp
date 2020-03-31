@@ -25,7 +25,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-                <controls:ImageEx Source="{x:Bind ImageSource}" Stretch="UniformToFill" PlaceholderSource="ms-appx:///Assets/StoreLogo.png"/>
+            <Image Source="{x:Bind ImageSource}" Stretch="UniformToFill" />
 
             <StackPanel Orientation="Vertical" Grid.Row="1">
                 <TextBlock Text="{x:Bind TitleText}" Margin="8"

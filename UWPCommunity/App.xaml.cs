@@ -84,15 +84,7 @@ namespace UWPCommunity
             }
 
             SettingsManager.ApplyAppTheme(SettingsManager.GetAppTheme());
-
-            return;
-            // If running in Debug, swtich to the localhost/development backend
-            #if DEBUG
-            Common.UwpCommApiHostUrl = "http://localhost:5000";
-            Common.UwpCommApi = Refit.RestService.For<UWPCommLib.Api.UWPComm.IUwpCommApi>(
-                Common.UwpCommApiHostUrl
-            );
-            #endif
+            SettingsManager.ApplyUseDebugApi(SettingsManager.GetUseDebugApi());
         }
 
         /// <summary>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 
 namespace UWPCommunity
@@ -51,6 +52,50 @@ namespace UWPCommunity
             {
                 frameworkElement.RequestedTheme = theme;
             }
+        }
+
+        public static bool GetUseDebugApi()
+        {
+            try
+            {
+                return Boolean.Parse(localSettings.Values["UseDebugApi"] as string);
+            }
+            catch
+            {
+                SetUseDebugApi(false);
+                return false;
+            }
+        }
+        public static void SetUseDebugApi(bool value)
+        {
+            localSettings.Values["UseDebugApi"] = value.ToString();
+            ApplyUseDebugApi(value);
+        }
+        public static void ApplyUseDebugApi(bool value)
+        {
+            Common.UwpCommApiHostUrl =
+                value ? "http://localhost:5000" : "https://uwpcommunity-site-backend.herokuapp.com";
+            Common.UwpCommApi = Refit.RestService.For<UWPCommLib.Api.UWPComm.IUwpCommApi>(
+                Common.UwpCommApiHostUrl
+            );
+        }
+
+        public static Point GetProjectCardSize()
+        {
+            try
+            {
+                return (Point)localSettings.Values["ProjectCardSize"];
+            }
+            catch
+            {
+                var defaultRect = new Point(550, 400);
+                SetProjectCardSize(defaultRect);
+                return defaultRect;
+            }
+        }
+        public static void SetProjectCardSize(Point value)
+        {
+            localSettings.Values["ProjectCardSize"] = value;
         }
     }
 }

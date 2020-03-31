@@ -5,17 +5,38 @@
     xmlns:local="using:UWPCommunity.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Pivot>
         <PivotItem Header="General">
-            <ComboBox x:Name="ThemeBox" Header="Choose a theme"
-                      SelectionChanged="ThemeBox_SelectionChanged">
-                <x:String>Default</x:String>
-                <x:String>Light</x:String>
-                <x:String>Dark</x:String>
-            </ComboBox>
+            <StackPanel>
+                
+                <ComboBox x:Name="ThemeBox" Header="Choose a theme"
+                          SelectionChanged="ThemeBox_SelectionChanged">
+                    <x:String>Default</x:String>
+                    <x:String>Light</x:String>
+                    <x:String>Dark</x:String>
+                </ComboBox>
+                
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <winui:NumberBox x:Name="ProjectCardWidth" Header="Card Width"
+                                     Minimum="0" ValueChanged="ProjectCardSize_ValueChanged"/>
+                    <winui:NumberBox x:Name="ProjectCardHeight" Header="Height"
+                                     Minimum="0" ValueChanged="ProjectCardSize_ValueChanged"/>
+                </StackPanel>
+                
+            </StackPanel>
+        </PivotItem>
+        
+        <PivotItem Header="Debug">
+            <StackPanel>
+                
+                <CheckBox x:Name="UseDebugApiBox" Content="Use Debug (localhost) API" IsChecked="False"
+                          Unchecked="UseDebugApiBox_Changed" Checked="UseDebugApiBox_Changed"/>
+                
+            </StackPanel>
         </PivotItem>
         
         <PivotItem Header="About">

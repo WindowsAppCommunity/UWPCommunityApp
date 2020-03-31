@@ -17,6 +17,10 @@ namespace UWPCommunity.Views
         public ProjectsView()
         {
             InitializeComponent();
+
+            var cardSize = SettingsManager.GetProjectCardSize();
+            ProjectsGridView.DesiredWidth = cardSize.X;
+            ProjectsGridView.ItemHeight = cardSize.Y;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

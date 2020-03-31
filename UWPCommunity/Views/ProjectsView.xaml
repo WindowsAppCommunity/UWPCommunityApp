@@ -11,7 +11,8 @@
 
     <Grid>
 
-        <controls:AdaptiveGridView ItemsSource="{x:Bind Projects}" DesiredWidth="550" ItemHeight="400" SelectionMode="None">
+        <controls:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}" 
+                                   DesiredWidth="550" ItemHeight="400" SelectionMode="None">
             <controls:AdaptiveGridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Margin" Value="12"/>

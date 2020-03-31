@@ -25,12 +25,27 @@ namespace UWPCommunity.Views
         public SettingsView()
         {
             this.InitializeComponent();
+
             ThemeBox.SelectedValue = SettingsManager.GetAppThemeName();
+            UseDebugApiBox.IsChecked = SettingsManager.GetUseDebugApi();
+            var cardSize = SettingsManager.GetProjectCardSize();
+            ProjectCardWidth.Value = cardSize.X;
+            ProjectCardHeight.Value = cardSize.Y;
         }
 
         private void ThemeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SettingsManager.SetAppTheme(e.AddedItems[0].ToString());
+        }
+
+        private void UseDebugApiBox_Changed(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.SetUseDebugApi(UseDebugApiBox.IsChecked.Value);
+        }
+
+        private void ProjectCardSize_ValueChanged(Microsoft.UI.Xaml.Controls.NumberBox sender, Microsoft.UI.Xaml.Controls.NumberBoxValueChangedEventArgs args)
+        {
+            SettingsManager.SetProjectCardSize(new Point(ProjectCardWidth.Value, ProjectCardHeight.Value));
         }
     }
 }
