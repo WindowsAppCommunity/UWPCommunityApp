@@ -53,6 +53,7 @@ namespace UWPCommunity.Views
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             LoginWrapper.NavigationCompleted -= LoginWrapper_NavigationCompleted;
+            NavigationManager.RemovePreviousFromBackStack();
         }
     }
 }

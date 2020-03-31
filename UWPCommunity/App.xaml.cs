@@ -83,6 +83,8 @@ namespace UWPCommunity
                 Window.Current.Activate();
             }
 
+            SettingsManager.ApplyAppTheme(SettingsManager.GetAppTheme());
+
             return;
             // If running in Debug, swtich to the localhost/development backend
             #if DEBUG

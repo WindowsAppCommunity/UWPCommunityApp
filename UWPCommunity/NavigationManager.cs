@@ -25,12 +25,7 @@ namespace UWPCommunity
 
         public static void NavigateToSettings()
         {
-            Navigate(typeof(HomeView));
-        }
-
-        public static void NavigateToSubview(Type sender)
-        {
-
+            Navigate(typeof(SettingsView));
         }
 
         public static async void RequestSignIn(Type returnToPage)
@@ -72,6 +67,11 @@ namespace UWPCommunity
         public static void Navigate(Type destinationPage)
         {
             PageFrame.Navigate(destinationPage);
+        }
+
+        public static void RemovePreviousFromBackStack()
+        {
+            PageFrame.BackStack.RemoveAt(PageFrame.BackStack.Count - 1);
         }
     }
 

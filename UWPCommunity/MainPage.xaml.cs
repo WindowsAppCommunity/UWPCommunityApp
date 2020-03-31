@@ -89,7 +89,6 @@ namespace UWPCommunity
         {
             if (args.IsSettingsSelected)
             {
-                // TODO: Navigate to settings
                 NavigationManager.NavigateToSettings();
                 return;
             }
@@ -164,6 +163,8 @@ namespace UWPCommunity
         /// </summary>
         private bool On_BackRequested()
         {
+            // TODO: Make the navigation stack exclude the LoginView,
+            // then remove the following line.
             return false;
             if (MainFrame.CanGoBack)
             {

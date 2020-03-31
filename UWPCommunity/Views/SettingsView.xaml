@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="UWPCommunity.Views.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPCommunity.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Pivot>
+        <PivotItem Header="General">
+            <ComboBox x:Name="ThemeBox" Header="Choose a theme"
+                      SelectionChanged="ThemeBox_SelectionChanged">
+                <x:String>Default</x:String>
+                <x:String>Light</x:String>
+                <x:String>Dark</x:String>
+            </ComboBox>
+        </PivotItem>
+        
+        <PivotItem Header="About">
+            
+        </PivotItem>
+    </Pivot>
+</Page>

@@ -38,5 +38,10 @@ namespace UWPCommunity.Views.Subviews
 
             await Common.UwpCommApi.PostProject(project);
         }
+
+        private void CancelButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            NavigationManager.PageFrame.GoBack();
+        }
     }
 }

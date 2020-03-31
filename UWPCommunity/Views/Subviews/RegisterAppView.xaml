@@ -15,7 +15,7 @@
                     controls:DockPanel.Dock="Bottom" HorizontalAlignment="Right"
                     Margin="0,0,10,10">
             <Button x:Name="SubmitButton" Content="Register" Style="{StaticResource AccentButtonStyle}" Click="SubmitButton_Click"/>
-            <Button x:Name="CancelButton" Content="Cancel"/>
+            <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click"/>
         </StackPanel>
         
         <Pivot Title="Register an app">
