@@ -9,7 +9,8 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
     
-    <controls:DockPanel LastChildFill="True" Padding="5" HorizontalAlignment="Stretch">
+    <controls:DockPanel LastChildFill="True" Padding="5" HorizontalAlignment="Stretch"
+                        Background="{ThemeResource AppBarBackgroundThemeBrush}">
 
         <controls:DockPanel.ContextFlyout>
             <MenuFlyout>
@@ -27,10 +28,10 @@
             </Grid.RowDefinitions>
             <Image Source="{x:Bind ImageSource}" Stretch="UniformToFill" />
 
-            <StackPanel Orientation="Vertical" Grid.Row="1">
-                <TextBlock Text="{x:Bind TitleText}" Margin="8"
+            <StackPanel Orientation="Vertical" Grid.Row="1" Spacing="5" Margin="5">
+                <TextBlock Text="{x:Bind TitleText}"
                        Style="{StaticResource BaseTextBlockStyle}" />
-                <TextBlock Text="{x:Bind BodyText}" Margin="8"
+                <TextBlock Text="{x:Bind BodyText}"
                        Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
             </StackPanel>
 

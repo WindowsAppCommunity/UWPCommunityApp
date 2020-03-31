@@ -22,8 +22,9 @@
                 <DataTemplate x:DataType="models:Project">
                     <controls:DropShadowPanel BlurRadius="10" OffsetY="2" ShadowOpacity="0.5" >
                         <controls1:GridViewCardItem TitleText="{x:Bind AppName}"
-                                                ImageSource="{x:Bind HeroImage}"
-                                                BodyText="{x:Bind Description}"/>
+                                                    ImageSource="{x:Bind HeroImage}"
+                                                    BodyText="{x:Bind Description}"
+                                                    IsEditable="False" IsDeletable="False"/>
                     </controls:DropShadowPanel>
                 </DataTemplate>
             </controls:AdaptiveGridView.ItemTemplate>

@@ -25,7 +25,7 @@ namespace UWPCommunity.Views
 
         private void Launch2020Button_Click(object sender, RoutedEventArgs e)
         {
-            NavigationManager.NavigateToDashboard();
+            NavigationManager.Navigate(typeof(Views.LaunchView));
         }
     }
 }

@@ -22,6 +22,7 @@ namespace UWPCommunity.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            NavigationManager.RemovePreviousFromBackStack();
             LoginWrapper.NavigationCompleted += LoginWrapper_NavigationCompleted;
             LoginWrapper.Navigate(new Uri("https://discordapp.com/api/oauth2/authorize?client_id=611491369470525463&redirect_uri=http%3A%2F%2Fuwpcommunity-site-backend.herokuapp.com%2Fsignin%2Fredirect&response_type=code&scope=identify%20guilds"));
             
@@ -53,7 +54,6 @@ namespace UWPCommunity.Views
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             LoginWrapper.NavigationCompleted -= LoginWrapper_NavigationCompleted;
-            NavigationManager.RemovePreviousFromBackStack();
         }
     }
 }

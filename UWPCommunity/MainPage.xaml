@@ -14,7 +14,7 @@
                     SelectionChanged="NavigationView_SelectionChanged" BackRequested="MainNav_BackRequested" >
 
         <Windows10version1809:NavigationView.PaneHeader>
-            <Viewbox Margin="0,5,0,5">
+            <Viewbox Margin="5">
                 <StackPanel Orientation="Horizontal">
                     <Viewbox Height="120" Width="120">
                         <FontIcon Glyph="🐱‍🏍" FontFamily="Segoe UI Emoji"/>
