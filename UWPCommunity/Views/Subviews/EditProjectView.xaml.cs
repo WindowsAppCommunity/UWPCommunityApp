@@ -78,7 +78,8 @@ namespace UWPCommunity.Views.Subviews
                 {
                     Title = "Failed to create project",
                     Content = error.Reason,
-                    CloseButtonText = "Ok"
+                    CloseButtonText = "Ok",
+                    RequestedTheme = SettingsManager.GetAppTheme()
                 };
                 ContentDialogResult result = await dialog.ShowAsync();
             }
