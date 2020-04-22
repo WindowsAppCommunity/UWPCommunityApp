@@ -12,6 +12,7 @@ namespace UWPCommunity.Views.Dialogs
         {
             this.InitializeComponent();
             Loaded += EditProfileDialog_Loaded;
+            RequestedTheme = SettingsManager.GetAppTheme();
         }
 
         private async void EditProfileDialog_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)

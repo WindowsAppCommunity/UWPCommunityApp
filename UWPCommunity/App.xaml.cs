@@ -33,6 +33,7 @@ namespace UWPCommunity
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += App_UnhandledException;
         }
 
         /// <summary>
@@ -87,6 +88,20 @@ namespace UWPCommunity
             SettingsManager.ApplyUseDebugApi(SettingsManager.GetUseDebugApi());
         }
 
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
+                // TODO: Handle URI activation
+                // The received URI is eventArgs.Uri.AbsoluteUri
+
+                // Removes the uwpcommunity:// from the URI
+                string path = eventArgs.Uri.ToString()
+                    .Remove(0, eventArgs.Uri.Scheme.Length + 3);
+            }
+        }
+
         /// <summary>
         /// Invoked when Navigation to a certain page fails
         /// </summary>
@@ -109,6 +124,14 @@ namespace UWPCommunity
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            Frame rootFrame = new Frame();
+            Window.Current.Content = rootFrame;
+            rootFrame.Navigate(typeof(Views.UnhandledExceptionPage), e);
         }
     }
 }

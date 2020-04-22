@@ -62,6 +62,7 @@ namespace UWPCommunity
                 //     This is in a try-catch block so that I don't have to do a dozen
                 //     null checks.
                 var page = Pages.Find((info) => info.PageType == e.SourcePageType);
+                if (page == null) return;
                 MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as NavigationViewItem).Content.ToString() == page.Title);
             }
             catch {}

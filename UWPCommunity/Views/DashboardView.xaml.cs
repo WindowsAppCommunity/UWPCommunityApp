@@ -61,7 +61,7 @@ namespace UWPCommunity.Views
 
         private void RegisterAppButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationManager.Navigate(typeof(Subviews.RegisterAppView));
+            NavigationManager.Navigate(typeof(Subviews.EditProjectView));
         }
     }
 }

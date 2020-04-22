@@ -1,14 +1,22 @@
 ﻿<Page
-    x:Class="UWPCommunity.Views.Subviews.RegisterAppView"
+    x:Class="UWPCommunity.Views.Subviews.EditProjectView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:UWPCommunity.Views.Subviews"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <Style TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,5,0,0"/>
+            <Setter Property="Spacing" Value="5"/>
+        </Style>
+    </Page.Resources>
+    
     <controls:DockPanel LastChildFill="True">
         
         <StackPanel Spacing="5" Orientation="Horizontal" FlowDirection="RightToLeft"
@@ -18,7 +26,7 @@
             <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click"/>
         </StackPanel>
         
-        <Pivot Title="Register an app">
+        <Pivot x:Name="MainPivot" Title="Register an app">
         
             <Pivot.TitleTemplate>
                 <DataTemplate>
@@ -27,10 +35,10 @@
             </Pivot.TitleTemplate>
         
             <PivotItem Header="Basic info">
-                <StackPanel Spacing="5" Margin="0,5,0,0">
+                <StackPanel>
                     <TextBox x:Name="NameBox">
                         <TextBox.Header>
-                            <StackPanel Orientation="Horizontal" Spacing="2">
+                            <StackPanel Orientation="Horizontal" Spacing="2" Margin="0">
                                 <TextBlock Text="Project name"/>
                                 <TextBlock Text="*" Foreground="Red"/>
                             </StackPanel>
@@ -40,7 +48,7 @@
                     <TextBox x:Name="DescriptionBox" PlaceholderText="Enter a brief description"
                              AcceptsReturn="True">
                         <TextBox.Header>
-                            <StackPanel Orientation="Horizontal" Spacing="2">
+                            <StackPanel Orientation="Horizontal" Spacing="2" Margin="0">
                                 <TextBlock Text="Description"/>
                                 <TextBlock Text="*" Foreground="Red"/>
                             </StackPanel>
@@ -49,7 +57,7 @@
                 
                     <TextBox x:Name="HeroUrlBox" PlaceholderText="External link to an image of your app">
                         <TextBox.Header>
-                            <StackPanel Orientation="Horizontal" Spacing="2">
+                            <StackPanel Orientation="Horizontal" Spacing="2" Margin="0">
                                 <TextBlock Text="Hero image"/>
                                 <TextBlock Text="*" Foreground="Red"/>
                             </StackPanel>
@@ -59,8 +67,8 @@
             </PivotItem>
         
             <PivotItem Header="Project links">
-                <StackPanel Spacing="5" Margin="0,5,0,0">
-                    <TextBox x:Name="DownloadUrlBox" Header="Download link"/>
+                <StackPanel>
+                    <TextBox x:Name="DownloadUrlBox" Header="Download link" extensions:TextBoxMask.CustomMask="^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$"/>
                 
                     <TextBox x:Name="GithubUrlBox" Header="GitHub link"/>
                 
@@ -68,7 +76,7 @@
                 </StackPanel>
             </PivotItem>
         
-            <PivotItem Header="More info" Margin="0,5,0,0">
+            <PivotItem Header="More info">
                 <StackPanel Spacing="5">
                     <ComboBox x:Name="CategoryBox" Header="Category"/>
                     <CheckBox x:Name="IsPrivateBox" Content="Project is private/secret"/>

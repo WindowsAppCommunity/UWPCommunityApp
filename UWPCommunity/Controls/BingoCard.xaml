@@ -1,0 +1,213 @@
+﻿<UserControl
+    x:Class="UWPCommunity.Controls.BingoCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPCommunity.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="600">
+
+    <Grid Margin="40" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" BorderBrush="White" BorderThickness="1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <Style TargetType="Border">
+                <Setter Property="BorderBrush"
+                        Value="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Padding" Value="2"/>
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{ThemeResource TextBoxForegroundThemeBrush}"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="BingoBox" TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{ThemeResource TextBoxForegroundThemeBrush}"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
+            <Style TargetType="ToggleButton">
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="BorderBrush"
+                        Value="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"/>
+            </Style>
+        </Grid.Resources>
+
+        <Border Grid.Row="0" Grid.Column="0">
+            <TextBlock>
+                <Run FontSize="24" FontWeight="Bold">L</Run>
+            </TextBlock>
+        </Border>
+        <Border Grid.Row="0" Grid.Column="1">
+            <TextBlock>
+                <Run FontSize="24" FontWeight="Bold">l</Run>
+            </TextBlock>
+        </Border>
+        <Border Grid.Row="0" Grid.Column="2">
+            <TextBlock>
+                <Run FontSize="24" FontWeight="Bold">a</Run>
+            </TextBlock>
+        </Border>
+        <Border Grid.Row="0" Grid.Column="3">
+            <TextBlock>
+                <Run FontSize="24" FontWeight="Bold">m</Run>
+            </TextBlock>
+        </Border>
+        <Border Grid.Row="0" Grid.Column="4">
+            <TextBlock>
+                <Run FontSize="24" FontWeight="Bold">a</Run>
+            </TextBlock>
+        </Border>
+
+        <ToggleButton Grid.Row="1" Grid.Column="0">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Mentions Win2D
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="1" Grid.Column="1">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Says 🦙 (but not XAML)
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="1" Grid.Column="2">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Takes a Note to Follow-Up
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="1" Grid.Column="3">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Spins a Wheel 🎡
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="1" Grid.Column="4">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Discover Typo in Docs 📑
+            </TextBlock>
+        </ToggleButton>
+
+        <ToggleButton Grid.Row="2" Grid.Column="0">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Mentions a Sound Outside
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="2" Grid.Column="1">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Does a Poll 🗳
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="2" Grid.Column="2">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Mentions WinUI
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="2" Grid.Column="3">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Creates an Attached Property
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="2" Grid.Column="4">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Uses Toolkit Sample App
+            </TextBlock>
+        </ToggleButton>
+
+        <ToggleButton Grid.Row="3" Grid.Column="0">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Celebrates
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="3" Grid.Column="1">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Uses XAML Controls Gallery
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="3" Grid.Column="2" IsChecked="True">
+            <TextBlock Style="{StaticResource BingoBox}" FontSize="28">
+                <Run>🦙</Run><LineBreak/><Run>FREE</Run>
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="3" Grid.Column="3">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Opens an Issue/PR
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="3" Grid.Column="4">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Adds a NuGet Package
+            </TextBlock>
+        </ToggleButton>
+
+        <ToggleButton Grid.Row="4" Grid.Column="0">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Goes Off-Topic 💬
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="4" Grid.Column="1">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Writes a Unit Test
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="4" Grid.Column="2">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Mentions a Colleague
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="4" Grid.Column="3">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Mentions Green Screen
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="4" Grid.Column="4">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Plays with Hat 👒
+            </TextBlock>
+        </ToggleButton>
+
+        <ToggleButton Grid.Row="5" Grid.Column="0">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Answers Chat Question 🙋‍♀️ 🙋‍♂️
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="5" Grid.Column="1">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Mentions the UWP Community Discord Server 🐱‍🏍
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="5" Grid.Column="2">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Closes Issue/PR
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="5" Grid.Column="3">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Has Issue with Binding
+            </TextBlock>
+        </ToggleButton>
+        <ToggleButton Grid.Row="5" Grid.Column="4">
+            <TextBlock Style="{StaticResource BingoBox}">
+                Comments on Music 🎶
+            </TextBlock>
+        </ToggleButton>
+
+    </Grid>
+    
+</UserControl>

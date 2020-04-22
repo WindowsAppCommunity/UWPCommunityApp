@@ -22,6 +22,7 @@ namespace UWPCommunity.Views.Dialogs
         public ConfirmPrivacyPolicyDialog()
         {
             this.InitializeComponent();
+            RequestedTheme = SettingsManager.GetAppTheme();
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
