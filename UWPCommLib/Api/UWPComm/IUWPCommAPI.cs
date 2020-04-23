@@ -37,13 +37,19 @@ namespace UWPCommLib.Api.UWPComm
         /// Registers a project with the given details
         /// </summary>
         [Post("/projects")]
-        Task PostProject([Body(BodySerializationMethod.UrlEncoded)] NewProjectRequest info);
+        Task PostProject([Body(BodySerializationMethod.UrlEncoded)] Project info);
+
+        /// <summary>
+        /// Updates the project with the given details
+        /// </summary>
+        [Put("/projects?appName={appName}")]
+        Task PutProject(string appName, [Body(BodySerializationMethod.UrlEncoded)] Project info);
 
         /// <summary>
         /// Deletes the project that matches the app name the closest
         /// </summary>
-        [Delete("/projects?appName={appName}")]
-        Task DeleteProject(string appName);
+        [Delete("/projects")]
+        Task DeleteProject([Body(BodySerializationMethod.UrlEncoded)] string appName);
         #endregion
 
         #region /user/

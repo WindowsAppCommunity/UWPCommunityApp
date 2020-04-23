@@ -12,7 +12,7 @@
     <Grid>
 
         <controls:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}" 
-                                   DesiredWidth="550" ItemHeight="400" SelectionMode="None">
+                                   DesiredWidth="550" ItemHeight="400" SelectionMode="Single">
             <controls:AdaptiveGridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Margin" Value="12"/>
@@ -20,11 +20,11 @@
             </controls:AdaptiveGridView.ItemContainerStyle>
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate x:DataType="models:Project">
-                    <controls:DropShadowPanel BlurRadius="10" OffsetY="2" ShadowOpacity="0.5" >
+                    <controls:DropShadowPanel>
                         <controls1:GridViewCardItem TitleText="{x:Bind AppName}"
-                                                    ImageSource="{x:Bind HeroImage}"
-                                                    BodyText="{x:Bind Description}"
-                                                    IsEditable="False" IsDeletable="False"/>
+                                                ImageSource="{x:Bind HeroImageSafe}"
+                                                BodyText="{x:Bind Description}"
+                                                IsEditable="False" IsDeletable="False"/>
                     </controls:DropShadowPanel>
                 </DataTemplate>
             </controls:AdaptiveGridView.ItemTemplate>

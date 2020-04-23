@@ -6,15 +6,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls="using:UWPCommunity.Controls"
     mc:Ignorable="d">
 
-    <controls:DockPanel LastChildFill="True">
+    <toolkit:DockPanel LastChildFill="True">
 
-        <controls:DockPanel Background="{ThemeResource SystemAccentColor}" Height="120" controls:DockPanel.Dock="Top"
+        <toolkit:DockPanel Background="{ThemeResource SystemAccentColor}" Height="120" toolkit:DockPanel.Dock="Top"
                             HorizontalAlignment="Stretch" LastChildFill="True">
             <StackPanel x:Name="UserProfilePanel" Orientation="Horizontal"
-                        Margin="10,10,0,10" controls:DockPanel.Dock="Left">
+                        Margin="10,10,0,10" toolkit:DockPanel.Dock="Left">
                 <PersonPicture x:Name="UserProfilePicture"/>
                 <TextBlock x:Name="UserProfileUsername" Text="Username"
                             FontWeight="SemiBold" Foreground="{StaticResource SystemAltHighColor}"
@@ -36,7 +37,7 @@
                     </AppBarButton>
                 </StackPanel>
             </Viewbox>
-        </controls:DockPanel>
+        </toolkit:DockPanel>
         
         <!-- TODO: Figure out how to keep this DropShadow above the GridView -->
         <!--Rectangle controls:DockPanel.Dock="Top" Height="30" Margin="0,0,0,-30" >
@@ -48,55 +49,22 @@
             </Rectangle.Fill>
         </Rectangle-->
 
-        <GridView ItemsSource="{x:Bind Projects}" IsItemClickEnabled="True" CanDragItems="False" Padding="10,10,10,0"
-                  AllowDrop="False" CanReorderItems="False" SelectionMode="None" FlowDirection="LeftToRight">
+        <toolkit:AdaptiveGridView ItemsSource="{x:Bind Projects}" IsItemClickEnabled="True" CanDragItems="False" Padding="10,10,10,0"
+                    AllowDrop="False" CanReorderItems="False" SelectionMode="None" FlowDirection="LeftToRight"
+                    DesiredWidth="550" ItemHeight="400">
 
-            <GridView.ItemTemplate>
+            <toolkit:AdaptiveGridView.ItemTemplate>
                 <DataTemplate x:DataType="models:Project">
-                    <!-- TODO: Create a template for showing projects-->
-
-                    <controls:DropShadowPanel BlurRadius="20" OffsetY="2" ShadowOpacity="0.5" >
-                        <controls:DockPanel LastChildFill="True" Padding="5,5,5,5" HorizontalAlignment="Stretch"
-                                            Background="{ThemeResource SystemRevealChromeMediumColor}">
-
-                            <controls:DockPanel.ContextFlyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem Text="Edit" Icon="Edit"/>
-                                    <MenuFlyoutItem Text="Delete" Icon="Delete"/>
-                                </MenuFlyout>
-                            </controls:DockPanel.ContextFlyout>
-
-                            <Image MaxWidth="150" Margin="0,0,5,0" controls:DockPanel.Dock="Left">
-                                <Image.Source>
-                                    <BitmapImage UriSource="{x:Bind HeroImageUri}"/>
-                                </Image.Source>
-                            </Image>
-
-                            <StackPanel controls:DockPanel.Dock="Right" Spacing="5">
-                                <Button>
-                                    <Button.Content>
-                                        <SymbolIcon Symbol="Edit"/>
-                                    </Button.Content>
-                                </Button>
-
-                                <Button>
-                                    <Button.Content>
-                                        <SymbolIcon Symbol="Delete"/>
-                                    </Button.Content>
-                                </Button>
-                            </StackPanel>
-
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{x:Bind AppName}" Margin="0,0,5,0" Style="{StaticResource BaseTextBlockStyle}" />
-                                <TextBlock Text="{x:Bind Description}" Margin="0,0,5,0" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
-                                <StackPanel Orientation="Vertical"/>
-                            </StackPanel>
-
-                        </controls:DockPanel>
-                    </controls:DropShadowPanel>
-
+                    <toolkit:DropShadowPanel>
+                        <controls:GridViewCardItem TitleText="{x:Bind AppName}"
+                                                   ImageSource="{x:Bind HeroImageSafe}"
+                                                   BodyText="{x:Bind Description}"
+                                                   IsEditable="True" IsDeletable="True"
+                                                   EditRequested="Project_EditRequested"
+                                                   DeleteRequested="Project_DeleteRequested"/>
+                    </toolkit:DropShadowPanel>
                 </DataTemplate>
-            </GridView.ItemTemplate>
+            </toolkit:AdaptiveGridView.ItemTemplate>
             
             <GridView.Header>
                 <StackPanel Orientation="Horizontal" Spacing="10">
@@ -107,8 +75,8 @@
                 </StackPanel>
             </GridView.Header>
 
-        </GridView>
+        </toolkit:AdaptiveGridView>
 
-    </controls:DockPanel>
+    </toolkit:DockPanel>
 
 </Page>

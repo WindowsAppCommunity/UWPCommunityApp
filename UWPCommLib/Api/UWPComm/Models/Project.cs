@@ -8,6 +8,21 @@ namespace UWPCommLib.Api.UWPComm.Models
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
 
+        [JsonProperty(PropertyName = "collaborators")]
+        public List<Collaborator> Collaborators { get; set; }
+
+        [JsonProperty(PropertyName = "launchYear")]
+        public short? LaunchYear { get; set; }
+
+        [JsonProperty(PropertyName = "createdAt")]
+        public string CreatedAt { get; set; }
+
+        [JsonProperty(PropertyName = "updatedAt")]
+        public string UpdatedAt { get; set; }
+
+        [JsonProperty(PropertyName = "needsManualReview")]
+        public bool NeedsManualReview { get; set; }
+
         [JsonProperty(PropertyName = "appName")]
         public string AppName { get; set; }
 
@@ -26,29 +41,14 @@ namespace UWPCommLib.Api.UWPComm.Models
         [JsonProperty(PropertyName = "externalLink")]
         public string ExternalLink { get; set; }
 
-        [JsonProperty(PropertyName = "collaborators")]
-        public List<Collaborator> Collaborators { get; set; }
-
-        [JsonProperty(PropertyName = "launchYear")]
-        public short? LaunchYear { get; set; }
-
         [JsonProperty(PropertyName = "category")]
         public string Category { get; set; }
-
-        [JsonProperty(PropertyName = "createdAt")]
-        public string CreatedAt { get; set; }
-
-        [JsonProperty(PropertyName = "updatedAt")]
-        public string UpdatedAt { get; set; }
 
         [JsonProperty(PropertyName = "awaitingLaunchApproval")]
         public bool? IsAwaitingLaunchApproval { get; set; }
 
-        [JsonProperty(PropertyName = "needsManualReview")]
-        public bool NeedsManualReview { get; set; }
-
         [JsonProperty(PropertyName = "heroImage")]
-        public string HeroImage { get; set; }
+        public string HeroImage { get; set; } = "https://uwpcommunity.com/assets/img/LaunchHero.png";
 
         [JsonProperty(PropertyName = "lookingForRoles")]
         public bool? IsLookingForRoles { get; set; }
@@ -56,13 +56,23 @@ namespace UWPCommLib.Api.UWPComm.Models
         /// <summary>
         /// The role the user had in this project. Only for use with POST /projects/
         /// </summary>
-        [JsonIgnore]
+        [JsonProperty(PropertyName = "role")]
         public string Role { get; set; }
 
         public System.Uri HeroImageUri {
             get {
-                if (HeroImage == null) HeroImage = "https://images.freeimages.com/images/large-previews/809/phone-1635390.jpg";
-                return new System.Uri(HeroImage);
+                return new System.Uri(HeroImageSafe);
+            }
+        }
+
+        /// <summary>
+        /// A duplicate of HeroImage, but returns a dummy image if null
+        /// </summary>
+        public string HeroImageSafe {
+            get {
+                return HeroImage == null ?
+                    "https://images.freeimages.com/images/large-previews/809/phone-1635390.jpg"
+                    : HeroImage;
             }
         }
 

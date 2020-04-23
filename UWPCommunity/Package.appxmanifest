@@ -14,7 +14,7 @@
   <mp:PhoneIdentity PhoneProductId="fbfd6141-03f4-4fd6-9523-af997d5fe68c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>UWP Community Companion</DisplayName>
+    <DisplayName>UWP Community</DisplayName>
     <PublisherDisplayName>Joshua Askharoun</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -51,7 +51,7 @@
       <Extensions>
         <uap:Extension Category="windows.protocol">
           <uap:Protocol Name="uwpcommunity">
-            <uap:Logo>Assets\StoreLogo.png</uap:Logo>
+            <uap:Logo>Assets\AppLogo.png</uap:Logo>
             <uap:DisplayName>UWP Community Companion</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>

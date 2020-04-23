@@ -63,5 +63,42 @@ namespace UWPCommunity.Views
         {
             NavigationManager.Navigate(typeof(Subviews.EditProjectView));
         }
+
+        private void Project_EditRequested(object p)
+        {
+            NavigationManager.NavigateToEditProject(p);
+        }
+
+        private async void Project_DeleteRequested(object p)
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "Are you sure?",
+                Content = "This action cannot be undone",
+                PrimaryButtonText = "Yes, delete",
+                SecondaryButtonText = "Cancel",
+                RequestedTheme = SettingsManager.GetAppTheme()
+            };
+            ContentDialogResult result = await dialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                try
+                {
+                    await Common.UwpCommApi.DeleteProject((p as Project).AppName);
+                }
+                catch (Refit.ApiException ex)
+                {
+                    var error = await ex.GetContentAsAsync<Error>();
+                    ContentDialog errorDialog = new ContentDialog
+                    {
+                        Title = "Failed to delete project",
+                        Content = error.Reason,
+                        CloseButtonText = "Ok",
+                        RequestedTheme = SettingsManager.GetAppTheme()
+                    };
+                    await errorDialog.ShowAsync();
+                }
+            }
+        }
     }
 }

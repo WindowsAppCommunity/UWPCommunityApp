@@ -15,6 +15,8 @@ namespace UWPCommunity.Views.Subviews
     public sealed partial class EditProjectView : Page
     {
         private bool IsEditing { get; set; }
+        private Project oldProject;
+        private string oldAppName;
 
         public EditProjectView()
         {
@@ -35,40 +37,45 @@ namespace UWPCommunity.Views.Subviews
             if (project != null)
             {
                 IsEditing = true;
-                MainPivot.Title = "Edit " + project.AppName;
+                MainPivotTitle.Text = "Edit " + project.AppName;
+                oldProject = project;
+                oldAppName = project.AppName;
 
                 NameBox.Text = project.AppName;
                 DescriptionBox.Text = project.Description;
                 IsPrivateBox.IsChecked = project.IsPrivate;
                 HeroUrlBox.Text = project.HeroImage;
                 CategoryBox.SelectedValue = project.Category;
-                DownloadUrlBox.Text = project.DownloadLink;
-                ExternalUrlBox.Text = project.ExternalLink;
-                GithubUrlBox.Text = project.GitHubLink;
+                DownloadUrlBox.Text = project.DownloadLink == null ? "" : project.DownloadLink;
+                ExternalUrlBox.Text = project.ExternalLink == null ? "" : project.ExternalLink;
+                GithubUrlBox.Text = project.GitHubLink == null ? "" : project.GitHubLink;
             }
         }
 
         private async void SubmitButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var project = new NewProjectRequest()
-            {
-                // Required
-                AppName = NameBox.Text,
-                Description = DescriptionBox.Text,
-                IsPrivate = IsPrivateBox.IsChecked.Value,
-                HeroImage = HeroUrlBox.Text,
-                Category = (CategoryBox.SelectedValue == null) ? Project.GetCategoryTitle(0) : CategoryBox.SelectedValue.ToString(),
-                Role = "Developer",
-
-                // Optional
-                DownloadLink = DownloadUrlBox.Text,
-                GitHubLink = GithubUrlBox.Text,
-                ExternalLink = ExternalUrlBox.Text,
-            };
+            var project = new Project();// oldProject;
+            project.AppName = NameBox.Text;
+            project.Description = DescriptionBox.Text;
+            project.IsPrivate = IsPrivateBox.IsChecked.Value;
+            project.HeroImage = HeroUrlBox.Text;
+            project.Category = (CategoryBox.SelectedValue == null) ? Project.GetCategoryTitle(0) : CategoryBox.SelectedValue.ToString();
+            project.Role = String.IsNullOrEmpty(project.Role) ? "Developer" : project.Role;
+            project.DownloadLink = DownloadUrlBox.Text;
+            project.GitHubLink = GithubUrlBox.Text;
+            project.ExternalLink = ExternalUrlBox.Text;
+            project.IsAwaitingLaunchApproval = IsLaunchBox.IsChecked.Value;
 
             try
             {
-                await Common.UwpCommApi.PostProject(project);
+                if (IsEditing)
+                {
+                    await Common.UwpCommApi.PutProject(oldAppName, project);
+                }
+                else
+                {
+                    await Common.UwpCommApi.PostProject(project);
+                }
                 NavigationManager.PageFrame.GoBack();
             }
             catch (Refit.ApiException ex)

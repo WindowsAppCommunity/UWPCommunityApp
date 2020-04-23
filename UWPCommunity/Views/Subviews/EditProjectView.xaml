@@ -26,13 +26,11 @@
             <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click"/>
         </StackPanel>
         
-        <Pivot x:Name="MainPivot" Title="Register an app">
+        <Pivot x:Name="MainPivot">
         
-            <Pivot.TitleTemplate>
-                <DataTemplate>
-                    <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Register an app" FontWeight="SemiBold"/>
-                </DataTemplate>
-            </Pivot.TitleTemplate>
+            <Pivot.Title>
+                <TextBlock x:Name="MainPivotTitle" Style="{StaticResource TitleTextBlockStyle}" Text="Register an app" FontWeight="SemiBold"/>
+            </Pivot.Title>
         
             <PivotItem Header="Basic info">
                 <StackPanel>

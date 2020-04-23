@@ -85,27 +85,27 @@ namespace UWPCommunity.Controls
             DependencyProperty.Register("CardImageSource", typeof(ImageSource), typeof(GridViewCardItem), null);
         #endregion
 
-        #region Commands
-        public ICommand EditCommand {
-            get { return (ICommand)GetValue(EditCommandProperty); }
-            set { SetValue(EditCommandProperty, value); }
+        #region Events
+        public delegate void EditRequestedHandler(object p);
+        public event EditRequestedHandler EditRequested;
+        private void EditButton_Click(object sender, RoutedEventArgs args)
+        {
+            EditRequested?.Invoke(DataContext);
         }
-        public static readonly DependencyProperty EditCommandProperty =
-            DependencyProperty.Register("EditCommand", typeof(ICommand), typeof(GridViewCardItem), null);
 
-        public ICommand DeleteCommand {
-            get { return (ICommand)GetValue(DeleteCommandProperty); }
-            set { SetValue(DeleteCommandProperty, value); }
+        public delegate void DeleteRequestedHandler(object p);
+        public event DeleteRequestedHandler DeleteRequested;
+        private void DeleteButton_Click(object sender, RoutedEventArgs args)
+        {
+            DeleteRequested?.Invoke(DataContext);
         }
-        public static readonly DependencyProperty DeleteCommandProperty =
-            DependencyProperty.Register("DeleteCommand", typeof(ICommand), typeof(GridViewCardItem), null);
 
-        public ICommand ViewCommand {
-            get { return (ICommand)GetValue(ViewCommandProperty); }
-            set { SetValue(ViewCommandProperty, value); }
+        public delegate void ViewRequestedHandler(object p);
+        public event ViewRequestedHandler ViewRequested;
+        private void ViewButton_Click(object sender, RoutedEventArgs args)
+        {
+            ViewRequested?.Invoke(DataContext);
         }
-        public static readonly DependencyProperty ViewCommandProperty =
-            DependencyProperty.Register("ViewCommand", typeof(ICommand), typeof(GridViewCardItem), null);
         #endregion
     }
 }

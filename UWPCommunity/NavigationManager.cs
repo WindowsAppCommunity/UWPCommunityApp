@@ -69,6 +69,15 @@ namespace UWPCommunity
             PageFrame.Navigate(destinationPage);
         }
 
+        public static void NavigateToEditProject(UWPCommLib.Api.UWPComm.Models.Project project)
+        {
+            NavigateToEditProject(project);
+        }
+        public static void NavigateToEditProject(object project)
+        {
+            PageFrame.Navigate(typeof(Views.Subviews.EditProjectView), project);
+        }
+
         public static void RemovePreviousFromBackStack()
         {
             PageFrame.BackStack.RemoveAt(PageFrame.BackStack.Count - 1);

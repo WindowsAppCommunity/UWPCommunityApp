@@ -93,9 +93,9 @@ namespace UWPCommunity
             }
             return IsLoggedIn;
         }
-        public static async Task SignIn(string discordToken)
+        public static async Task<bool> SignIn(string discordToken)
         {
-            await SignIn(discordToken, null);
+            return await SignIn(discordToken, null);
         }
         public static async Task TrySignIn(bool useUi = true)
         {
@@ -103,7 +103,9 @@ namespace UWPCommunity
             {
                 var loginCredential = GetCredentialFromLocker();
 
-                if (loginCredential != null)
+                // TODO: Figure out how to reauthenticate with UWP Comm API
+                // with the Discord credential
+                if (false)//loginCredential != null)
                 {
                     // There is a credential stored in the locker.
                     // Populate the Password property of the credential
@@ -141,7 +143,7 @@ namespace UWPCommunity
             Windows.Security.Credentials.PasswordCredential credential = null;
 
             var vault = new Windows.Security.Credentials.PasswordVault();
-            var credentialList = vault.FindAllByResource(resourceName);
+            var credentialList = vault.RetrieveAll();
             if (credentialList.Count > 0)
             {
                 credential = credentialList[0];

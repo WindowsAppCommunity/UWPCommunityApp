@@ -52,7 +52,7 @@
                 <controls:AdaptiveGridView.ItemTemplate>
                     <DataTemplate x:DataType="models:Project">
                         <!-- TODO: Create a template for showing projects-->
-                        <controls:DockPanel LastChildFill="True" Padding="5,5,5,5" HorizontalAlignment="Stretch">
+                        <controls:DockPanel LastChildFill="True" Padding="5" HorizontalAlignment="Stretch">
 
                             <controls:DockPanel.ContextFlyout>
                                 <MenuFlyout>
