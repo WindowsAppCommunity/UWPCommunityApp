@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using UWPCommunity.Views;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace UWPCommunity
 {
@@ -69,13 +70,14 @@ namespace UWPCommunity
             PageFrame.Navigate(destinationPage);
         }
 
-        public static void NavigateToEditProject(UWPCommLib.Api.UWPComm.Models.Project project)
-        {
-            NavigateToEditProject(project);
-        }
         public static void NavigateToEditProject(object project)
         {
             PageFrame.Navigate(typeof(Views.Subviews.EditProjectView), project);
+        }
+
+        public static void NavigateToViewProject(object project)
+        {
+            PageFrame.Navigate(typeof(Views.Subviews.ProjectDetailsView), project);
         }
 
         public static void RemovePreviousFromBackStack()

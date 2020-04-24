@@ -5,10 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:commands="using:UWPCommunity.Commands"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    x:Name="RootControl">
 
     <controls:DockPanel LastChildFill="True" Padding="5" HorizontalAlignment="Stretch"
                         Background="{ThemeResource AppBarBackgroundThemeBrush}">
@@ -51,13 +51,23 @@
                 </Button>
             </StackPanel>
 
-            <StackPanel controls:DockPanel.Dock="Bottom" Spacing="5" Grid.Row="2"
-                        HorizontalAlignment="Right" VerticalAlignment="Stretch" 
-                        Orientation="Horizontal" FlowDirection="RightToLeft">
-                <Button x:Name="BadgeButton" Click="ViewButton_Click">
-                    <SymbolIcon Symbol="Globe"/>
-                </Button>
-            </StackPanel>
+            <!--<ItemsControl controls:DockPanel.Dock="Bottom" Grid.Row="2"
+                          HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                          FlowDirection="RightToLeft"
+                          x:Name="BadgePanel">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" Spacing="5"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                
+            </ItemsControl>-->
+            <ContentPresenter controls:DockPanel.Dock="Bottom" Grid.Row="2" 
+                              HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                              FlowDirection="RightToLeft"
+                              Content="{Binding BadgeContent, ElementName=RootControl}"/>
+
         </Grid>
 
     </controls:DockPanel>

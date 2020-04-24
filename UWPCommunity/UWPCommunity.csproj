@@ -130,12 +130,14 @@
     <Compile Include="Controls\BingoCard.xaml.cs">
       <DependentUpon>BingoCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ButtonWithIcon.cs" />
     <Compile Include="Controls\GridViewCardItem.xaml.cs">
       <DependentUpon>GridViewCardItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\InfoCard.xaml.cs">
       <DependentUpon>InfoCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\NullVisibilityConverter.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -168,6 +170,9 @@
     </Compile>
     <Compile Include="Views\Subviews\EditProjectView.xaml.cs">
       <DependentUpon>EditProjectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Subviews\ProjectDetailsView.xaml.cs">
+      <DependentUpon>ProjectDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UnhandledExceptionPage.xaml.cs">
       <DependentUpon>UnhandledExceptionPage.xaml</DependentUpon>
@@ -255,6 +260,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\DashboardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -291,6 +300,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Subviews\ProjectDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UnhandledExceptionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -311,6 +324,9 @@
     </PackageReference>
     <PackageReference Include="Refit">
       <Version>5.0.23</Version>
+    </PackageReference>
+    <PackageReference Include="Template10.Xaml.Converters">
+      <Version>1.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

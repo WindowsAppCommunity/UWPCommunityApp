@@ -4,31 +4,60 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
-    xmlns:controls1="using:UWPCommunity.Controls"
+    xmlns:controls="using:UWPCommunity.Controls" xmlns:converters="using:UWPCommunity.Converters"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <converters:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    </Page.Resources>
+    
     <Grid>
 
-        <controls:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}" 
-                                   DesiredWidth="550" ItemHeight="400" SelectionMode="Single">
-            <controls:AdaptiveGridView.ItemContainerStyle>
+        <toolkit:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}" 
+                                  DesiredWidth="550" ItemHeight="400" SelectionMode="Single"
+                                  SelectionChanged="ProjectsGridView_SelectionChanged">
+            <toolkit:AdaptiveGridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Margin" Value="12"/>
                 </Style>
-            </controls:AdaptiveGridView.ItemContainerStyle>
-            <controls:AdaptiveGridView.ItemTemplate>
+            </toolkit:AdaptiveGridView.ItemContainerStyle>
+            <toolkit:AdaptiveGridView.ItemTemplate>
                 <DataTemplate x:DataType="models:Project">
-                    <controls:DropShadowPanel>
-                        <controls1:GridViewCardItem TitleText="{x:Bind AppName}"
-                                                ImageSource="{x:Bind HeroImageSafe}"
-                                                BodyText="{x:Bind Description}"
-                                                IsEditable="False" IsDeletable="False"/>
-                    </controls:DropShadowPanel>
+                    <toolkit:DropShadowPanel>
+                        <controls:GridViewCardItem TitleText="{x:Bind AppName}"
+                                                   ImageSource="{x:Bind HeroImageSafe}"
+                                                   BodyText="{x:Bind Description}"
+                                                   IsEditable="False" IsDeletable="False"
+                                                   x:Name="HeroImageStartCtl" >
+                            <controls:GridViewCardItem.BadgeContent>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Visibility="{x:Bind ExternalLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                                            Click="ExternalLinkButton_Click" Margin="0,0,5,0">
+                                        <Button.Content>
+                                            <SymbolIcon Symbol="Globe"/>
+                                        </Button.Content>
+                                    </Button>
+                                    <Button Visibility="{x:Bind GitHubLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                                            Click="GitHubLinkButton_Click" Margin="0,0,5,0">
+                                        <Button.Content>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF90;" />
+                                        </Button.Content>
+                                    </Button>
+                                    <Button Visibility="{x:Bind DownloadLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                                            Click="DownloadLinkButton_Click" Margin="0,0,5,0">
+                                        <Button.Content>
+                                            <SymbolIcon Symbol="Shop"/>
+                                        </Button.Content>
+                                    </Button>
+                                </StackPanel>
+                            </controls:GridViewCardItem.BadgeContent>
+                        </controls:GridViewCardItem>
+                    </toolkit:DropShadowPanel>
                 </DataTemplate>
-            </controls:AdaptiveGridView.ItemTemplate>
-        </controls:AdaptiveGridView>
+            </toolkit:AdaptiveGridView.ItemTemplate>
+        </toolkit:AdaptiveGridView>
         
     </Grid>
 </Page>

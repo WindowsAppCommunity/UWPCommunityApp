@@ -83,6 +83,13 @@ namespace UWPCommunity.Controls
         }
         public static readonly DependencyProperty ImageSourceProperty =
             DependencyProperty.Register("CardImageSource", typeof(ImageSource), typeof(GridViewCardItem), null);
+
+        public object BadgeContent {
+            get { return (object)GetValue(BadgeContentProperty); }
+            set { SetValue(BadgeContentProperty, value); }
+        }
+        public static readonly DependencyProperty BadgeContentProperty =
+            DependencyProperty.Register("BadgeContent", typeof(object), typeof(GridViewCardItem), null);
         #endregion
 
         #region Events

@@ -32,5 +32,30 @@ namespace UWPCommunity.Views
             }
             base.OnNavigatedTo(e);
         }
+
+        private async void ExternalLinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var project = (sender as Button)?.DataContext as Project;
+            await NavigationManager.OpenInBrowser(project.ExternalLink);
+        }
+
+        private async void GitHubLinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var project = (sender as Button)?.DataContext as Project;
+            await NavigationManager.OpenInBrowser(project.GitHubLink);
+        }
+
+        private async void DownloadLinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var project = (sender as Button)?.DataContext as Project;
+            await NavigationManager.OpenInBrowser(project.DownloadLink);
+        }
+
+        private void ProjectsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Project item = ProjectsGridView.SelectedItem as Project;
+            ProjectsGridView.PrepareConnectedAnimation("projectView", item, "HeroImageStartCtl");
+            NavigationManager.NavigateToViewProject(item);
+        }
     }
 }
