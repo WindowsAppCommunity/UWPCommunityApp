@@ -90,6 +90,33 @@ namespace UWPCommunity
 
         protected override void OnActivated(IActivatedEventArgs args)
         {
+            Frame rootFrame = Window.Current.Content as Frame;
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
+
+            ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = (Color)Current.Resources["SystemAccentColor"];
+            ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            ApplicationView.GetForCurrentView().TitleBar.ButtonHoverForegroundColor = (Color)Current.Resources["SystemAccentColor"];
+            ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
+
+            // Do not repeat app initialization when the Window already has content
+            if (rootFrame == null)
+            {
+                // Create a Frame to act as the navigation context
+                rootFrame = new Frame();
+
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                {
+                    //TODO: Load state from previously suspended application
+                }
+
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
+
+            Type destination = typeof(Views.HomeView);
             if (args.Kind == ActivationKind.Protocol)
             {
                 ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
@@ -99,7 +126,26 @@ namespace UWPCommunity
                 // Removes the uwpcommunity:// from the URI
                 string path = eventArgs.Uri.ToString()
                     .Remove(0, eventArgs.Uri.Scheme.Length + 3);
+                if (path.StartsWith("projects"))
+                {
+                    destination = typeof(Views.ProjectsView);
+                }
+                else if (path.StartsWith("launch"))
+                {
+                    destination = typeof(Views.LaunchView);
+                }
+                else if (path.StartsWith("dashboard"))
+                {
+                    destination = typeof(Views.DashboardView);
+                }
             }
+            rootFrame.Navigate(typeof(MainPage), destination);
+
+            SettingsManager.ApplyAppTheme(SettingsManager.GetAppTheme());
+            SettingsManager.ApplyUseDebugApi(SettingsManager.GetUseDebugApi());
+
+            // Ensure the current window is active
+            Window.Current.Activate();
         }
 
         /// <summary>

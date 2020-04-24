@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
@@ -43,12 +44,14 @@ namespace UWPCommunity
                 });
             }
             MainNav.SelectedItem = MainNav.MenuItems[0];
-
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             await Common.TrySignIn(false);
+            Type destinationPage = e.Parameter as Type;
+            if (destinationPage != null)
+                NavigationManager.Navigate(destinationPage);
 
             base.OnNavigatedTo(e);
         }
