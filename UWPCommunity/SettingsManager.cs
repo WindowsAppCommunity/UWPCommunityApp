@@ -98,7 +98,7 @@ namespace UWPCommunity
             }
             catch
             {
-                var defaultRect = new Point(550, 400);
+                var defaultRect = new Point(300, 300);
                 SetProjectCardSize(defaultRect);
                 return defaultRect;
             }

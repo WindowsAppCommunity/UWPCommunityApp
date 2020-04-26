@@ -59,6 +59,11 @@
                 </DataTemplate>
             </toolkit:AdaptiveGridView.ItemTemplate>
         </toolkit:AdaptiveGridView>
-        
+
+        <StackPanel x:Name="LoadingIndicator" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ProgressRing IsActive="True" Width="50" Height="50" Visibility="Visible"/>
+            <TextBlock Text="Fetching projects..." Style="{StaticResource SubtitleTextBlockStyle}"/>
+        </StackPanel>
+
     </Grid>
 </Page>

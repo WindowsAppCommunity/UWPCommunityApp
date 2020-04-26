@@ -44,6 +44,7 @@ namespace UWPCommunity.Views
             {
                 LaunchProjects.Add(project);
             }
+            LoadingIndicator.Visibility = Visibility.Collapsed;
             PersistantProject = e.Parameter as Project;
             base.OnNavigatedTo(e);
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using UWPCommLib.Api.UWPComm.Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -25,11 +26,12 @@ namespace UWPCommunity.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            var projs = await Common.UwpCommApi.GetProjects();
+            var projs = (await Common.UwpCommApi.GetProjects()).OrderBy(x => x.AppName);
             foreach (var project in projs)
             {
                 Projects.Add(project);
             }
+            LoadingIndicator.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             base.OnNavigatedTo(e);
         }
 
