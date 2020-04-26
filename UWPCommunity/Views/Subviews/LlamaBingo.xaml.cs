@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using System.Web;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -102,7 +103,22 @@ namespace UWPCommunity.Views.Subviews
             var queryParams = e.Parameter as NameValueCollection;
             if (queryParams?["board"] != null)
             {
-                Bingo = new Controls.BingoCard(queryParams["board"], queryParams["version"]);
+                Bingo.SetByDataString(queryParams["board"]);
+            }
+        }
+
+        private void ResetBoardButton_Click(object sender, RoutedEventArgs e)
+        {
+            Bingo.ResetBoard();
+        }
+
+        private async void LoadLink_Click(object sender, RoutedEventArgs e)
+        {
+            string link = await Clipboard.GetContent().GetTextAsync();
+            var queries = HttpUtility.ParseQueryString(link);
+            if (queries?["board"] != null)
+            {
+                Bingo.SetByDataString(queries["board"]);
             }
         }
     }

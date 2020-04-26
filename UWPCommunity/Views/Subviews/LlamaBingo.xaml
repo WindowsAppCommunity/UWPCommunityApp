@@ -10,31 +10,18 @@
     NavigationCacheMode="Required">
 
     <Grid>
-        <Button>
-            <Button.Flyout>
-                <MenuFlyout>
-                    <MenuFlyoutItem Text="Copy Link" Click="CopyLink_Click">
-                        <MenuFlyoutItem.Icon>
-                            <SymbolIcon Symbol="Link"/>
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="Save As Image" Click="SaveImage_Click">
-                        <MenuFlyoutItem.Icon>
-                            <SymbolIcon Symbol="Save"/>
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                </MenuFlyout>
-            </Button.Flyout>
-            <Button.Content>
-                <StackPanel Spacing="5" Orientation="Horizontal">
-                    <SymbolIcon Symbol="Share"/>
-                    <TextBlock Text="Share board"/>
-                </StackPanel>
-            </Button.Content>
-        </Button>
         <Viewbox>
             <controls:BingoCard x:Name="Bingo" Width="600" Height="600"/>
         </Viewbox>
     </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Refresh" Label="Reset" Click="ResetBoardButton_Click"/>
+            <AppBarButton Icon="Save" Label="Save As Image" Click="SaveImage_Click"/>
+            <AppBarButton Icon="Share" Label="Share via Link" Click="CopyLink_Click"/>
+            <AppBarButton Icon="Paste" Label="Load from Clipboard" Click="LoadLink_Click"/>
+        </CommandBar>
+    </Page.BottomAppBar>
     
 </Page>

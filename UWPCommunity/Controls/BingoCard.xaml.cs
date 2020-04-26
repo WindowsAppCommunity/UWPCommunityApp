@@ -12,6 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -36,6 +37,7 @@ namespace UWPCommunity.Controls
         {
             this.InitializeComponent();
             // TODO: Create a board from data string
+            ResetBoard();
             SetByDataString(dataString);
         }
 
@@ -62,8 +64,17 @@ namespace UWPCommunity.Controls
         public async void ResetBoard()
         {
             await InitBoard();
+
+            // Clear the board of tiles
+            var items = BingoGrid.Children.ToList();
+            foreach (UIElement item in items)
+            {
+                if (item is ToggleButton)
+                    BingoGrid.Children.Remove(item);
+            }
+
             // Randomly choose 24 tiles
-            var newTiles = GetRandom(AllTiles, 25);
+            var newTiles = GetRandom(AllTiles, 24);
             for (int x = 0; x < 5; x++)
             {
                 for (int y = 0; y < 5; y++)
@@ -72,7 +83,10 @@ namespace UWPCommunity.Controls
                     if (x == 2 && y == 2)
                         continue;
 
-                    SetTile(newTiles.ElementAt(5 * x + y), x, y);
+                    int boardIndex = 5 * x + y;
+                    if (boardIndex > 12)
+                        boardIndex--;
+                    SetTile(newTiles.ElementAt(boardIndex), x, y);
                 }
             }
         }
@@ -85,26 +99,77 @@ namespace UWPCommunity.Controls
                 return;
             }
 
-            var tileButton = this.FindName($"tile{x}{y}") as ToggleButton;
+            var tileButton = new ToggleButton();
             var tileText = new TextBlock();
             tileText.Style = (Style)Resources["BingoBox"];
             tileText.Text = text;
             tileButton.Content = tileText;
             tileButton.IsChecked = isFilled;
-            ((ToggleButton)FindName($"tile{x}{y}")).IsChecked = isFilled;
-            ((ToggleButton)FindName($"tile{x}{y}")).Content = tileText;
+
+            int boardIndex = 5 * x + y;
+            if (boardIndex >= BingoGrid.Children.Count)
+                BingoGrid.Children.Add(tileButton);
+            else
+                BingoGrid.Children.Insert(5 * x + y, tileButton);
+        }
+
+        private void AddTile(string text, bool isFilled = false)
+        {
+            var tileButton = new ToggleButton();
+            var tileText = new TextBlock();
+            tileText.Style = (Style)Resources["BingoBox"];
+            tileText.Text = text;
+            tileButton.Content = tileText;
+            tileButton.IsChecked = isFilled;
+            BingoGrid.Children.Add(tileButton);
         }
 
         private (string, bool) GetTile(int x, int y)
         {
-            var tileButton = this.FindName($"tile{x}{y}") as ToggleButton;
+            var tileButton = BingoGrid.Children[5 * x + y] as ToggleButton;
             if (tileButton == null)
             {
                 // This means the button wasn't found. It is likely the FREE tile.
-                return ("FREE", tileFree.IsChecked.Value);
+                return ("FREE", true);
             }
             var tileText = tileButton.Content as TextBlock;
             return (tileText.Text, tileButton.IsChecked.Value);
+        }
+
+        private Grid GenerateFreeTile()
+        {
+            //<Grid Background="{ThemeResource SystemAccentColor}"
+            //    Grid.Row="2" Grid.Column="2" x:Name="tileFree">
+            //    <TextBlock Style="{StaticResource BingoBox}" FontSize="28">
+            //    <Run>🦙</Run><LineBreak/><Run>FREE</Run>
+            //    </TextBlock>
+            //</Grid>
+            return new Grid
+            {
+                Background = (SolidColorBrush)Resources["AccentBrush"],
+                Children =
+                {
+                    new TextBlock
+                    {
+                        Style = (Style)Resources["BingoBox"],
+                        FontSize = 28,
+                        Inlines =
+                        {
+                            new Run
+                            {
+                                Text = "🦙"
+                            },
+
+                            new LineBreak(),
+
+                            new Run
+                            {
+                                Text = "FREE"
+                            }
+                        }
+                    }
+                }
+            };
         }
 
         public static Random randomizer = new Random();
@@ -150,6 +215,9 @@ namespace UWPCommunity.Controls
         public async void SetByDataString(string dataString)
         {
             await InitBoard();
+            ResetBoard();
+            BingoGrid.Children.Clear();
+
             string[] tileData = dataString.Split(";");
             for (int x = 0; x < 5; x++)
             {
@@ -157,13 +225,16 @@ namespace UWPCommunity.Controls
                 {
                     var data = tileData[5 * x + y].Split(",");
                     int textIndex = Int32.Parse(data[0]);
-                    if (textIndex == 0)
+                    if (textIndex == -1 || (x == 2 && y == 2))
+                    {
                         // Tile is free space
+                        BingoGrid.Children.Add(GenerateFreeTile());
                         continue;
+                    }
 
                     string text = AllTiles[textIndex];
                     bool isFilled = Int32.Parse(data[1]) == 1;
-                    SetTile(text, x, y, isFilled);
+                    AddTile(text, isFilled);
                 }
             }
         }
