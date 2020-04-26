@@ -153,6 +153,7 @@ namespace UWPCommunity
         }
 
         public static readonly FontFamily FabricMDL2Assets = new FontFamily("Assets.ttf#Fabric External MDL2 Assets");
+        public static readonly FontFamily SegoeMDL2Assets = new FontFamily("Segoe MDL2 Assets");
 
         public static bool IsInternetAvailable()
         {

@@ -69,6 +69,10 @@ namespace UWPCommunity
         {
             PageFrame.Navigate(destinationPage);
         }
+        public static void Navigate(Type destinationPage, object parameter)
+        {
+            PageFrame.Navigate(destinationPage, parameter);
+        }
 
         public static void NavigateToEditProject(object project)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Web;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
@@ -116,7 +117,7 @@ namespace UWPCommunity
                 Window.Current.Content = rootFrame;
             }
 
-            Type destination = typeof(Views.HomeView);
+            Tuple<Type, object> destination = new Tuple<Type, object>(typeof(Views.HomeView), null);
             if (args.Kind == ActivationKind.Protocol)
             {
                 ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
@@ -126,17 +127,22 @@ namespace UWPCommunity
                 // Removes the uwpcommunity:// from the URI
                 string path = eventArgs.Uri.ToString()
                     .Remove(0, eventArgs.Uri.Scheme.Length + 3);
+                var queryParams = HttpUtility.ParseQueryString(eventArgs.Uri.Query);
                 if (path.StartsWith("projects"))
                 {
-                    destination = typeof(Views.ProjectsView);
+                    destination = new Tuple<Type, object>(typeof(Views.ProjectsView), queryParams);
                 }
                 else if (path.StartsWith("launch"))
                 {
-                    destination = typeof(Views.LaunchView);
+                    destination = new Tuple<Type, object>(typeof(Views.LaunchView), queryParams);
                 }
                 else if (path.StartsWith("dashboard"))
                 {
-                    destination = typeof(Views.DashboardView);
+                    destination = new Tuple<Type, object>(typeof(Views.DashboardView), queryParams);
+                }
+                else if (path.StartsWith("llamabingo"))
+                {
+                    destination = new Tuple<Type, object>(typeof(Views.Subviews.LlamaBingo), queryParams);
                 }
             }
             rootFrame.Navigate(typeof(MainPage), destination);
