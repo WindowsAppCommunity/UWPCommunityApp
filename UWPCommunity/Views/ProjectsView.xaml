@@ -30,6 +30,7 @@
                                                    ImageSource="{x:Bind HeroImageSafe}"
                                                    BodyText="{x:Bind Description}"
                                                    IsEditable="False" IsDeletable="False"
+                                                   ViewRequested="Project_ViewRequested"
                                                    x:Name="HeroImageStartCtl" >
                             <controls:GridViewCardItem.BadgeContent>
                                 <StackPanel Orientation="Horizontal">

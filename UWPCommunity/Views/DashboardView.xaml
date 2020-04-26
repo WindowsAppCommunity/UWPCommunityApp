@@ -55,13 +55,14 @@
 
             <toolkit:AdaptiveGridView.ItemTemplate>
                 <DataTemplate x:DataType="models:Project">
-                    <toolkit:DropShadowPanel>
+                    <toolkit:DropShadowPanel IsMasked="False">
                         <controls:GridViewCardItem TitleText="{x:Bind AppName}"
                                                    ImageSource="{x:Bind HeroImageSafe}"
                                                    BodyText="{x:Bind Description}"
                                                    IsEditable="True" IsDeletable="True"
                                                    EditRequested="Project_EditRequested"
-                                                   DeleteRequested="Project_DeleteRequested"/>
+                                                   DeleteRequested="Project_DeleteRequested"
+                                                   ViewRequested="Project_ViewRequested"/>
                     </toolkit:DropShadowPanel>
                 </DataTemplate>
             </toolkit:AdaptiveGridView.ItemTemplate>

@@ -100,5 +100,10 @@ namespace UWPCommunity.Views
                 }
             }
         }
+
+        private void Project_ViewRequested(object p)
+        {
+            NavigationManager.NavigateToViewProject(p);
+        }
     }
 }

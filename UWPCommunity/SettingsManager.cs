@@ -20,7 +20,17 @@ namespace UWPCommunity
         }
         public static string GetAppThemeName()
         {
-            return localSettings.Values["AppTheme"] as string;
+            var theme = localSettings.Values["AppTheme"] as string;
+            if (String.IsNullOrEmpty(theme))
+            {
+                var defaultTheme = "Default";
+                SetAppTheme(defaultTheme);
+                return defaultTheme;
+            }
+            else
+            {
+                return theme;
+            }
         }
         public static void SetAppTheme(ElementTheme theme)
         {

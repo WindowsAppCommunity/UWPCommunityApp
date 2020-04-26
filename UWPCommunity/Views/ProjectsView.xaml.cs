@@ -53,7 +53,16 @@ namespace UWPCommunity.Views
 
         private void ProjectsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Project item = ProjectsGridView.SelectedItem as Project;
+            ViewProject(ProjectsGridView.SelectedItem as Project);
+        }
+
+        private void Project_ViewRequested(object p)
+        {
+            ViewProject(p as Project);
+        }
+
+        private void ViewProject(Project item)
+        {
             ProjectsGridView.PrepareConnectedAnimation("projectView", item, "HeroImageStartCtl");
             NavigationManager.NavigateToViewProject(item);
         }
