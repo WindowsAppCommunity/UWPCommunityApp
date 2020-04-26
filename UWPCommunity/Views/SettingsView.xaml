@@ -35,12 +35,22 @@
                 
                 <CheckBox x:Name="UseDebugApiBox" Content="Use Debug (localhost) API" IsChecked="False"
                           Unchecked="UseDebugApiBox_Changed" Checked="UseDebugApiBox_Changed"/>
-                
+                <TextBlock Text="*This feature requires the UWP Community backend to be running on the host machine at localhost."/>
+
             </StackPanel>
         </PivotItem>
         
         <PivotItem Header="About">
-            
+            <RichTextBlock TextWrapping="Wrap">
+                <Paragraph>
+                    <Run>Developed by </Run>
+                    <Bold>Joshua Askharoun</Bold>
+                    <Run> for the UWP Community. Released as part of Launch 2020.</Run>
+                    <LineBreak/><Run>Visit the UWP Community website at </Run>
+                    <Hyperlink NavigateUri="https://uwpcommunity.com/">https://uwpcommunity.com/</Hyperlink>
+                    <Run>.</Run>
+                </Paragraph>
+            </RichTextBlock>
         </PivotItem>
     </Pivot>
 </Page>
