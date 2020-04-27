@@ -195,36 +195,56 @@ namespace UWPCommunity.Controls
         /// </summary>
         public string ToDataString()
         {
-            string[] tileData = new string[25];
+            // NOTE: When making significant changes to this algorithm,
+            // don't delete the code. Create an if branch to run the
+            // previous version of the algorithm.
+
+            byte[] tileData = new byte[25];
             for (int x = 0; x < 5; x++)
             {
                 for (int y = 0; y < 5; y++)
                 {
+                    // Get the tile and extract serializable data
                     (string Text, bool IsFilled) tile = GetTile(x, y);
-                    int tileIndex = AllTiles.IndexOf(tile.Text);
+                    int tileIndex = AllTiles.IndexOf(tile.Text) + 1;
                     int isFilled = tile.IsFilled ? 1 : 0;
-                    tileData[5 * x + y] = $"{tileIndex},{isFilled}";
+
+                    // Encode the tile data as a byte and convert to hex.
+                    // The first 7 bits represent the tile id,
+                    // the last bit represents whether the tile is filled.
+                    byte enc = Convert.ToByte(tileIndex << 1);
+                    enc += Convert.ToByte(isFilled);
+                    tileData[5 * x + y] = enc;
                 }
             }
-            return String.Join(";", tileData);
+            return BitConverter.ToString(tileData).Replace("-", string.Empty);
         }
 
         /// <summary>
         /// Sets the current state of the board to the one specified by the data string
         /// </summary>
-        public async void SetByDataString(string dataString)
+        public async void SetByDataString(string dataString, Version boardVersion = null)
         {
+            // Check if the version is provided. If not, assume it is the current version.
+            if (boardVersion == null)
+                boardVersion = BingoVersion;
+
             await InitBoard();
             ResetBoard();
             BingoGrid.Children.Clear();
 
-            string[] tileData = dataString.Split(";");
+            // NOTE: When making significant changes to this algorithm,
+            // don't delete the code. Create an if branch to run the
+            // previous version of the algorithm.
+
+            byte[] tileData = dataString.TakeEvery(2)
+                .Select(s => byte.Parse(s, System.Globalization.NumberStyles.HexNumber)).ToArray();
             for (int x = 0; x < 5; x++)
             {
                 for (int y = 0; y < 5; y++)
                 {
-                    var data = tileData[5 * x + y].Split(",");
-                    int textIndex = Int32.Parse(data[0]);
+                    var data = tileData[5 * x + y];
+                    int textIndex = (data >> 1) - 1;
                     if (textIndex == -1 || (x == 2 && y == 2))
                     {
                         // Tile is free space
@@ -233,7 +253,7 @@ namespace UWPCommunity.Controls
                     }
 
                     string text = AllTiles[textIndex];
-                    bool isFilled = Int32.Parse(data[1]) == 1;
+                    bool isFilled = (data & 1) == 1;
                     AddTile(text, isFilled);
                 }
             }
