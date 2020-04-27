@@ -32,6 +32,7 @@ namespace UWPCommunity.Views
             ProjectCardWidth.Value = cardSize.X;
             ProjectCardHeight.Value = cardSize.Y;
             ShowLlamaBingoBox.IsChecked = SettingsManager.GetShowLlamaBingo();
+            AppVersionRun.Text = App.GetVersion();
         }
 
         private void ThemeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

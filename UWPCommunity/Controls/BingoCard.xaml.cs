@@ -49,16 +49,33 @@ namespace UWPCommunity.Controls
             if (AllTiles != null)
                 return;
 
-            // Get the list of tiles
-            StorageFile file = await InstallationFolder.GetFileAsync(fname);
-            if (!File.Exists(file.Path))
+            // Create an HTTP client object
+            Windows.Web.Http.HttpClient httpClient = new Windows.Web.Http.HttpClient();
+
+            // Add a user-agent header to the GET request. 
+            var headers = httpClient.DefaultRequestHeaders;
+            Uri requestUri = new Uri("https://gist.githubusercontent.com/michael-hawker/283fa0ba3577f96e753fde3ac6109618/raw/71f229862e19a60a502af82f3b95a6c9a655f24c/squares.txt");
+
+            // Send the GET request asynchronously and retrieve the response as a string.
+            Windows.Web.Http.HttpResponseMessage httpResponse = new Windows.Web.Http.HttpResponseMessage();
+            string httpResponseBody = "";
+
+            try
             {
-                throw new FileNotFoundException("Could not find LlamaBingo-Tiles.txt in Assets");
+                // Send the GET request
+                httpResponse = await httpClient.GetAsync(requestUri);
+                httpResponse.EnsureSuccessStatusCode();
+                httpResponseBody = await httpResponse.Content.ReadAsStringAsync();
+
+                // NEVER change the order of the lines in this file.
+                // GetBoardAsDataString() relies on the order being constant,
+                // so the line number can be used as a unique ID for each tile.
+                AllTiles = httpResponseBody.Split("\n", StringSplitOptions.RemoveEmptyEntries).ToList();
             }
-            // NEVER change the order of the lines in this file.
-            // GetBoardAsDataString() relies on the order being constant,
-            // so the line number can be used as a unique ID for each tile.
-            AllTiles = File.ReadAllLines(file.Path).ToList();
+            catch (Exception ex)
+            {
+                httpResponseBody = "Error: " + ex.HResult.ToString("X") + " Message: " + ex.Message;
+            }
         }
 
         public async void ResetBoard()
@@ -157,14 +174,14 @@ namespace UWPCommunity.Controls
                         {
                             new Run
                             {
-                                Text = "🦙"
+                                Text = "Free"
                             },
 
                             new LineBreak(),
 
                             new Run
                             {
-                                Text = "FREE"
+                                Text = "🦙"
                             }
                         }
                     }

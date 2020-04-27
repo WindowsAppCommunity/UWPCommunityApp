@@ -51,7 +51,12 @@
                     <Run> for the UWP Community. Released as part of Launch 2020.</Run>
                     <LineBreak/><Run>Visit the UWP Community website at </Run>
                     <Hyperlink NavigateUri="https://uwpcommunity.com/">https://uwpcommunity.com/</Hyperlink>
-                    <Run>.</Run>
+                    <Run>.</Run><LineBreak/>
+                </Paragraph>
+
+                <Paragraph>
+                    <Bold>App version: </Bold>
+                    <Run x:Name="AppVersionRun"/>
                 </Paragraph>
             </RichTextBlock>
         </PivotItem>

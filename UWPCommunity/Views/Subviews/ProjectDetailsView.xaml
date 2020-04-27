@@ -30,19 +30,19 @@
                               HorizontalAlignment="Right" VerticalAlignment="Stretch"
                               FlowDirection="RightToLeft">
                         <StackPanel Orientation="Horizontal">
-                            <Button Visibility="{x:Bind Project.ExternalLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                            <Button Visibility="{x:Bind Project.ExternalLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="ExternalLinkButton_Click" Margin="0,0,5,0">
                                 <Button.Content>
                                     <SymbolIcon Symbol="Globe"/>
                                 </Button.Content>
                             </Button>
-                            <Button Visibility="{x:Bind Project.GitHubLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                            <Button Visibility="{x:Bind Project.GitHubLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="GitHubLinkButton_Click" Margin="0,0,5,0">
                                 <Button.Content>
                                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF90;" />
                                 </Button.Content>
                             </Button>
-                            <Button Visibility="{x:Bind Project.DownloadLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                            <Button Visibility="{x:Bind Project.DownloadLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="DownloadLinkButton_Click" Margin="0,0,5,0">
                                 <Button.Content>
                                     <SymbolIcon Symbol="Shop"/>
