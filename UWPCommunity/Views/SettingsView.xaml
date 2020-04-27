@@ -27,8 +27,6 @@
                                      Minimum="0" ValueChanged="ProjectCardSize_ValueChanged"/>
                 </StackPanel>
 
-                <controls:ButtonWithIcon Glyph="&#xE105;" GlyphFont="Segoe MDL2 Assets" Content="Save"/>
-
             </StackPanel>
         </PivotItem>
         

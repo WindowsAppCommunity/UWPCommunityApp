@@ -17,7 +17,7 @@ namespace UWPCommunity.Controls
     {
         public ButtonWithIcon()
         {
-            this.DefaultStyleKey = typeof(Button);
+            this.DefaultStyleKey = typeof(ButtonWithIcon);
         }
 
         public string IconSpacing {
@@ -34,8 +34,8 @@ namespace UWPCommunity.Controls
         public static readonly DependencyProperty GlyphProperty =
             DependencyProperty.Register("Glyph", typeof(string), typeof(ButtonWithIcon), null);
 
-        public string GlyphFont {
-            get { return (string)GetValue(GlyphFontProperty); }
+        public FontFamily GlyphFont {
+            get { return (FontFamily)GetValue(GlyphFontProperty); }
             set { SetValue(GlyphFontProperty, value); }
         }
         public static readonly DependencyProperty GlyphFontProperty =
