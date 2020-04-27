@@ -80,13 +80,13 @@ namespace UWPCommunity
                 FindName("UserButton");
                 UserProfilePicture.ProfilePicture =
                     new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
-                (MainNav.MenuItems[3] as NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Visible;
+                (MainNav.MenuItems[4] as NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
             else
             {
                 FindName("SignInButton");
                 UnloadObject(UserButton);
-                (MainNav.MenuItems[3] as NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                (MainNav.MenuItems[4] as NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
         }
 

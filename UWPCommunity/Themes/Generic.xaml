@@ -4,17 +4,22 @@
     xmlns:local="using:UWPCommunity"
     xmlns:controls="using:UWPCommunity.Controls">
 
-    <Style TargetType="controls:ButtonWithIcon" xmlns:controls="using:UWPCommunity.Controls">
+    <Style TargetType="controls:ButtonWithIcon" BasedOn="{StaticResource ButtonRevealStyle}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ButtonWithIcon">
-                    <Border
+                    <Button
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
-                    </Border>
+                        <StackPanel Orientation="Horizontal" Spacing="{TemplateBinding IconSpacing}">
+                            <FontIcon Glyph="{TemplateBinding Glyph}" FontFamily="{TemplateBinding GlyphFont}"/>
+                            <ContentPresenter Content="{TemplateBinding Content}"/>
+                        </StackPanel>
+                    </Button>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+    
 </ResourceDictionary>
