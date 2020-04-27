@@ -45,6 +45,13 @@ namespace UWPCommunity
                 });
             }
             MainNav.SelectedItem = MainNav.MenuItems[0];
+            SettingsManager.ShowLlamaBingoChanged += SettingsManager_ShowLlamaBingoChanged;
+        }
+
+        private void SettingsManager_ShowLlamaBingoChanged(bool newValue)
+        {
+            (MainNav.MenuItems[3] as NavigationViewItem).Visibility =
+                newValue ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

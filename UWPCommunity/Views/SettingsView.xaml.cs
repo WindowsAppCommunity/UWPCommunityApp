@@ -31,6 +31,7 @@ namespace UWPCommunity.Views
             var cardSize = SettingsManager.GetProjectCardSize();
             ProjectCardWidth.Value = cardSize.X;
             ProjectCardHeight.Value = cardSize.Y;
+            ShowLlamaBingoBox.IsChecked = SettingsManager.GetShowLlamaBingo();
         }
 
         private void ThemeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -46,6 +47,16 @@ namespace UWPCommunity.Views
         private void ProjectCardSize_ValueChanged(Microsoft.UI.Xaml.Controls.NumberBox sender, Microsoft.UI.Xaml.Controls.NumberBoxValueChangedEventArgs args)
         {
             SettingsManager.SetProjectCardSize(new Point(ProjectCardWidth.Value, ProjectCardHeight.Value));
+        }
+
+        private void ShowLlamaBingoBox_Checked(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.SetShowLlamaBingo(true);
+        }
+
+        private void ShowLlamaBingoBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.SetShowLlamaBingo(false);
         }
     }
 }

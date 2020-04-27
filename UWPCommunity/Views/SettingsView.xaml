@@ -27,6 +27,9 @@
                                      Minimum="0" ValueChanged="ProjectCardSize_ValueChanged"/>
                 </StackPanel>
 
+                <CheckBox x:Name="ShowLlamaBingoBox" Content="Show Llamingo"
+                          Checked="ShowLlamaBingoBox_Checked" Unchecked="ShowLlamaBingoBox_Unchecked"/>
+
             </StackPanel>
         </PivotItem>
         

@@ -36,6 +36,7 @@ namespace UWPCommunity
         {
             localSettings.Values["AppTheme"] = theme.ToString("g");
             ApplyAppTheme(theme);
+            AppThemeChanged?.Invoke(theme);
         }
         public static void SetAppTheme(string themeString)
         {
@@ -63,6 +64,8 @@ namespace UWPCommunity
                 frameworkElement.RequestedTheme = theme;
             }
         }
+        public delegate void AppThemeChangedHandler(ElementTheme value);
+        public static event AppThemeChangedHandler AppThemeChanged;
 
         public static bool GetUseDebugApi()
         {
@@ -80,6 +83,7 @@ namespace UWPCommunity
         {
             localSettings.Values["UseDebugApi"] = value.ToString();
             ApplyUseDebugApi(value);
+            UseDebugApiChanged?.Invoke(value);
         }
         public static void ApplyUseDebugApi(bool value)
         {
@@ -89,6 +93,8 @@ namespace UWPCommunity
                 Common.UwpCommApiHostUrl
             );
         }
+        public delegate void UseDebugApiChangedHandler(bool value);
+        public static event UseDebugApiChangedHandler UseDebugApiChanged;
 
         public static Point GetProjectCardSize()
         {
@@ -106,6 +112,29 @@ namespace UWPCommunity
         public static void SetProjectCardSize(Point value)
         {
             localSettings.Values["ProjectCardSize"] = value;
+            ProjectCardSizeChanged?.Invoke(value);
         }
+        public delegate void ProjectCardSizeChangedHandler(Point value);
+        public static event ProjectCardSizeChangedHandler ProjectCardSizeChanged;
+
+        public static bool GetShowLlamaBingo()
+        {
+            try
+            {
+                return (bool)localSettings.Values["ShowLlamaBingo"];
+            }
+            catch
+            {
+                SetShowLlamaBingo(true);
+                return true;
+            }
+        }
+        public static void SetShowLlamaBingo(bool value)
+        {
+            localSettings.Values["ShowLlamaBingo"] = value;
+            ShowLlamaBingoChanged?.Invoke(value);
+        }
+        public delegate void ShowLlamaBingoChangedHandler(bool value);
+        public static event ShowLlamaBingoChangedHandler ShowLlamaBingoChanged;
     }
 }
