@@ -27,5 +27,15 @@ namespace UWPCommunity.Views
         {
             NavigationManager.Navigate(typeof(Views.LaunchView));
         }
+
+        private async void GitHubButton_Click(object sender, RoutedEventArgs e)
+        {
+            await NavigationManager.OpenInBrowser("https://github.com/UWPCommunity/");
+        }
+
+        private async void Launch2019Button_Click(object sender, RoutedEventArgs e)
+        {
+            await NavigationManager.OpenInBrowser("https://medium.com/@Arlodottxt/launch-2019-7efd37cc0877");
+        }
     }
 }

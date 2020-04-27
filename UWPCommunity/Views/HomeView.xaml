@@ -4,8 +4,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:controls1="using:UWPCommunity.Controls"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls="using:UWPCommunity.Controls"
     mc:Ignorable="d"
     NavigationCacheMode="Required">
 
@@ -21,7 +21,7 @@
                        Style="{StaticResource SubtitleTextBlockStyle}"
                        HorizontalAlignment="Stretch" TextAlignment="Center" Margin="0,10,0,5"/>
         
-        <controls1:InfoCard 
+        <controls:InfoCard 
                         TitleTextVisibility="Collapsed"
                         SubtitleText="Launch 2020 participants have been decided"
                         BodyText="Around 17 new apps will launch in June as part of the annual event"
@@ -32,9 +32,9 @@
                         ImageSource="https://uwpcommunity.com/assets/img/LaunchAppsHero.png"
                         ButtonClicked="Launch2020Button_Click"/>
 
-        <controls:AdaptiveGridView DesiredWidth="375" Grid.Row="2" Margin="16" >
+        <toolkit:AdaptiveGridView DesiredWidth="375" Grid.Row="2" Margin="16" SelectionMode="None">
 
-            <controls:DropShadowPanel BlurRadius="10" OffsetY="2" ShadowOpacity="0.5" Margin="8,0">
+            <toolkit:DropShadowPanel BlurRadius="10" OffsetY="2" ShadowOpacity="0.5" Margin="8,0">
                 <Grid x:Name="DiscordCard" CornerRadius="2" Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -49,9 +49,9 @@
                         <HyperlinkButton Content="Join our Discord server" Click="DiscordButton_Click"/>
                     </StackPanel>
                 </Grid>
-            </controls:DropShadowPanel>
+            </toolkit:DropShadowPanel>
 
-            <controls:DropShadowPanel BlurRadius="10" OffsetY="2" ShadowOpacity="0.5" Grid.Column="1" Margin="8,0">
+            <toolkit:DropShadowPanel BlurRadius="10" OffsetY="2" ShadowOpacity="0.5" Grid.Column="1" Margin="8,0">
                 <Grid x:Name="GitHubCard" CornerRadius="2" Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -66,26 +66,26 @@
                         <HyperlinkButton Content="See our open source projects" NavigateUri="https://github.com/UWPCommunity/" />
                     </StackPanel>
                 </Grid>
-            </controls:DropShadowPanel>
+            </toolkit:DropShadowPanel>
 
-            <controls:DropShadowPanel BlurRadius="10" OffsetY="2" ShadowOpacity="0.5" Grid.Column="2" Margin="8,0">
+            <toolkit:DropShadowPanel BlurRadius="10" OffsetY="2" ShadowOpacity="0.5" Grid.Column="2" Margin="8,0">
                 <Grid x:Name="Launch2019Card" CornerRadius="2" 
                           Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <Image Source="https://uwpcommunity.com/assets/img/LaunchHero.png" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                     <StackPanel Margin="10,10,10,10" Grid.Row="1">
-                        <TextBlock Text="As a community of talented developers, each year we Launch our projects together in an annual event known as Launch"
+                        <TextBlock Text="As a community of talented developers, each year we launch our projects together for the annual Launch event"
                                TextWrapping="WrapWholeWords" Style="{StaticResource BodyTextBlockStyle}"/>
                         <HyperlinkButton Content="Read about Launch 2019" NavigateUri="https://medium.com/@Arlodottxt/launch-2019-7efd37cc0877" />
                     </StackPanel>
                 </Grid>
-            </controls:DropShadowPanel>
-        </controls:AdaptiveGridView>
+            </toolkit:DropShadowPanel>
+        </toolkit:AdaptiveGridView>
     </Grid>
 
 </Page>
