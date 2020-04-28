@@ -37,6 +37,9 @@ namespace UWPCommunity
                 });
             }
             MainNav.SelectedItem = MainNav.MenuItems[0];
+
+            (MainNav.MenuItems[3] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility =
+                SettingsManager.GetShowLlamaBingo() ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
             SettingsManager.ShowLlamaBingoChanged += SettingsManager_ShowLlamaBingoChanged;
         }
 

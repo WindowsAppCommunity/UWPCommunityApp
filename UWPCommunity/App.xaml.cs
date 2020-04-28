@@ -18,6 +18,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace UWPCommunity
 {
@@ -35,6 +38,9 @@ namespace UWPCommunity
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             this.UnhandledException += App_UnhandledException;
+            AppCenter.LogLevel = LogLevel.Verbose;
+            AppCenter.Start("fbea1ef8-e96d-4848-baf2-fa79983b30f4",
+                   typeof(Analytics), typeof(Crashes));
         }
 
         /// <summary>
@@ -85,6 +91,7 @@ namespace UWPCommunity
                 Window.Current.Activate();
             }
 
+            SettingsManager.LoadDefaults(false);
             SettingsManager.ApplyAppTheme(SettingsManager.GetAppTheme());
             SettingsManager.ApplyUseDebugApi(SettingsManager.GetUseDebugApi());
         }

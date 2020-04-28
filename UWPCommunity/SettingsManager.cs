@@ -14,6 +14,18 @@ namespace UWPCommunity
         private static Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         private static Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
 
+        public static void LoadDefaults(bool overrideCurr = true)
+        {
+            if (!localSettings.Values.ContainsKey("AppTheme") || overrideCurr)
+                SetAppTheme("Default");
+            if (!localSettings.Values.ContainsKey("UseDebugApi") || overrideCurr)
+                SetUseDebugApi(false);
+            if (!localSettings.Values.ContainsKey("ProjectCardSize") || overrideCurr)
+                SetProjectCardSize(new Point(300, 300));
+            if (!localSettings.Values.ContainsKey("ShowLlamaBingo") || overrideCurr)
+                SetShowLlamaBingo(true);
+        }
+
         public static ElementTheme GetAppTheme()
         {
             return ThemeFromName(localSettings.Values["AppTheme"] as string);
