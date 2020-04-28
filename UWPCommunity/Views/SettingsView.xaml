@@ -5,7 +5,8 @@
     xmlns:local="using:UWPCommunity.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:winui="using:Microsoft.UI.Xaml.Controls" xmlns:controls="using:UWPCommunity.Controls"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:controls="using:UWPCommunity.Controls"
     mc:Ignorable="d">
     <!--Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">-->
 
