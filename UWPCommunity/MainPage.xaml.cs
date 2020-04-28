@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.System;
@@ -6,6 +7,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
+using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -20,24 +23,13 @@ namespace UWPCommunity
         {
             this.InitializeComponent();
 
-            KeyboardAccelerator GoBack = new KeyboardAccelerator();
-            GoBack.Key = VirtualKey.GoBack;
-            GoBack.Invoked += BackInvoked;
-            KeyboardAccelerator AltLeft = new KeyboardAccelerator();
-            AltLeft.Key = VirtualKey.Left;
-            AltLeft.Invoked += BackInvoked;
-            this.KeyboardAccelerators.Add(GoBack);
-            this.KeyboardAccelerators.Add(AltLeft);
-            // ALT routes here
-            AltLeft.Modifiers = VirtualKeyModifiers.Menu;
-
             Common.OnLoginStateChanged += Common_OnLoginStateChanged;
             MainFrame.Navigated += MainFrame_Navigated;
             NavigationManager.PageFrame = MainFrame;
 
             foreach (PageInfo page in Pages)
             {
-                MainNav.MenuItems.Add(new NavigationViewItem()
+                MainNav.MenuItems.Add(new Microsoft.UI.Xaml.Controls.NavigationViewItem()
                 {
                     Content = page.Title,
                     Icon = page.Icon,
@@ -50,7 +42,7 @@ namespace UWPCommunity
 
         private void SettingsManager_ShowLlamaBingoChanged(bool newValue)
         {
-            (MainNav.MenuItems[3] as NavigationViewItem).Visibility =
+            (MainNav.MenuItems[3] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility =
                 newValue ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
         }
 
@@ -74,7 +66,7 @@ namespace UWPCommunity
                 //     null checks.
                 var page = Pages.Find((info) => info.PageType == e.SourcePageType);
                 if (page == null) return;
-                MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as NavigationViewItem).Content.ToString() == page.Title);
+                MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as Microsoft.UI.Xaml.Controls.NavigationViewItem).Content.ToString() == page.Title);
             }
             catch {}
         }
@@ -87,13 +79,13 @@ namespace UWPCommunity
                 FindName("UserButton");
                 UserProfilePicture.ProfilePicture =
                     new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
-                (MainNav.MenuItems[4] as NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Visible;
+                (MainNav.MenuItems[4] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
             else
             {
                 FindName("SignInButton");
                 UnloadObject(UserButton);
-                (MainNav.MenuItems[4] as NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                (MainNav.MenuItems[4] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
         }
 
@@ -105,7 +97,7 @@ namespace UWPCommunity
                 return;
             }
 
-            NavigationViewItem navItem = args.SelectedItem as NavigationViewItem;
+            Microsoft.UI.Xaml.Controls.NavigationViewItem navItem = args.SelectedItem as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             if (navItem == null)
             {
                 NavigationManager.NavigateToHome();
@@ -178,33 +170,6 @@ namespace UWPCommunity
                 Visibility = Windows.UI.Xaml.Visibility.Collapsed
             },
         };
-
-        /// <summary>
-        /// Handles system-level BackRequested events and page-level back button Click events
-        /// </summary>
-        private bool On_BackRequested()
-        {
-            // TODO: Make the navigation stack exclude the LoginView,
-            // then remove the following line.
-            return false;
-            if (MainFrame.CanGoBack)
-            {
-                MainFrame.GoBack();
-                return true;
-            }
-            return false;
-        }
-
-        private void BackInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            On_BackRequested();
-            args.Handled = true;
-        }
-
-        private void MainNav_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
-        {
-            On_BackRequested();
-        }
 
         private void EditProfileButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {

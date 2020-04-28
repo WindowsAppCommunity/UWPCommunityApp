@@ -7,13 +7,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
-    <NavigationView x:Name="MainNav" Windows10version1809:PaneDisplayMode="Top" IsBackButtonVisible="Collapsed"
-                    SelectionChanged="NavigationView_SelectionChanged" BackRequested="MainNav_BackRequested">
+    <winui:NavigationView x:Name="MainNav" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed"
+                    SelectionChanged="NavigationView_SelectionChanged">
 
-        <Windows10version1809:NavigationView.PaneHeader>
+        <winui:NavigationView.PaneHeader>
             <Viewbox Margin="5">
                 <StackPanel Orientation="Horizontal">
                     <Viewbox Height="120" Width="120">
@@ -26,31 +27,16 @@
                     </StackPanel>
                 </StackPanel>
             </Viewbox>
-        </Windows10version1809:NavigationView.PaneHeader>
+        </winui:NavigationView.PaneHeader>
         
-        <NavigationView.MenuItemTemplate>
+        <winui:NavigationView.MenuItemTemplate>
             <DataTemplate x:DataType="local:PageInfo">
-                <NavigationViewItem Content="{x:Bind Title}" Icon="{x:Bind Icon}"
+                <winui:NavigationViewItem Content="{x:Bind Title}" Icon="{x:Bind Icon}"
                                     Visibility="{x:Bind Visibility}"/>
             </DataTemplate>
-        </NavigationView.MenuItemTemplate>
-        <!--NavigationView.MenuItems>
-            <NavigationViewItem Icon="Home" Content="Home"/>
-            <NavigationViewItem Icon="Library" Content="Projects"/>
-            <NavigationViewItem Content="Launch">
-                <NavigationViewItem.Icon>
-                    <FontIcon Glyph="&#xF3B3;" FontFamily="Assets/FabricMDL2Assets.ttf#Assets/FabricMDL2Assets.ttf#Fabric External MDL2 Assets"/>
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-            
-            <NavigationViewItem x:Name="DashboardNavItem" Content="Dashboard" Visibility="Collapsed">
-                <NavigationViewItem.Icon>
-                    <FontIcon Glyph="&#xF246;"/>
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-        </NavigationView.MenuItems-->
+        </winui:NavigationView.MenuItemTemplate>
 
-        <NavigationView.PaneFooter>
+        <winui:NavigationView.PaneFooter>
 
             <Grid>
                 <Button x:Name="SignInButton" x:Load="True"
@@ -60,7 +46,7 @@
                 <Button x:Name="UserButton" x:Load="False" Background="Transparent">
                     <Button.Content>
                         <Viewbox>
-                            <PersonPicture x:Name="UserProfilePicture" PreferSmallImage="True"/>
+                            <winui:PersonPicture x:Name="UserProfilePicture" PreferSmallImage="True"/>
                         </Viewbox>
                     </Button.Content>
 
@@ -81,9 +67,9 @@
                     </Button.Flyout>
                 </Button>
             </Grid>
-        </NavigationView.PaneFooter>
+        </winui:NavigationView.PaneFooter>
 
         <Frame x:Name="MainFrame"/>
 
-    </NavigationView>
+    </winui:NavigationView>
 </Page>
