@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using UWPCommunity.Views;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace UWPCommunity
 {
@@ -20,15 +21,35 @@ namespace UWPCommunity
 
         public static void NavigateToHome()
         {
-            RequestSignIn(typeof(HomeView));
+            Navigate(typeof(HomeView));
         }
 
-        public static void RequestSignIn(Type returnToPage)
+        public static void NavigateToSettings()
+        {
+            Navigate(typeof(SettingsView));
+        }
+
+        public static async void RequestSignIn(Type returnToPage)
         {
             if (!Common.IsLoggedIn)
+            {
+                var privacyPolicyResult = await (new Views.Dialogs.ConfirmPrivacyPolicyDialog().ShowAsync());
+                if (privacyPolicyResult != ContentDialogResult.Primary)
+                    return;
+
                 PageFrame.Navigate(typeof(LoginView), returnToPage);
+            }
             else
                 PageFrame.Navigate(returnToPage);
+        }
+
+        public async static Task<bool> OpenInBrowser(Uri uri)
+        {
+            return await Launcher.LaunchUriAsync(uri);
+        }
+        public async static Task<bool> OpenInBrowser(string url)
+        {
+            return await OpenInBrowser(new Uri(url));
         }
 
         public static async Task<bool> OpenDiscordInvite(string inviteCode)
@@ -40,7 +61,7 @@ namespace UWPCommunity
                     return await Launcher.LaunchUriAsync(quarrelLaunchUri);
 
                 default:
-                    return await Launcher.LaunchUriAsync(launchUri);
+                    return await OpenInBrowser(launchUri);
             }
         }
 
@@ -48,10 +69,48 @@ namespace UWPCommunity
         {
             PageFrame.Navigate(destinationPage);
         }
+        public static void Navigate(Type destinationPage, object parameter)
+        {
+            PageFrame.Navigate(destinationPage, parameter);
+        }
+
+        public static void NavigateToEditProject(object project)
+        {
+            PageFrame.Navigate(typeof(Views.Subviews.EditProjectView), project);
+        }
+
+        public static void NavigateToViewProject(object project)
+        {
+            PageFrame.Navigate(typeof(Views.Subviews.ProjectDetailsView), project);
+        }
+
+        public static void RemovePreviousFromBackStack()
+        {
+            PageFrame.BackStack.RemoveAt(PageFrame.BackStack.Count - 1);
+        }
     }
 
     public class PageInfo
     {
+        public PageInfo() {}
+        
+        public PageInfo(string title, string subhead, IconElement icon)
+        {
+            Title = title;
+            Subhead = subhead;
+            Icon = icon;
+        }
+
+        public PageInfo(NavigationViewItem navItem)
+        {
+            Title = (navItem.Content == null) ? "" : navItem.Content.ToString();
+            Icon = (navItem.Icon == null) ? new SymbolIcon(Symbol.Document) : navItem.Icon;
+            Visibility = navItem.Visibility;
+
+            var tooltip = ToolTipService.GetToolTip(navItem);
+            Tooltip = (tooltip == null) ? "" : tooltip.ToString();
+        }
+
         public string Title { get; set; }
         public string Subhead { get; set; }
         public IconElement Icon { get; set; }
@@ -65,6 +124,7 @@ namespace UWPCommunity
                 {
                     Icon = Icon,
                     Content = Title,
+                    Visibility = Visibility
                 };
                 ToolTipService.SetToolTip(item, new ToolTip() { Content = Tooltip });
 

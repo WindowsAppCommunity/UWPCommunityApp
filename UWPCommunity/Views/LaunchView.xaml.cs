@@ -28,6 +28,7 @@ namespace UWPCommunity.Views
     public sealed partial class LaunchView : Page
     {
         public ObservableCollection<Project> LaunchProjects { get; set; } = new ObservableCollection<Project>();
+        public Project PersistantProject;
 
         public LaunchView()
         {
@@ -43,6 +44,8 @@ namespace UWPCommunity.Views
             {
                 LaunchProjects.Add(project);
             }
+            LoadingIndicator.Visibility = Visibility.Collapsed;
+            PersistantProject = e.Parameter as Project;
             base.OnNavigatedTo(e);
         }
 
@@ -61,6 +64,28 @@ namespace UWPCommunity.Views
         private void Launch2020Button_Click(object sender, RoutedEventArgs e)
         {
             NavigationManager.NavigateToDashboard();
+        }
+
+        private void ParticipantsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Project item = ParticipantsGridView.SelectedItem as Project;
+            ParticipantsGridView.PrepareConnectedAnimation("projectView", item, "HeroImageStartCtl");
+            NavigationManager.NavigateToViewProject(item);
+        }
+
+        private async void ParticipantsGridView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (PersistantProject != null)
+            {
+                ParticipantsGridView.ScrollIntoView(PersistantProject);
+                ConnectedAnimation animation =
+                    ConnectedAnimationService.GetForCurrentView().GetAnimation("projectView");
+                if (animation != null)
+                {
+                    await ParticipantsGridView.TryStartConnectedAnimationAsync(
+                        animation, PersistantProject, "HeroImageStartCtl");
+                }
+            }
         }
     }
 }

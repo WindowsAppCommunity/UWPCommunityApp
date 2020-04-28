@@ -1,0 +1,44 @@
+🆕 Issue/PR 
+Close Issue/PR ✅
+Discover Typo in Docs 📑
+Uses XAML Studio
+Uses 🧰 Sample App
+Uses XAML Controls Gallery 🖼
+Says 🦙 (but not XAML)
+Mentions Green 🟩 Screen
+Mentions WinUI
+Mentions Win2D
+Mentions XAML Behaviors
+Creates Attached Property
+Issue with Binding
+Goes off topic 💬
+Writes a Unit Test
+Plays w/ Hat 👒
+Gives a 🦙❤
+Celebrates 🎉🎉🎉
+Comments on Music 🎶
+Takes Break
+Does a Poll 🗳
+Spins a Wheel 🎡
+Takes a note to Follow-up
+Mentions a colleague
+Mentions the UWP Community Discord Server 🐱‍🏍
+Answers Chat Question 🙋‍♀️🙋‍♂️
+Tries out idea from Chat 💡
+Mentions a Sound Outside
+Adds a NuGet Package
+Mentions Uno Platform
+Plays with cup & green screen
+Problem w/ Stream
+Wants a 🦙 Snack
+Fit of Laughter 🤣
+Calls back to a prev. Stream
+👍 GitHub Issue
+👍 a Comment
+♥ Issue or Tweet
+🔎 Finds new Tool
+😞 due to Tech Issue
+Deep in Thought 🤔
+Explains a Topic 🌠
+New 🦙🟡 Leader
+Mentions MVVM

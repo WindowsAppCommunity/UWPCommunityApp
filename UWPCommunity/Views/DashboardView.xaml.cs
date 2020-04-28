@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -32,20 +33,77 @@ namespace UWPCommunity.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (Common.IsInternetAvailable())
+            if (!Common.IsLoggedIn)
+            {
+                NavigationManager.RequestSignIn(typeof(DashboardView));
+                return;
+            }
+
+            try
             {
                 var projs = await Common.UwpCommApi.GetUserProjects(Common.DiscordUser.DiscordId);
                 foreach (var project in projs)
                 {
                     Projects.Add(project);
                 }
+
+                UserProfilePicture.ProfilePicture =
+                    new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
+                UserProfileUsername.Text = Common.DiscordUser.Username;
             }
-            else
+            catch (Refit.ApiException ex)
             {
-                Console.WriteLine("Internet not available");
+                Debug.WriteLine("API Exception:\n" + ex.ReasonPhrase);
             }
             
             base.OnNavigatedTo(e);
+        }
+
+        private void RegisterAppButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationManager.Navigate(typeof(Subviews.EditProjectView));
+        }
+
+        private void Project_EditRequested(object p)
+        {
+            NavigationManager.NavigateToEditProject(p);
+        }
+
+        private async void Project_DeleteRequested(object p)
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "Are you sure?",
+                Content = "This action cannot be undone",
+                PrimaryButtonText = "Yes, delete",
+                SecondaryButtonText = "Cancel",
+                RequestedTheme = SettingsManager.GetAppTheme()
+            };
+            ContentDialogResult result = await dialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                try
+                {
+                    await Common.UwpCommApi.DeleteProject((p as Project).AppName);
+                }
+                catch (Refit.ApiException ex)
+                {
+                    var error = await ex.GetContentAsAsync<Error>();
+                    ContentDialog errorDialog = new ContentDialog
+                    {
+                        Title = "Failed to delete project",
+                        Content = error.Reason,
+                        CloseButtonText = "Ok",
+                        RequestedTheme = SettingsManager.GetAppTheme()
+                    };
+                    await errorDialog.ShowAsync();
+                }
+            }
+        }
+
+        private void Project_ViewRequested(object p)
+        {
+            NavigationManager.NavigateToViewProject(p);
         }
     }
 }

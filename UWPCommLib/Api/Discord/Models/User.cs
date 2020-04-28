@@ -31,5 +31,12 @@ namespace UWPCommLib.Api.Discord.Models
                 return new System.Uri($"https://cdn.discordapp.com/avatars/{DiscordId}/{Avatar}.png");
             }
         }
+
+        [JsonIgnore]
+        public string FullUsername {
+            get {
+                return Username + "#" + Discriminator;
+            }
+        }
     }
 }

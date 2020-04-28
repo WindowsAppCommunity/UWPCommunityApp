@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:UWPCommunity"
     xmlns:flui="using:FluiFramework.UWP.Core"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)">
 
     <Application.Resources>
@@ -15,6 +16,13 @@
 
                 <ResourceDictionary>
                     <Windows10version1903:ThemeShadow x:Name="CardThemeShadow"/>
+
+                    <Style TargetType="toolkit:DropShadowPanel">
+                        <Setter Property="BlurRadius" Value="10"/>
+                        <Setter Property="OffsetY" Value="2"/>
+                        <Setter Property="ShadowOpacity" Value="0.5"/>
+                        <Setter Property="IsMasked" Value="False"/>
+                    </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using Windows.Security.Authentication.Web;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -25,6 +22,7 @@ namespace UWPCommunity.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            NavigationManager.RemovePreviousFromBackStack();
             LoginWrapper.NavigationCompleted += LoginWrapper_NavigationCompleted;
             LoginWrapper.Navigate(new Uri("https://discordapp.com/api/oauth2/authorize?client_id=611491369470525463&redirect_uri=http%3A%2F%2Fuwpcommunity-site-backend.herokuapp.com%2Fsignin%2Fredirect&response_type=code&scope=identify%20guilds"));
             
@@ -51,6 +49,11 @@ namespace UWPCommunity.Views
 
                 NavigationManager.Navigate(DestinationPage);
             }
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            LoginWrapper.NavigationCompleted -= LoginWrapper_NavigationCompleted;
         }
     }
 }

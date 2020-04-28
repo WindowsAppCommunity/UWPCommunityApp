@@ -1,0 +1,64 @@
+﻿<Page
+    x:Class="UWPCommunity.Views.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPCommunity.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls" xmlns:controls="using:UWPCommunity.Controls"
+    mc:Ignorable="d">
+    <!--Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">-->
+
+    <Pivot>
+        <PivotItem Header="General" Margin="12,0,12,0">
+            <StackPanel Spacing="10">
+                
+                <ComboBox x:Name="ThemeBox" Header="Choose a theme"
+                          SelectionChanged="ThemeBox_SelectionChanged">
+                    <x:String>Default</x:String>
+                    <x:String>Light</x:String>
+                    <x:String>Dark</x:String>
+                </ComboBox>
+                
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <winui:NumberBox x:Name="ProjectCardWidth" Header="Card Width"
+                                     Minimum="0" ValueChanged="ProjectCardSize_ValueChanged"/>
+                    <winui:NumberBox x:Name="ProjectCardHeight" Header="Height"
+                                     Minimum="0" ValueChanged="ProjectCardSize_ValueChanged"/>
+                </StackPanel>
+
+                <CheckBox x:Name="ShowLlamaBingoBox" Content="Show Llamingo"
+                          Checked="ShowLlamaBingoBox_Checked" Unchecked="ShowLlamaBingoBox_Unchecked"/>
+
+            </StackPanel>
+        </PivotItem>
+        
+        <PivotItem Header="Debug">
+            <StackPanel>
+                
+                <CheckBox x:Name="UseDebugApiBox" Content="Use Debug (localhost) API" IsChecked="False"
+                          Unchecked="UseDebugApiBox_Changed" Checked="UseDebugApiBox_Changed"/>
+                <TextBlock Text="*This feature requires the UWP Community backend to be running on the host machine at localhost."/>
+
+            </StackPanel>
+        </PivotItem>
+        
+        <PivotItem Header="About">
+            <RichTextBlock TextWrapping="Wrap">
+                <Paragraph>
+                    <Run>Developed by </Run>
+                    <Bold>Joshua Askharoun</Bold>
+                    <Run> for the UWP Community. Released as part of Launch 2020.</Run>
+                    <LineBreak/><Run>Visit the UWP Community website at </Run>
+                    <Hyperlink NavigateUri="https://uwpcommunity.com/">https://uwpcommunity.com/</Hyperlink>
+                    <Run>.</Run><LineBreak/>
+                </Paragraph>
+
+                <Paragraph>
+                    <Bold>App version: </Bold>
+                    <Run x:Name="AppVersionRun"/>
+                </Paragraph>
+            </RichTextBlock>
+        </PivotItem>
+    </Pivot>
+</Page>

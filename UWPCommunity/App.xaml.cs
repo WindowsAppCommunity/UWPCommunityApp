@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Web;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -30,6 +34,7 @@ namespace UWPCommunity
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += App_UnhandledException;
         }
 
         /// <summary>
@@ -40,6 +45,14 @@ namespace UWPCommunity
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
+
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
+
+            ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = (Color)Current.Resources["SystemAccentColor"];
+            ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            ApplicationView.GetForCurrentView().TitleBar.ButtonHoverForegroundColor = (Color)Current.Resources["SystemAccentColor"];
+            ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -71,6 +84,74 @@ namespace UWPCommunity
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+
+            SettingsManager.ApplyAppTheme(SettingsManager.GetAppTheme());
+            SettingsManager.ApplyUseDebugApi(SettingsManager.GetUseDebugApi());
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
+
+            ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = (Color)Current.Resources["SystemAccentColor"];
+            ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            ApplicationView.GetForCurrentView().TitleBar.ButtonHoverForegroundColor = (Color)Current.Resources["SystemAccentColor"];
+            ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
+
+            // Do not repeat app initialization when the Window already has content
+            if (rootFrame == null)
+            {
+                // Create a Frame to act as the navigation context
+                rootFrame = new Frame();
+
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                {
+                    //TODO: Load state from previously suspended application
+                }
+
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
+
+            Tuple<Type, object> destination = new Tuple<Type, object>(typeof(Views.HomeView), null);
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
+                // TODO: Handle URI activation
+                // The received URI is eventArgs.Uri.AbsoluteUri
+
+                // Removes the uwpcommunity:// from the URI
+                string path = eventArgs.Uri.ToString()
+                    .Remove(0, eventArgs.Uri.Scheme.Length + 3);
+                var queryParams = HttpUtility.ParseQueryString(eventArgs.Uri.Query);
+                if (path.StartsWith("projects"))
+                {
+                    destination = new Tuple<Type, object>(typeof(Views.ProjectsView), queryParams);
+                }
+                else if (path.StartsWith("launch"))
+                {
+                    destination = new Tuple<Type, object>(typeof(Views.LaunchView), queryParams);
+                }
+                else if (path.StartsWith("dashboard"))
+                {
+                    destination = new Tuple<Type, object>(typeof(Views.DashboardView), queryParams);
+                }
+                else if (path.StartsWith("llamabingo"))
+                {
+                    destination = new Tuple<Type, object>(typeof(Views.Subviews.LlamaBingo), queryParams);
+                }
+            }
+            rootFrame.Navigate(typeof(MainPage), destination);
+
+            SettingsManager.ApplyAppTheme(SettingsManager.GetAppTheme());
+            SettingsManager.ApplyUseDebugApi(SettingsManager.GetUseDebugApi());
+
+            // Ensure the current window is active
+            Window.Current.Activate();
         }
 
         /// <summary>
@@ -95,6 +176,23 @@ namespace UWPCommunity
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            Frame rootFrame = new Frame();
+            Window.Current.Content = rootFrame;
+            rootFrame.Navigate(typeof(Views.UnhandledExceptionPage), e);
+        }
+
+        public static string GetVersion()
+        {
+            Package package = Package.Current;
+            PackageId packageId = package.Id;
+            PackageVersion version = packageId.Version;
+
+            return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
         }
     }
 }

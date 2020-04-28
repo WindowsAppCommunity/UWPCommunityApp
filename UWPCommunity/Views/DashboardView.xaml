@@ -2,46 +2,82 @@
     x:Class="UWPCommunity.Views.DashboardView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UWPCommunity.Views"
+    xmlns:local="using:UWPCommunity"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls="using:UWPCommunity.Controls"
     mc:Ignorable="d">
 
-    <GridView ItemsSource="{x:Bind Projects}"
-            IsItemClickEnabled="True"
-            CanDragItems="False"
-            AllowDrop="False"
-            CanReorderItems="False"
-            SelectionMode="None"
-            FlowDirection="LeftToRight">
+    <toolkit:DockPanel LastChildFill="True">
 
-        <GridView.ItemTemplate>
-            <DataTemplate x:DataType="models:Project">
-                <!-- TODO: Create a template for showing projects-->
+        <toolkit:DockPanel Background="{ThemeResource SystemAccentColor}" Height="120" toolkit:DockPanel.Dock="Top"
+                            HorizontalAlignment="Stretch" LastChildFill="True">
+            <StackPanel x:Name="UserProfilePanel" Orientation="Horizontal"
+                        Margin="10,10,0,10" toolkit:DockPanel.Dock="Left">
+                <PersonPicture x:Name="UserProfilePicture"/>
+                <TextBlock x:Name="UserProfileUsername" Text="Username"
+                            FontWeight="SemiBold" Foreground="{StaticResource SystemAltHighColor}"
+                            Style="{StaticResource SubheaderTextBlockStyle}" VerticalAlignment="Center"
+                            Margin="10,0,0,0"/>
+            </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Padding="5,5,5,5">
-                    <Image MaxWidth="150" Margin="0,0,5,0">
-                        <Image.Source>
-                            <BitmapImage UriSource="{x:Bind HeroImageUri}"/>
-                        </Image.Source>
-                    </Image>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{x:Bind AppName}" Margin="0,0,5,0" Style="{StaticResource BaseTextBlockStyle}" />
-                        <TextBlock Text="{x:Bind Description}" Margin="0,0,5,0" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
-                    </StackPanel>
+            <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <AppBarButton x:Name="RegisterAppButton" Label="Register an app" Style="{StaticResource AppBarButtonRevealStyle}" Foreground="{StaticResource SystemAltHighColor}" Click="RegisterAppButton_Click">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Assets/FabricMDL2Assets.ttf#Fabric External MDL2 Assets" Glyph="&#xEFDA;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Label="Manage roles" Style="{StaticResource AppBarButtonRevealStyle}" Foreground="{StaticResource SystemAltHighColor}" IsEnabled="False">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Assets/FabricMDL2Assets.ttf#Fabric External MDL2 Assets" Glyph="&#xE99A;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
                 </StackPanel>
-
-            </DataTemplate>
-        </GridView.ItemTemplate>
-
-        <GridView.Footer>
-            <CommandBar>
-                <AppBarButton Icon="Add" Content="Register an app"/>
-                <AppBarButton Icon="Bold" Content="Manage roles"/>
-            </CommandBar>
-        </GridView.Footer>
+            </Viewbox>
+        </toolkit:DockPanel>
         
-    </GridView>
-    
+        <!-- TODO: Figure out how to keep this DropShadow above the GridView -->
+        <!--Rectangle controls:DockPanel.Dock="Top" Height="30" Margin="0,0,0,-30" >
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#55000000" Offset="0.0"/>
+                    <GradientStop Color="#00000000" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle-->
+
+        <toolkit:AdaptiveGridView ItemsSource="{x:Bind Projects}" IsItemClickEnabled="True" CanDragItems="False" Padding="10,10,10,0"
+                    AllowDrop="False" CanReorderItems="False" SelectionMode="None" FlowDirection="LeftToRight"
+                    DesiredWidth="550" ItemHeight="400">
+
+            <toolkit:AdaptiveGridView.ItemTemplate>
+                <DataTemplate x:DataType="models:Project">
+                    <toolkit:DropShadowPanel IsMasked="False">
+                        <controls:GridViewCardItem TitleText="{x:Bind AppName}"
+                                                   ImageSource="{x:Bind HeroImageSafe}"
+                                                   BodyText="{x:Bind Description}"
+                                                   IsEditable="True" IsDeletable="True"
+                                                   EditRequested="Project_EditRequested"
+                                                   DeleteRequested="Project_DeleteRequested"
+                                                   ViewRequested="Project_ViewRequested"/>
+                    </toolkit:DropShadowPanel>
+                </DataTemplate>
+            </toolkit:AdaptiveGridView.ItemTemplate>
+            
+            <GridView.Header>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <FontIcon FontFamily="Assets/FabricMDL2Assets.ttf#Fabric External MDL2 Assets"
+                              Glyph="&#xEFDE;" FontSize="30"/>
+                    <TextBlock Text="My apps" Style="{StaticResource SubheaderTextBlockStyle}"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </GridView.Header>
+
+        </toolkit:AdaptiveGridView>
+
+    </toolkit:DockPanel>
+
 </Page>
