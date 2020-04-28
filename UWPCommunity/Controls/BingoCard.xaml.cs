@@ -70,7 +70,7 @@ namespace UWPCommunity.Controls
                 // NEVER change the order of the lines in this file.
                 // GetBoardAsDataString() relies on the order being constant,
                 // so the line number can be used as a unique ID for each tile.
-                AllTiles = httpResponseBody.Split("\n", StringSplitOptions.RemoveEmptyEntries).ToList();
+                AllTiles = httpResponseBody.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
             }
             catch (Exception ex)
             {
@@ -278,7 +278,7 @@ namespace UWPCommunity.Controls
 
         public string GetShareLink()
         {
-            return $"uwpcommunity://llamabingo?version={BingoVersion}&board={HttpUtility.UrlEncode(ToDataString())}";
+            return $"uwpcommunity://llamabingo?version={BingoVersion}&board={ToDataString()}";
         }
     }
 }

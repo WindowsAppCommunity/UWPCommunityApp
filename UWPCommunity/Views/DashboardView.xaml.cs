@@ -88,7 +88,7 @@ namespace UWPCommunity.Views
                 }
                 catch (Refit.ApiException ex)
                 {
-                    var error = await ex.GetContentAsAsync<Error>();
+                    var error = ex.GetContentAs<Error>();
                     ContentDialog errorDialog = new ContentDialog
                     {
                         Title = "Failed to delete project",

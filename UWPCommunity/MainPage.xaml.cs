@@ -119,7 +119,7 @@ namespace UWPCommunity
                 return;
             }            
 
-            if (pageInfo != null && pageInfo.PageType.BaseType == typeof(Page))
+            if (pageInfo != null)// && pageInfo.PageType.BaseType == typeof(Page))
                 MainFrame.Navigate(pageInfo.PageType);
         }
 

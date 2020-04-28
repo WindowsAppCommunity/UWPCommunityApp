@@ -7,6 +7,7 @@ using Windows.System;
 using UWPCommLib.Api.Discord;
 using UWPCommLib.Api.UWPComm;
 using Windows.UI.Xaml.Media;
+using System.Linq;
 
 namespace UWPCommunity
 {
@@ -74,7 +75,7 @@ namespace UWPCommunity
                 }
                 catch (ApiException ex)
                 {
-                    var error = await ex.GetContentAsAsync<UWPCommLib.Api.UWPComm.Models.Error>();
+                    var error = ex.GetContentAs<UWPCommLib.Api.UWPComm.Models.Error>();
                     if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
                     {
                         // The user does not exist yet, so create an account for them
@@ -179,6 +180,26 @@ namespace UWPCommunity
                 }
                 index += count;
             }
+        }
+    }
+
+    public static class UriHelper
+    {
+        public static Dictionary<string, string> DecodeQueryParameters(this Uri uri)
+        {
+            if (uri == null)
+                throw new ArgumentNullException("uri");
+
+            if (uri.Query.Length == 0)
+                return new Dictionary<string, string>();
+
+            return uri.Query.TrimStart('?')
+                            .Split(new[] { '&', ';' }, StringSplitOptions.RemoveEmptyEntries)
+                            .Select(parameter => parameter.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries))
+                            .GroupBy(parts => parts[0],
+                                     parts => parts.Length > 2 ? string.Join("=", parts, 1, parts.Length - 1) : (parts.Length > 1 ? parts[1] : ""))
+                            .ToDictionary(grouping => grouping.Key,
+                                          grouping => string.Join(",", grouping));
         }
     }
 }

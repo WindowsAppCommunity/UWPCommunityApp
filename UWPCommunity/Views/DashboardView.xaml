@@ -55,7 +55,7 @@
 
             <toolkit:AdaptiveGridView.ItemTemplate>
                 <DataTemplate x:DataType="models:Project">
-                    <toolkit:DropShadowPanel IsMasked="False">
+                    <toolkit:DropShadowPanel>
                         <controls:GridViewCardItem TitleText="{x:Bind AppName}"
                                                    ImageSource="{x:Bind HeroImageSafe}"
                                                    BodyText="{x:Bind Description}"

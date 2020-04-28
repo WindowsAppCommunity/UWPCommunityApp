@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Web;
+using System.Net.Http;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
@@ -18,6 +19,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Text.RegularExpressions;
 
 namespace UWPCommunity
 {
@@ -127,7 +129,7 @@ namespace UWPCommunity
                 // Removes the uwpcommunity:// from the URI
                 string path = eventArgs.Uri.ToString()
                     .Remove(0, eventArgs.Uri.Scheme.Length + 3);
-                var queryParams = HttpUtility.ParseQueryString(eventArgs.Uri.Query);
+                Dictionary<string, string> queryParams = eventArgs.Uri.DecodeQueryParameters();
                 if (path.StartsWith("projects"))
                 {
                     destination = new Tuple<Type, object>(typeof(Views.ProjectsView), queryParams);
