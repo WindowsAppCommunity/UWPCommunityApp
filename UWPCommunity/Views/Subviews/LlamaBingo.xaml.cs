@@ -77,9 +77,24 @@ namespace UWPCommunity.Views.Subviews
 
         private void CopyLink_Click(object sender, RoutedEventArgs e)
         {
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += DataTransferManager_DataRequested;
+            DataTransferManager.ShowShareUI();
+        }
+
+        private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            var boardLink = new Uri(Bingo.GetShareLink());
             DataPackage linkPackage = new DataPackage();
-            linkPackage.SetText(Bingo.GetShareLink());
-            Clipboard.SetContent(linkPackage);
+            linkPackage.SetApplicationLink(boardLink);
+            //Clipboard.SetContent(linkPackage);
+
+            DataRequest request = args.Request;
+            request.Data.SetUri(boardLink);
+            request.Data.Properties.Title = "Share Board";
+            request.Data.Properties.Description = "Share your current Llamingo board";
+            request.Data.Properties.ContentSourceApplicationLink = boardLink;
+            //request.Data.Properties.Thumbnail = boardLink;
         }
 
         public static async Task<WriteableBitmap> RenderUIElement(UIElement element)
