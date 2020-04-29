@@ -18,21 +18,22 @@ namespace UWPCommunity.Views
         public ProjectsView()
         {
             InitializeComponent();
+            Loaded += ProjectsView_Loaded;
+        }
 
+        private async void ProjectsView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
             var cardSize = SettingsManager.GetProjectCardSize();
             ProjectsGridView.DesiredWidth = cardSize.X;
             ProjectsGridView.ItemHeight = cardSize.Y;
-        }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
             var projs = (await Common.UwpCommApi.GetProjects()).OrderBy(x => x.AppName);
-            foreach (var project in projs)
+            Projects = new ObservableCollection<Project>(projs);
+            if (ProjectsGridView.Items.Count != Projects.Count)
             {
-                Projects.Add(project);
+                Bindings.Update();
             }
             LoadingIndicator.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-            base.OnNavigatedTo(e);
         }
 
         private async void ExternalLinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
