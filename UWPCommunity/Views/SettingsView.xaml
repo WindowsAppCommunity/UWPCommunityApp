@@ -44,21 +44,39 @@
         </PivotItem>
         
         <PivotItem Header="About">
-            <RichTextBlock TextWrapping="Wrap">
-                <Paragraph>
-                    <Run>Developed by </Run>
-                    <Bold>Joshua Askharoun</Bold>
-                    <Run> for the UWP Community. Released as part of Launch 2020.</Run>
-                    <LineBreak/><Run>Visit the UWP Community website at </Run>
-                    <Hyperlink NavigateUri="https://uwpcommunity.com/">https://uwpcommunity.com/</Hyperlink>
-                    <Run>.</Run><LineBreak/>
-                </Paragraph>
+            <Grid>
+                <Viewbox Grid.Column="1" Grid.Row="1" MaxWidth="450" MaxHeight="200" Margin="50">
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox Height="120" Width="120">
+                            <FontIcon Glyph="🐱‍🏍" FontFamily="Segoe UI Emoji"/>
+                        </Viewbox>
 
-                <Paragraph>
-                    <Bold>App version: </Bold>
-                    <Run x:Name="AppVersionRun"/>
-                </Paragraph>
-            </RichTextBlock>
+                        <StackPanel>
+                            <TextBlock Text="UWP" FontSize="60" FontWeight="Bold"/>
+                            <TextBlock Text="Community" FontSize="40" Margin="0,-15,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Viewbox>
+
+                <RichTextBlock TextWrapping="Wrap" Grid.ColumnSpan="3">
+                    <Paragraph>
+                        <Run Text="Developed by "/><Bold><Run Text="Joshua Askharoun"/></Bold><Run Text=" for the UWP Community. Released as part of Launch 2020."/>
+                        <LineBreak/>
+                        <Run Text="Visit the UWP Community website at "/>
+                        <Hyperlink NavigateUri="https://uwpcommunity.com/">
+                            <Run Text="https://uwpcommunity.com/"/>
+                        </Hyperlink>
+                        <Run Text="."/>
+                    </Paragraph>
+
+                    <Paragraph>
+                        <Bold>
+                            <Run Text="App version:"/>
+                        </Bold>
+                        <Run x:Name="AppVersionRun"/>
+                    </Paragraph>
+                </RichTextBlock>
+            </Grid>
         </PivotItem>
     </Pivot>
 </Page>

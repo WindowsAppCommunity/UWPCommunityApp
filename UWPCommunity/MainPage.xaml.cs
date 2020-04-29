@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.System;
@@ -6,6 +7,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
+using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -20,24 +23,13 @@ namespace UWPCommunity
         {
             this.InitializeComponent();
 
-            KeyboardAccelerator GoBack = new KeyboardAccelerator();
-            GoBack.Key = VirtualKey.GoBack;
-            GoBack.Invoked += BackInvoked;
-            KeyboardAccelerator AltLeft = new KeyboardAccelerator();
-            AltLeft.Key = VirtualKey.Left;
-            AltLeft.Invoked += BackInvoked;
-            this.KeyboardAccelerators.Add(GoBack);
-            this.KeyboardAccelerators.Add(AltLeft);
-            // ALT routes here
-            AltLeft.Modifiers = VirtualKeyModifiers.Menu;
-
             Common.OnLoginStateChanged += Common_OnLoginStateChanged;
             MainFrame.Navigated += MainFrame_Navigated;
             NavigationManager.PageFrame = MainFrame;
 
             foreach (PageInfo page in Pages)
             {
-                MainNav.MenuItems.Add(new NavigationViewItem()
+                MainNav.MenuItems.Add(new Microsoft.UI.Xaml.Controls.NavigationViewItem()
                 {
                     Content = page.Title,
                     Icon = page.Icon,
@@ -45,12 +37,15 @@ namespace UWPCommunity
                 });
             }
             MainNav.SelectedItem = MainNav.MenuItems[0];
+
+            (MainNav.MenuItems[3] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility =
+                SettingsManager.GetShowLlamaBingo() ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
             SettingsManager.ShowLlamaBingoChanged += SettingsManager_ShowLlamaBingoChanged;
         }
 
         private void SettingsManager_ShowLlamaBingoChanged(bool newValue)
         {
-            (MainNav.MenuItems[3] as NavigationViewItem).Visibility =
+            (MainNav.MenuItems[3] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility =
                 newValue ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
         }
 
@@ -74,7 +69,7 @@ namespace UWPCommunity
                 //     null checks.
                 var page = Pages.Find((info) => info.PageType == e.SourcePageType);
                 if (page == null) return;
-                MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as NavigationViewItem).Content.ToString() == page.Title);
+                MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as Microsoft.UI.Xaml.Controls.NavigationViewItem).Content.ToString() == page.Title);
             }
             catch {}
         }
@@ -87,13 +82,13 @@ namespace UWPCommunity
                 FindName("UserButton");
                 UserProfilePicture.ProfilePicture =
                     new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
-                (MainNav.MenuItems[4] as NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Visible;
+                (MainNav.MenuItems[4] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
             else
             {
                 FindName("SignInButton");
                 UnloadObject(UserButton);
-                (MainNav.MenuItems[4] as NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                (MainNav.MenuItems[4] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
         }
 
@@ -105,7 +100,7 @@ namespace UWPCommunity
                 return;
             }
 
-            NavigationViewItem navItem = args.SelectedItem as NavigationViewItem;
+            Microsoft.UI.Xaml.Controls.NavigationViewItem navItem = args.SelectedItem as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             if (navItem == null)
             {
                 NavigationManager.NavigateToHome();
@@ -151,9 +146,8 @@ namespace UWPCommunity
             new PageInfo()
             {
                 PageType = typeof(Views.LaunchView),
-                Icon = new FontIcon() {
-                    Glyph = "\uF3B3",
-                    FontFamily = Common.FabricMDL2Assets
+                Icon = new PathIcon {
+                    Data = (Geometry)Windows.UI.Xaml.Markup.XamlBindingHelper.ConvertValue(typeof(Geometry), "F1 M 20 0 L 20 0.625 C 20 1.809896 19.894205 2.916668 19.682617 3.945313 C 19.471027 4.973959 19.150391 5.947266 18.720703 6.865234 C 18.291016 7.783203 17.75065 8.657227 17.099609 9.487305 C 16.448566 10.317383 15.686849 11.126303 14.814453 11.914063 L 12.949219 17.5 L 10 17.5 L 10 15.283203 C 9.101563 15.810547 8.193359 16.318359 7.275391 16.806641 L 3.193359 12.724609 C 3.68164 11.806641 4.189453 10.898438 4.716797 10 L 2.5 10 L 2.5 7.050781 L 8.085938 5.195313 C 8.873697 4.316406 9.682617 3.551434 10.512695 2.900391 C 11.342773 2.24935 12.216797 1.708984 13.134766 1.279297 C 14.052734 0.849609 15.026041 0.528973 16.054688 0.317383 C 17.083332 0.105795 18.190104 0 19.375 0 Z M 5.449219 8.75 C 5.638021 8.450521 5.82845 8.154297 6.020508 7.861328 C 6.212565 7.568359 6.41276 7.278646 6.621094 6.992188 L 3.75 7.949219 L 3.75 8.75 Z M 7.509766 15.253906 C 7.841797 15.065104 8.173828 14.87793 8.505859 14.692383 C 8.837891 14.506836 9.169922 14.319662 9.501953 14.130859 L 5.869141 10.498047 C 5.680338 10.830078 5.493164 11.162109 5.307617 11.494141 C 5.12207 11.826172 4.934896 12.161459 4.746094 12.5 Z M 13.007813 13.378906 C 12.721354 13.58724 12.431641 13.787436 12.138672 13.979492 C 11.845703 14.17155 11.549479 14.361979 11.25 14.550781 L 11.25 16.25 L 12.050781 16.25 Z M 14.794922 10.185547 C 15.439452 9.541016 16.000977 8.885092 16.479492 8.217773 C 16.958008 7.550456 17.360025 6.853842 17.685547 6.12793 C 18.011066 5.402019 18.26009 4.637045 18.432617 3.833008 C 18.605143 3.028973 18.707682 2.171225 18.740234 1.259766 C 17.828775 1.292318 16.971027 1.394857 16.166992 1.567383 C 15.362955 1.73991 14.597981 1.988934 13.87207 2.314453 C 13.146158 2.639975 12.447916 3.041992 11.777344 3.520508 C 11.106771 3.999023 10.445963 4.557293 9.794922 5.195313 C 9.150391 5.826824 8.561197 6.492514 8.027344 7.192383 C 7.493489 7.892253 6.992188 8.626303 6.523438 9.394531 L 10.605469 13.476563 C 11.373697 13.007813 12.106119 12.504883 12.802734 11.967773 C 13.499349 11.430664 14.163411 10.836589 14.794922 10.185547 Z M 12.5 10 C 12.154947 10 11.831055 9.934896 11.52832 9.804688 C 11.225586 9.674479 10.960286 9.495443 10.732422 9.267578 C 10.504557 9.039714 10.325521 8.774414 10.195313 8.47168 C 10.065104 8.168945 10 7.845053 10 7.5 C 10 7.154948 10.065104 6.831055 10.195313 6.52832 C 10.325521 6.225586 10.504557 5.960287 10.732422 5.732422 C 10.960286 5.504558 11.225586 5.325521 11.52832 5.195313 C 11.831055 5.065105 12.154947 5.000001 12.5 5 C 12.845052 5.000001 13.168945 5.065105 13.47168 5.195313 C 13.774414 5.325521 14.039713 5.504558 14.267578 5.732422 C 14.495442 5.960287 14.674479 6.225586 14.804688 6.52832 C 14.934895 6.831055 14.999999 7.154948 15 7.5 C 14.999999 7.845053 14.934895 8.168945 14.804688 8.47168 C 14.674479 8.774414 14.495442 9.039714 14.267578 9.267578 C 14.039713 9.495443 13.774414 9.674479 13.47168 9.804688 C 13.168945 9.934896 12.845052 10 12.5 10 Z M 12.5 6.25 C 12.324219 6.25 12.161458 6.282553 12.011719 6.347656 C 11.861979 6.412761 11.730143 6.502279 11.616211 6.616211 C 11.502278 6.730145 11.41276 6.86198 11.347656 7.011719 C 11.282552 7.161459 11.25 7.324219 11.25 7.5 C 11.25 7.675781 11.282552 7.838542 11.347656 7.988281 C 11.41276 8.138021 11.502278 8.269857 11.616211 8.383789 C 11.730143 8.497722 11.861979 8.58724 12.011719 8.652344 C 12.161458 8.717448 12.324219 8.75 12.5 8.75 C 12.675781 8.75 12.838541 8.717448 12.988281 8.652344 C 13.13802 8.58724 13.269855 8.497722 13.383789 8.383789 C 13.497721 8.269857 13.587239 8.138021 13.652344 7.988281 C 13.717447 7.838542 13.75 7.675781 13.75 7.5 C 13.75 7.324219 13.717447 7.161459 13.652344 7.011719 C 13.587239 6.86198 13.497721 6.730145 13.383789 6.616211 C 13.269855 6.502279 13.13802 6.412761 12.988281 6.347656 C 12.838541 6.282553 12.675781 6.25 12.5 6.25 Z M 2.5 15 C 2.845052 15 3.168945 15.065104 3.47168 15.195313 C 3.774414 15.325521 4.039713 15.504558 4.267578 15.732422 C 4.495442 15.960287 4.674479 16.225586 4.804688 16.52832 C 4.934896 16.831055 5 17.154949 5 17.5 C 5 17.845053 4.934896 18.168945 4.804688 18.47168 C 4.674479 18.774414 4.495442 19.039713 4.267578 19.267578 C 4.039713 19.495443 3.774414 19.674479 3.47168 19.804688 C 3.168945 19.934896 2.845052 20 2.5 20 L 0 20 L 0 17.5 C 0 17.154949 0.065104 16.831055 0.195313 16.52832 C 0.325521 16.225586 0.504557 15.960287 0.732422 15.732422 C 0.960286 15.504558 1.225586 15.325521 1.52832 15.195313 C 1.831055 15.065104 2.154948 15 2.5 15 Z M 2.5 18.75 C 2.675781 18.75 2.838542 18.717447 2.988281 18.652344 C 3.138021 18.58724 3.269857 18.497721 3.383789 18.383789 C 3.497721 18.269857 3.58724 18.138021 3.652344 17.988281 C 3.717448 17.838541 3.75 17.675781 3.75 17.5 C 3.75 17.324219 3.717448 17.161459 3.652344 17.011719 C 3.58724 16.861979 3.497721 16.730143 3.383789 16.616211 C 3.269857 16.502279 3.138021 16.41276 2.988281 16.347656 C 2.838542 16.282553 2.675781 16.25 2.5 16.25 C 2.324219 16.25 2.161458 16.282553 2.011719 16.347656 C 1.861979 16.41276 1.730143 16.502279 1.616211 16.616211 C 1.502279 16.730143 1.41276 16.861979 1.347656 17.011719 C 1.282552 17.161459 1.25 17.324219 1.25 17.5 L 1.25 18.75 Z "), HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Center, VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center
                 },
                 Title = "Launch",
             },
@@ -178,33 +172,6 @@ namespace UWPCommunity
                 Visibility = Windows.UI.Xaml.Visibility.Collapsed
             },
         };
-
-        /// <summary>
-        /// Handles system-level BackRequested events and page-level back button Click events
-        /// </summary>
-        private bool On_BackRequested()
-        {
-            // TODO: Make the navigation stack exclude the LoginView,
-            // then remove the following line.
-            return false;
-            if (MainFrame.CanGoBack)
-            {
-                MainFrame.GoBack();
-                return true;
-            }
-            return false;
-        }
-
-        private void BackInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            On_BackRequested();
-            args.Handled = true;
-        }
-
-        private void MainNav_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
-        {
-            On_BackRequested();
-        }
 
         private void EditProfileButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {

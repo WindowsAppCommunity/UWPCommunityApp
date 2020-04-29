@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -32,9 +34,28 @@ namespace UWPCommunity.Views.Subviews
     /// </summary>
     public sealed partial class LlamaBingo : Page
     {
+        public static ObservableCollection<string> RecentBoards { get; set; } = new ObservableCollection<string>();
+
         public LlamaBingo()
         {
             this.InitializeComponent();
+            this.DataContext = this;
+
+            if (ApplicationView.GetForCurrentView().IsViewModeSupported(ApplicationViewMode.CompactOverlay))
+            {
+                CompactOverlayButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                CompactOverlayButton.Visibility = Visibility.Collapsed;
+            }
+
+            Bingo.BoardChanged += Bingo_BoardChanged;
+        }
+
+        private void Bingo_BoardChanged(string data)
+        {
+            //RecentBoards.Insert(0, data);
         }
 
         private async void SaveImage_Click(object sender, RoutedEventArgs e)
@@ -77,9 +98,24 @@ namespace UWPCommunity.Views.Subviews
 
         private void CopyLink_Click(object sender, RoutedEventArgs e)
         {
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += DataTransferManager_DataRequested;
+            DataTransferManager.ShowShareUI();
+        }
+
+        private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            var boardLink = new Uri(Bingo.GetShareLink());
             DataPackage linkPackage = new DataPackage();
-            linkPackage.SetText(Bingo.GetShareLink());
-            Clipboard.SetContent(linkPackage);
+            linkPackage.SetApplicationLink(boardLink);
+            //Clipboard.SetContent(linkPackage);
+
+            DataRequest request = args.Request;
+            request.Data.SetUri(boardLink);
+            request.Data.Properties.Title = "Share Board";
+            request.Data.Properties.Description = "Share your current Llamingo board";
+            request.Data.Properties.ContentSourceApplicationLink = boardLink;
+            //request.Data.Properties.Thumbnail = boardLink;
         }
 
         public static async Task<WriteableBitmap> RenderUIElement(UIElement element)
@@ -105,11 +141,20 @@ namespace UWPCommunity.Views.Subviews
             {
                 Bingo.SetByDataString(queryParams["board"]);
             }
+            else if (e.Parameter != null)
+            {
+                // TODO: Sometimes this doesn't work. Maybe consider
+                // a different way of keeping the board data
+                Bingo.SetByDataString(e.Parameter.ToString());
+            }
+
+            CompactOverlayButton.IsChecked = ApplicationView.GetForCurrentView().ViewMode == ApplicationViewMode.CompactOverlay;
         }
 
         private void ResetBoardButton_Click(object sender, RoutedEventArgs e)
         {
             Bingo.ResetBoard();
+            RecentBoards.Insert(0, Bingo.ToDataString());
         }
 
         private async void LoadLink_Click(object sender, RoutedEventArgs e)
@@ -119,7 +164,32 @@ namespace UWPCommunity.Views.Subviews
             if (queries?["board"] != null)
             {
                 Bingo.SetByDataString(queries["board"]);
+                RecentBoards.Insert(0, queries["board"]);
             }
+        }
+
+        private async void CompactOverlayButton_Checked(object sender, RoutedEventArgs e)
+        {
+            var options = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
+            options.ViewSizePreference = ViewSizePreference.Custom;
+            options.CustomSize = new Size(320, 500);
+            bool modeSwitched = await ApplicationView.GetForCurrentView()
+                .TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay, options);
+            (Window.Current.Content as Frame).Navigate(typeof(LlamaBingo), Bingo.ToDataString());
+        }
+
+        private async void CompactOverlayButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            bool modeSwitched = await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
+            (Window.Current.Content as Frame).Navigate(typeof(MainPage),
+                new Tuple<Type, object>(typeof(LlamaBingo), Bingo.ToDataString()));
+        }
+
+        private void RecentBoardsList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Bingo.SetByDataString(e.ClickedItem as string);
+            // Do this so that the board we just loaded isn't duplicated
+            //RecentBoards.RemoveAt(0);
         }
     }
 }

@@ -18,6 +18,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace UWPCommunity
 {
@@ -35,6 +38,9 @@ namespace UWPCommunity
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             this.UnhandledException += App_UnhandledException;
+            AppCenter.LogLevel = LogLevel.Verbose;
+            AppCenter.Start("fbea1ef8-e96d-4848-baf2-fa79983b30f4",
+                   typeof(Analytics), typeof(Crashes));
         }
 
         /// <summary>
@@ -85,6 +91,7 @@ namespace UWPCommunity
                 Window.Current.Activate();
             }
 
+            SettingsManager.LoadDefaults(false);
             SettingsManager.ApplyAppTheme(SettingsManager.GetAppTheme());
             SettingsManager.ApplyUseDebugApi(SettingsManager.GetUseDebugApi());
         }
@@ -127,7 +134,7 @@ namespace UWPCommunity
                 // Removes the uwpcommunity:// from the URI
                 string path = eventArgs.Uri.ToString()
                     .Remove(0, eventArgs.Uri.Scheme.Length + 3);
-                var queryParams = HttpUtility.ParseQueryString(eventArgs.Uri.Query);
+                var queryParams = HttpUtility.ParseQueryString(eventArgs.Uri.Query.Replace("\r", String.Empty).Replace("\n", String.Empty));
                 if (path.StartsWith("projects"))
                 {
                     destination = new Tuple<Type, object>(typeof(Views.ProjectsView), queryParams);
