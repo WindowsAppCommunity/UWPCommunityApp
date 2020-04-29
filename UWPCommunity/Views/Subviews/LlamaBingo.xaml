@@ -18,7 +18,6 @@
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton Icon="Refresh" Label="Reset" Click="ResetBoardButton_Click"/>
-            <AppBarButton Icon="Save" Label="Save As Image" Click="SaveImage_Click"/>
             <AppBarButton Icon="Share" Label="Share" Click="CopyLink_Click"/>
             <AppBarButton Icon="Paste" Label="Load from Clipboard" Click="LoadLink_Click"/>
             <AppBarToggleButton x:Name="CompactOverlayButton" Label="Compact Overlay"
@@ -29,6 +28,7 @@
             </AppBarToggleButton>
 
             <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="Save" Label="Save As Image" Click="SaveImage_Click"/>
                 <AppBarButton x:Name="HistoryButton" Label="History">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81C;" />

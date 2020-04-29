@@ -134,7 +134,7 @@ namespace UWPCommunity
                 // Removes the uwpcommunity:// from the URI
                 string path = eventArgs.Uri.ToString()
                     .Remove(0, eventArgs.Uri.Scheme.Length + 3);
-                var queryParams = HttpUtility.ParseQueryString(eventArgs.Uri.Query);
+                var queryParams = HttpUtility.ParseQueryString(eventArgs.Uri.Query.Replace("\r", String.Empty).Replace("\n", String.Empty));
                 if (path.StartsWith("projects"))
                 {
                     destination = new Tuple<Type, object>(typeof(Views.ProjectsView), queryParams);

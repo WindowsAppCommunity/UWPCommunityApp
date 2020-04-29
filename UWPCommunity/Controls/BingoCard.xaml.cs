@@ -23,7 +23,7 @@ namespace UWPCommunity.Controls
 {
     public sealed partial class BingoCard : UserControl
     {
-        static readonly Version BingoVersion = new Version(1,0,1);
+        static readonly Version BingoVersion = new Version(App.GetVersion());
         const string fname = @"Assets\LlamaBingo-Tiles.txt";
         static readonly StorageFolder InstallationFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
         List<string> AllTiles;
