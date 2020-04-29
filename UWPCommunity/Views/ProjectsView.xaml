@@ -6,7 +6,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
-    xmlns:controls="using:UWPCommunity.Controls" xmlns:converters="using:UWPCommunity.Converters"
+    xmlns:controls="using:UWPCommunity.Controls" 
+    xmlns:converters="using:UWPCommunity.Converters"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -15,12 +17,13 @@
     
     <Grid>
 
-        <toolkit:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}" 
-                                  DesiredWidth="550" ItemHeight="400" SelectionMode="Single"
+        <toolkit:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}"
+                                  DesiredWidth="550" ItemHeight="400" SelectionMode="None"
                                   SelectionChanged="ProjectsGridView_SelectionChanged">
             <toolkit:AdaptiveGridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Margin" Value="12"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 </Style>
             </toolkit:AdaptiveGridView.ItemContainerStyle>
             <toolkit:AdaptiveGridView.ItemTemplate>
