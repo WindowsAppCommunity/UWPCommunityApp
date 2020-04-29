@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System;
+using System.Collections.Generic;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -16,6 +19,49 @@ namespace UWPCommunity.Views
         public HomeView()
         {
             this.InitializeComponent();
+
+            TileBindingContentAdaptive text = new TileBindingContentAdaptive
+            {
+                Children =
+                {
+                    new AdaptiveText()
+                    {
+                        Text = "Launch 2020",
+                        HintWrap = true,
+                    },
+                    new AdaptiveText()
+                    {
+                        Text = "The UWP Community is nearing its annual Launch event",
+                        HintStyle = AdaptiveTextStyle.CaptionSubtle,
+                        HintWrap = true
+                    }
+                }
+            };
+            var tileContent = new TileContent()
+            {
+                Visual = new TileVisual()
+                {
+                    TileMedium = new TileBinding()
+                    {
+                        Branding = TileBranding.Logo,
+                        Content = text
+                    },
+                    TileWide = new TileBinding()
+                    {
+                        Branding = TileBranding.NameAndLogo,
+                        Content = text
+                    },
+                    TileLarge = new TileBinding()
+                    {
+                        Branding = TileBranding.NameAndLogo,
+                        Content = text
+                    }
+                }
+            };
+            var notification = new TileNotification(tileContent.GetXml());
+            TileUpdateManager.CreateTileUpdaterForApplication().Clear();
+            TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
+            TileUpdateManager.CreateTileUpdaterForApplication().Update(notification);
         }
 
         private async void DiscordButton_Click(object sender, RoutedEventArgs e)
