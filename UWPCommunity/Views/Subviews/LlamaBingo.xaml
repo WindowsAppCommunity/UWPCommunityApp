@@ -11,7 +11,7 @@
 
     <Grid>
         <Viewbox>
-            <controls:BingoCard x:Name="Bingo" Width="600" Height="600"/>
+            <controls:BingoCard x:Name="Bingo" Width="550" Height="550"/>
         </Viewbox>
     </Grid>
 
@@ -21,6 +21,26 @@
             <AppBarButton Icon="Save" Label="Save As Image" Click="SaveImage_Click"/>
             <AppBarButton Icon="Share" Label="Share" Click="CopyLink_Click"/>
             <AppBarButton Icon="Paste" Label="Load from Clipboard" Click="LoadLink_Click"/>
+            <AppBarToggleButton x:Name="CompactOverlayButton" Label="Compact Overlay"
+                                Checked="CompactOverlayButton_Checked" Unchecked="CompactOverlayButton_Unchecked">
+                <AppBarToggleButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A7;"/>
+                </AppBarToggleButton.Icon>
+            </AppBarToggleButton>
+
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="HistoryButton" Label="History">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81C;" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.Flyout>
+                        <Flyout>
+                            <ListView ItemsSource="{Binding RecentBoards}" IsItemClickEnabled="True"
+                                      ItemClick="RecentBoardsList_ItemClick" SelectionMode="None"/>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+            </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
     
