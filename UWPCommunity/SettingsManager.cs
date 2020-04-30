@@ -24,6 +24,8 @@ namespace UWPCommunity
                 SetProjectCardSize(new Point(300, 300));
             if (!localSettings.Values.ContainsKey("ShowLlamaBingo") || overrideCurr)
                 SetShowLlamaBingo(true);
+            if (!localSettings.Values.ContainsKey("SavedLlamaBingo") || overrideCurr)
+                SetSavedLlamaBingo(null);
         }
 
         public static ElementTheme GetAppTheme()
@@ -148,5 +150,25 @@ namespace UWPCommunity
         }
         public delegate void ShowLlamaBingoChangedHandler(bool value);
         public static event ShowLlamaBingoChangedHandler ShowLlamaBingoChanged;
+
+        public static string GetSavedLlamaBingo()
+        {
+            try
+            {
+                return (string)localSettings.Values["ShowLlamaBingo"];
+            }
+            catch
+            {
+                SetSavedLlamaBingo(null);
+                return null;
+            }
+        }
+        public static void SetSavedLlamaBingo(string boardData)
+        {
+            localSettings.Values["SavedLlamaBingo"] = boardData;
+            SavedLlamaBingoChanged?.Invoke(boardData);
+        }
+        public delegate void SavedLlamaBingoChangedHandler(string boardData);
+        public static event SavedLlamaBingoChangedHandler SavedLlamaBingoChanged;
     }
 }

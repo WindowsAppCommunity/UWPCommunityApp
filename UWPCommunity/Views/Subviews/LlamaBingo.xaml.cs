@@ -45,11 +45,18 @@ namespace UWPCommunity.Views.Subviews
             }
 
             Bingo.BoardChanged += Bingo_BoardChanged;
+
+            var savedBoard = SettingsManager.GetSavedLlamaBingo();
+            if (savedBoard != null)
+            {
+                Bingo.SetByDataString(savedBoard);
+            }
         }
 
         private void Bingo_BoardChanged(string data)
         {
-            //RecentBoards.Insert(0, data);
+            // Save the current board in case of a crash
+            SettingsManager.SetSavedLlamaBingo(data);
         }
 
         private async void SaveImage_Click(object sender, RoutedEventArgs e)
@@ -153,13 +160,27 @@ namespace UWPCommunity.Views.Subviews
 
         private async void LoadLink_Click(object sender, RoutedEventArgs e)
         {
-            string link = await Clipboard.GetContent().GetTextAsync();
-            var queries = HttpUtility.ParseQueryString(link);
-            if (queries?["board"] != null)
+            var clipboardPackage = Clipboard.GetContent();
+            if (clipboardPackage.Contains(StandardDataFormats.Text))
             {
-                Bingo.SetByDataString(queries["board"]);
-                RecentBoards.Insert(0, queries["board"]);
+                string link = await clipboardPackage.GetTextAsync();
+                var queries = HttpUtility.ParseQueryString(link);
+                if (queries?["board"] != null)
+                {
+                    Bingo.SetByDataString(queries["board"]);
+                    RecentBoards.Insert(0, queries["board"]);
+                    return;
+                }
             }
+
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "Failed to load board",
+                Content = "Your clipboard does not contain a valid link to a board",
+                CloseButtonText = "Ok",
+                RequestedTheme = SettingsManager.GetAppTheme()
+            };
+            ContentDialogResult result = await dialog.ShowAsync();
         }
 
         private async void CompactOverlayButton_Checked(object sender, RoutedEventArgs e)
