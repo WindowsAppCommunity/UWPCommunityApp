@@ -6,12 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title="Edit Profile"
     PrimaryButtonText="OK"
     SecondaryButtonText="Cancel"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
+    <ContentDialog.Title>
+        <TextBlock Text="Edit profile" Foreground="{StaticResource SystemAccentColor}" />
+    </ContentDialog.Title>
+    
     <StackPanel Spacing="5">
         <TextBox x:Name="NameBox">
             <TextBox.Header>

@@ -79,5 +79,19 @@ namespace UWPCommLib.Api.UWPComm
         [Post("/user")]
         Task PostUser([Body(BodySerializationMethod.UrlEncoded)] Dictionary<string, string> info);
         #endregion
+
+        #region /bot/
+        /// <summary>
+        /// Gets the user's profile information from Discord
+        /// </summary>
+        [Get("/bot/user/{userId}")]
+        Task<List<Discord.Models.User>> GetDiscordUser(string userId);
+
+        /// <summary>
+        /// Gets the user's roles in the UWP Community Discord server
+        /// </summary>
+        [Get("/bot/user/{userId}/roles")]
+        Task<List<Discord.Models.Role>> GetDiscordUserRoles(string userId);
+        #endregion
     }
 }
