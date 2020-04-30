@@ -9,19 +9,13 @@ using System.Threading.Tasks;
 using System.Web;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -111,7 +105,7 @@ namespace UWPCommunity.Views.Subviews
             //Clipboard.SetContent(linkPackage);
 
             DataRequest request = args.Request;
-            request.Data.SetUri(boardLink);
+            request.Data.SetWebLink(boardLink);
             request.Data.Properties.Title = "Share Board";
             request.Data.Properties.Description = "Share your current Llamingo board";
             request.Data.Properties.ContentSourceApplicationLink = boardLink;
@@ -172,7 +166,7 @@ namespace UWPCommunity.Views.Subviews
         {
             var options = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
             options.ViewSizePreference = ViewSizePreference.Custom;
-            options.CustomSize = new Size(320, 500);
+            options.CustomSize = new Size(450, 500);
             bool modeSwitched = await ApplicationView.GetForCurrentView()
                 .TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay, options);
             (Window.Current.Content as Frame).Navigate(typeof(LlamaBingo), Bingo.ToDataString());

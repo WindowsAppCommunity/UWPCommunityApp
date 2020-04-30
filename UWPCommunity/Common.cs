@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.Devices.Bluetooth.Advertisement;
 using Windows.System;
 using UWPCommLib.Api.Discord;
 using UWPCommLib.Api.UWPComm;

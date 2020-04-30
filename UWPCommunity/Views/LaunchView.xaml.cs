@@ -1,22 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Foundation.Metadata;
+using UWPCommLib.Api.UWPComm.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using UWPCommLib.Api.UWPComm.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,21 +22,26 @@ namespace UWPCommunity.Views
 
         public LaunchView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            Loaded += LaunchView_Loaded;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        private async void LaunchView_Loaded(object sender, RoutedEventArgs e)
         {
             if (!Common.IsInternetAvailable()) return;
 
             var projs = (await Common.UwpCommApi.GetProjects()).FindAll((project) => project.LaunchYear == DateTime.Now.Year && project.IsAwaitingLaunchApproval == false);
-            foreach (var project in projs)
+            LaunchProjects = new ObservableCollection<Project>(projs);
+            if (ParticipantsGridView.Items.Count != LaunchProjects.Count)
             {
-                LaunchProjects.Add(project);
+                Bindings.Update();
             }
             LoadingIndicator.Visibility = Visibility.Collapsed;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
             PersistantProject = e.Parameter as Project;
-            base.OnNavigatedTo(e);
         }
 
         private void Card_PointerEntered(object sender, PointerRoutedEventArgs e)

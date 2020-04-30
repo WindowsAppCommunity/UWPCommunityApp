@@ -76,7 +76,14 @@ namespace UWPCommunity
 
         private void Common_OnLoginStateChanged(bool isLoggedIn)
         {
-            if (isLoggedIn)
+            UpdateSignInUI(isLoggedIn);
+        }
+        private void UpdateSignInUI(bool? isLoggedIn = null)
+        {
+            if (!isLoggedIn.HasValue)
+                isLoggedIn = Common.IsLoggedIn;
+
+            if (isLoggedIn.Value)
             {
                 UnloadObject(SignInButton);
                 FindName("UserButton");

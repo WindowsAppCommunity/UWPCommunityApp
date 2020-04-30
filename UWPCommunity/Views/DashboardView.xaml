@@ -51,7 +51,7 @@
             </Rectangle.Fill>
         </Rectangle-->
 
-        <toolkit:AdaptiveGridView ItemsSource="{x:Bind Projects}" IsItemClickEnabled="True" CanDragItems="False" Padding="10,10,10,0"
+        <toolkit:AdaptiveGridView ItemsSource="{x:Bind Projects}" IsItemClickEnabled="False" CanDragItems="False" Padding="10,10,10,0"
                     AllowDrop="False" CanReorderItems="False" SelectionMode="None" FlowDirection="LeftToRight"
                     DesiredWidth="550" ItemHeight="400">
 
