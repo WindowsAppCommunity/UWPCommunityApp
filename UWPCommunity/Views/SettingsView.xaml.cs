@@ -33,6 +33,32 @@ namespace UWPCommunity.Views
             ProjectCardHeight.Value = cardSize.Y;
             ShowLlamaBingoBox.IsChecked = SettingsManager.GetShowLlamaBingo();
             AppVersionRun.Text = App.GetVersion();
+
+            SettingsManager.AppThemeChanged += SettingsManager_AppThemeChanged;
+            SettingsManager.ProjectCardSizeChanged += SettingsManager_ProjectCardSizeChanged;
+            SettingsManager.ShowLlamaBingoChanged += SettingsManager_ShowLlamaBingoChanged;
+            SettingsManager.UseDebugApiChanged += SettingsManager_UseDebugApiChanged;
+        }
+
+        private void SettingsManager_UseDebugApiChanged(bool value)
+        {
+            UseDebugApiBox.IsChecked = value;
+        }
+
+        private void SettingsManager_ShowLlamaBingoChanged(bool value)
+        {
+            ShowLlamaBingoBox.IsChecked = value;
+        }
+
+        private void SettingsManager_ProjectCardSizeChanged(Point value)
+        {
+            ProjectCardWidth.Value = value.X;
+            ProjectCardHeight.Value = value.Y;
+        }
+
+        private void SettingsManager_AppThemeChanged(ElementTheme value)
+        {
+            ThemeBox.SelectedValue = SettingsManager.GetAppThemeName();
         }
 
         private void ThemeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -58,6 +84,62 @@ namespace UWPCommunity.Views
         private void ShowLlamaBingoBox_Unchecked(object sender, RoutedEventArgs e)
         {
             SettingsManager.SetShowLlamaBingo(false);
+        }
+
+        private async void DefaultButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "Please confirm",
+                Content = "Are you sure you want to reset your settings? This cannot be undone.",
+                PrimaryButtonText = "Yes",
+                SecondaryButtonText = "Cancel",
+                RequestedTheme = SettingsManager.GetAppTheme()
+            };
+            ContentDialogResult result = await dialog.ShowAsync();
+            switch (result)
+            {
+                case ContentDialogResult.Primary:
+                    SettingsManager.LoadDefaults(true);
+                    break;
+            }
+        }
+
+        private async void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "Please confirm",
+                Content = "Are you sure you want to reset the app? This cannot be undone.",
+                PrimaryButtonText = "Yes",
+                SecondaryButtonText = "Cancel",
+                RequestedTheme = SettingsManager.GetAppTheme()
+            };
+            ContentDialogResult result = await dialog.ShowAsync();
+            switch (result)
+            {
+                case ContentDialogResult.Primary:
+                    SettingsManager.ResetApp();
+                    break;
+            }
+        }
+
+        private async void CrashButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "Please confirm",
+                Content = "This will crash the app. Are you sure you want to do this?",
+                PrimaryButtonText = "Yes",
+                SecondaryButtonText = "Cancel",
+                RequestedTheme = SettingsManager.GetAppTheme()
+            };
+            ContentDialogResult result = await dialog.ShowAsync();
+            switch (result)
+            {
+                case ContentDialogResult.Primary:
+                    throw new Exception("User artificially threw an exception");
+            }
         }
     }
 }

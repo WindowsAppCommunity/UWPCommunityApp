@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Storage;
 using Windows.UI.Xaml;
 
 namespace UWPCommunity
@@ -11,8 +12,8 @@ namespace UWPCommunity
     public static class SettingsManager
     {
         // Load the app's settings
-        private static Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-        private static Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+        private static ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        private static StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 
         public static void LoadDefaults(bool overrideCurr = true)
         {
@@ -26,6 +27,12 @@ namespace UWPCommunity
                 SetShowLlamaBingo(true);
             if (!localSettings.Values.ContainsKey("SavedLlamaBingo") || overrideCurr)
                 SetSavedLlamaBingo(null);
+        }
+
+        public static async void ResetApp()
+        {
+            // TODO: This currently doesn't work, because the app is still running.
+            await ApplicationData.Current.ClearAsync();
         }
 
         public static ElementTheme GetAppTheme()
