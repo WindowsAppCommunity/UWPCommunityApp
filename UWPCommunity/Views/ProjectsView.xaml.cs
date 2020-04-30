@@ -54,11 +54,6 @@ namespace UWPCommunity.Views
             await NavigationManager.OpenInBrowser(project.DownloadLink);
         }
 
-        private void ProjectsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ViewProject(ProjectsGridView.SelectedItem as Project);
-        }
-
         private void Project_ViewRequested(object p)
         {
             ViewProject(p as Project);
@@ -68,6 +63,11 @@ namespace UWPCommunity.Views
         {
             ProjectsGridView.PrepareConnectedAnimation("projectView", item, "HeroImageStartCtl");
             NavigationManager.NavigateToViewProject(item);
+        }
+
+        private void ProjectsGridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            ViewProject(e.ClickedItem as Project);
         }
     }
 }

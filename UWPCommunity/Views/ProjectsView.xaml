@@ -19,7 +19,8 @@
 
         <toolkit:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}"
                                   DesiredWidth="550" ItemHeight="400" SelectionMode="None"
-                                  SelectionChanged="ProjectsGridView_SelectionChanged">
+                                  ItemClick="ProjectsGridView_ItemClick"
+                                  IsItemClickEnabled="True">
             <toolkit:AdaptiveGridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Margin" Value="12"/>

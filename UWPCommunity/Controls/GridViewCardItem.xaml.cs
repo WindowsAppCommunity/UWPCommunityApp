@@ -32,6 +32,7 @@ namespace UWPCommunity.Controls
             set {
                 SetValue(IsEditableProperty, value);
                 EditButton.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+                EditMenuButton.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
             }
         }
         public static readonly DependencyProperty IsEditableProperty =
@@ -42,6 +43,7 @@ namespace UWPCommunity.Controls
             set {
                 SetValue(IsDeletableProperty, value);
                 DeleteButton.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+                DeleteMenuButton.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
             }
         }
         public static readonly DependencyProperty IsDeletableProperty =

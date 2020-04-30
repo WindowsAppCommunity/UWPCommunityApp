@@ -10,12 +10,12 @@
     d:DesignWidth="400"
     x:Name="RootControl">
 
-    <controls:DockPanel LastChildFill="True" Padding="4" HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
+    <controls:DockPanel LastChildFill="True" Padding="4" HorizontalAlignment="Stretch" Background="{ThemeResource AppBarBackgroundThemeBrush}">
 
         <controls:DockPanel.ContextFlyout>
             <MenuFlyout>
-                <MenuFlyoutItem Text="Edit" Icon="Edit" Click="EditButton_Click"/>
-                <MenuFlyoutItem Text="Delete" Icon="Delete" Click="DeleteButton_Click"/>
+                <MenuFlyoutItem x:Name="EditMenuButton" Text="Edit" Icon="Edit" Click="EditButton_Click"/>
+                <MenuFlyoutItem x:Name="DeleteMenuButton" Text="Delete" Icon="Delete" Click="DeleteButton_Click"/>
                 <MenuFlyoutItem Text="View" Icon="View" Click="ViewButton_Click"/>
             </MenuFlyout>
         </controls:DockPanel.ContextFlyout>
