@@ -52,6 +52,8 @@ namespace UWPCommunity
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             await Common.TrySignIn(false);
+            UpdateSignInUI();
+
             Tuple<Type, object> launchInfo = e.Parameter as Tuple<Type, object>;
             if (launchInfo != null && launchInfo.Item1 != null)
                 NavigationManager.Navigate(launchInfo.Item1, launchInfo.Item2);
