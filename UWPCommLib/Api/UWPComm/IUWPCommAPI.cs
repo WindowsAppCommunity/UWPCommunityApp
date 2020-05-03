@@ -48,8 +48,8 @@ namespace UWPCommLib.Api.UWPComm
         /// <summary>
         /// Deletes the project that matches the app name the closest
         /// </summary>
-        [Delete("/projects?appName={appName}")]
-        Task DeleteProject([Body(BodySerializationMethod.UrlEncoded)] string appName);
+        [Delete("/projects")]
+        Task DeleteProject([Body(BodySerializationMethod.UrlEncoded)] DeleteProjectRequest info);
         #endregion
 
         #region /user/

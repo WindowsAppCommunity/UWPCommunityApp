@@ -26,10 +26,14 @@ namespace UWPCommunity.Views
             Loaded += LaunchView_Loaded;
         }
 
-        private async void LaunchView_Loaded(object sender, RoutedEventArgs e)
+        private void LaunchView_Loaded(object sender, RoutedEventArgs e)
         {
             if (!Common.IsInternetAvailable()) return;
+            RefreshProjects();
+        }
 
+        private async void RefreshProjects()
+        {
             var projs = (await Common.UwpCommApi.GetProjects()).FindAll((project) => project.LaunchYear == DateTime.Now.Year && project.IsAwaitingLaunchApproval == false);
             LaunchProjects = new ObservableCollection<Project>(projs);
             if (ParticipantsGridView.Items.Count != LaunchProjects.Count)
@@ -81,6 +85,11 @@ namespace UWPCommunity.Views
                         animation, PersistantProject, "HeroImageStartCtl");
                 }
             }
+        }
+
+        private void RefreshContainer_RefreshRequested(Microsoft.UI.Xaml.Controls.RefreshContainer sender, Microsoft.UI.Xaml.Controls.RefreshRequestedEventArgs args)
+        {
+            RefreshProjects();
         }
     }
 }

@@ -7,7 +7,7 @@
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
     xmlns:controls="using:UWPCommunity.Controls" 
-    xmlns:converters="using:UWPCommunity.Converters"
+    xmlns:converters="using:UWPCommunity.Converters" xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -17,53 +17,54 @@
     
     <Grid>
 
-        <toolkit:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}"
+        <winui:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
+            <toolkit:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}"
                                   DesiredWidth="550" ItemHeight="400" SelectionMode="None"
                                   ItemClick="ProjectsGridView_ItemClick"
                                   IsItemClickEnabled="True">
-            <toolkit:AdaptiveGridView.ItemContainerStyle>
-                <Style TargetType="GridViewItem">
-                    <Setter Property="Margin" Value="12"/>
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                </Style>
-            </toolkit:AdaptiveGridView.ItemContainerStyle>
-            <toolkit:AdaptiveGridView.ItemTemplate>
-                <DataTemplate x:DataType="models:Project">
-                    <toolkit:DropShadowPanel>
-                        <controls:GridViewCardItem TitleText="{x:Bind AppName}"
+                <toolkit:AdaptiveGridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="Margin" Value="12"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </toolkit:AdaptiveGridView.ItemContainerStyle>
+                <toolkit:AdaptiveGridView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Project">
+                        <toolkit:DropShadowPanel>
+                            <controls:GridViewCardItem TitleText="{x:Bind AppName}"
                                                    ImageSource="{x:Bind HeroImageSafe}"
                                                    BodyText="{x:Bind Description}"
                                                    IsEditable="False" IsDeletable="False"
                                                    ViewRequested="Project_ViewRequested"
                                                    x:Name="HeroImageStartCtl" >
-                            <controls:GridViewCardItem.BadgeContent>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Visibility="{x:Bind ExternalLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                                <controls:GridViewCardItem.BadgeContent>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Visibility="{x:Bind ExternalLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="ExternalLinkButton_Click" Margin="0,0,5,0">
-                                        <Button.Content>
-                                            <SymbolIcon Symbol="Globe"/>
-                                        </Button.Content>
-                                    </Button>
-                                    <Button Visibility="{x:Bind GitHubLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                                            <Button.Content>
+                                                <SymbolIcon Symbol="Globe"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Visibility="{x:Bind GitHubLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="GitHubLinkButton_Click" Margin="0,0,5,0">
-                                        <Button.Content>
-                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF90;" />
-                                        </Button.Content>
-                                    </Button>
-                                    <Button Visibility="{x:Bind DownloadLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                                            <Button.Content>
+                                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF90;" />
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Visibility="{x:Bind DownloadLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="DownloadLinkButton_Click" Margin="0,0,5,0">
-                                        <Button.Content>
-                                            <SymbolIcon Symbol="Shop"/>
-                                        </Button.Content>
-                                    </Button>
-                                </StackPanel>
-                            </controls:GridViewCardItem.BadgeContent>
-                        </controls:GridViewCardItem>
-                    </toolkit:DropShadowPanel>
-                </DataTemplate>
-            </toolkit:AdaptiveGridView.ItemTemplate>
-        </toolkit:AdaptiveGridView>
-
+                                            <Button.Content>
+                                                <SymbolIcon Symbol="Shop"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                </controls:GridViewCardItem.BadgeContent>
+                            </controls:GridViewCardItem>
+                        </toolkit:DropShadowPanel>
+                    </DataTemplate>
+                </toolkit:AdaptiveGridView.ItemTemplate>
+            </toolkit:AdaptiveGridView>
+        </winui:RefreshContainer>
         <StackPanel x:Name="LoadingIndicator" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center">
             <ProgressRing IsActive="True" Width="50" Height="50" Visibility="Visible"/>
             <TextBlock Text="Fetching projects..." Style="{StaticResource SubtitleTextBlockStyle}"/>

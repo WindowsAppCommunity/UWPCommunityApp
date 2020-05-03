@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UWPCommLib.Api.UWPComm.Models;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -29,10 +18,15 @@ namespace UWPCommunity.Views
         public DashboardView()
         {
             this.InitializeComponent();
+            Loaded += DashboardView_Loaded;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        private void DashboardView_Loaded(object sender, RoutedEventArgs e)
         {
+            var cardSize = SettingsManager.GetProjectCardSize();
+            ProjectsGridView.DesiredWidth = cardSize.X;
+            ProjectsGridView.ItemHeight = cardSize.Y;
+
             if (!Common.IsLoggedIn)
             {
                 NavigationManager.RequestSignIn(typeof(DashboardView));
@@ -41,12 +35,7 @@ namespace UWPCommunity.Views
 
             try
             {
-                var projs = await Common.UwpCommApi.GetUserProjects(Common.DiscordUser.DiscordId);
-                foreach (var project in projs)
-                {
-                    Projects.Add(project);
-                }
-
+                RefreshProjects();
                 UserProfilePicture.ProfilePicture =
                     new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
                 UserProfileUsername.Text = Common.DiscordUser.Username;
@@ -55,8 +44,31 @@ namespace UWPCommunity.Views
             {
                 Debug.WriteLine("API Exception:\n" + ex.ReasonPhrase);
             }
-            
-            base.OnNavigatedTo(e);
+
+        }
+
+        private async void RefreshProjects()
+        {
+            Projects.Clear();
+            try
+            {
+                var projs = await Common.UwpCommApi.GetUserProjects(Common.DiscordUser.DiscordId);
+                foreach (var project in projs)
+                {
+                    Projects.Add(project);
+                }
+            }
+            catch (Refit.ApiException ex)
+            {
+                if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    // This means something went wrong with authentication,
+                    // so attempt to log in again.
+                    // TODO: Maybe this can be solved with refresh tokens?
+                    Common.SignOut();
+                    NavigationManager.RequestSignIn(typeof(DashboardView));
+                }
+            }
         }
 
         private void RegisterAppButton_Click(object sender, RoutedEventArgs e)
@@ -67,6 +79,7 @@ namespace UWPCommunity.Views
         private void Project_EditRequested(object p)
         {
             NavigationManager.NavigateToEditProject(p);
+            RefreshProjects();
         }
 
         private async void Project_DeleteRequested(object p)
@@ -84,7 +97,9 @@ namespace UWPCommunity.Views
             {
                 try
                 {
-                    await Common.UwpCommApi.DeleteProject((p as Project).AppName);
+                    await Common.UwpCommApi.DeleteProject(
+                        new DeleteProjectRequest((p as Project).AppName));
+                    RefreshProjects();
                 }
                 catch (Refit.ApiException ex)
                 {
@@ -104,6 +119,11 @@ namespace UWPCommunity.Views
         private void Project_ViewRequested(object p)
         {
             NavigationManager.NavigateToViewProject(p);
+        }
+
+        private void RefreshContainer_RefreshRequested(Microsoft.UI.Xaml.Controls.RefreshContainer sender, Microsoft.UI.Xaml.Controls.RefreshRequestedEventArgs args)
+        {
+            RefreshProjects();
         }
     }
 }

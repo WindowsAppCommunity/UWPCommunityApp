@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:controls="using:UWPCommunity.Controls"
+    xmlns:controls="using:UWPCommunity.Controls" xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
     <toolkit:DockPanel LastChildFill="True">
@@ -16,7 +16,7 @@
                             HorizontalAlignment="Stretch" LastChildFill="True">
             <StackPanel x:Name="UserProfilePanel" Orientation="Horizontal"
                         Margin="10,10,0,10" toolkit:DockPanel.Dock="Left">
-                <PersonPicture x:Name="UserProfilePicture"/>
+                <winui:PersonPicture x:Name="UserProfilePicture"/>
                 <TextBlock x:Name="UserProfileUsername" Text="Username"
                             FontWeight="SemiBold" Foreground="{StaticResource SystemAltHighColor}"
                             Style="{StaticResource SubheaderTextBlockStyle}" VerticalAlignment="Center"
@@ -51,35 +51,37 @@
             </Rectangle.Fill>
         </Rectangle-->
 
-        <toolkit:AdaptiveGridView ItemsSource="{x:Bind Projects}" IsItemClickEnabled="False" CanDragItems="False" Padding="10,10,10,0"
+        <winui:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
+            <toolkit:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}"
+                    IsItemClickEnabled="False" CanDragItems="False" Padding="10,10,10,0"
                     AllowDrop="False" CanReorderItems="False" SelectionMode="None" FlowDirection="LeftToRight"
                     DesiredWidth="550" ItemHeight="400">
 
-            <toolkit:AdaptiveGridView.ItemTemplate>
-                <DataTemplate x:DataType="models:Project">
-                    <toolkit:DropShadowPanel IsMasked="False">
-                        <controls:GridViewCardItem TitleText="{x:Bind AppName}"
+                <toolkit:AdaptiveGridView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Project">
+                        <toolkit:DropShadowPanel IsMasked="False">
+                            <controls:GridViewCardItem TitleText="{x:Bind AppName}"
                                                    ImageSource="{x:Bind HeroImageSafe}"
                                                    BodyText="{x:Bind Description}"
                                                    IsEditable="True" IsDeletable="True"
                                                    EditRequested="Project_EditRequested"
                                                    DeleteRequested="Project_DeleteRequested"
                                                    ViewRequested="Project_ViewRequested"/>
-                    </toolkit:DropShadowPanel>
-                </DataTemplate>
-            </toolkit:AdaptiveGridView.ItemTemplate>
-            
-            <GridView.Header>
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <PathIcon Data="F1 M 12.5 16.25 L 12.5 15 L 13.75 15 L 13.75 16.25 Z M 15 16.25 L 15 15 L 20 15 L 20 16.25 Z M 12.5 18.75 L 12.5 17.5 L 13.75 17.5 L 13.75 18.75 Z M 15 18.75 L 15 17.5 L 20 17.5 L 20 18.75 Z M 12.5 13.75 L 12.5 12.5 L 13.75 12.5 L 13.75 13.75 Z M 15 12.5 L 20 12.5 L 20 13.75 L 15 13.75 Z M 18.75 0 L 18.75 10 L 10 10 L 10 18.75 L 0 18.75 L 0 0 Z M 8.75 17.5 L 8.75 10 L 1.25 10 L 1.25 17.5 Z M 8.75 8.75 L 8.75 1.25 L 1.25 1.25 L 1.25 8.75 Z M 17.5 8.75 L 17.5 1.25 L 10 1.25 L 10 8.75 Z "
+                        </toolkit:DropShadowPanel>
+                    </DataTemplate>
+                </toolkit:AdaptiveGridView.ItemTemplate>
+
+                <GridView.Header>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <PathIcon Data="F1 M 12.5 16.25 L 12.5 15 L 13.75 15 L 13.75 16.25 Z M 15 16.25 L 15 15 L 20 15 L 20 16.25 Z M 12.5 18.75 L 12.5 17.5 L 13.75 17.5 L 13.75 18.75 Z M 15 18.75 L 15 17.5 L 20 17.5 L 20 18.75 Z M 12.5 13.75 L 12.5 12.5 L 13.75 12.5 L 13.75 13.75 Z M 15 12.5 L 20 12.5 L 20 13.75 L 15 13.75 Z M 18.75 0 L 18.75 10 L 10 10 L 10 18.75 L 0 18.75 L 0 0 Z M 8.75 17.5 L 8.75 10 L 1.25 10 L 1.25 17.5 Z M 8.75 8.75 L 8.75 1.25 L 1.25 1.25 L 1.25 8.75 Z M 17.5 8.75 L 17.5 1.25 L 10 1.25 L 10 8.75 Z "
                               VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <TextBlock Text="My apps" Style="{StaticResource SubheaderTextBlockStyle}"
+                        <TextBlock Text="My apps" Style="{StaticResource SubheaderTextBlockStyle}"
                                VerticalAlignment="Center"/>
-                </StackPanel>
-            </GridView.Header>
+                    </StackPanel>
+                </GridView.Header>
 
-        </toolkit:AdaptiveGridView>
-
+            </toolkit:AdaptiveGridView>
+        </winui:RefreshContainer>
     </toolkit:DockPanel>
 
 </Page>

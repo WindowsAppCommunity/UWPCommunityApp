@@ -294,4 +294,29 @@ namespace UWPCommLib.Api.UWPComm.Models
         [JsonProperty(PropertyName = "role")]
         public string Role { get; set; }
     }
+
+    public class DeleteProjectRequest
+    {
+        [JsonProperty(PropertyName = "appName")]
+        public string AppName { get; set; }
+
+        public DeleteProjectRequest(string appName)
+        {
+            AppName = appName;
+        }
+
+        public static explicit operator DeleteProjectRequest(string appName)
+        {
+            return new DeleteProjectRequest(appName);
+        }
+        public static explicit operator string(DeleteProjectRequest info)
+        {
+            return info?.AppName;
+        }
+
+        public override string ToString()
+        {
+            return AppName;
+        }
+    }
 }

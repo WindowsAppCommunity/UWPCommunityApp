@@ -21,12 +21,16 @@ namespace UWPCommunity.Views
             Loaded += ProjectsView_Loaded;
         }
 
-        private async void ProjectsView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void ProjectsView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             var cardSize = SettingsManager.GetProjectCardSize();
             ProjectsGridView.DesiredWidth = cardSize.X;
             ProjectsGridView.ItemHeight = cardSize.Y;
+            RefreshProjects();
+        }
 
+        private async void RefreshProjects()
+        {
             var projs = (await Common.UwpCommApi.GetProjects()).OrderBy(x => x.AppName);
             Projects = new ObservableCollection<Project>(projs);
             if (ProjectsGridView.Items.Count != Projects.Count)
@@ -68,6 +72,11 @@ namespace UWPCommunity.Views
         private void ProjectsGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             ViewProject(e.ClickedItem as Project);
+        }
+
+        private void RefreshContainer_RefreshRequested(Microsoft.UI.Xaml.Controls.RefreshContainer sender, Microsoft.UI.Xaml.Controls.RefreshRequestedEventArgs args)
+        {
+            RefreshProjects();
         }
     }
 }
