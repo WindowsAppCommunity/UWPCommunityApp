@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Refit;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -66,9 +67,30 @@ namespace UWPCommunity.Views
             SettingsManager.SetAppTheme(e.AddedItems[0].ToString());
         }
 
-        private void UseDebugApiBox_Changed(object sender, RoutedEventArgs e)
+        private async void UseDebugApiBox_Changed(object sender, RoutedEventArgs e)
         {
-            SettingsManager.SetUseDebugApi(UseDebugApiBox.IsChecked.Value);
+            // Before switching, make sure that the selected source is
+            // actually available
+            bool newValue = UseDebugApiBox.IsChecked.Value;
+
+            try
+            {
+                var client = new System.Net.Http.HttpClient();
+                await client.GetAsync(newValue ? SettingsManager.DEBUG_API_URL : SettingsManager.PROD_API_URL);
+                SettingsManager.SetUseDebugApi(newValue);
+            }
+            catch
+            {
+                ContentDialog dialogError = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = "A connection to the selected server could not be established",
+                    PrimaryButtonText = "OK",
+                    RequestedTheme = SettingsManager.GetAppTheme()
+                };
+                UseDebugApiBox.IsChecked = !newValue;
+                await dialogError.ShowAsync();
+            }
         }
 
         private void ProjectCardSize_ValueChanged(Microsoft.UI.Xaml.Controls.NumberBox sender, Microsoft.UI.Xaml.Controls.NumberBoxValueChangedEventArgs args)

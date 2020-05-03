@@ -88,6 +88,8 @@ namespace UWPCommunity
         public delegate void AppThemeChangedHandler(ElementTheme value);
         public static event AppThemeChangedHandler AppThemeChanged;
 
+        public const string DEBUG_API_URL = "http://localhost:5000";
+        public const string PROD_API_URL = "https://uwpcommunity-site-backend.herokuapp.com";
         public static bool GetUseDebugApi()
         {
             try
@@ -108,8 +110,7 @@ namespace UWPCommunity
         }
         public static void ApplyUseDebugApi(bool value)
         {
-            Common.UwpCommApiHostUrl =
-                value ? "http://localhost:5000" : "https://uwpcommunity-site-backend.herokuapp.com";
+            Common.UwpCommApiHostUrl = value ? DEBUG_API_URL : PROD_API_URL ;
             Common.UwpCommApi = Refit.RestService.For<UWPCommLib.Api.UWPComm.IUwpCommApi>(
                 Common.UwpCommApiHostUrl
             );
@@ -162,7 +163,7 @@ namespace UWPCommunity
         {
             try
             {
-                return (string)localSettings.Values["ShowLlamaBingo"];
+                return (string)localSettings.Values["SavedLlamaBingo"];
             }
             catch
             {
