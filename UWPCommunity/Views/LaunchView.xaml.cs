@@ -34,8 +34,9 @@ namespace UWPCommunity.Views
 
         private async void RefreshProjects()
         {
-            var projs = (await Common.UwpCommApi.GetProjects()).FindAll((project) => project.LaunchYear == DateTime.Now.Year && project.IsAwaitingLaunchApproval == false);
-            LaunchProjects = new ObservableCollection<Project>(projs);
+            //var projs = (await Common.UwpCommApi.GetProjects()).FindAll((project) => project.LaunchYear == DateTime.Now.Year && project.IsAwaitingLaunchApproval == false);
+            var launch = await Common.UwpCommApi.GetLaunchProjects(2020);
+            LaunchProjects = new ObservableCollection<Project>(launch.Projects);
             if (ParticipantsGridView.Items.Count != LaunchProjects.Count)
             {
                 Bindings.Update();

@@ -19,7 +19,7 @@ namespace UWPCommLib.Api.UWPComm
         /// Gets the complete list of projects that are registered for the specified Launch year
         /// </summary>
         [Get("/projects/launch/{year}")]
-        Task<List<Project>> GetLaunchProjects(int year);
+        Task<LaunchProjects> GetLaunchProjects(int year);
 
         /// <summary>
         /// Gets the project with the specified ID
