@@ -101,6 +101,7 @@ namespace UWPCommunity.Views
         private void CategoryItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             CategoryButton.IsChecked = true;
+            SearchBox.Text = "";
             var option = sender as RadioMenuFlyoutItem;
             FilterByCategory(option.Text);
             Bindings.Update();
@@ -108,12 +109,11 @@ namespace UWPCommunity.Views
 
         private void CategoryButton_IsCheckedChanged(Microsoft.UI.Xaml.Controls.ToggleSplitButton sender, Microsoft.UI.Xaml.Controls.ToggleSplitButtonIsCheckedChangedEventArgs args)
         {
+            SearchBox.Text = "";
             if (sender.IsChecked)
             {
                 // Filter is enabled
-                // Get first selected item
-                var option = (RadioMenuFlyoutItem)CategoryFlyout.Items.First(i => (i as RadioMenuFlyoutItem).IsChecked);
-                FilterByCategory(option.Text);
+                FilterByCategory();
             }
             else
             {
@@ -126,16 +126,44 @@ namespace UWPCommunity.Views
             Bindings.Update();
         }
 
-        private void FilterByCategory(string category)
+        private void SearchByName(string query)
         {
-            Projects = new ObservableCollection<Project>(
-                AllProjects.Where(x => x.Category.Equals(category))
-            );
-            Sort();
+            if (String.IsNullOrWhiteSpace(query))
+            {
+                Projects = new ObservableCollection<Project>(AllProjects);
+                Bindings.Update();
+                return;
+            }
+            var results = AllProjects.Where(x =>
+                x.AppName.ToLower().Contains(query.ToLower()) ||
+                x.Description.ToLower().Contains(query.ToLower()));
+
+            if (CategoryButton.IsChecked)
+                FilterByCategory(collection: results);
+            else
+                Sort(collection: results);
         }
 
-        private void Sort(string mode = null)
+        private void FilterByCategory(string category = null, IEnumerable<Project> collection = null)
         {
+            if (collection == null)
+                collection = AllProjects;
+
+            if (category == null)
+            {
+                // Get first selected item
+                var option = (RadioMenuFlyoutItem)CategoryFlyout.Items.FirstOrDefault(i => (i as RadioMenuFlyoutItem).IsChecked);
+                category = (option == default(RadioMenuFlyoutItem))
+                    ? ((RadioMenuFlyoutItem)CategoryFlyout.Items[0]).Text : option.Text;
+            }
+
+            Sort(collection: collection.Where(x => x.Category.Equals(category)));
+        }
+
+        private void Sort(string mode = null, IEnumerable<Project> collection = null)
+        {
+            if (collection == null)
+                collection = AllProjects;
             if (mode == null)
             {
                 var sortOption = (RadioMenuFlyoutItem)SortFlyout.Items.First(i => (i as RadioMenuFlyoutItem).IsChecked);
@@ -146,39 +174,44 @@ namespace UWPCommunity.Views
             switch (mode)
             {
                 case "Alphabetical (A-Z)":
-                    sorted = Projects.OrderBy(x => x.AppName);
+                    sorted = collection.OrderBy(x => x.AppName);
                     break;
                 case "Alphabetical (Z-A)":
-                    sorted = Projects.OrderByDescending(x => x.AppName);
+                    sorted = collection.OrderByDescending(x => x.AppName);
                     break;
 
                 case "Date Created (Latest-Oldest)":
-                    sorted = Projects.OrderByDescending(x => DateTime.Parse(x.CreatedAt));
+                    sorted = collection.OrderByDescending(x => DateTime.Parse(x.CreatedAt));
                     break;
                 case "Date Created (Oldest-Latest)":
-                    sorted = Projects.OrderBy(x => DateTime.Parse(x.CreatedAt));
+                    sorted = collection.OrderBy(x => DateTime.Parse(x.CreatedAt));
                     break;
 
                 case "Last Modified (Latest-Oldest)":
-                    sorted = Projects.OrderByDescending(x => DateTime.Parse(x.UpdatedAt));
+                    sorted = collection.OrderByDescending(x => DateTime.Parse(x.UpdatedAt));
                     break;
                 case "Last Modified (Oldest-Latest)":
-                    sorted = Projects.OrderBy(x => DateTime.Parse(x.UpdatedAt));
+                    sorted = collection.OrderBy(x => DateTime.Parse(x.UpdatedAt));
                     break;
 
                 case "Launch Year (Latest-Oldest)":
-                    sorted = Projects.OrderByDescending(x => x.LaunchYear);
+                    sorted = collection.OrderByDescending(x => x.LaunchYear);
                     break;
                 case "Launch Year (Oldest-Latest)":
-                    sorted = Projects.OrderBy(x => x.LaunchYear);
+                    sorted = collection.OrderBy(x => x.LaunchYear);
                     break;
 
                 default:
-                    sorted = Projects.OrderBy(x => x.AppName);
+                    sorted = collection.OrderBy(x => x.AppName);
                     break;
             }
             Projects = new ObservableCollection<Project>(sorted);
             Bindings.Update();
+        }
+
+        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            SearchByName(args.QueryText);
         }
     }
 }
