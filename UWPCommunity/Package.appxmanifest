@@ -4,6 +4,7 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
   IgnorableNamespaces="uap mp">
 
   <Identity
@@ -46,15 +47,20 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <uap:ApplicationContentUriRules>
-        <uap:Rule Type="include" Match="http://uwpcommunity.com/" WindowsRuntimeAccess="none"/>
+        <uap:Rule Type="include" Match="https://uwpcommunity.com/*" WindowsRuntimeAccess="none"/>
       </uap:ApplicationContentUriRules>
       <Extensions>
         <uap:Extension Category="windows.protocol">
           <uap:Protocol Name="uwpcommunity">
             <uap:Logo>Assets\AppLogo.png</uap:Logo>
-            <uap:DisplayName>UWP Community Companion</uap:DisplayName>
+            <uap:DisplayName>UWP Community</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
+        <uap3:Extension Category="windows.appUriHandler">
+          <uap3:AppUriHandler>
+            <uap3:Host Name="uwpcommunity.com" />
+          </uap3:AppUriHandler>
+        </uap3:Extension>
       </Extensions>
     </Application>
   </Applications>
