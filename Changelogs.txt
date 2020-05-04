@@ -1,3 +1,14 @@
+v1.0.3
+- Improved performance when loading projects
+- Added search and category filters for Projects
+- Added sort options for Projects
+- Added Pull to Refresh on project pages
+- Minor UI adjustments
+- Fixed a bug where projects could not be deleted from the Dashboard
+- Llamingo: Fixed a bug where attempting to load non-board data from clipboard would crash the app
+- Fixed a bug where switching to the Debug API without it running would crash the app
+- Fixed a bug where the UI think it was signed out after switching out of PiP
+
 v1.0.2
 - Added Picture-in-Picture mode for Llamingo
 - Added static live tile for Launch 2020
