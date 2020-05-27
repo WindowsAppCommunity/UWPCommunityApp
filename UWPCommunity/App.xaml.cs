@@ -21,6 +21,7 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using System.Net.Http;
 
 namespace UWPCommunity
 {
@@ -98,6 +99,7 @@ namespace UWPCommunity
 
         protected override void OnActivated(IActivatedEventArgs args)
         {
+            this.UnhandledException += App_UnhandledException;
             Frame rootFrame = Window.Current.Content as Frame;
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
@@ -187,9 +189,19 @@ namespace UWPCommunity
 
         private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
+            Type exType = e.Exception.GetType();
             e.Handled = true;
             Frame rootFrame = new Frame();
             Window.Current.Content = rootFrame;
+
+            this.UnhandledException -= App_UnhandledException;
+
+            if (exType == typeof(HttpRequestException))
+            {
+                rootFrame.Navigate(typeof(Views.Subviews.NoInternetPage), e);
+                return;
+            }
+
             rootFrame.Navigate(typeof(Views.UnhandledExceptionPage), e);
         }
 

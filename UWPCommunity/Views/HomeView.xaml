@@ -39,7 +39,7 @@
             </toolkit:AdaptiveGridView.ItemContainerStyle>
 
             <toolkit:DropShadowPanel >
-                <Grid x:Name="DiscordCard" CornerRadius="2" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
+                <Grid x:Name="DiscordCard" CornerRadius="2" Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
@@ -56,7 +56,7 @@
             </toolkit:DropShadowPanel>
 
             <toolkit:DropShadowPanel Grid.Column="1" >
-                <Grid x:Name="GitHubCard" CornerRadius="2" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}" >
+                <Grid x:Name="GitHubCard" CornerRadius="2" Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
@@ -74,7 +74,7 @@
 
             <toolkit:DropShadowPanel Grid.Column="2" >
                 <Grid x:Name="Launch2019Card" CornerRadius="2" 
-                          Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
+                          Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
