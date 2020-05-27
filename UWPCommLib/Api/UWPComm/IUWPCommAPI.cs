@@ -5,7 +5,7 @@ using UWPCommLib.Api.UWPComm.Models;
 
 namespace UWPCommLib.Api.UWPComm
 {
-    [Headers("Authorization: Bearer")]
+    [Headers("Authorization: Bearer", "Origin: uwpcommunity://")]
     public interface IUwpCommApi
     {
         #region /projects/
