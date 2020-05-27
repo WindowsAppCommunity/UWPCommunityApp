@@ -24,10 +24,11 @@
                                   IsItemClickEnabled="True">
                 <toolkit:AdaptiveGridView.Header>
                     <toolkit:DockPanel HorizontalAlignment="Stretch" Padding="5">
-                        <AutoSuggestBox x:Name="SearchBox" toolkit:DockPanel.Dock="Left" MinWidth="200" QueryIcon="Find"
+                        <AutoSuggestBox x:Name="SearchBox" toolkit:DockPanel.Dock="Right" MinWidth="200" QueryIcon="Find"
                                  PlaceholderText="Search projects" Margin="0,0,5,0" HorizontalAlignment="Stretch"
                                         QuerySubmitted="SearchBox_QuerySubmitted"/>
-                        <winui:DropDownButton x:Name="FilterButton" toolkit:DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="5,0,0,0">
+                        <winui:DropDownButton x:Name="FilterButton" toolkit:DockPanel.Dock="Left"
+                                              Margin="0,0,0,0">
                             <winui:DropDownButton.Flyout>
                                 <MenuFlyout x:Name="SortFlyout" Placement="Bottom">
                                     <winui:RadioMenuFlyoutItem Text="Alphabetical (A-Z)" Click="SortOption_Click" IsChecked="True"/>
@@ -45,8 +46,8 @@
                                 <TextBlock Text="Sort"/>
                             </StackPanel>
                         </winui:DropDownButton>
-                        <winui:ToggleSplitButton x:Name="CategoryButton" toolkit:DockPanel.Dock="Right"
-                                                 HorizontalAlignment="Right" Margin="5,0,0,0"
+                        <winui:ToggleSplitButton x:Name="CategoryButton" toolkit:DockPanel.Dock="Left"
+                                                 Margin="5,0,0,0"
                                                  IsCheckedChanged="CategoryButton_IsCheckedChanged">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="ShowResults" Margin="0,0,5,0"/>
