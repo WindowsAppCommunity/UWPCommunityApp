@@ -70,9 +70,7 @@ namespace UWPCommLib.Api.UWPComm.Models
         /// </summary>
         public string HeroImageSafe {
             get {
-                return HeroImage == null ?
-                    "https://images.freeimages.com/images/large-previews/809/phone-1635390.jpg"
-                    : HeroImage;
+                return HeroImage ?? "https://uwpcommunity.com/assets/img/LaunchHero.png";
             }
         }
 

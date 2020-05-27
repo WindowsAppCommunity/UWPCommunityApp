@@ -15,7 +15,7 @@
         </Style>
     </Page.Resources>
     
-    <Pivot>
+    <Pivot x:Name="SettingsPivot">
         <PivotItem Header="General" Margin="12,0,12,0">
             <StackPanel>
 
@@ -48,7 +48,7 @@
             </StackPanel>
         </PivotItem>
 
-        <PivotItem Header="Debug">
+        <PivotItem x:Name="DebugTab" Header="Debug">
             <StackPanel>
 
                 <StackPanel Spacing="0">

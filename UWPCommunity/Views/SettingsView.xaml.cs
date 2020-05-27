@@ -27,6 +27,10 @@ namespace UWPCommunity.Views
         {
             this.InitializeComponent();
 
+            #if !DEBUG
+            SettingsPivot.Items.Remove(DebugTab);
+            #endif
+
             ThemeBox.SelectedValue = SettingsManager.GetAppThemeName();
             UseDebugApiBox.IsChecked = SettingsManager.GetUseDebugApi();
             var cardSize = SettingsManager.GetProjectCardSize();
