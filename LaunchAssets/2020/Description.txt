@@ -1,0 +1,1 @@
+The official client for the UWP Community website provides easy browsing of an immense collection of well-crafted and innovative UWP apps. 

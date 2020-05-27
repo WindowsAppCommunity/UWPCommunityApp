@@ -1,0 +1,5 @@
+* Browse UWP Community projects
+* Explore apps participating in Launch events
+* Register your projects
+* Play Llamingo, the XAML Llama's stream game
+* Join the UWP Community Discord server
