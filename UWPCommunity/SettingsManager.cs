@@ -54,6 +54,7 @@ namespace UWPCommunity
             localSettings.Values["AppTheme"] = theme.ToString("g");
             ApplyAppTheme(theme);
             AppThemeChanged?.Invoke(theme);
+            SettingsChanged?.Invoke("AppTheme", theme);
         }
         public static void SetAppTheme(string themeString)
         {
@@ -103,6 +104,7 @@ namespace UWPCommunity
             localSettings.Values["UseDebugApi"] = value.ToString();
             ApplyUseDebugApi(value);
             UseDebugApiChanged?.Invoke(value);
+            SettingsChanged?.Invoke("UseDebugApi", value);
         }
         public static void ApplyUseDebugApi(bool value)
         {
@@ -131,6 +133,7 @@ namespace UWPCommunity
         {
             localSettings.Values["ProjectCardSize"] = value;
             ProjectCardSizeChanged?.Invoke(value);
+            SettingsChanged?.Invoke("ProjectCardSize", value);
         }
         public delegate void ProjectCardSizeChangedHandler(Point value);
         public static event ProjectCardSizeChangedHandler ProjectCardSizeChanged;
@@ -151,6 +154,7 @@ namespace UWPCommunity
         {
             localSettings.Values["ShowLlamaBingo"] = value;
             ShowLlamaBingoChanged?.Invoke(value);
+            SettingsChanged?.Invoke("ShowLlamaBingo", value);
         }
         public delegate void ShowLlamaBingoChangedHandler(bool value);
         public static event ShowLlamaBingoChangedHandler ShowLlamaBingoChanged;
@@ -171,8 +175,12 @@ namespace UWPCommunity
         {
             localSettings.Values["SavedLlamaBingo"] = boardData;
             SavedLlamaBingoChanged?.Invoke(boardData);
+            SettingsChanged?.Invoke("SavedLlamaBingo", boardData);
         }
         public delegate void SavedLlamaBingoChangedHandler(string boardData);
         public static event SavedLlamaBingoChangedHandler SavedLlamaBingoChanged;
+
+        public delegate void SettingsChangedHandler(string name, object value);
+        public static event SettingsChangedHandler SettingsChanged;
     }
 }

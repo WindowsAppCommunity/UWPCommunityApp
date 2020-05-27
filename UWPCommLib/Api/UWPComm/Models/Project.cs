@@ -261,6 +261,11 @@ namespace UWPCommLib.Api.UWPComm.Models
                     return ProjectCategory.BooksAndReference;
             }
         }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 
     public class NewProjectRequest

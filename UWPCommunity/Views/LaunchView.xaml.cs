@@ -47,6 +47,13 @@ namespace UWPCommunity.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             PersistantProject = e.Parameter as Project;
+
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Launch: Navigated to",
+                new System.Collections.Generic.Dictionary<string, string> {
+                    { "From", e.SourcePageType.Name },
+                    { "Parameters", e.Parameter?.ToString() }
+                }
+            );
         }
 
         private void Card_PointerEntered(object sender, PointerRoutedEventArgs e)

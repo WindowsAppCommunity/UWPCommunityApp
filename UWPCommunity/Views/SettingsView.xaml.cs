@@ -39,10 +39,32 @@ namespace UWPCommunity.Views
             ShowLlamaBingoBox.IsChecked = SettingsManager.GetShowLlamaBingo();
             AppVersionRun.Text = App.GetVersion();
 
+            SettingsManager.SettingsChanged += SettingsManager_SettingsChanged;
             SettingsManager.AppThemeChanged += SettingsManager_AppThemeChanged;
             SettingsManager.ProjectCardSizeChanged += SettingsManager_ProjectCardSizeChanged;
             SettingsManager.ShowLlamaBingoChanged += SettingsManager_ShowLlamaBingoChanged;
             SettingsManager.UseDebugApiChanged += SettingsManager_UseDebugApiChanged;
+        }
+
+        private void SettingsManager_SettingsChanged(string name, object value)
+        {
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Settings: setting changed",
+                new Dictionary<string, string> {
+                    { "Setting", name + ": " + value.ToString() },
+                }
+            );
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Settings: Navigated to",
+                new Dictionary<string, string> {
+                    { "From", e.SourcePageType.Name },
+                    { "Parameters", e.Parameter?.ToString() }
+                }
+            );
         }
 
         private void SettingsManager_UseDebugApiChanged(bool value)

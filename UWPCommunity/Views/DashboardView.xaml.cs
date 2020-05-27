@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using UWPCommLib.Api.UWPComm.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -73,6 +75,7 @@ namespace UWPCommunity.Views
 
         private void RegisterAppButton_Click(object sender, RoutedEventArgs e)
         {
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: App registration started");
             NavigationManager.Navigate(typeof(Subviews.EditProjectView));
         }
 
@@ -80,6 +83,11 @@ namespace UWPCommunity.Views
         {
             NavigationManager.NavigateToEditProject(p);
             RefreshProjects();
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: Edit project",
+                new Dictionary<string, string> {
+                    { "Proj", (p as Project).Id.ToString() },
+                }
+            );
         }
 
         private async void Project_DeleteRequested(object p)
@@ -100,6 +108,11 @@ namespace UWPCommunity.Views
                     await Common.UwpCommApi.DeleteProject(
                         new DeleteProjectRequest((p as Project).AppName));
                     RefreshProjects();
+                    Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: Delete project",
+                        new Dictionary<string, string> {
+                            { "Proj", (p as Project).Id.ToString() },
+                        }
+                    );
                 }
                 catch (Refit.ApiException ex)
                 {
@@ -118,12 +131,29 @@ namespace UWPCommunity.Views
 
         private void Project_ViewRequested(object p)
         {
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: View project",
+                new Dictionary<string, string> {
+                    { "Proj", (p as Project).Id.ToString() },
+                }
+            );
             NavigationManager.NavigateToViewProject(p);
         }
 
         private void RefreshContainer_RefreshRequested(Microsoft.UI.Xaml.Controls.RefreshContainer sender, Microsoft.UI.Xaml.Controls.RefreshRequestedEventArgs args)
         {
             RefreshProjects();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: Navigated to",
+                new System.Collections.Generic.Dictionary<string, string> {
+                    { "From", e.SourcePageType.Name },
+                    { "Parameters", e.Parameter?.ToString() }
+                }
+            );
         }
     }
 }
