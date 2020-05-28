@@ -66,14 +66,21 @@ namespace UWPCommunity
             MainNav.IsBackEnabled = MainFrame.CanGoBack;
             try
             {
-                // Update the NavView when the frame navigates on its own
-                //     This is in a try-catch block so that I don't have to do a dozen
-                //     null checks.
+                // Update the NavView when the frame navigates on its own.
+                // This is in a try-catch block so that I don't have to do a dozen
+                // null checks.
                 var page = Pages.Find((info) => info.PageType == e.SourcePageType);
-                if (page == null) return;
+                if (page == null)
+                {
+                    MainNav.SelectedItem = null;
+                    return;
+                }
                 MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as Microsoft.UI.Xaml.Controls.NavigationViewItem).Content.ToString() == page.Title);
             }
-            catch {}
+            catch
+            {
+                MainNav.SelectedItem = null;
+            }
         }
 
         private void Common_OnLoginStateChanged(bool isLoggedIn)

@@ -28,6 +28,10 @@ namespace UWPCommunity
         {
             Navigate(typeof(SettingsView));
         }
+        public static void NavigateToSettings(SettingsPages page)
+        {
+            Navigate(typeof(SettingsView), page);
+        }
 
         public static async void RequestSignIn(Type returnToPage)
         {
@@ -141,5 +145,13 @@ namespace UWPCommunity
                 return item;
             }
         }
+    }
+
+    public enum SettingsPages
+    {
+        General,
+        Debug,
+        AppMessages,
+        About
     }
 }

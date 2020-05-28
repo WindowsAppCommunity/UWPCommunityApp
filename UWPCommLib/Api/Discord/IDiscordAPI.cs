@@ -6,7 +6,7 @@ using UWPCommLib.Api.Discord.Models;
 namespace UWPCommLib.Api.Discord
 {
     [Headers("Authorization: Bearer")]
-    public interface IDiscordAPI
+    public interface IDiscordApi
     {
         /// <summary>
         /// Gets the user's registered projects (requires authentication)

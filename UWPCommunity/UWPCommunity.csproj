@@ -148,6 +148,9 @@
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dialogs\AppMessageDialog.xaml.cs">
+      <DependentUpon>AppMessageDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\ConfirmPrivacyPolicyDialog.xaml.cs">
       <DependentUpon>ConfirmPrivacyPolicyDialog.xaml</DependentUpon>
     </Compile>
@@ -273,6 +276,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DashboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\AppMessageDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

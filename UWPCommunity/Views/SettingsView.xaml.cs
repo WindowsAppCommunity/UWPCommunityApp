@@ -59,6 +59,8 @@ namespace UWPCommunity.Views
         {
             base.OnNavigatedTo(e);
 
+            SettingsPivot.SelectedIndex = (int)e.Parameter;
+
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Settings: Navigated to",
                 new Dictionary<string, string> {
                     { "From", e.SourcePageType.Name },

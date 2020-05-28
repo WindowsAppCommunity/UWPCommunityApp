@@ -55,28 +55,37 @@
                     <controls:AdaptiveGridView.ItemTemplate>
                         <DataTemplate x:DataType="models:Project">
                             <!-- TODO: Create a template for showing projects-->
-                            <controls:DockPanel LastChildFill="True" Padding="5" HorizontalAlignment="Stretch">
+                            <Grid Padding="5" HorizontalAlignment="Stretch">
 
-                                <controls:DockPanel.ContextFlyout>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Grid.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem Text="Edit" Icon="Edit"/>
                                         <MenuFlyoutItem Text="Delete" Icon="Delete"/>
                                     </MenuFlyout>
-                                </controls:DockPanel.ContextFlyout>
+                                </Grid.ContextFlyout>
 
-                                <Image x:Name="HeroImageStartCtl" MaxWidth="150" Margin="0,0,5,0" controls:DockPanel.Dock="Left">
+                                <Image x:Name="HeroImageStartCtl" MaxWidth="150" Margin="0,0,5,0"
+                                       Grid.Column="0">
                                     <Image.Source>
                                         <BitmapImage UriSource="{x:Bind HeroImageUri}"/>
                                     </Image.Source>
                                 </Image>
 
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{x:Bind AppName}" Margin="0,0,5,0" Style="{StaticResource SubtitleTextBlockStyle}" />
-                                    <TextBlock Text="{x:Bind Description}" Margin="0,0,5,0" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
+                                <StackPanel Orientation="Vertical" Grid.Column="1">
+                                    <TextBlock Text="{x:Bind AppName}" Margin="0,0,5,0"
+                                               Style="{StaticResource SubtitleTextBlockStyle}" />
+                                    <TextBlock Text="{x:Bind Description}" Margin="0,0,5,0"
+                                               Style="{StaticResource BodyTextBlockStyle}"
+                                               TextWrapping="WrapWholeWords"/>
                                     <StackPanel Orientation="Vertical"/>
                                 </StackPanel>
 
-                            </controls:DockPanel>
+                            </Grid>
 
                         </DataTemplate>
                     </controls:AdaptiveGridView.ItemTemplate>

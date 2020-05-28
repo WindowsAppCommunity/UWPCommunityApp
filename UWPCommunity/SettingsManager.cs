@@ -23,6 +23,7 @@ namespace UWPCommunity
                 SetShowLlamaBingo(true);
             if (!localSettings.Values.ContainsKey("SavedLlamaBingo") || overrideCurr)
                 SetSavedLlamaBingo(null);
+            AppMessageSettings.LoadDefaults(overrideCurr);
         }
 
         public static async void ResetApp()
@@ -182,5 +183,77 @@ namespace UWPCommunity
 
         public delegate void SettingsChangedHandler(string name, object value);
         public static event SettingsChangedHandler SettingsChanged;
+
+        public static class AppMessageSettings
+        {
+            public static void LoadDefaults(bool overrideCurr = true)
+            {
+                if (!localSettings.Values.ContainsKey("LastAppMessageId") || overrideCurr)
+                    SetLastAppMessageId(null);
+            }
+
+            public static bool GetShowAppMessages()
+            {
+                try
+                {
+                    return (bool)localSettings.Values["ShowAppMessages"];
+                }
+                catch
+                {
+                    SetShowAppMessages(true);
+                    return true;
+                }
+            }
+            public static void SetShowAppMessages(bool value)
+            {
+                localSettings.Values["ShowAppMessages"] = value;
+                ShowAppMessagesChanged?.Invoke(value);
+                SettingsChanged?.Invoke("ShowAppMessages", value);
+            }
+            public delegate void ShowAppMessagesChangedHandler(bool value);
+            public static event ShowAppMessagesChangedHandler ShowAppMessagesChanged;
+
+            public static string GetLastAppMessageId()
+            {
+                try
+                {
+                    return (string)localSettings.Values["LastAppMessageId"];
+                }
+                catch
+                {
+                    SetLastAppMessageId(null);
+                    return null;
+                }
+            }
+            public static void SetLastAppMessageId(string messageId)
+            {
+                localSettings.Values["LastAppMessageId"] = messageId;
+                LastAppMessageIdChanged?.Invoke(messageId);
+                SettingsChanged?.Invoke("LastAppMessageId", messageId);
+            }
+            public delegate void LastAppMessageIdChangedHandler(string messageId);
+            public static event LastAppMessageIdChangedHandler LastAppMessageIdChanged;
+
+            public static int GetImportanceLevel()
+            {
+                try
+                {
+                    return (int)localSettings.Values["ImportanceLevel"];
+                }
+                catch
+                {
+                    SetImportanceLevel(3);
+                    return 3;
+                }
+            }
+            public static void SetImportanceLevel(int level)
+            {
+                localSettings.Values["ImportanceLevel"] = level;
+                ImportanceLevelChanged?.Invoke(level);
+                SettingsChanged?.Invoke("ImportanceLevel", level);
+            }
+            public delegate void ImportanceLevelChangedHandler(int level);
+            public static event ImportanceLevelChangedHandler ImportanceLevelChanged;
+        }
     }
 }

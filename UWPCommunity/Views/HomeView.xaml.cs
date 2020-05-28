@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
+using UWPCommunity.Views.Dialogs;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -62,6 +63,8 @@ namespace UWPCommunity.Views
             TileUpdateManager.CreateTileUpdaterForApplication().Clear();
             TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
             TileUpdateManager.CreateTileUpdaterForApplication().Update(notification);
+
+            ShowLatestAppMessage();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -97,6 +100,20 @@ namespace UWPCommunity.Views
         {
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Home: Launch 2019 button clicked");
             await NavigationManager.OpenInBrowser("https://medium.com/@Arlodottxt/launch-2019-7efd37cc0877");
+        }
+
+        private async void ShowLatestAppMessage()
+        {
+            if (!SettingsManager.AppMessageSettings.GetShowAppMessages())
+                return;
+
+            // Load most recent app message
+            var message = (await Common.YoshiApi.GetAppMessages("UWPCommunity", 0))[0];
+            if (message.Id != "")// SettingsManager.GetLastAppMessageId())
+            {
+                await new AppMessageDialog(message).ShowAsync();
+                SettingsManager.AppMessageSettings.SetLastAppMessageId(message.Id);
+            }
         }
     }
 }
