@@ -104,12 +104,14 @@ namespace UWPCommunity.Views
 
         private async void ShowLatestAppMessage()
         {
-            if (!SettingsManager.AppMessageSettings.GetShowAppMessages())
+            int level = SettingsManager.AppMessageSettings.GetImportanceLevel();
+            if (level == 0)
                 return;
 
             // Load most recent app message
             var message = (await Common.YoshiApi.GetAppMessages("UWPCommunity", 0))[0];
-            if (message.Id != "")// SettingsManager.GetLastAppMessageId())
+            if (message.Id == SettingsManager.AppMessageSettings.GetLastAppMessageId()
+                || message.Importance >= level)
             {
                 await new AppMessageDialog(message).ShowAsync();
                 SettingsManager.AppMessageSettings.SetLastAppMessageId(message.Id);

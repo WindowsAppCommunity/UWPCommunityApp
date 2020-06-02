@@ -5,9 +5,10 @@
     xmlns:local="using:UWPCommunity.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:winui="using:Microsoft.UI.Xaml.Controls" xmlns:controls="using:UWPCommunity.Controls"
-    mc:Ignorable="d">
-    <!--Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">-->
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:controls="using:UWPCommunity.Controls"
+    mc:Ignorable="d"
+    NavigationCacheMode="Disabled">
 
     <Page.Resources>
         <Style TargetType="StackPanel">
@@ -48,24 +49,24 @@
             </StackPanel>
         </PivotItem>
 
-        <PivotItem x:Name="DebugTab" Header="Debug">
+        <PivotItem Header="Messages">
             <StackPanel>
+                <CheckBox x:Name="ShowAppMessagesBox" Content="Show new messages on startup"
+                          Checked="ShowAppMessagesBox_Checked" Unchecked="ShowAppMessagesBox_Unchecked"/>
 
-                <StackPanel Spacing="0">
-                    <CheckBox x:Name="UseDebugApiBox" Content="Use Debug (localhost) API" IsChecked="False"
-                          Unchecked="UseDebugApiBox_Changed" Checked="UseDebugApiBox_Changed"/>
-                    <TextBlock Text="*This feature requires the UWP Community backend to be running on the host machine at localhost."/>
+                <StackPanel Spacing="-5">
+                    <Slider x:Name="ImportanceLevelSlider" Minimum="0" Maximum="3"
+                        Value="3" TickFrequency="1" SmallChange="1" LargeChange="1" Width="150"
+                        ValueChanged="ImportanceLevelSlider_ValueChanged" HorizontalAlignment="Left"/>
+
+                    <TextBlock x:Name="ImportanceLevelDesc" xmlns:converters="using:UWPCommunity.Converters"
+                               Text="{x:Bind converters:SliderValueToStringConverter.Convert(ImportanceLevelSlider.Value), Mode=OneWay}"
+                               Foreground="{x:Bind converters:SliderValueToColorConverter.Convert(ImportanceLevelSlider.Value), Mode=OneWay}"/>
                 </StackPanel>
-
-                <Button x:Name="CrashButton" Content="Crash app" Foreground="White" Click="CrashButton_Click">
-                    <Button.Background>
-                        <SolidColorBrush Color="DarkRed"/>
-                    </Button.Background>
-                </Button>
 
             </StackPanel>
         </PivotItem>
-
+        
         <PivotItem Header="About">
             <Grid>
                 <Viewbox Grid.Column="1" Grid.Row="1" MaxWidth="450" MaxHeight="200" Margin="50">
@@ -104,6 +105,24 @@
                     </Paragraph>
                 </RichTextBlock>
             </Grid>
+        </PivotItem>
+
+        <PivotItem x:Name="DebugTab" Header="Debug">
+            <StackPanel>
+
+                <StackPanel Spacing="0">
+                    <CheckBox x:Name="UseDebugApiBox" Content="Use Debug (localhost) API" IsChecked="False"
+                          Unchecked="UseDebugApiBox_Changed" Checked="UseDebugApiBox_Changed"/>
+                    <TextBlock Text="*This feature requires the UWP Community backend to be running on the host machine at localhost."/>
+                </StackPanel>
+
+                <Button x:Name="CrashButton" Content="Crash app" Foreground="White" Click="CrashButton_Click">
+                    <Button.Background>
+                        <SolidColorBrush Color="DarkRed"/>
+                    </Button.Background>
+                </Button>
+
+            </StackPanel>
         </PivotItem>
     </Pivot>
 </Page>

@@ -46,7 +46,7 @@ namespace UWPCommunity.Views.Dialogs
         private void PreferencesButton_Click(object sender, RoutedEventArgs e)
         {
             Hide();
-            NavigationManager.NavigateToSettings();
+            NavigationManager.NavigateToSettings(SettingsPages.AppMessages);
         }
     }
 }

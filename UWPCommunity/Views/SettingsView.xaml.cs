@@ -23,6 +23,8 @@ namespace UWPCommunity.Views
     /// </summary>
     public sealed partial class SettingsView : Page
     {
+        bool isReady = false;
+
         public SettingsView()
         {
             this.InitializeComponent();
@@ -30,14 +32,6 @@ namespace UWPCommunity.Views
             #if !DEBUG
             SettingsPivot.Items.Remove(DebugTab);
             #endif
-
-            ThemeBox.SelectedValue = SettingsManager.GetAppThemeName();
-            UseDebugApiBox.IsChecked = SettingsManager.GetUseDebugApi();
-            var cardSize = SettingsManager.GetProjectCardSize();
-            ProjectCardWidth.Value = cardSize.X;
-            ProjectCardHeight.Value = cardSize.Y;
-            ShowLlamaBingoBox.IsChecked = SettingsManager.GetShowLlamaBingo();
-            AppVersionRun.Text = App.GetVersion();
 
             SettingsManager.SettingsChanged += SettingsManager_SettingsChanged;
             SettingsManager.AppThemeChanged += SettingsManager_AppThemeChanged;
@@ -50,7 +44,7 @@ namespace UWPCommunity.Views
         {
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Settings: setting changed",
                 new Dictionary<string, string> {
-                    { "Setting", name + ": " + value.ToString() },
+                    { "Setting", name + ": " + value?.ToString() },
                 }
             );
         }
@@ -59,7 +53,19 @@ namespace UWPCommunity.Views
         {
             base.OnNavigatedTo(e);
 
-            SettingsPivot.SelectedIndex = (int)e.Parameter;
+            ThemeBox.SelectedValue = SettingsManager.GetAppThemeName();
+            UseDebugApiBox.IsChecked = SettingsManager.GetUseDebugApi();
+            var cardSize = SettingsManager.GetProjectCardSize();
+            ProjectCardWidth.Value = cardSize.X;
+            ProjectCardHeight.Value = cardSize.Y;
+            ShowLlamaBingoBox.IsChecked = SettingsManager.GetShowLlamaBingo();
+            ShowAppMessagesBox.IsChecked = SettingsManager.AppMessageSettings.GetShowAppMessages();
+            ImportanceLevelSlider.Value = SettingsManager.AppMessageSettings.GetImportanceLevel();
+            AppVersionRun.Text = App.GetVersion();
+            isReady = true;
+
+            if (e.Parameter is SettingsPages)
+                SettingsPivot.SelectedIndex = (int)e.Parameter;
 
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Settings: Navigated to",
                 new Dictionary<string, string> {
@@ -169,6 +175,22 @@ namespace UWPCommunity.Views
                 case ContentDialogResult.Primary:
                     throw new Exception("User artificially threw an exception");
             }
+        }
+
+        private void ShowAppMessagesBox_Checked(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.AppMessageSettings.SetShowAppMessages(true);
+        }
+
+        private void ShowAppMessagesBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.AppMessageSettings.SetShowAppMessages(false);
+        }
+
+        private void ImportanceLevelSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (isReady)
+                SettingsManager.AppMessageSettings.SetImportanceLevel((int)e.NewValue);
         }
     }
 }

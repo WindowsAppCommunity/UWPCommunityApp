@@ -190,6 +190,10 @@ namespace UWPCommunity
             {
                 if (!localSettings.Values.ContainsKey("LastAppMessageId") || overrideCurr)
                     SetLastAppMessageId(null);
+                if (!localSettings.Values.ContainsKey("ShowAppMessages") || overrideCurr)
+                    SetShowAppMessages(true);
+                if (!localSettings.Values.ContainsKey("ImportanceLevel") || overrideCurr)
+                    SetImportanceLevel(3);
             }
 
             public static bool GetShowAppMessages()
