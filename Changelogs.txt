@@ -1,3 +1,12 @@
+v1.1.0
+- Added app messages
+- Removed Debug options
+- Mirrored search and filter options on the Projects page
+- Search and filter options reappear when scrolling up
+- Releasing for Launch 2020
+- Fixed a bug where invalid project badge links caused a crash
+- Fixed a bug where switching to the localhost API could cause the app to crash
+
 v1.0.3
 - Improved performance when loading projects
 - Added search and category filters for Projects
