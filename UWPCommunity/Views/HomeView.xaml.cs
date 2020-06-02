@@ -99,7 +99,7 @@ namespace UWPCommunity.Views
 
         private void Launch2020Button_Click(object sender, RoutedEventArgs e)
         {
-            NavigationManager.Navigate(typeof(Views.LaunchView));
+            NavigationManager.Navigate(typeof(LaunchView));
         }
 
         private async void GitHubButton_Click(object sender, RoutedEventArgs e)
