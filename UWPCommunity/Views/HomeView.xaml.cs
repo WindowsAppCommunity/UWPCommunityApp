@@ -1,11 +1,11 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
+using UWPCommLib.Api.UWPComm.Models;
 using UWPCommunity.Views.Dialogs;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -20,19 +20,33 @@ namespace UWPCommunity.Views
         public HomeView()
         {
             this.InitializeComponent();
+            Loaded += HomeView_Loaded;
 
+            ShowLatestAppMessage();
+        }
+
+        private async void HomeView_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Get the card information from the website frontend
+            var response = await new System.Net.Http.HttpClient().GetAsync("https://raw.githubusercontent.com/UWPCommunity/uwpcommunity.github.io/master/assets/views/home.json");
+            string json = await response.Content.ReadAsStringAsync();
+            var card = Newtonsoft.Json.JsonConvert.DeserializeObject<CardInfoResponse>(json).Main;
+            CardSubtitle.Text = card.Subtitle;
+            CardDetails.Text = String.Join(" ", card.Details);
+
+            // Update live tile
             TileBindingContentAdaptive text = new TileBindingContentAdaptive
             {
                 Children =
                 {
                     new AdaptiveText()
                     {
-                        Text = "Launch 2020",
+                        Text = CardSubtitle.Text,
                         HintWrap = true,
                     },
                     new AdaptiveText()
                     {
-                        Text = "The UWP Community is nearing its annual Launch event",
+                        Text = CardDetails.Text,
                         HintStyle = AdaptiveTextStyle.CaptionSubtle,
                         HintWrap = true
                     }
@@ -63,8 +77,6 @@ namespace UWPCommunity.Views
             TileUpdateManager.CreateTileUpdaterForApplication().Clear();
             TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
             TileUpdateManager.CreateTileUpdaterForApplication().Update(notification);
-
-            ShowLatestAppMessage();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

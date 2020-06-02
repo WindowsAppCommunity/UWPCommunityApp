@@ -20,16 +20,28 @@ namespace UWPCommunity.Views
         public ObservableCollection<Project> LaunchProjects { get; set; } = new ObservableCollection<Project>();
         public Project PersistantProject;
 
+        public string CardTitle { get; set; }
+        public string CardSubtitle { get; set; }
+        public string CardDetails { get; set; }
+
         public LaunchView()
         {
             InitializeComponent();
             Loaded += LaunchView_Loaded;
         }
 
-        private void LaunchView_Loaded(object sender, RoutedEventArgs e)
+        private async void LaunchView_Loaded(object sender, RoutedEventArgs e)
         {
             if (!Common.IsInternetAvailable()) return;
             RefreshProjects();
+
+            // Get the card information from the website frontend
+            var response = await new System.Net.Http.HttpClient().GetAsync("https://raw.githubusercontent.com/UWPCommunity/uwpcommunity.github.io/master/assets/views/launch.json");
+            string json = await response.Content.ReadAsStringAsync();
+            var card = Newtonsoft.Json.JsonConvert.DeserializeObject<CardInfoResponse>(json).Main;
+            CardTitle = card.Title;
+            CardSubtitle = card.Subtitle;
+            CardDetails = String.Join(" ", card.Details);
         }
 
         private async void RefreshProjects()
