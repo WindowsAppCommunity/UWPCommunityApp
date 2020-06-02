@@ -10,7 +10,7 @@
   <Identity
     Name="52374YoshiAskharoun.UWPCommunity"
     Publisher="CN=CD3113F3-18EB-4B8D-9D8A-C6D373E7A464"
-    Version="1.0.4.0" />
+    Version="1.1.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="fbfd6141-03f4-4fd6-9523-af997d5fe68c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -33,7 +33,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="UWPCommunity.App">
       <uap:VisualElements
-        DisplayName="UWP Community (Beta)"
+        DisplayName="UWP Community"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="A companion app for the UWP Community website"
