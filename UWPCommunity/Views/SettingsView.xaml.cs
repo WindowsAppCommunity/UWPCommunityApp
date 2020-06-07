@@ -1,17 +1,10 @@
-﻿using Refit;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -59,6 +52,7 @@ namespace UWPCommunity.Views
             ProjectCardWidth.Value = cardSize.X;
             ProjectCardHeight.Value = cardSize.Y;
             ShowLlamaBingoBox.IsChecked = SettingsManager.GetShowLlamaBingo();
+            ShowLiveTileBox.IsChecked = SettingsManager.GetShowLiveTile();
             ShowAppMessagesBox.IsChecked = SettingsManager.AppMessageSettings.GetShowAppMessages();
             ImportanceLevelSlider.Value = SettingsManager.AppMessageSettings.GetImportanceLevel();
             AppVersionRun.Text = App.GetVersion();
@@ -119,6 +113,17 @@ namespace UWPCommunity.Views
         private void ShowLlamaBingoBox_Unchecked(object sender, RoutedEventArgs e)
         {
             SettingsManager.SetShowLlamaBingo(false);
+        }
+
+        private void ShowLiveTileBox_Checked(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.SetShowLiveTile(true);
+        }
+
+        private void ShowLiveTileBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            TileUpdateManager.CreateTileUpdaterForApplication().Clear();
+            SettingsManager.SetShowLiveTile(false);
         }
 
         private async void DefaultButton_Click(object sender, RoutedEventArgs e)

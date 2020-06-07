@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System;
 using Windows.Foundation;
 using Windows.Storage;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 
 namespace UWPCommunity
@@ -23,6 +25,8 @@ namespace UWPCommunity
                 SetShowLlamaBingo(true);
             if (!localSettings.Values.ContainsKey("SavedLlamaBingo") || overrideCurr)
                 SetSavedLlamaBingo(null);
+            if (!localSettings.Values.ContainsKey("ShowLiveTile") || overrideCurr)
+                SetShowLiveTile(true);
             AppMessageSettings.LoadDefaults(overrideCurr);
         }
 
@@ -109,7 +113,7 @@ namespace UWPCommunity
         }
         public static void ApplyUseDebugApi(bool value)
         {
-            Common.UwpCommApiHostUrl = value ? DEBUG_API_URL : PROD_API_URL ;
+            Common.UwpCommApiHostUrl = value ? DEBUG_API_URL : PROD_API_URL;
             Common.UwpCommApi = Refit.RestService.For<UWPCommLib.Api.UWPComm.IUwpCommApi>(
                 Common.UwpCommApiHostUrl
             );
@@ -180,6 +184,86 @@ namespace UWPCommunity
         }
         public delegate void SavedLlamaBingoChangedHandler(string boardData);
         public static event SavedLlamaBingoChangedHandler SavedLlamaBingoChanged;
+
+        public static bool GetShowLiveTile()
+        {
+            try
+            {
+                return (bool)localSettings.Values["ShowLiveTile"];
+            }
+            catch
+            {
+                SetShowLiveTile(true);
+                return true;
+            }
+        }
+        public static void SetShowLiveTile(bool value)
+        {
+            localSettings.Values["ShowLiveTile"] = value;
+            ApplyLiveTile(value);
+            ShowLiveTileChanged?.Invoke(value);
+            SettingsChanged?.Invoke("ShowLiveTile", value);
+        }
+        public static async void ApplyLiveTile(bool value)
+        {
+            TileUpdateManager.CreateTileUpdaterForApplication().Clear();
+
+            if (value)
+            {
+                // Load all app messages
+                var messages = await Common.YoshiApi.GetAppMessages("UWPCommunity");
+                foreach (UWPCommLib.Api.Yoshi.Models.AppMessage message in messages)
+                {
+                    if (message.Importance > 1)
+                        continue;
+
+                    // Update live tile
+                    TileBindingContentAdaptive text = new TileBindingContentAdaptive
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = message.Title,
+                                HintWrap = true,
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = message.Message,
+                                HintStyle = AdaptiveTextStyle.CaptionSubtle,
+                                HintWrap = true
+                            }
+                        }
+                    };
+                    var tileContent = new TileContent()
+                    {
+                        Visual = new TileVisual()
+                        {
+                            TileMedium = new TileBinding()
+                            {
+                                Branding = TileBranding.Logo,
+                                Content = text
+                            },
+                            TileWide = new TileBinding()
+                            {
+                                Branding = TileBranding.NameAndLogo,
+                                Content = text
+                            },
+                            TileLarge = new TileBinding()
+                            {
+                                Branding = TileBranding.NameAndLogo,
+                                Content = text
+                            }
+                        }
+                    };
+                    var notification = new TileNotification(tileContent.GetXml());
+                    TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
+                    TileUpdateManager.CreateTileUpdaterForApplication().Update(notification);
+                }
+            }
+        }
+        public delegate void ShowLiveTileChangedHandler(bool value);
+        public static event ShowLiveTileChangedHandler ShowLiveTileChanged;
 
         public delegate void SettingsChangedHandler(string name, object value);
         public static event SettingsChangedHandler SettingsChanged;

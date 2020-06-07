@@ -1,9 +1,7 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UWPCommLib.Api.UWPComm.Models;
 using UWPCommunity.Views.Dialogs;
-using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -34,49 +32,7 @@ namespace UWPCommunity.Views
             CardSubtitle.Text = card.Subtitle;
             CardDetails.Text = String.Join(" ", card.Details);
 
-            // Update live tile
-            TileBindingContentAdaptive text = new TileBindingContentAdaptive
-            {
-                Children =
-                {
-                    new AdaptiveText()
-                    {
-                        Text = CardSubtitle.Text,
-                        HintWrap = true,
-                    },
-                    new AdaptiveText()
-                    {
-                        Text = CardDetails.Text,
-                        HintStyle = AdaptiveTextStyle.CaptionSubtle,
-                        HintWrap = true
-                    }
-                }
-            };
-            var tileContent = new TileContent()
-            {
-                Visual = new TileVisual()
-                {
-                    TileMedium = new TileBinding()
-                    {
-                        Branding = TileBranding.Logo,
-                        Content = text
-                    },
-                    TileWide = new TileBinding()
-                    {
-                        Branding = TileBranding.NameAndLogo,
-                        Content = text
-                    },
-                    TileLarge = new TileBinding()
-                    {
-                        Branding = TileBranding.NameAndLogo,
-                        Content = text
-                    }
-                }
-            };
-            var notification = new TileNotification(tileContent.GetXml());
-            TileUpdateManager.CreateTileUpdaterForApplication().Clear();
-            TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
-            TileUpdateManager.CreateTileUpdaterForApplication().Update(notification);
+            SettingsManager.ApplyLiveTile(SettingsManager.GetShowLiveTile());
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
