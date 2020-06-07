@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Refit;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +23,35 @@ namespace UWPCommunity.Views
     /// </summary>
     public sealed partial class SettingsView : Page
     {
+        bool isReady = false;
+
         public SettingsView()
         {
             this.InitializeComponent();
+
+            #if !DEBUG
+            SettingsPivot.Items.Remove(DebugTab);
+            #endif
+
+            SettingsManager.SettingsChanged += SettingsManager_SettingsChanged;
+            SettingsManager.AppThemeChanged += SettingsManager_AppThemeChanged;
+            SettingsManager.ProjectCardSizeChanged += SettingsManager_ProjectCardSizeChanged;
+            SettingsManager.ShowLlamaBingoChanged += SettingsManager_ShowLlamaBingoChanged;
+            SettingsManager.UseDebugApiChanged += SettingsManager_UseDebugApiChanged;
+        }
+
+        private void SettingsManager_SettingsChanged(string name, object value)
+        {
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Settings: setting changed",
+                new Dictionary<string, string> {
+                    { "Setting", name + ": " + value?.ToString() },
+                }
+            );
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
 
             ThemeBox.SelectedValue = SettingsManager.GetAppThemeName();
             UseDebugApiBox.IsChecked = SettingsManager.GetUseDebugApi();
@@ -32,7 +59,41 @@ namespace UWPCommunity.Views
             ProjectCardWidth.Value = cardSize.X;
             ProjectCardHeight.Value = cardSize.Y;
             ShowLlamaBingoBox.IsChecked = SettingsManager.GetShowLlamaBingo();
+            ShowAppMessagesBox.IsChecked = SettingsManager.AppMessageSettings.GetShowAppMessages();
+            ImportanceLevelSlider.Value = SettingsManager.AppMessageSettings.GetImportanceLevel();
             AppVersionRun.Text = App.GetVersion();
+            isReady = true;
+
+            if (e.Parameter is SettingsPages)
+                SettingsPivot.SelectedIndex = (int)e.Parameter;
+
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Settings: Navigated to",
+                new Dictionary<string, string> {
+                    { "From", e.SourcePageType.Name },
+                    { "Parameters", e.Parameter?.ToString() }
+                }
+            );
+        }
+
+        private void SettingsManager_UseDebugApiChanged(bool value)
+        {
+            UseDebugApiBox.IsChecked = value;
+        }
+
+        private void SettingsManager_ShowLlamaBingoChanged(bool value)
+        {
+            ShowLlamaBingoBox.IsChecked = value;
+        }
+
+        private void SettingsManager_ProjectCardSizeChanged(Point value)
+        {
+            ProjectCardWidth.Value = value.X;
+            ProjectCardHeight.Value = value.Y;
+        }
+
+        private void SettingsManager_AppThemeChanged(ElementTheme value)
+        {
+            ThemeBox.SelectedValue = SettingsManager.GetAppThemeName();
         }
 
         private void ThemeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -58,6 +119,78 @@ namespace UWPCommunity.Views
         private void ShowLlamaBingoBox_Unchecked(object sender, RoutedEventArgs e)
         {
             SettingsManager.SetShowLlamaBingo(false);
+        }
+
+        private async void DefaultButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "Please confirm",
+                Content = "Are you sure you want to reset your settings? This cannot be undone.",
+                PrimaryButtonText = "Yes",
+                SecondaryButtonText = "Cancel",
+                RequestedTheme = SettingsManager.GetAppTheme()
+            };
+            ContentDialogResult result = await dialog.ShowAsync();
+            switch (result)
+            {
+                case ContentDialogResult.Primary:
+                    SettingsManager.LoadDefaults(true);
+                    break;
+            }
+        }
+
+        private async void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "Please confirm",
+                Content = "Are you sure you want to reset the app? This cannot be undone.",
+                PrimaryButtonText = "Yes",
+                SecondaryButtonText = "Cancel",
+                RequestedTheme = SettingsManager.GetAppTheme()
+            };
+            ContentDialogResult result = await dialog.ShowAsync();
+            switch (result)
+            {
+                case ContentDialogResult.Primary:
+                    SettingsManager.ResetApp();
+                    break;
+            }
+        }
+
+        private async void CrashButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "Please confirm",
+                Content = "This will crash the app. Are you sure you want to do this?",
+                PrimaryButtonText = "Yes",
+                SecondaryButtonText = "Cancel",
+                RequestedTheme = SettingsManager.GetAppTheme()
+            };
+            ContentDialogResult result = await dialog.ShowAsync();
+            switch (result)
+            {
+                case ContentDialogResult.Primary:
+                    throw new Exception("User artificially threw an exception");
+            }
+        }
+
+        private void ShowAppMessagesBox_Checked(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.AppMessageSettings.SetShowAppMessages(true);
+        }
+
+        private void ShowAppMessagesBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.AppMessageSettings.SetShowAppMessages(false);
+        }
+
+        private void ImportanceLevelSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (isReady)
+                SettingsManager.AppMessageSettings.SetImportanceLevel((int)e.NewValue);
         }
     }
 }

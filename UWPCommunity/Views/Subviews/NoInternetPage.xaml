@@ -1,0 +1,33 @@
+﻿<Page
+    x:Class="UWPCommunity.Views.Subviews.NoInternetPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPCommunity.Views.Subviews"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource SystemControlAccentDark1AcrylicWindowAccentDark1Brush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Viewbox Grid.Row="1" Grid.Column="1" MaxWidth="400">
+            <StackPanel>
+                <Grid>
+                    <ProgressRing/>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF384;" Foreground="White" />
+                </Grid>
+                <TextBlock Text="Reconnecting..." TextAlignment="Center" Foreground="White"/>
+            </StackPanel>
+        </Viewbox>
+    </Grid>
+</Page>

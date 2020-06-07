@@ -70,9 +70,7 @@ namespace UWPCommLib.Api.UWPComm.Models
         /// </summary>
         public string HeroImageSafe {
             get {
-                return HeroImage == null ?
-                    "https://images.freeimages.com/images/large-previews/809/phone-1635390.jpg"
-                    : HeroImage;
+                return HeroImage ?? "https://uwpcommunity.com/assets/img/LaunchHero.png";
             }
         }
 
@@ -263,6 +261,11 @@ namespace UWPCommLib.Api.UWPComm.Models
                     return ProjectCategory.BooksAndReference;
             }
         }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 
     public class NewProjectRequest
@@ -293,5 +296,30 @@ namespace UWPCommLib.Api.UWPComm.Models
 
         [JsonProperty(PropertyName = "role")]
         public string Role { get; set; }
+    }
+
+    public class DeleteProjectRequest
+    {
+        [JsonProperty(PropertyName = "appName")]
+        public string AppName { get; set; }
+
+        public DeleteProjectRequest(string appName)
+        {
+            AppName = appName;
+        }
+
+        public static explicit operator DeleteProjectRequest(string appName)
+        {
+            return new DeleteProjectRequest(appName);
+        }
+        public static explicit operator string(DeleteProjectRequest info)
+        {
+            return info?.AppName;
+        }
+
+        public override string ToString()
+        {
+            return AppName;
+        }
     }
 }

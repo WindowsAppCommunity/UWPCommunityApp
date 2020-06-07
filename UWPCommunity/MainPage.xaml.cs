@@ -52,6 +52,8 @@ namespace UWPCommunity
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             await Common.TrySignIn(false);
+            UpdateSignInUI();
+
             Tuple<Type, object> launchInfo = e.Parameter as Tuple<Type, object>;
             if (launchInfo != null && launchInfo.Item1 != null)
                 NavigationManager.Navigate(launchInfo.Item1, launchInfo.Item2);
@@ -64,19 +66,33 @@ namespace UWPCommunity
             MainNav.IsBackEnabled = MainFrame.CanGoBack;
             try
             {
-                // Update the NavView when the frame navigates on its own
-                //     This is in a try-catch block so that I don't have to do a dozen
-                //     null checks.
+                // Update the NavView when the frame navigates on its own.
+                // This is in a try-catch block so that I don't have to do a dozen
+                // null checks.
                 var page = Pages.Find((info) => info.PageType == e.SourcePageType);
-                if (page == null) return;
+                if (page == null)
+                {
+                    MainNav.SelectedItem = null;
+                    return;
+                }
                 MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as Microsoft.UI.Xaml.Controls.NavigationViewItem).Content.ToString() == page.Title);
             }
-            catch {}
+            catch
+            {
+                MainNav.SelectedItem = null;
+            }
         }
 
         private void Common_OnLoginStateChanged(bool isLoggedIn)
         {
-            if (isLoggedIn)
+            UpdateSignInUI(isLoggedIn);
+        }
+        private void UpdateSignInUI(bool? isLoggedIn = null)
+        {
+            if (!isLoggedIn.HasValue)
+                isLoggedIn = Common.IsLoggedIn;
+
+            if (isLoggedIn.Value)
             {
                 UnloadObject(SignInButton);
                 FindName("UserButton");

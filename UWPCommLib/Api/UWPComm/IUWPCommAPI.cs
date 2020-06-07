@@ -5,7 +5,7 @@ using UWPCommLib.Api.UWPComm.Models;
 
 namespace UWPCommLib.Api.UWPComm
 {
-    [Headers("Authorization: Bearer")]
+    [Headers("Authorization: Bearer", "Origin: uwpcommunity://")]
     public interface IUwpCommApi
     {
         #region /projects/
@@ -19,7 +19,7 @@ namespace UWPCommLib.Api.UWPComm
         /// Gets the complete list of projects that are registered for the specified Launch year
         /// </summary>
         [Get("/projects/launch/{year}")]
-        Task<List<Project>> GetLaunchProjects(int year);
+        Task<LaunchProjects> GetLaunchProjects(int year);
 
         /// <summary>
         /// Gets the project with the specified ID
@@ -49,7 +49,7 @@ namespace UWPCommLib.Api.UWPComm
         /// Deletes the project that matches the app name the closest
         /// </summary>
         [Delete("/projects")]
-        Task DeleteProject([Body(BodySerializationMethod.UrlEncoded)] string appName);
+        Task DeleteProject([Body(BodySerializationMethod.UrlEncoded)] DeleteProjectRequest info);
         #endregion
 
         #region /user/
@@ -78,6 +78,20 @@ namespace UWPCommLib.Api.UWPComm
         /// </summary>
         [Post("/user")]
         Task PostUser([Body(BodySerializationMethod.UrlEncoded)] Dictionary<string, string> info);
+        #endregion
+
+        #region /bot/
+        /// <summary>
+        /// Gets the user's profile information from Discord
+        /// </summary>
+        [Get("/bot/user/{userId}")]
+        Task<List<Discord.Models.User>> GetDiscordUser(string userId);
+
+        /// <summary>
+        /// Gets the user's roles in the UWP Community Discord server
+        /// </summary>
+        [Get("/bot/user/{userId}/roles")]
+        Task<List<Discord.Models.Role>> GetDiscordUserRoles(string userId);
         #endregion
     }
 }

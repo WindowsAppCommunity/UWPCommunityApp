@@ -5,22 +5,29 @@
     xmlns:local="using:UWPCommunity.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:winui="using:Microsoft.UI.Xaml.Controls" xmlns:controls="using:UWPCommunity.Controls"
-    mc:Ignorable="d">
-    <!--Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">-->
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:controls="using:UWPCommunity.Controls"
+    mc:Ignorable="d"
+    NavigationCacheMode="Disabled">
 
-    <Pivot>
+    <Page.Resources>
+        <Style TargetType="StackPanel">
+            <Setter Property="Spacing" Value="10"/>
+        </Style>
+    </Page.Resources>
+    
+    <Pivot x:Name="SettingsPivot">
         <PivotItem Header="General" Margin="12,0,12,0">
-            <StackPanel Spacing="10">
-                
+            <StackPanel>
+
                 <ComboBox x:Name="ThemeBox" Header="Choose a theme"
                           SelectionChanged="ThemeBox_SelectionChanged">
                     <x:String>Default</x:String>
                     <x:String>Light</x:String>
                     <x:String>Dark</x:String>
                 </ComboBox>
-                
-                <StackPanel Orientation="Horizontal" Spacing="10">
+
+                <StackPanel Orientation="Horizontal">
                     <winui:NumberBox x:Name="ProjectCardWidth" Header="Card Width"
                                      Minimum="0" ValueChanged="ProjectCardSize_ValueChanged"/>
                     <winui:NumberBox x:Name="ProjectCardHeight" Header="Height"
@@ -30,15 +37,32 @@
                 <CheckBox x:Name="ShowLlamaBingoBox" Content="Show Llamingo"
                           Checked="ShowLlamaBingoBox_Checked" Unchecked="ShowLlamaBingoBox_Unchecked"/>
 
+                <Button x:Name="DefaultButton" Content="Restore default settings"
+                        Click="DefaultButton_Click"/>
+
+                <Button x:Load="False" x:Name="ResetButton" Content="Reset app" Foreground="White" Click="ResetButton_Click">
+                    <Button.Background>
+                        <SolidColorBrush Color="DarkRed"/>
+                    </Button.Background>
+                </Button>
+
             </StackPanel>
         </PivotItem>
-        
-        <PivotItem Header="Debug">
+
+        <PivotItem Header="Messages">
             <StackPanel>
-                
-                <CheckBox x:Name="UseDebugApiBox" Content="Use Debug (localhost) API" IsChecked="False"
-                          Unchecked="UseDebugApiBox_Changed" Checked="UseDebugApiBox_Changed"/>
-                <TextBlock Text="*This feature requires the UWP Community backend to be running on the host machine at localhost."/>
+                <CheckBox x:Name="ShowAppMessagesBox" Content="Show new messages on startup"
+                          Checked="ShowAppMessagesBox_Checked" Unchecked="ShowAppMessagesBox_Unchecked"/>
+
+                <StackPanel Spacing="-5">
+                    <Slider x:Name="ImportanceLevelSlider" Minimum="0" Maximum="3"
+                        Value="3" TickFrequency="1" SmallChange="1" LargeChange="1" Width="150"
+                        ValueChanged="ImportanceLevelSlider_ValueChanged" HorizontalAlignment="Left"/>
+
+                    <TextBlock x:Name="ImportanceLevelDesc" xmlns:converters="using:UWPCommunity.Converters"
+                               Text="{x:Bind converters:SliderValueToStringConverter.Convert(ImportanceLevelSlider.Value), Mode=OneWay}"
+                               Foreground="{x:Bind converters:SliderValueToColorConverter.Convert(ImportanceLevelSlider.Value), Mode=OneWay}"/>
+                </StackPanel>
 
             </StackPanel>
         </PivotItem>
@@ -51,7 +75,7 @@
                             <FontIcon Glyph="🐱‍🏍" FontFamily="Segoe UI Emoji"/>
                         </Viewbox>
 
-                        <StackPanel>
+                        <StackPanel Spacing="0">
                             <TextBlock Text="UWP" FontSize="60" FontWeight="Bold"/>
                             <TextBlock Text="Community" FontSize="40" Margin="0,-15,0,0"/>
                         </StackPanel>
@@ -60,7 +84,11 @@
 
                 <RichTextBlock TextWrapping="Wrap" Grid.ColumnSpan="3">
                     <Paragraph>
-                        <Run Text="Developed by "/><Bold><Run Text="Joshua Askharoun"/></Bold><Run Text=" for the UWP Community. Released as part of Launch 2020."/>
+                        <Run Text="Developed by "/>
+                        <Bold>
+                            <Run Text="Joshua Askharoun"/>
+                        </Bold>
+                        <Run Text=" for the UWP Community. Released as part of Launch 2020."/>
                         <LineBreak/>
                         <Run Text="Visit the UWP Community website at "/>
                         <Hyperlink NavigateUri="https://uwpcommunity.com/">
@@ -77,6 +105,24 @@
                     </Paragraph>
                 </RichTextBlock>
             </Grid>
+        </PivotItem>
+
+        <PivotItem x:Name="DebugTab" Header="Debug">
+            <StackPanel>
+
+                <StackPanel Spacing="0">
+                    <CheckBox x:Name="UseDebugApiBox" Content="Use Debug (localhost) API" IsChecked="False"
+                          Unchecked="UseDebugApiBox_Changed" Checked="UseDebugApiBox_Changed"/>
+                    <TextBlock Text="*This feature requires the UWP Community backend to be running on the host machine at localhost."/>
+                </StackPanel>
+
+                <Button x:Name="CrashButton" Content="Crash app" Foreground="White" Click="CrashButton_Click">
+                    <Button.Background>
+                        <SolidColorBrush Color="DarkRed"/>
+                    </Button.Background>
+                </Button>
+
+            </StackPanel>
         </PivotItem>
     </Pivot>
 </Page>

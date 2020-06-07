@@ -9,19 +9,13 @@ using System.Threading.Tasks;
 using System.Web;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -51,11 +45,23 @@ namespace UWPCommunity.Views.Subviews
             }
 
             Bingo.BoardChanged += Bingo_BoardChanged;
+
+            var savedBoard = SettingsManager.GetSavedLlamaBingo();
+            if (savedBoard != null)
+            {
+                Bingo.SetByDataString(savedBoard);
+            }
         }
 
         private void Bingo_BoardChanged(string data)
         {
-            //RecentBoards.Insert(0, data);
+            // Save the current board in case of a crash
+            SettingsManager.SetSavedLlamaBingo(data);
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Llamingo: Board changed",
+                new Dictionary<string, string> {
+                    { "BoardData", data },
+                }
+            );
         }
 
         private async void SaveImage_Click(object sender, RoutedEventArgs e)
@@ -105,17 +111,24 @@ namespace UWPCommunity.Views.Subviews
 
         private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
-            var boardLink = new Uri(Bingo.GetShareLink());
+            string boardUrl = Bingo.GetShareLink();
+            var boardLink = new Uri(boardUrl);
             DataPackage linkPackage = new DataPackage();
             linkPackage.SetApplicationLink(boardLink);
             //Clipboard.SetContent(linkPackage);
 
             DataRequest request = args.Request;
-            request.Data.SetUri(boardLink);
+            request.Data.SetWebLink(boardLink);
             request.Data.Properties.Title = "Share Board";
             request.Data.Properties.Description = "Share your current Llamingo board";
             request.Data.Properties.ContentSourceApplicationLink = boardLink;
             //request.Data.Properties.Thumbnail = boardLink;
+
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Llamingo: Board shared",
+                new Dictionary<string, string> {
+                    { "BoardData", boardUrl },
+                }
+            );
         }
 
         public static async Task<WriteableBitmap> RenderUIElement(UIElement element)
@@ -155,24 +168,39 @@ namespace UWPCommunity.Views.Subviews
         {
             Bingo.ResetBoard();
             RecentBoards.Insert(0, Bingo.ToDataString());
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Llamingo: Board reset");
         }
 
         private async void LoadLink_Click(object sender, RoutedEventArgs e)
         {
-            string link = await Clipboard.GetContent().GetTextAsync();
-            var queries = HttpUtility.ParseQueryString(link);
-            if (queries?["board"] != null)
+            var clipboardPackage = Clipboard.GetContent();
+            if (clipboardPackage.Contains(StandardDataFormats.Text))
             {
-                Bingo.SetByDataString(queries["board"]);
-                RecentBoards.Insert(0, queries["board"]);
+                string link = await clipboardPackage.GetTextAsync();
+                var queries = HttpUtility.ParseQueryString(link);
+                if (queries?["board"] != null)
+                {
+                    Bingo.SetByDataString(queries["board"]);
+                    RecentBoards.Insert(0, queries["board"]);
+                    return;
+                }
             }
+
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "Failed to load board",
+                Content = "Your clipboard does not contain a valid link to a board",
+                CloseButtonText = "Ok",
+                RequestedTheme = SettingsManager.GetAppTheme()
+            };
+            ContentDialogResult result = await dialog.ShowAsync();
         }
 
         private async void CompactOverlayButton_Checked(object sender, RoutedEventArgs e)
         {
             var options = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
             options.ViewSizePreference = ViewSizePreference.Custom;
-            options.CustomSize = new Size(320, 500);
+            options.CustomSize = new Size(450, 500);
             bool modeSwitched = await ApplicationView.GetForCurrentView()
                 .TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay, options);
             (Window.Current.Content as Frame).Navigate(typeof(LlamaBingo), Bingo.ToDataString());

@@ -26,7 +26,7 @@ namespace UWPCommunity.Controls
         static readonly Version BingoVersion = new Version(App.GetVersion());
         const string fname = @"Assets\LlamaBingo-Tiles.txt";
         static readonly StorageFolder InstallationFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
-        List<string> AllTiles;
+        static List<string> AllTiles;
 
         public BingoCard()
         {

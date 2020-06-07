@@ -58,17 +58,17 @@ namespace UWPCommunity.Views.Subviews
             base.OnNavigatedTo(e);
         }
 
-        private async void ExternalLinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void ExternalLinkButton_Click(object sender, RoutedEventArgs e)
         {
             await NavigationManager.OpenInBrowser(Project.ExternalLink);
         }
 
-        private async void GitHubLinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void GitHubLinkButton_Click(object sender, RoutedEventArgs e)
         {
             await NavigationManager.OpenInBrowser(Project.GitHubLink);
         }
 
-        private async void DownloadLinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void DownloadLinkButton_Click(object sender, RoutedEventArgs e)
         {
             await NavigationManager.OpenInBrowser(Project.DownloadLink);
         }

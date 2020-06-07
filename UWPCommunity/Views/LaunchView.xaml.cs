@@ -1,22 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Foundation.Metadata;
+using UWPCommLib.Api.UWPComm.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using UWPCommLib.Api.UWPComm.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -30,23 +20,52 @@ namespace UWPCommunity.Views
         public ObservableCollection<Project> LaunchProjects { get; set; } = new ObservableCollection<Project>();
         public Project PersistantProject;
 
+        public string CardTitle { get; set; }
+        public string CardSubtitle { get; set; }
+        public string CardDetails { get; set; }
+
         public LaunchView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            Loaded += LaunchView_Loaded;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        private async void LaunchView_Loaded(object sender, RoutedEventArgs e)
         {
             if (!Common.IsInternetAvailable()) return;
+            RefreshProjects();
 
-            var projs = (await Common.UwpCommApi.GetProjects()).FindAll((project) => project.LaunchYear == DateTime.Now.Year && project.IsAwaitingLaunchApproval == false);
-            foreach (var project in projs)
+            // Get the card information from the website frontend
+            var response = await new System.Net.Http.HttpClient().GetAsync("https://raw.githubusercontent.com/UWPCommunity/uwpcommunity.github.io/master/assets/views/launch.json");
+            string json = await response.Content.ReadAsStringAsync();
+            var card = Newtonsoft.Json.JsonConvert.DeserializeObject<CardInfoResponse>(json).Main;
+            CardTitle = card.Title;
+            CardSubtitle = card.Subtitle;
+            CardDetails = String.Join(" ", card.Details);
+        }
+
+        private async void RefreshProjects()
+        {
+            //var projs = (await Common.UwpCommApi.GetProjects()).FindAll((project) => project.LaunchYear == DateTime.Now.Year && project.IsAwaitingLaunchApproval == false);
+            var launch = await Common.UwpCommApi.GetLaunchProjects(2020);
+            LaunchProjects = new ObservableCollection<Project>(launch.Projects);
+            if (ParticipantsGridView.Items.Count != LaunchProjects.Count)
             {
-                LaunchProjects.Add(project);
+                Bindings.Update();
             }
             LoadingIndicator.Visibility = Visibility.Collapsed;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
             PersistantProject = e.Parameter as Project;
-            base.OnNavigatedTo(e);
+
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Launch: Navigated to",
+                new System.Collections.Generic.Dictionary<string, string> {
+                    { "From", e.SourcePageType.Name },
+                    { "Parameters", e.Parameter?.ToString() }
+                }
+            );
         }
 
         private void Card_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -86,6 +105,11 @@ namespace UWPCommunity.Views
                         animation, PersistantProject, "HeroImageStartCtl");
                 }
             }
+        }
+
+        private void RefreshContainer_RefreshRequested(Microsoft.UI.Xaml.Controls.RefreshContainer sender, Microsoft.UI.Xaml.Controls.RefreshRequestedEventArgs args)
+        {
+            RefreshProjects();
         }
     }
 }

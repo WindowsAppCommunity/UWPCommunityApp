@@ -76,6 +76,11 @@ namespace UWPCommunity.Views.Subviews
                 {
                     await Common.UwpCommApi.PostProject(project);
                 }
+                Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: App registration submitted",
+                    new Dictionary<string, string> {
+                        { "Project", project.ToString() }
+                    }
+                );
                 NavigationManager.PageFrame.GoBack();
             }
             catch (Refit.ApiException ex)
@@ -94,6 +99,7 @@ namespace UWPCommunity.Views.Subviews
 
         private void CancelButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: App registration canceled");
             NavigationManager.PageFrame.GoBack();
         }
     }

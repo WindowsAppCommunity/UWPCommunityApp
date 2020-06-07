@@ -10,13 +10,12 @@
     d:DesignWidth="400"
     x:Name="RootControl">
 
-    <controls:DockPanel LastChildFill="True" Padding="5" HorizontalAlignment="Stretch"
-                        Background="{ThemeResource AppBarBackgroundThemeBrush}">
+    <controls:DockPanel LastChildFill="True" Padding="4" HorizontalAlignment="Stretch" Background="{ThemeResource AppBarBackgroundThemeBrush}">
 
         <controls:DockPanel.ContextFlyout>
             <MenuFlyout>
-                <MenuFlyoutItem Text="Edit" Icon="Edit" Click="EditButton_Click"/>
-                <MenuFlyoutItem Text="Delete" Icon="Delete" Click="DeleteButton_Click"/>
+                <MenuFlyoutItem x:Name="EditMenuButton" Text="Edit" Icon="Edit" Click="EditButton_Click"/>
+                <MenuFlyoutItem x:Name="DeleteMenuButton" Text="Delete" Icon="Delete" Click="DeleteButton_Click"/>
                 <MenuFlyoutItem Text="View" Icon="View" Click="ViewButton_Click"/>
             </MenuFlyout>
         </controls:DockPanel.ContextFlyout>
@@ -27,11 +26,11 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Image Source="{x:Bind ImageSource}" Stretch="UniformToFill" />
+            <controls:ImageEx Source="{x:Bind ImageSource}" Stretch="UniformToFill" CacheMode="BitmapCache" CachingStrategy="Internal"/>
 
             <StackPanel Orientation="Vertical" Grid.Row="1" Spacing="5" Margin="5">
                 <TextBlock Text="{x:Bind TitleText}"
-                       Style="{StaticResource BaseTextBlockStyle}" />
+                       Style="{StaticResource SubtitleTextBlockStyle}" />
                 <TextBlock Text="{x:Bind BodyText}"
                        Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
             </StackPanel>
@@ -45,7 +44,6 @@
                 <Button x:Name="EditButton" Click="EditButton_Click">
                     <SymbolIcon Symbol="Edit"/>
                 </Button>
-
                 <Button x:Name="DeleteButton" Click="DeleteButton_Click">
                     <SymbolIcon Symbol="Delete"/>
                 </Button>

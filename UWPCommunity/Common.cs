@@ -2,11 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.Devices.Bluetooth.Advertisement;
-using Windows.System;
 using UWPCommLib.Api.Discord;
 using UWPCommLib.Api.UWPComm;
 using Windows.UI.Xaml.Media;
+using UWPCommLib.Api.Yoshi;
 
 namespace UWPCommunity
 {
@@ -16,7 +15,10 @@ namespace UWPCommunity
         public static IUwpCommApi UwpCommApi = RestService.For<IUwpCommApi>(
             UwpCommApiHostUrl
         );
-        public static IDiscordAPI DiscordApi = RestService.For<IDiscordAPI>(
+        public static IYoshiApi YoshiApi = RestService.For<IYoshiApi>(
+            "https://yoshiask.herokuapp.com/api"
+        );
+        public static IDiscordApi DiscordApi = RestService.For<IDiscordApi>(
             "https://discordapp.com/api"
         );
 
@@ -35,7 +37,7 @@ namespace UWPCommunity
                         AuthorizationHeaderValueGetter = () => Task.FromResult(_token)
                     }
                 );
-                DiscordApi = RestService.For<IDiscordAPI>(
+                DiscordApi = RestService.For<IDiscordApi>(
                     "https://discordapp.com/api",
                     new RefitSettings()
                     {
