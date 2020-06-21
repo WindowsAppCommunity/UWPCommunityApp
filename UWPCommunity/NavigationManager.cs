@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using UWPCommunity.Views;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml;
 
 namespace UWPCommunity
@@ -123,14 +119,10 @@ namespace UWPCommunity
             {
                 case "http":
                     path = ptcl.ToString().Remove(0, 23);
-                    if (path.StartsWith("/"))
-                        path = path.Remove(0, 1);
                     break;
 
                 case "https":
                     path = ptcl.ToString().Remove(0, 24);
-                    if (path.StartsWith("/"))
-                        path = path.Remove(0, 1);
                     break;
 
                 case "uwpcommunity":
@@ -141,26 +133,12 @@ namespace UWPCommunity
                     // Unrecognized protocol
                     return new Tuple<Type, object>(destination, null);
             }
+            if (path.StartsWith("/"))
+                path = path.Remove(0, 1);
             var queryParams = System.Web.HttpUtility.ParseQueryString(ptcl.Query.Replace("\r", String.Empty).Replace("\n", String.Empty));
             
-            PageInfo pageInfo = MainPage.Pages.Find(p => p.Path == path.Split('/')[0]);
+            PageInfo pageInfo = MainPage.Pages.Find(p => p.Path == path.Split('/', StringSplitOptions.RemoveEmptyEntries)[0]);
             destination = pageInfo != null ? pageInfo.PageType : typeof(HomeView);
-            //if (path.StartsWith("projects"))
-            //{
-            //    destination = typeof(ProjectsView);
-            //}
-            //else if (path.StartsWith("launch"))
-            //{
-            //    destination = typeof(LaunchView);
-            //}
-            //else if (path.StartsWith("dashboard"))
-            //{
-            //    destination = typeof(DashboardView);
-            //}
-            //else if (path.StartsWith("llamabingo"))
-            //{
-            //    destination = typeof(Views.Subviews.LlamaBingo);
-            //}
             return new Tuple<Type, object>(destination, queryParams);
         }
         public static Tuple<Type, object> ParseProtocol(string url)
