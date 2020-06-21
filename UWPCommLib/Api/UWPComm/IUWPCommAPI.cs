@@ -43,7 +43,7 @@ namespace UWPCommLib.Api.UWPComm
         /// Updates the project with the given details
         /// </summary>
         [Put("/projects?appName={appName}")]
-        Task PutProject(string appName, [Body(BodySerializationMethod.Json)] Project info);
+        Task PutProject(string appName, [Body(BodySerializationMethod.Serialized)] Project info);
 
         /// <summary>
         /// Deletes the project that matches the app name the closest
