@@ -118,10 +118,31 @@ namespace UWPCommunity
             if (ptcl == null)
                 return new Tuple<Type, object>(destination, null);
 
-            // Removes the uwpcommunity:// from the URI
-            string path = ptcl.ToString()
-                .Remove(0, ptcl.Scheme.Length + 3);
+            string path;
+            switch (ptcl.Scheme)
+            {
+                case "http":
+                    path = ptcl.ToString().Remove(0, 23);
+                    if (path.StartsWith("/"))
+                        path = path.Remove(0, 1);
+                    break;
+
+                case "https":
+                    path = ptcl.ToString().Remove(0, 24);
+                    if (path.StartsWith("/"))
+                        path = path.Remove(0, 1);
+                    break;
+
+                case "uwpcommunity":
+                    path = ptcl.ToString().Remove(0, ptcl.Scheme.Length + 3);
+                    break;
+
+                default:
+                    // Unrecognized protocol
+                    return new Tuple<Type, object>(destination, null);
+            }
             var queryParams = System.Web.HttpUtility.ParseQueryString(ptcl.Query.Replace("\r", String.Empty).Replace("\n", String.Empty));
+            
             PageInfo pageInfo = MainPage.Pages.Find(p => p.Path == path.Split('/')[0]);
             destination = pageInfo != null ? pageInfo.PageType : typeof(HomeView);
             //if (path.StartsWith("projects"))
