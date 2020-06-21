@@ -55,7 +55,7 @@ namespace UWPCommunity.Views.Subviews
 
         private async void SubmitButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var project = oldProject;
+            var project = oldProject ?? new Project();
             project.AppName = NameBox.Text;
             project.Description = DescriptionBox.Text;
             project.IsPrivate = IsPrivateBox.IsChecked.Value;

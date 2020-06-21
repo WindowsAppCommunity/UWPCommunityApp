@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.ObjectModel;
+using System.Net.Http;
 using UWPCommLib.Api.UWPComm.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -35,25 +36,38 @@ namespace UWPCommunity.Views
             if (!Common.IsInternetAvailable()) return;
             RefreshProjects();
 
-            // Get the card information from the website frontend
-            var response = await new System.Net.Http.HttpClient().GetAsync("https://raw.githubusercontent.com/UWPCommunity/uwpcommunity.github.io/master/assets/views/launch.json");
-            string json = await response.Content.ReadAsStringAsync();
-            var card = Newtonsoft.Json.JsonConvert.DeserializeObject<CardInfoResponse>(json).Main;
-            CardTitle = card.Title;
-            CardSubtitle = card.Subtitle;
-            CardDetails = String.Join(" ", card.Details);
+            try
+            {
+                // Get the card information from the website frontend
+                var response = await new HttpClient().GetAsync("https://raw.githubusercontent.com/UWPCommunity/uwpcommunity.github.io/master/assets/views/launch.json");
+                string json = await response.Content.ReadAsStringAsync();
+                var card = Newtonsoft.Json.JsonConvert.DeserializeObject<CardInfoResponse>(json).Main;
+                CardTitle = card.Title;
+                CardSubtitle = card.Subtitle;
+                CardDetails = String.Join(" ", card.Details);
+            }
+            catch (HttpRequestException ex)
+            {
+                NavigationManager.NavigateToReconnect(ex);
+            }
         }
 
         private async void RefreshProjects()
         {
-            //var projs = (await Common.UwpCommApi.GetProjects()).FindAll((project) => project.LaunchYear == DateTime.Now.Year && project.IsAwaitingLaunchApproval == false);
-            var launch = await Common.UwpCommApi.GetLaunchProjects(2020);
-            LaunchProjects = new ObservableCollection<Project>(launch.Projects);
-            if (ParticipantsGridView.Items.Count != LaunchProjects.Count)
+            try
             {
-                Bindings.Update();
+                var launch = await Common.UwpCommApi.GetLaunchProjects(2020);
+                LaunchProjects = new ObservableCollection<Project>(launch.Projects);
+                if (ParticipantsGridView.Items.Count != LaunchProjects.Count)
+                {
+                    Bindings.Update();
+                }
+                LoadingIndicator.Visibility = Visibility.Collapsed;
             }
-            LoadingIndicator.Visibility = Visibility.Collapsed;
+            catch (HttpRequestException e)
+            {
+                NavigationManager.Navigate(typeof(Subviews.NoInternetPage), e);
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

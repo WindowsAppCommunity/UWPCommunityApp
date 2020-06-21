@@ -7,6 +7,7 @@ using Windows.System;
 using Windows.UI.Xaml.Controls;
 using UWPCommunity.Views;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml;
 
 namespace UWPCommunity
 {
@@ -96,6 +97,13 @@ namespace UWPCommunity
         public static void NavigateToViewProject(object project)
         {
             PageFrame.Navigate(typeof(Views.Subviews.ProjectDetailsView), project);
+        }
+
+        public static void NavigateToReconnect(System.Net.Http.HttpRequestException ex)
+        {
+            (Window.Current.Content as Frame).Navigate(
+                typeof(Views.Subviews.NoInternetPage), ex
+            );
         }
 
         public static void RemovePreviousFromBackStack()
