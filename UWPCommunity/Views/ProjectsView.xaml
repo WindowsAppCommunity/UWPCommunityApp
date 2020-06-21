@@ -70,28 +70,28 @@
                 </toolkit:AdaptiveGridView.ItemContainerStyle>
                 <toolkit:AdaptiveGridView.ItemTemplate>
                     <DataTemplate x:DataType="models:Project">
-                        <toolkit:DropShadowPanel>
+                        <toolkit:DropShadowPanel HorizontalContentAlignment="Stretch">
                             <controls:GridViewCardItem TitleText="{x:Bind AppName}"
-                                                   ImageSource="{x:Bind HeroImageSafe}"
-                                                   BodyText="{x:Bind Description}"
-                                                   IsEditable="False" IsDeletable="False"
-                                                   ViewRequested="Project_ViewRequested"
-                                                   x:Name="HeroImageStartCtl" >
+                                                       ImageSource="{x:Bind HeroImageSafe}"
+                                                       BodyText="{x:Bind Description}"
+                                                       IsEditable="False" IsDeletable="False"
+                                                       ViewRequested="Project_ViewRequested"
+                                                       x:Name="HeroImageStartCtl">
                                 <controls:GridViewCardItem.BadgeContent>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Visibility="{x:Bind ExternalLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                                        <Button Visibility="{x:Bind ExternalLink, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="ExternalLinkButton_Click" Margin="0,0,5,0">
                                             <Button.Content>
                                                 <SymbolIcon Symbol="Globe"/>
                                             </Button.Content>
                                         </Button>
-                                        <Button Visibility="{x:Bind GitHubLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                                        <Button Visibility="{x:Bind GitHubLink, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="GitHubLinkButton_Click" Margin="0,0,5,0">
                                             <Button.Content>
                                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF90;" />
                                             </Button.Content>
                                         </Button>
-                                        <Button Visibility="{x:Bind DownloadLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                                        <Button Visibility="{x:Bind DownloadLink, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="DownloadLinkButton_Click" Margin="0,0,5,0">
                                             <Button.Content>
                                                 <SymbolIcon Symbol="Shop"/>

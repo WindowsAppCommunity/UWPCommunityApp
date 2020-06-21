@@ -23,7 +23,7 @@
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
 
-                        <Image Source="https://uwpcommunity.com/assets/img/LaunchAppsHero.jpg"
+                        <Image Source="https://uwpcommunity.com/assets/img/LaunchAppsHero.png"
                                Stretch="UniformToFill" MaxHeight="250"/>
 
                         <StackPanel Margin="10,0,10,10" Grid.Row="1">

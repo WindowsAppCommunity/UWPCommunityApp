@@ -48,7 +48,10 @@ namespace UWPCommLib.Api.UWPComm.Models
         public bool? IsAwaitingLaunchApproval { get; set; }
 
         [JsonProperty(PropertyName = "heroImage")]
-        public string HeroImage { get; set; } = "https://uwpcommunity.com/assets/img/LaunchHero.png";
+        public string HeroImage { get; set; } = "https://uwpcommunity.com/assets/img/LaunchHero.jpg";
+
+        [JsonProperty(PropertyName = "appIcon")]
+        public string AppIcon { get; set; } = "https://uwpcommunity.com/assets/img/LaunchHero.jpg";
 
         [JsonProperty(PropertyName = "lookingForRoles")]
         public bool? IsLookingForRoles { get; set; }

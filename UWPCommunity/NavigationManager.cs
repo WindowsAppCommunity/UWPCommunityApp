@@ -150,8 +150,8 @@ namespace UWPCommunity
     public enum SettingsPages
     {
         General,
-        Debug,
         AppMessages,
-        About
+        About,
+        Debug
     }
 }
