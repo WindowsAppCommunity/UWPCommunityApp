@@ -61,6 +61,12 @@
                             </StackPanel>
                         </TextBox.Header>
                     </TextBox>
+                
+                    <TextBox x:Name="IconUrlBox" PlaceholderText="External link to your app's icon, if applicable">
+                        <TextBox.Header>
+                            <TextBlock Text="App icon"/>
+                        </TextBox.Header>
+                    </TextBox>
                 </StackPanel>
             </PivotItem>
         
@@ -78,7 +84,8 @@
                 <StackPanel Spacing="5">
                     <ComboBox x:Name="CategoryBox" Header="Category"/>
                     <CheckBox x:Name="IsPrivateBox" Content="Project is private/secret"/>
-                    <CheckBox x:Name="IsLaunchBox" Content="Participation in Launch 2020"/>
+                    <CheckBox x:Name="IsLaunchBox" Content="Participation in Launch 2020"
+                              IsEnabled="False"/>
                 </StackPanel>
             </PivotItem>
         

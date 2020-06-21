@@ -45,20 +45,22 @@ namespace UWPCommunity.Views.Subviews
                 DescriptionBox.Text = project.Description;
                 IsPrivateBox.IsChecked = project.IsPrivate;
                 HeroUrlBox.Text = project.HeroImage;
+                IconUrlBox.Text = project.AppIcon ?? "";
                 CategoryBox.SelectedValue = project.Category;
-                DownloadUrlBox.Text = project.DownloadLink == null ? "" : project.DownloadLink;
-                ExternalUrlBox.Text = project.ExternalLink == null ? "" : project.ExternalLink;
-                GithubUrlBox.Text = project.GitHubLink == null ? "" : project.GitHubLink;
+                DownloadUrlBox.Text = project.DownloadLink ?? project.DownloadLink;
+                ExternalUrlBox.Text = project.ExternalLink ?? project.ExternalLink;
+                GithubUrlBox.Text = project.GitHubLink ?? project.GitHubLink;
             }
         }
 
         private async void SubmitButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var project = new Project();// oldProject;
+            var project = oldProject;
             project.AppName = NameBox.Text;
             project.Description = DescriptionBox.Text;
             project.IsPrivate = IsPrivateBox.IsChecked.Value;
             project.HeroImage = HeroUrlBox.Text;
+            project.AppIcon = IconUrlBox.Text;
             project.Category = (CategoryBox.SelectedValue == null) ? Project.GetCategoryTitle(0) : CategoryBox.SelectedValue.ToString();
             project.Role = String.IsNullOrEmpty(project.Role) ? "Developer" : project.Role;
             project.DownloadLink = DownloadUrlBox.Text;
