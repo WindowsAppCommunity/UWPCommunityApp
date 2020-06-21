@@ -18,8 +18,10 @@ namespace UWPCommunity.Views.Dialogs
         private async void EditProfileDialog_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             var user = await Common.GetCurrentUser();
+            LoadingBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
             NameBox.Text = user.Name;
-            EmailBox.Text = (user.Email == null) ? "" : user.Email;
+            EmailBox.Text = user.Email ?? "";
         }
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

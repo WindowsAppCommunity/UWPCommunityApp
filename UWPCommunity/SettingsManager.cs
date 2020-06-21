@@ -20,7 +20,7 @@ namespace UWPCommunity
             if (!localSettings.Values.ContainsKey("UseDebugApi") || overrideCurr)
                 SetUseDebugApi(false);
             if (!localSettings.Values.ContainsKey("ProjectCardSize") || overrideCurr)
-                SetProjectCardSize(new Point(400, 350));
+                SetProjectCardSize(new Point(400, 300));
             if (!localSettings.Values.ContainsKey("ShowLlamaBingo") || overrideCurr)
                 SetShowLlamaBingo(true);
             if (!localSettings.Values.ContainsKey("SavedLlamaBingo") || overrideCurr)

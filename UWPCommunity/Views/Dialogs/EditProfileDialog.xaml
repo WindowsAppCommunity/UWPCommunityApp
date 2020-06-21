@@ -5,6 +5,7 @@
     xmlns:local="using:UWPCommunity.Views.Dialogs"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     PrimaryButtonText="OK"
     SecondaryButtonText="Cancel"
@@ -12,7 +13,10 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
     <ContentDialog.Title>
-        <TextBlock Text="Edit profile" Foreground="{StaticResource SystemAccentColor}" />
+        <StackPanel>
+            <TextBlock Text="Edit profile" Foreground="{StaticResource SystemAccentColor}" />
+            <winui:ProgressBar x:Name="LoadingBar" IsIndeterminate="True" HorizontalAlignment="Stretch"/>
+        </StackPanel>
     </ContentDialog.Title>
     
     <StackPanel Spacing="5">
@@ -24,7 +28,15 @@
                 </StackPanel>
             </TextBox.Header>
         </TextBox>
-        <TextBox x:Name="EmailBox" Header="Contact email"/>
+        <TextBlock Text="Friendly name for other users/devs to see"
+                   Style="{StaticResource CaptionTextBlockStyle}" Margin="0,0,0,5"/>
+        
+        <TextBox x:Name="EmailBox" Header="Email"/>
+        <TextBlock Text="Public email for others to contact you"
+                   Style="{StaticResource CaptionTextBlockStyle}" Margin="0,0,0,5"/>
+
+        <TextBlock Text="When you leave the Discord server, any data or projects you register with us will be removed automatically."
+                   TextWrapping="Wrap" Margin="0,10,0,0"/>
     </StackPanel>
     
 </ContentDialog>

@@ -15,7 +15,7 @@
         <converters:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
     </Page.Resources>
 
-    <Grid>
+    <Grid Padding="6">
 
         <winui:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
             <toolkit:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}"
@@ -64,7 +64,7 @@
                 </toolkit:AdaptiveGridView.Header>
                 <toolkit:AdaptiveGridView.ItemContainerStyle>
                     <Style TargetType="GridViewItem">
-                        <Setter Property="Margin" Value="12"/>
+                        <Setter Property="Margin" Value="6"/>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     </Style>
                 </toolkit:AdaptiveGridView.ItemContainerStyle>
@@ -107,7 +107,7 @@
         </winui:RefreshContainer>
         
         <StackPanel x:Name="LoadingIndicator" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <ProgressRing IsActive="True" Width="50" Height="50" Visibility="Visible"/>
+            <winui:ProgressRing IsActive="True" Width="50" Height="50" Visibility="Visible"/>
             <TextBlock Text="Fetching projects..." Style="{StaticResource SubtitleTextBlockStyle}"/>
         </StackPanel>
 
