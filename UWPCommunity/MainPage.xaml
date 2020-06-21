@@ -20,7 +20,7 @@
                     <Viewbox Height="120" Width="120">
                         <FontIcon Glyph="🐱‍🏍" FontFamily="Segoe UI Emoji"/>
                     </Viewbox>
-                    
+
                     <StackPanel>
                         <TextBlock Text="UWP" FontSize="60" FontWeight="Bold"/>
                         <TextBlock Text="Community" FontSize="40" Margin="0,-15,0,0"/>
@@ -28,14 +28,6 @@
                 </StackPanel>
             </Viewbox>
         </winui:NavigationView.PaneHeader>
-        
-        <!--<winui:NavigationView.MenuItemTemplate>
-            <DataTemplate x:DataType="local:PageInfo">
-                <winui:NavigationViewItem Content="{x:Bind Title}" Icon="{x:Bind Icon}"
-                                          ToolTipService.ToolTip="{x:Bind Subhead}"
-                                          Visibility="{x:Bind Visibility}"/>
-            </DataTemplate>
-        </winui:NavigationView.MenuItemTemplate>-->
 
         <winui:NavigationView.PaneFooter>
 

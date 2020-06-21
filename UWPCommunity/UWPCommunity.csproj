@@ -198,6 +198,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\Icons\dashboard.png" />
+    <Content Include="Assets\Icons\home.png" />
+    <Content Include="Assets\Icons\launch.png" />
+    <Content Include="Assets\Icons\llamabingo.png" />
+    <Content Include="Assets\Icons\projects.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />

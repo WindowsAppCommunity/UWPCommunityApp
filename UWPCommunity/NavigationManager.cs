@@ -110,6 +110,42 @@ namespace UWPCommunity
         {
             PageFrame.BackStack.RemoveAt(PageFrame.BackStack.Count - 1);
         }
+
+        public static Tuple<Type, object> ParseProtocol(Uri ptcl)
+        {
+            Type destination = typeof(HomeView);
+
+            if (ptcl == null)
+                return new Tuple<Type, object>(destination, null);
+
+            // Removes the uwpcommunity:// from the URI
+            string path = ptcl.ToString()
+                .Remove(0, ptcl.Scheme.Length + 3);
+            var queryParams = System.Web.HttpUtility.ParseQueryString(ptcl.Query.Replace("\r", String.Empty).Replace("\n", String.Empty));
+            PageInfo pageInfo = MainPage.Pages.Find(p => p.Path == path.Split('/')[0]);
+            destination = pageInfo != null ? pageInfo.PageType : typeof(HomeView);
+            //if (path.StartsWith("projects"))
+            //{
+            //    destination = typeof(ProjectsView);
+            //}
+            //else if (path.StartsWith("launch"))
+            //{
+            //    destination = typeof(LaunchView);
+            //}
+            //else if (path.StartsWith("dashboard"))
+            //{
+            //    destination = typeof(DashboardView);
+            //}
+            //else if (path.StartsWith("llamabingo"))
+            //{
+            //    destination = typeof(Views.Subviews.LlamaBingo);
+            //}
+            return new Tuple<Type, object>(destination, queryParams);
+        }
+        public static Tuple<Type, object> ParseProtocol(string url)
+        {
+            return ParseProtocol(String.IsNullOrWhiteSpace(url) ? null : new Uri(url));
+        }
     }
 
     public class PageInfo
@@ -137,9 +173,11 @@ namespace UWPCommunity
         public string Subhead { get; set; }
         public IconElement Icon { get; set; }
         public Type PageType { get; set; }
+        public string Path { get; set; }
         public string Tooltip { get; set; }
-        public Windows.UI.Xaml.Visibility Visibility { get; set; } = Windows.UI.Xaml.Visibility.Visible;
+        public Visibility Visibility { get; set; } = Visibility.Visible;
 
+        // Derived properties
         public NavigationViewItem NavViewItem {
             get {
                 var item = new NavigationViewItem()
@@ -151,6 +189,16 @@ namespace UWPCommunity
                 ToolTipService.SetToolTip(item, new ToolTip() { Content = Tooltip });
 
                 return item;
+            }
+        }
+        public string Protocol {
+            get {
+                return "uwpcommunity://" + Path;
+            }
+        }
+        public Uri IconAsset {
+            get {
+                return new Uri("ms-appx:///Assets/Icons/" + Path + ".png");
             }
         }
     }
