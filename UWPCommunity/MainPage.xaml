@@ -12,7 +12,7 @@
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
     <winui:NavigationView x:Name="MainNav" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed"
-                    SelectionChanged="NavigationView_SelectionChanged">
+                          SelectionChanged="NavigationView_SelectionChanged">
 
         <winui:NavigationView.PaneHeader>
             <Viewbox Margin="5">
@@ -29,12 +29,13 @@
             </Viewbox>
         </winui:NavigationView.PaneHeader>
         
-        <winui:NavigationView.MenuItemTemplate>
+        <!--<winui:NavigationView.MenuItemTemplate>
             <DataTemplate x:DataType="local:PageInfo">
                 <winui:NavigationViewItem Content="{x:Bind Title}" Icon="{x:Bind Icon}"
-                                    Visibility="{x:Bind Visibility}"/>
+                                          ToolTipService.ToolTip="{x:Bind Subhead}"
+                                          Visibility="{x:Bind Visibility}"/>
             </DataTemplate>
-        </winui:NavigationView.MenuItemTemplate>
+        </winui:NavigationView.MenuItemTemplate>-->
 
         <winui:NavigationView.PaneFooter>
 
