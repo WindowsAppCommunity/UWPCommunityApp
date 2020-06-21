@@ -28,6 +28,12 @@ namespace UWPCommLib.Api.UWPComm
         Task<Project> GetProject(int projectId);
 
         /// <summary>
+        /// Gets the project with the specified ID
+        /// </summary>
+        [Get("/projects/discordId/{discordId}")]
+        Task<Project> GetProjectByUser(string discordId);
+
+        /// <summary>
         /// Gets the list of collaborators for the specified project
         /// </summary>
         [Get("/projects/collaborators?projectId={projectId}")]
@@ -52,7 +58,7 @@ namespace UWPCommLib.Api.UWPComm
         Task DeleteProject([Body(BodySerializationMethod.UrlEncoded)] DeleteProjectRequest info);
         #endregion
 
-        #region /user/
+        #region /users/
         /// <summary>
         /// Gets the user's registered projects (requires authentication)
         /// </summary>
@@ -64,19 +70,25 @@ namespace UWPCommLib.Api.UWPComm
         /// Gets the user's profile information
         /// </summary>
         /// <param name="userId"></param>
-        [Get("/user/{userId}")]
+        [Get("/users/{userId}")]
         Task<Collaborator> GetUser(string userId);
+
+        /// <summary>
+        /// Gets a list of all registered users
+        /// </summary>
+        [Get("/users")]
+        Task<Collaborator> GetUsers();
 
         /// <summary>
         /// Sets the user's profile information
         /// </summary>
-        [Put("/user")]
+        [Put("/users")]
         Task SetUser([Body(BodySerializationMethod.UrlEncoded)] Dictionary<string, string> newInfo);
 
         /// <summary>
         /// Creates a user with the specified profile information
         /// </summary>
-        [Post("/user")]
+        [Post("/users")]
         Task PostUser([Body(BodySerializationMethod.UrlEncoded)] Dictionary<string, string> info);
         #endregion
 

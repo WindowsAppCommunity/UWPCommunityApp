@@ -8,9 +8,6 @@ namespace UWPCommLib.Api.UWPComm.Models
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
 
-        [JsonProperty(PropertyName = "collaborators")]
-        public List<Collaborator> Collaborators { get; set; }
-
         [JsonProperty(PropertyName = "launchYear")]
         public short? LaunchYear { get; set; }
 
@@ -58,6 +55,51 @@ namespace UWPCommLib.Api.UWPComm.Models
         /// </summary>
         [JsonProperty(PropertyName = "role")]
         public string Role { get; set; }
+
+        #region New
+        [JsonProperty(PropertyName = "projectId")]
+        public string ProjectId { get; set; }
+
+        [JsonProperty(PropertyName = "appName")]
+        public string AppName { get; set; }
+
+        [JsonProperty(PropertyName = "description")]
+        public string Description { get; set; }
+
+        [JsonProperty(PropertyName = "isPrivate")]
+        public bool IsPrivate { get; set; }
+
+        [JsonProperty(PropertyName = "downloadLink")]
+        public string DownloadLink { get; set; }
+
+        [JsonProperty(PropertyName = "githubLink")]
+        public string GithubLink { get; set; }
+
+        [JsonProperty(PropertyName = "externalLink")]
+        public string ExternalLink { get; set; }
+
+        [JsonProperty(PropertyName = "awaitingLaunchApproval")]
+        public bool IsAwaitingLaunchApproval { get; set; }
+
+        [JsonProperty(PropertyName = "needsManualReview")]
+        public bool NeedsManualReview { get; set; }
+
+        [JsonProperty(PropertyName = "isLookingForRoles")]
+        public string IsLookingForRoles { get; set; }
+
+        [JsonProperty(PropertyName = "heroImage")]
+        public string HeroImage { get; set; }
+
+        [JsonProperty(PropertyName = "categoryId")]
+        public string CategoryId { get; set; }
+
+        [JsonProperty(PropertyName = "category")]
+        public Category Category { get; set; }
+
+        public List<UserProject> UserProjects { get; set; } = new List<UserProject>();
+
+        public List<LaunchProject> LaunchProjects { get; set; } = new List<LaunchProject>();
+        #endregion
 
         public System.Uri HeroImageUri {
             get {
