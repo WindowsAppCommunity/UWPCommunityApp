@@ -11,7 +11,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <Style TargetType="StackPanel">
+        <Style TargetType="StackPanel" x:Key="StackPanelStyle">
             <Setter Property="Margin" Value="0,5,0,0"/>
             <Setter Property="Spacing" Value="5"/>
         </Style>
@@ -48,7 +48,7 @@
         </Pivot.Title>
 
         <PivotItem Header="Basic info">
-            <StackPanel>
+            <StackPanel Style="{StaticResource StackPanelStyle}">
                 <TextBox x:Name="NameBox" Text="{x:Bind Project.AppName, Mode=TwoWay}">
                     <TextBox.Header>
                         <StackPanel Orientation="Horizontal" Spacing="2" Margin="0">
@@ -88,7 +88,7 @@
         </PivotItem>
 
         <PivotItem Header="Project links">
-            <StackPanel>
+            <StackPanel Style="{StaticResource StackPanelStyle}">
                 <TextBox x:Name="DownloadUrlBox" Header="Download link" extensions:TextBoxMask.CustomMask="^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$"
                          Text="{x:Bind Project.DownloadLink, Mode=TwoWay}"/>
 

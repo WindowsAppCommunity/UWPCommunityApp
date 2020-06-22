@@ -61,6 +61,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AppCenter.Analytics">
+      <Version>3.2.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.4.2</Version>
+    </PackageReference>
+    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.Connectivity">
+      <Version>6.0.0-ge975abb046</Version>
+    </PackageReference>
+    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.Notifications">
+      <Version>6.0.0-ge975abb046</Version>
+    </PackageReference>
+    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>6.0.0-ge975abb046</Version>
+    </PackageReference>
     <PackageReference Include="Uno.UI" Version="2.4.4" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="2.4.4" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UniversalImageLoader" Version="1.9.32" />
@@ -88,6 +103,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Styles.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\UWPCommLib\UWPCommLib.csproj">
+      <Project>{77f56184-fb16-4757-bb79-0885ae7b5494}</Project>
+      <Name>UWPCommLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\UWPCommunityApp.Shared\UWPCommunityApp.Shared.projitems" Label="Shared" Condition="Exists('..\UWPCommunityApp.Shared\UWPCommunityApp.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

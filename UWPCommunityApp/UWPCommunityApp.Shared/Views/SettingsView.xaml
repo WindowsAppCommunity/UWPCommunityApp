@@ -11,14 +11,14 @@
     Background="Transparent">
 
     <Page.Resources>
-        <Style TargetType="StackPanel">
+        <Style TargetType="StackPanel" x:Key="StackPanelStyle">
             <Setter Property="Spacing" Value="10"/>
         </Style>
     </Page.Resources>
 
     <Pivot x:Name="SettingsPivot">
         <PivotItem Header="General" Margin="12,0,12,0">
-            <StackPanel>
+            <StackPanel  Style="{StaticResource StackPanelStyle}">
 
                 <ComboBox x:Name="ThemeBox" Header="Choose a theme"
                           SelectionChanged="ThemeBox_SelectionChanged">
@@ -27,7 +27,7 @@
                     <x:String>Dark</x:String>
                 </ComboBox>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel  Style="{StaticResource StackPanelStyle}" Orientation="Horizontal">
                     <winui:NumberBox x:Name="ProjectCardWidth" Header="Card Width"
                                      Minimum="0" ValueChanged="ProjectCardSize_ValueChanged"/>
                     <winui:NumberBox x:Name="ProjectCardHeight" Header="Height"
@@ -56,7 +56,7 @@
         </PivotItem>
 
         <PivotItem Header="Messages">
-            <StackPanel>
+            <StackPanel  Style="{StaticResource StackPanelStyle}">
                 <CheckBox x:Name="ShowAppMessagesBox" Content="Show new messages on startup"
                           Checked="ShowAppMessagesBox_Checked" Unchecked="ShowAppMessagesBox_Unchecked"/>
 
@@ -76,7 +76,7 @@
         <PivotItem Header="About">
             <Grid>
                 <Viewbox Grid.Column="1" Grid.Row="1" MaxWidth="450" MaxHeight="200" Margin="50">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel  Style="{StaticResource StackPanelStyle}" Orientation="Horizontal">
                         <Viewbox Height="120" Width="120">
                             <FontIcon Glyph="🐱‍🏍" FontFamily="Segoe UI Emoji"/>
                         </Viewbox>
@@ -114,7 +114,7 @@
         </PivotItem>
 
         <PivotItem x:Name="DebugTab" Header="Debug">
-            <StackPanel>
+            <StackPanel  Style="{StaticResource StackPanelStyle}">
 
                 <StackPanel Spacing="0">
                     <CheckBox x:Name="UseDebugApiBox" Content="Use Debug (localhost) API" IsChecked="False"

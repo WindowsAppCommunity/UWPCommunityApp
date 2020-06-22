@@ -7,7 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d"
+    xmlns:not_win="http:/uno.ui/not_win"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    mc:Ignorable="d not_win"
     d:DesignHeight="300"
     d:DesignWidth="400"
     x:Name="RootControl">
@@ -29,7 +31,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Grid>
+            <win:Grid>
                 <!--This grid handles the blurred backdrop-->
                 <controls:ImageEx Source="{x:Bind ImageSource}"
                                   VerticalAlignment="Center" HorizontalAlignment="Center"
@@ -39,10 +41,15 @@
                         <media:BackdropBlurBrush Amount="10"/>
                     </Border.Background>
                 </Border>
-            </Grid>
-            <controls:ImageEx Source="{x:Bind ImageSource}" Stretch="Uniform"
+                <controls:ImageEx Source="{x:Bind ImageSource}" Stretch="Uniform"
                               VerticalAlignment="Center" HorizontalAlignment="Center"
                               CacheMode="BitmapCache" CachingStrategy="Internal"/>
+            </win:Grid>
+            <not_win:Grid>
+                <controls:ImageEx Source="{x:Bind ImageSource}" Stretch="UniformToFill"
+                                  VerticalAlignment="Center" HorizontalAlignment="Center"
+                                  CacheMode="BitmapCache" CachingStrategy="Internal"/>
+            </not_win:Grid>
 
             <StackPanel Orientation="Vertical" Grid.Row="1" MaxHeight="90"
                         Spacing="5" Margin="5" HorizontalAlignment="Stretch">
