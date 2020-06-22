@@ -52,6 +52,7 @@ namespace UWPCommunity.Views
             ProjectCardWidth.Value = cardSize.X;
             ProjectCardHeight.Value = cardSize.Y;
             ShowLlamaBingoBox.IsChecked = SettingsManager.GetShowLlamaBingo();
+            ExtendIntoTitleBarBox.IsChecked = SettingsManager.GetExtendIntoTitleBar();
             ShowLiveTileBox.IsChecked = SettingsManager.GetShowLiveTile();
             ShowAppMessagesBox.IsChecked = SettingsManager.AppMessageSettings.GetShowAppMessages();
             ImportanceLevelSlider.Value = SettingsManager.AppMessageSettings.GetImportanceLevel();
@@ -67,6 +68,18 @@ namespace UWPCommunity.Views
                     { "Parameters", e.Parameter?.ToString() }
                 }
             );
+        }
+
+        private void ShowRestartRequiredDialog()
+        {
+            var dialog = new ContentDialog()
+            {
+                Title = "Restart required",
+                Content = "You modified settings that require a restart to take effect",
+                IsSecondaryButtonEnabled = false,
+                PrimaryButtonText = "OK"
+            };
+            dialog.ShowAsync();
         }
 
         private void SettingsManager_UseDebugApiChanged(bool value)
@@ -113,6 +126,20 @@ namespace UWPCommunity.Views
         private void ShowLlamaBingoBox_Unchecked(object sender, RoutedEventArgs e)
         {
             SettingsManager.SetShowLlamaBingo(false);
+        }
+
+        private void ExtendIntoTitleBarBox_Checked(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.SetExtendIntoTitleBar(true);
+            if (isReady)
+                ShowRestartRequiredDialog();
+        }
+
+        private void ExtendIntoTitleBarBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.SetExtendIntoTitleBar(false);
+            if (isReady)
+                ShowRestartRequiredDialog();
         }
 
         private void ShowLiveTileBox_Checked(object sender, RoutedEventArgs e)

@@ -6,15 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:converters="using:UWPCommunity.Converters"
+    xmlns:converters="using:UWPCommunity.Converters" xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d">
 
     <Page.Resources>
         <converters:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
     </Page.Resources>
-    
-    <ContentControl HorizontalContentAlignment="Stretch" Margin="10">
-        <Grid>
+
+    <Grid>
+        <ContentControl HorizontalContentAlignment="Stretch" Margin="10">
             <toolkit:DockPanel LastChildFill="True" VerticalAlignment="Stretch">
                 <RelativePanel toolkit:DockPanel.Dock="Top">
                     <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{x:Bind Project.AppName}"
@@ -51,17 +51,18 @@
                         </StackPanel>
                     </ContentPresenter>
                 </RelativePanel>
-                
+
                 <Image x:Name="HeroImageCtl" Source="{x:Bind Project.HeroImageSafe}" Stretch="Uniform"
                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,0,0"/>
             </toolkit:DockPanel>
+        </ContentControl>
 
-            <Button x:Name="CloseButton" VerticalAlignment="Top" HorizontalAlignment="Right"
-                    Click="CloseButton_Click">
-                <Button.Content>
-                    <SymbolIcon Symbol="Clear"/>
-                </Button.Content>
-            </Button>
-        </Grid>
-    </ContentControl>
+        <Button x:Name="CloseButton" VerticalAlignment="Top" HorizontalAlignment="Right"
+                Click="CloseButton_Click" Windows10version1809:CornerRadius="0"
+                Width="48" Height="40" Style="{ThemeResource ButtonRevealStyle}">
+            <Button.Content>
+                <SymbolIcon Symbol="Clear"/>
+            </Button.Content>
+        </Button>
+    </Grid>
 </Page>

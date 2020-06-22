@@ -1,5 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System;
+using System.Threading.Tasks;
+using UWPCommLib.Api.UWPComm.Models;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI.Notifications;
@@ -12,6 +14,35 @@ namespace UWPCommunity
         // Load the app's settings
         private static ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         private static StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+
+        public static async Task SaveProjectDraft(Project proj, bool isNewApp = false)
+        {
+            var folder = await localFolder.CreateFolderAsync("ProjectDrafts", CreationCollisionOption.OpenIfExists);
+            var file = await folder.CreateFileAsync(
+                (isNewApp ? "newapp" : proj.Id.ToString()) + ".json",
+                CreationCollisionOption.ReplaceExisting
+            );
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(proj);
+            await FileIO.WriteTextAsync(file, json);
+        }
+        public static async Task<Project> LoadProjectDraft(int id, bool isNewApp = false)
+        {
+            try
+            {
+                var folder = await localFolder.CreateFolderAsync("ProjectDrafts", CreationCollisionOption.OpenIfExists);
+                var file = await folder.GetFileAsync(
+                    (isNewApp ? "newapp" : id.ToString()) + ".json"
+                );
+                var proj = Newtonsoft.Json.JsonConvert.DeserializeObject<Project>(
+                    await FileIO.ReadTextAsync(file)
+                );
+                return proj;
+            }
+            catch (System.IO.FileNotFoundException ex)
+            {
+                return null;
+            }
+        }
 
         public static void LoadDefaults(bool overrideCurr = true)
         {
@@ -27,6 +58,8 @@ namespace UWPCommunity
                 SetSavedLlamaBingo(null);
             if (!localSettings.Values.ContainsKey("ShowLiveTile") || overrideCurr)
                 SetShowLiveTile(true);
+            if (!localSettings.Values.ContainsKey("ExtendIntoTitleBar") || overrideCurr)
+                SetExtendIntoTitleBar(true);
             AppMessageSettings.LoadDefaults(overrideCurr);
         }
 
@@ -264,6 +297,27 @@ namespace UWPCommunity
         }
         public delegate void ShowLiveTileChangedHandler(bool value);
         public static event ShowLiveTileChangedHandler ShowLiveTileChanged;
+
+        public static bool GetExtendIntoTitleBar()
+        {
+            try
+            {
+                return (bool)localSettings.Values["ExtendIntoTitleBar"];
+            }
+            catch
+            {
+                SetExtendIntoTitleBar(true);
+                return true;
+            }
+        }
+        public static void SetExtendIntoTitleBar(bool value)
+        {
+            localSettings.Values["ExtendIntoTitleBar"] = value;
+            ExtendIntoTitleBarChanged?.Invoke(value);
+            SettingsChanged?.Invoke("ExtendIntoTitleBar", value);
+        }
+        public delegate void ExtendIntoTitleBarChangedHandler(bool value);
+        public static event ExtendIntoTitleBarChangedHandler ExtendIntoTitleBarChanged;
 
         public delegate void SettingsChangedHandler(string name, object value);
         public static event SettingsChangedHandler SettingsChanged;

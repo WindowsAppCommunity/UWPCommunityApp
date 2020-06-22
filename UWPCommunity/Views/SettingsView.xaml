@@ -37,6 +37,9 @@
                 <CheckBox x:Name="ShowLlamaBingoBox" Content="Show Llamingo"
                           Checked="ShowLlamaBingoBox_Checked" Unchecked="ShowLlamaBingoBox_Unchecked"/>
 
+                <CheckBox x:Name="ExtendIntoTitleBarBox" Content="Extend into title bar"
+                          Checked="ExtendIntoTitleBarBox_Checked" Unchecked="ExtendIntoTitleBarBox_Unchecked"/>
+                
                 <CheckBox x:Name="ShowLiveTileBox" Content="Show live tile"
                           Checked="ShowLiveTileBox_Checked" Unchecked="ShowLiveTileBox_Unchecked"/>
 

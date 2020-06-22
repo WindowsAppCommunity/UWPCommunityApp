@@ -48,7 +48,10 @@ namespace UWPCommLib.Api.UWPComm.Models
         public bool? IsAwaitingLaunchApproval { get; set; }
 
         [JsonProperty(PropertyName = "heroImage")]
-        public string HeroImage { get; set; } = "https://uwpcommunity.com/assets/img/LaunchHero.png";
+        public string HeroImage { get; set; } = "https://uwpcommunity.com/assets/img/LaunchHero.jpg";
+
+        [JsonProperty(PropertyName = "appIcon")]
+        public string AppIcon { get; set; } = "https://uwpcommunity.com/assets/img/LaunchHero.jpg";
 
         [JsonProperty(PropertyName = "lookingForRoles")]
         public bool? IsLookingForRoles { get; set; }
@@ -57,7 +60,7 @@ namespace UWPCommLib.Api.UWPComm.Models
         /// The role the user had in this project. Only for use with POST /projects/
         /// </summary>
         [JsonProperty(PropertyName = "role")]
-        public string Role { get; set; }
+        public string Role { get; set; } = "Developer";
 
         public System.Uri HeroImageUri {
             get {

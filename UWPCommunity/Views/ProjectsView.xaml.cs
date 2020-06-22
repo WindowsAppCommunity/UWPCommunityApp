@@ -6,6 +6,7 @@ using UWPCommLib.Api.UWPComm.Models;
 using Windows.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using System.Net.Http;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -45,14 +46,21 @@ namespace UWPCommunity.Views
 
         private async void RefreshProjects()
         {
-            var projs = (await Common.UwpCommApi.GetProjects()).OrderBy(x => x.AppName);
-            Projects = new ObservableCollection<Project>(projs);
-            AllProjects = Projects.ToList();
-            if (ProjectsGridView.Items.Count != Projects.Count)
+            try
             {
-                Bindings.Update();
+                var projs = (await Common.UwpCommApi.GetProjects()).OrderBy(x => x.AppName);
+                Projects = new ObservableCollection<Project>(projs);
+                AllProjects = Projects.ToList();
+                if (ProjectsGridView.Items.Count != Projects.Count)
+                {
+                    Bindings.Update();
+                }
+                LoadingIndicator.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
-            LoadingIndicator.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            catch (HttpRequestException ex)
+            {
+                NavigationManager.NavigateToReconnect(ex);
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
