@@ -31,7 +31,7 @@ namespace UWPCommunityApp
 
             foreach (PageInfo page in Pages)
             {
-                MainNav.MenuItems.Add(new Microsoft.UI.Xaml.Controls.NavigationViewItem()
+                MainNav.MenuItems.Add(new NavigationViewItem()
                 {
                     Content = page.Title,
                     Icon = page.Icon,
@@ -40,7 +40,7 @@ namespace UWPCommunityApp
             }
             MainNav.SelectedItem = MainNav.MenuItems[0];
 
-            (MainNav.MenuItems[3] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility =
+            (MainNav.MenuItems[3] as NavigationViewItem).Visibility =
                 SettingsManager.GetShowLlamaBingo() ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
             SettingsManager.ShowLlamaBingoChanged += SettingsManager_ShowLlamaBingoChanged;
 
@@ -48,7 +48,7 @@ namespace UWPCommunityApp
 
         private void SettingsManager_ShowLlamaBingoChanged(bool newValue)
         {
-            (MainNav.MenuItems[3] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility =
+            (MainNav.MenuItems[3] as NavigationViewItem).Visibility =
                 newValue ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
         }
 
@@ -78,7 +78,7 @@ namespace UWPCommunityApp
                     MainNav.SelectedItem = null;
                     return;
                 }
-                MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as Microsoft.UI.Xaml.Controls.NavigationViewItem).Content.ToString() == page.Title);
+                MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as NavigationViewItem).Content.ToString() == page.Title);
             }
             catch
             {
@@ -101,14 +101,13 @@ namespace UWPCommunityApp
                 UserButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 UserProfilePicture.ProfilePicture =
                     new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
-                (MainNav.MenuItems[4] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Visible;
+                (MainNav.MenuItems[4] as NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
             else
             {
                 SignInButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 UserButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                UnloadObject(UserButton);
-                (MainNav.MenuItems[4] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                (MainNav.MenuItems[4] as NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
         }
 
@@ -120,7 +119,7 @@ namespace UWPCommunityApp
                 return;
             }
 
-            Microsoft.UI.Xaml.Controls.NavigationViewItem navItem = args.SelectedItem as Microsoft.UI.Xaml.Controls.NavigationViewItem;
+            NavigationViewItem navItem = args.SelectedItem as NavigationViewItem;
             if (navItem == null)
             {
                 NavigationManager.NavigateToHome();

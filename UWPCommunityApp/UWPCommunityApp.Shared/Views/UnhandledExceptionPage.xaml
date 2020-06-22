@@ -8,21 +8,15 @@
     mc:Ignorable="d"
     Background="Transparent">
 
-    <Page.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-    </Page.Resources>
-
     <StackPanel Spacing="20" Margin="50">
-        <TextBlock FontSize="100"
+        <TextBlock FontSize="100" Foreground="White"
                    Text=":("/>
-        <TextBlock FontSize="24" FontWeight="SemiBold"
+        <TextBlock FontSize="24" FontWeight="SemiBold" Foreground="White"
                    Text="UWP Community Companion ran into an unexpected error."/>
-        <TextBox FontSize="24"
+        <TextBox FontSize="24" Foreground="White"
                  Text="{x:Bind Path=ExceptionText}" AcceptsReturn="True" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <TextBox.Header>
-                <TextBlock Text="Exception:"/>
+                <TextBlock Text="Exception:" Foreground="White"/>
             </TextBox.Header>
         </TextBox>
     </StackPanel>

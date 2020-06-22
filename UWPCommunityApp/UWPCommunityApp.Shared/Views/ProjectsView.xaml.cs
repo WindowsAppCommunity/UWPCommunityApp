@@ -7,6 +7,8 @@ using Windows.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.Net.Http;
+using RefreshContainer = Windows.UI.Xaml.Controls.RefreshContainer;
+using RefreshRequestedEventArgs = Windows.UI.Xaml.Controls.RefreshRequestedEventArgs;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -24,7 +26,7 @@ namespace UWPCommunityApp.Views
         {
             InitializeComponent();
             Loaded += ProjectsView_Loaded;
-
+#if WINDOWS_UWP
             foreach (var category in Enum.GetValues(typeof(Project.ProjectCategory)).Cast<Project.ProjectCategory>())
             {
                 var menuItem = new RadioMenuFlyoutItem()
@@ -34,6 +36,9 @@ namespace UWPCommunityApp.Views
                 menuItem.Click += CategoryItem_Click;
                 CategoryFlyout.Items.Add(menuItem);
             }
+#else
+            CategoryButton.IsEnabled = false;
+#endif
             RefreshProjects();
         }
 
@@ -124,26 +129,26 @@ namespace UWPCommunityApp.Views
             ViewProject(e.ClickedItem as Project);
         }
 
-        private void RefreshContainer_RefreshRequested(Microsoft.UI.Xaml.Controls.RefreshContainer sender, Microsoft.UI.Xaml.Controls.RefreshRequestedEventArgs args)
+        private void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
         {
             RefreshProjects();
         }
 
         private void SortOption_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Sort((sender as RadioMenuFlyoutItem).Text);
+            Sort("Alphabetical (A-Z)");//(sender as RadioMenuFlyoutItem).Text);
         }
 
         private void CategoryItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             CategoryButton.IsChecked = true;
             SearchBox.Text = "";
-            var option = sender as RadioMenuFlyoutItem;
-            FilterByCategory(option.Text);
+            //var option = sender as RadioMenuFlyoutItem;
+            FilterByCategory(null);//option.Text);
             Bindings.Update();
         }
 
-        private void CategoryButton_IsCheckedChanged(Microsoft.UI.Xaml.Controls.ToggleSplitButton sender, Microsoft.UI.Xaml.Controls.ToggleSplitButtonIsCheckedChangedEventArgs args)
+        private void CategoryButton_IsCheckedChanged(Windows.UI.Xaml.Controls.ToggleSplitButton sender, Windows.UI.Xaml.Controls.ToggleSplitButtonIsCheckedChangedEventArgs args)
         {
             SearchBox.Text = "";
             if (sender.IsChecked)
@@ -193,13 +198,18 @@ namespace UWPCommunityApp.Views
 
             if (category == null)
             {
+#if WINDOWS_UWP
                 // Get first selected item
                 var option = (RadioMenuFlyoutItem)CategoryFlyout.Items.FirstOrDefault(i => (i as RadioMenuFlyoutItem).IsChecked);
                 category = (option == default(RadioMenuFlyoutItem))
                     ? ((RadioMenuFlyoutItem)CategoryFlyout.Items[0]).Text : option.Text;
+                Sort(collection: collection.Where(x => x.Category.Equals(category)));
+#else
+                // TODO: Uno doesn't have the RadioMenuFlyoutItem or ToggleSplitButton,
+                // so just hardcode this until there's a better fix.
+                Sort(collection: collection);
+#endif
             }
-
-            Sort(collection: collection.Where(x => x.Category.Equals(category)));
 
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Projects: Category filter",
                 new Dictionary<string, string> {
@@ -214,8 +224,9 @@ namespace UWPCommunityApp.Views
                 collection = AllProjects;
             if (mode == null)
             {
-                var sortOption = (RadioMenuFlyoutItem)SortFlyout.Items.First(i => (i as RadioMenuFlyoutItem).IsChecked);
-                mode = sortOption.Text;
+                //var sortOption = (RadioMenuFlyoutItem)SortFlyout.Items.First(i => (i as RadioMenuFlyoutItem).IsChecked);
+                //mode = sortOption.Text;
+                mode = "Alphabetical (A-Z)";
             }
 
             IOrderedEnumerable<Project> sorted;

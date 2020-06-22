@@ -12,9 +12,9 @@
 
     <UserControl.Resources>
         <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource SystemAccentColor}"/>
-        <Style TargetType="Border">
+        <Style x:Key="HeaderBorder" TargetType="Border">
             <Setter Property="BorderBrush"
-                        Value="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"/>
+                    Value="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="2"/>
         </Style>
@@ -24,11 +24,11 @@
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
         </Style>
-        <Style TargetType="ToggleButton">
+        <Style x:Key="BingoTileStyle" TargetType="ToggleButton">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
             <Setter Property="BorderBrush"
-                        Value="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"/>
+                    Value="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"/>
             <!--Win1809:Setter Property="CornerRadius" Value="0"/-->
         </Style>
         <Style TargetType="TextBlock" x:Key="TitleRun">
@@ -53,12 +53,12 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Row="0" Grid.Column="0">
+        <Border Style="{StaticResource HeaderBorder}" Grid.Row="0" Grid.Column="0">
             <TextBlock Style="{StaticResource TitleRun}">
                 <Run>L</Run>
             </TextBlock>
         </Border>
-        <Border Grid.Row="0" Grid.Column="1">
+        <Border Style="{StaticResource HeaderBorder}" Grid.Row="0" Grid.Column="1">
             <TextBlock Style="{StaticResource TitleRun}">
                 <Run>l</Run>
             </TextBlock>
@@ -68,12 +68,12 @@
                 <Run>a</Run>
             </TextBlock>
         </Border>
-        <Border Grid.Row="0" Grid.Column="3">
+        <Border Style="{StaticResource HeaderBorder}" Grid.Row="0" Grid.Column="3">
             <TextBlock Style="{StaticResource TitleRun}">
                 <Run>m</Run>
             </TextBlock>
         </Border>
-        <Border Grid.Row="0" Grid.Column="4">
+        <Border Style="{StaticResource HeaderBorder}" Grid.Row="0" Grid.Column="4">
             <TextBlock Style="{StaticResource TitleRun}">
                 <Run>a</Run>
             </TextBlock>

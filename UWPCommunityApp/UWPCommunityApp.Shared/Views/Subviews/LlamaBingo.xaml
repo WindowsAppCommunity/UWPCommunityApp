@@ -18,7 +18,7 @@
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton Icon="Refresh" Label="Reset" Click="ResetBoardButton_Click"/>
-            <AppBarButton Icon="Share" Label="Share" Click="CopyLink_Click"/>
+            <AppBarButton Icon="Copy" Label="Share" Click="CopyLink_Click"/>
             <AppBarButton Icon="Paste" Label="Load from Clipboard" Click="LoadLink_Click"/>
             <AppBarToggleButton x:Name="CompactOverlayButton" Label="Compact Overlay"
                                 Checked="CompactOverlayButton_Checked" Unchecked="CompactOverlayButton_Unchecked">

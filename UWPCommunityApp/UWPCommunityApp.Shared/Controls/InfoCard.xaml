@@ -34,17 +34,6 @@
                         Click="CardButton_Click"/>
             </StackPanel>
         </Grid>
-
-        <controls:DropShadowPanel.Resources>
-            <Storyboard x:Name="EnterStoryboard">
-                <DoubleAnimation Storyboard.TargetProperty="OffsetY" From="2" To="10" Duration="0:0:4" Storyboard.TargetName="Launch2020Panel"/>
-                <DoubleAnimation Storyboard.TargetProperty="BlurRadius" From="20" To="40" Duration="0:0:4" Storyboard.TargetName="Launch2020Panel"/>
-            </Storyboard>
-            <Storyboard x:Name="ExitStoryboard">
-                <DoubleAnimation Storyboard.TargetProperty="OffsetY" From="10" To="2" Duration="0:0:4" Storyboard.TargetName="Launch2020Panel"/>
-                <DoubleAnimation Storyboard.TargetProperty="BlurRadius" From="40" To="20" Duration="0:0:4" Storyboard.TargetName="Launch2020Panel"/>
-            </Storyboard>
-        </controls:DropShadowPanel.Resources>
     </controls:DropShadowPanel>
     
 </UserControl>

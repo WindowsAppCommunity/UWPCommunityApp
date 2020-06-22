@@ -42,8 +42,8 @@
                     </Border.Background>
                 </Border>
                 <controls:ImageEx Source="{x:Bind ImageSource}" Stretch="Uniform"
-                              VerticalAlignment="Center" HorizontalAlignment="Center"
-                              CacheMode="BitmapCache" CachingStrategy="Internal"/>
+                                  VerticalAlignment="Center" HorizontalAlignment="Center"
+                                  CacheMode="BitmapCache" CachingStrategy="Internal"/>
             </win:Grid>
             <not_win:Grid>
                 <controls:ImageEx Source="{x:Bind ImageSource}" Stretch="UniformToFill"
@@ -54,9 +54,9 @@
             <StackPanel Orientation="Vertical" Grid.Row="1" MaxHeight="90"
                         Spacing="5" Margin="5" HorizontalAlignment="Stretch">
                 <TextBlock Text="{x:Bind TitleText}"
-                       Style="{StaticResource SubtitleTextBlockStyle}" />
+                           Style="{StaticResource SubtitleTextBlockStyle}" />
                 <TextBlock Text="{x:Bind BodyText}"
-                       Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
+                           Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
             </StackPanel>
 
             <StackPanel controls:DockPanel.Dock="Bottom" Spacing="5" Grid.Row="2"
@@ -85,10 +85,10 @@
 
                 
             </ItemsControl>-->
-            <ContentPresenter controls:DockPanel.Dock="Bottom" Grid.Row="2" 
-                              HorizontalAlignment="Right" VerticalAlignment="Stretch"
-                              FlowDirection="RightToLeft"
-                              Content="{Binding BadgeContent, ElementName=RootControl}"/>
+            <ContentControl controls:DockPanel.Dock="Bottom" Grid.Row="2" 
+                            HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                            FlowDirection="RightToLeft"
+                            Content="{Binding BadgeContent, ElementName=RootControl}"/>
 
         </Grid>
 

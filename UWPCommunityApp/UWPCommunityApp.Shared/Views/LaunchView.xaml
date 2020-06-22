@@ -6,13 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:not_win="http:/uno.ui/not_win"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    mc:Ignorable="d not_win"
     Background="Transparent">
 
-    <winui:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
+    <RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
         <ScrollViewer>
             <StackPanel x:Name="BackgroundGrid">
                 <controls:DropShadowPanel x:Name="Launch2020Panel" Margin="16,12"
@@ -25,20 +27,26 @@
                             <RowDefinition Height="2*"/>
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
-
-                        <Grid>
+                        
+                        <win:Grid>
                             <!--This grid handles the blurred backdrop-->
                             <controls:ImageEx Source="https://uwpcommunity.com/assets/img/LaunchAppsHero.png"
-                                          VerticalAlignment="Center" HorizontalAlignment="Center"
-                                          Stretch="UniformToFill" MaxHeight="325" Opacity="0.25"/>
+                                                VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                Stretch="UniformToFill" Opacity="0.25"/>
                             <Border>
                                 <Border.Background>
                                     <media:BackdropBlurBrush Amount="10"/>
                                 </Border.Background>
                             </Border>
-                        </Grid>
-                        <controls:ImageEx Source="https://uwpcommunity.com/assets/img/LaunchAppsHero.png"
-                                          Stretch="Uniform" MaxHeight="325"/>
+                            <controls:ImageEx Source="https://uwpcommunity.com/assets/img/LaunchAppsHero.png" Stretch="Uniform"
+                                              VerticalAlignment="Center" HorizontalAlignment="Center"
+                                              CacheMode="BitmapCache" CachingStrategy="Internal"/>
+                        </win:Grid>
+                        <not_win:Grid>
+                            <controls:ImageEx Source="https://uwpcommunity.com/assets/img/LaunchAppsHero.png" Stretch="UniformToFill"
+                                              VerticalAlignment="Center" HorizontalAlignment="Center"
+                                              CacheMode="BitmapCache" CachingStrategy="Internal"/>
+                        </not_win:Grid>
 
                         <StackPanel Margin="10,0,10,10" Grid.Row="1">
                             <TextBlock Text="{x:Bind CardTitle}" Style="{StaticResource SubheaderTextBlockStyle}"
@@ -119,6 +127,6 @@
 
             </StackPanel>
         </ScrollViewer>
-    </winui:RefreshContainer>
+    </RefreshContainer>
 
 </Page>

@@ -64,7 +64,7 @@ namespace UWPCommunityApp.Controls
                 // NEVER change the order of the lines in this file.
                 // GetBoardAsDataString() relies on the order being constant,
                 // so the line number can be used as a unique ID for each tile.
-                AllTiles = httpResponseBody.Split("\n", StringSplitOptions.RemoveEmptyEntries).ToList();
+                AllTiles = httpResponseBody.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).ToList();
             }
             catch (Exception ex)
             {
@@ -128,6 +128,7 @@ namespace UWPCommunityApp.Controls
         private void AddTile(string text, bool isFilled = false)
         {
             var tileButton = new ToggleButton();
+            tileButton.Style = (Style)Resources["BingoTileStyle"];
             var tileText = new TextBlock();
             tileText.Style = (Style)Resources["BingoBox"];
             tileText.Text = text;

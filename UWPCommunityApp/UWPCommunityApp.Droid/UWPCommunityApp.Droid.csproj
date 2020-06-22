@@ -23,6 +23,10 @@
     <AndroidUseIntermediateDesignerFile>True</AndroidUseIntermediateDesignerFile>
     <ResourcesDirectory>..\UWPCommunityApp.Shared\Strings</ResourcesDirectory>
   </PropertyGroup>
+  <PropertyGroup>
+    <!-- Workaround for https://github.com/unoplatform/uno/issues/3408 to get Refit 5+ to work alongside Uno SourceGeneration -->
+    <RefitDisableGenerateRefitStubs Condition="'$(BuildingInsideUnoSourceGenerator)'!=''">true</RefitDisableGenerateRefitStubs>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>portable</DebugType>

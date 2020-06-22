@@ -20,9 +20,9 @@
                         Margin="10,10,0,10" toolkit:DockPanel.Dock="Left">
                 <PersonPicture x:Name="UserProfilePicture"/>
                 <TextBlock x:Name="UserProfileUsername" Text="Username"
-                            FontWeight="SemiBold" Foreground="{StaticResource SystemAltHighColor}"
-                            Style="{StaticResource SubheaderTextBlockStyle}" VerticalAlignment="Center"
-                            Margin="10,0,0,0"/>
+                           FontWeight="SemiBold" Foreground="{StaticResource SystemAltHighColor}"
+                           Style="{StaticResource SubheaderTextBlockStyle}" VerticalAlignment="Center"
+                           Margin="10,0,0,0"/>
             </StackPanel>
 
             <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -53,7 +53,7 @@
             </Rectangle.Fill>
         </Rectangle-->
 
-        <winui:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
+        <RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
             <ScrollViewer>
                 <StackPanel>
                     <toolkit:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}"
@@ -100,7 +100,7 @@
 
                 </StackPanel>
             </ScrollViewer>
-        </winui:RefreshContainer>
+        </RefreshContainer>
     </toolkit:DockPanel>
 
 </Page>

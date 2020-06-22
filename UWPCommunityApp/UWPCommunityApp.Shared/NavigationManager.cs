@@ -138,7 +138,7 @@ namespace UWPCommunityApp
                 path = path.Remove(0, 1);
             var queryParams = System.Web.HttpUtility.ParseQueryString(ptcl.Query.Replace("\r", String.Empty).Replace("\n", String.Empty));
 
-            PageInfo pageInfo = MainPage.Pages.Find(p => p.Path == path.Split('/', StringSplitOptions.RemoveEmptyEntries)[0]);
+            PageInfo pageInfo = MainPage.Pages.Find(p => p.Path == path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries)[0]);
             destination = pageInfo != null ? pageInfo.PageType : typeof(HomeView);
             return new Tuple<Type, object>(destination, queryParams);
         }
