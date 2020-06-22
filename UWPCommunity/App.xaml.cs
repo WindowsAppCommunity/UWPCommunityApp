@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
@@ -43,14 +42,7 @@ namespace UWPCommunity
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
-
-            ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = (Color)Current.Resources["SystemAccentColor"];
-            ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = Colors.Transparent;
-            ApplicationView.GetForCurrentView().TitleBar.ButtonHoverForegroundColor = (Color)Current.Resources["SystemAccentColor"];
-            ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
+            ExtendIntoTitleBar();
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -93,13 +85,7 @@ namespace UWPCommunity
         {
             this.UnhandledException += App_UnhandledException;
             Frame rootFrame = Window.Current.Content as Frame;
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
-
-            ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = (Color)Current.Resources["SystemAccentColor"];
-            ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = Colors.Transparent;
-            ApplicationView.GetForCurrentView().TitleBar.ButtonHoverForegroundColor = (Color)Current.Resources["SystemAccentColor"];
-            ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
+            ExtendIntoTitleBar();
 
             // Do not repeat app initialization when the Window already has content
             if (rootFrame == null)
@@ -194,6 +180,29 @@ namespace UWPCommunity
                 }
 
                 await jumpList.SaveAsync();
+            }
+        }
+
+        private void ExtendIntoTitleBar()
+        {
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            if (SettingsManager.GetExtendIntoTitleBar())
+            {
+                coreTitleBar.ExtendViewIntoTitleBar = true;
+
+                ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = (Color)Current.Resources["SystemAccentColor"];
+                ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                ApplicationView.GetForCurrentView().TitleBar.ButtonHoverForegroundColor = (Color)Current.Resources["SystemAccentColor"];
+                ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
+            }
+            else
+            {
+                coreTitleBar.ExtendViewIntoTitleBar = false;
+
+                ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = null;
+                ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = null;
+                ApplicationView.GetForCurrentView().TitleBar.ButtonHoverForegroundColor = null;
+                ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor = null;
             }
         }
 

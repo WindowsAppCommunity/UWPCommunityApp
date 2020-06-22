@@ -14,6 +14,12 @@
     <winui:NavigationView x:Name="MainNav" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed"
                           SelectionChanged="NavigationView_SelectionChanged">
 
+        <!--<winui:NavigationView.Resources>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="{ThemeResource SystemAccentColor}"/>
+            </ResourceDictionary>
+        </winui:NavigationView.Resources>-->
+        
         <winui:NavigationView.PaneHeader>
             <Viewbox Margin="5">
                 <StackPanel Orientation="Horizontal">
@@ -30,7 +36,6 @@
         </winui:NavigationView.PaneHeader>
 
         <winui:NavigationView.PaneFooter>
-
             <Grid>
                 <Button x:Name="SignInButton" x:Load="True"
                         Click="SignInButton_Click"

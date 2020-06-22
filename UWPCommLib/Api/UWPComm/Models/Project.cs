@@ -60,7 +60,7 @@ namespace UWPCommLib.Api.UWPComm.Models
         /// The role the user had in this project. Only for use with POST /projects/
         /// </summary>
         [JsonProperty(PropertyName = "role")]
-        public string Role { get; set; }
+        public string Role { get; set; } = "Developer";
 
         public System.Uri HeroImageUri {
             get {
