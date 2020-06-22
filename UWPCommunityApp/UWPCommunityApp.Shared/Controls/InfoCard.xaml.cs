@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace UWPCommunity.Controls
+namespace UWPCommunityApp.Controls
 {
     public sealed partial class InfoCard : UserControl
     {
@@ -30,7 +30,7 @@ namespace UWPCommunity.Controls
 
         private void Card_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            
+
         }
 
         public string TitleText {

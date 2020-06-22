@@ -1,15 +1,16 @@
 ﻿<Page
-    x:Class="UWPCommunity.Views.DashboardView"
+    x:Class="UWPCommunityApp.Views.DashboardView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UWPCommunity"
+    xmlns:local="using:UWPCommunityApp.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:controls="using:UWPCommunity.Controls"
+    xmlns:controls="using:UWPCommunityApp.Controls"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Background="Transparent">
 
     <toolkit:DockPanel LastChildFill="True">
 
@@ -17,7 +18,7 @@
                             HorizontalAlignment="Stretch" LastChildFill="True">
             <StackPanel x:Name="UserProfilePanel" Orientation="Horizontal"
                         Margin="10,10,0,10" toolkit:DockPanel.Dock="Left">
-                <winui:PersonPicture x:Name="UserProfilePicture"/>
+                <PersonPicture x:Name="UserProfilePicture"/>
                 <TextBlock x:Name="UserProfileUsername" Text="Username"
                             FontWeight="SemiBold" Foreground="{StaticResource SystemAltHighColor}"
                             Style="{StaticResource SubheaderTextBlockStyle}" VerticalAlignment="Center"
@@ -41,7 +42,7 @@
                 </StackPanel>
             </Viewbox>
         </toolkit:DockPanel>
-        
+
         <!-- TODO: Figure out how to keep this DropShadow above the GridView -->
         <!--Rectangle controls:DockPanel.Dock="Top" Height="30" Margin="0,0,0,-30" >
             <Rectangle.Fill>

@@ -1,9 +1,12 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace UWPCommunity.Views.Dialogs
+namespace UWPCommunityApp.Views.Dialogs
 {
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
     public sealed partial class ConfirmPrivacyPolicyDialog : ContentDialog
     {
         public ConfirmPrivacyPolicyDialog()

@@ -102,5 +102,14 @@ namespace UWPCommunityApp
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+        public static string GetVersion()
+        {
+            Package package = Package.Current;
+            PackageId packageId = package.Id;
+            PackageVersion version = packageId.Version;
+
+            return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
+        }
     }
 }

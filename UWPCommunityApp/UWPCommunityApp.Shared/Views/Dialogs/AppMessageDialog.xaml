@@ -1,0 +1,36 @@
+﻿<ContentDialog
+    x:Class="UWPCommunityApp.Views.Dialogs.AppMessageDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPCommunityApp.Views.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    PrimaryButtonText="Ok"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    IsSecondaryButtonEnabled="False">
+
+    <ContentDialog.Title>
+        <TextBlock Text="{x:Bind Message.Title}" Foreground="{StaticResource SystemAccentColor}" />
+    </ContentDialog.Title>
+
+    <StackPanel Spacing="5">
+        <toolkit:MarkdownTextBlock x:Name="ContentBox" Background="Transparent"
+                                   Text="{x:Bind Message.Message}"/>
+        <Grid>
+            <TextBlock Foreground="{ThemeResource SystemColorGrayTextColor}" HorizontalAlignment="Left"
+                       Text="{x:Bind DateString}" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5">
+                <TextBlock Text="by" Foreground="{ThemeResource SystemColorGrayTextColor}"/>
+                <TextBlock x:Name="AuthorBlock" Foreground="{ThemeResource SystemColorGrayTextColor}"
+                           Text="{x:Bind Message.Author}"/>
+            </StackPanel>
+        </Grid>
+
+        <HyperlinkButton Content="Change message preferences" Margin="0,-10,0,0"
+                         Click="PreferencesButton_Click"/>
+    </StackPanel>
+    
+</ContentDialog>

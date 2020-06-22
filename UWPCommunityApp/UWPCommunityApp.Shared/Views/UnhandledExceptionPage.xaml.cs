@@ -4,7 +4,7 @@ using UnhandledExceptionEventArgs = Windows.UI.Xaml.UnhandledExceptionEventArgs;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace UWPCommunity.Views
+namespace UWPCommunityApp.Views
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -25,7 +25,7 @@ namespace UWPCommunity.Views
 
             Exception = e.Parameter as UnhandledExceptionEventArgs;
             if (Exception != null)
-                ExceptionText = Exception.Message + "\n\n" + Exception.Exception.StackTrace; 
+                ExceptionText = Exception.Message + "\n\n" + Exception.Exception.StackTrace;
         }
     }
 }

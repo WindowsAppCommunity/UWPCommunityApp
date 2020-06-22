@@ -1,14 +1,15 @@
 ﻿<Page
-    x:Class="UWPCommunity.Views.Subviews.ProjectDetailsView"
+    x:Class="UWPCommunityApp.Views.Subviews.ProjectDetailsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UWPCommunity.Views.Subviews"
+    xmlns:local="using:UWPCommunityApp.Views.Subviews"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="Transparent"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:converters="using:UWPCommunity.Converters"
-    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
-    mc:Ignorable="d">
+    xmlns:converters="using:UWPCommunityApp.Converters"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)">
 
     <Page.Resources>
         <converters:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
@@ -66,4 +67,5 @@
             </Button.Content>
         </Button>
     </Grid>
+    
 </Page>
