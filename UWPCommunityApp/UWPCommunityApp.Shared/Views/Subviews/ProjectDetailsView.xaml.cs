@@ -29,7 +29,9 @@ namespace UWPCommunityApp.Views.Subviews
                 ConnectedAnimationService.GetForCurrentView().GetAnimation("projectView");
             if (animation != null)
             {
+#if !DROID
                 animation.TryStart(HeroImageCtl);
+#endif
             }
             PreviousPage = e.SourcePageType;
 

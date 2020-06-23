@@ -177,6 +177,7 @@ namespace UWPCommunityApp.Views.Subviews
             if (clipboardPackage.Contains(StandardDataFormats.Text))
             {
                 string link = await clipboardPackage.GetTextAsync();
+#if !DROID
                 var queries = HttpUtility.ParseQueryString(link);
                 if (queries?["board"] != null)
                 {
@@ -184,6 +185,7 @@ namespace UWPCommunityApp.Views.Subviews
                     RecentBoards.Insert(0, queries["board"]);
                     return;
                 }
+#endif
             }
 
             ContentDialog dialog = new ContentDialog

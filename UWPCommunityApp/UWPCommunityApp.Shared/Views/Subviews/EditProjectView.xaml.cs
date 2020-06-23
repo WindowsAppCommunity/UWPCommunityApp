@@ -74,7 +74,11 @@ namespace UWPCommunityApp.Views.Subviews
             }
             catch (Refit.ApiException ex)
             {
+#if WINDOWS_UWP
                 var error = await ex.GetContentAsAsync<Error>();
+#else
+                var error = ex.GetContentAs<Error>();
+#endif
                 ContentDialog dialog = new ContentDialog
                 {
                     Title = "Failed to create project",

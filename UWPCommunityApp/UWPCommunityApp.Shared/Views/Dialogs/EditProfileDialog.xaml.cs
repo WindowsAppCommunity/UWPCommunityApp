@@ -21,7 +21,11 @@ namespace UWPCommunityApp.Views.Dialogs
         private async void EditProfileDialog_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             var user = await Common.GetCurrentUser();
+#if WINDOWS_UWP
             LoadingBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+#elif DROID
+            LoadingBar.Visibility = Android.Views.ViewStates.Gone;
+#endif
 
             NameBox.Text = user.Name;
             EmailBox.Text = user.Email ?? "";
