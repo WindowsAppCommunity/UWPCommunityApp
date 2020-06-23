@@ -4,13 +4,8 @@ using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-#if WINDOWS_UWP
-using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
-using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
-#else
 using NavigationView = Windows.UI.Xaml.Controls.NavigationView;
 using NavigationViewSelectionChangedEventArgs = Windows.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
-#endif
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 

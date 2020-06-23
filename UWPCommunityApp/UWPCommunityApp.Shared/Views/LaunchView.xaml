@@ -28,7 +28,7 @@
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
                         
-                        <win:Grid>
+                        <win:Grid MaxHeight="325">
                             <!--This grid handles the blurred backdrop-->
                             <controls:ImageEx Source="https://uwpcommunity.com/assets/img/LaunchAppsHero.png"
                                                 VerticalAlignment="Center" HorizontalAlignment="Center"

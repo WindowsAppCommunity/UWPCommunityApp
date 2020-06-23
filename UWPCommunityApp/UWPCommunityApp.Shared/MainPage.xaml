@@ -12,7 +12,7 @@
     win:Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     not_win:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <winui:NavigationView x:Name="MainNav" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed"
+    <NavigationView x:Name="MainNav" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed"
                           SelectionChanged="NavigationView_SelectionChanged">
 
         <!--<winui:NavigationView.Resources>
@@ -21,7 +21,7 @@
             </ResourceDictionary>
         </winui:NavigationView.Resources>-->
 
-        <winui:NavigationView.PaneHeader>
+        <NavigationView.PaneHeader>
             <Viewbox Margin="5">
                 <StackPanel Orientation="Horizontal">
                     <Viewbox Height="120" Width="120">
@@ -34,9 +34,9 @@
                     </StackPanel>
                 </StackPanel>
             </Viewbox>
-        </winui:NavigationView.PaneHeader>
+        </NavigationView.PaneHeader>
 
-        <winui:NavigationView.PaneFooter>
+        <NavigationView.PaneFooter>
             <Grid>
                 <Button x:Name="SignInButton" Visibility="Visible"
                         Click="SignInButton_Click"
@@ -67,9 +67,9 @@
                     </Button.Flyout>
                 </Button>
             </Grid>
-        </winui:NavigationView.PaneFooter>
+        </NavigationView.PaneFooter>
 
         <Frame x:Name="MainFrame"/>
 
-    </winui:NavigationView>
+    </NavigationView>
 </Page>
