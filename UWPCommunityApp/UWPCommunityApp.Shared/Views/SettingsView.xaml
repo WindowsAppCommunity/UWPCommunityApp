@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:converters="using:UWPCommunityApp.Converters"
-    mc:Ignorable="d"
+    xmlns:not_win="http://uno.ui/not_win"
+    mc:Ignorable="d not_win"
     Background="Transparent">
 
     <Page.Resources>
@@ -20,7 +21,7 @@
         <PivotItem Header="General" Margin="12,0,12,0">
             <StackPanel  Style="{StaticResource StackPanelStyle}">
 
-                <ComboBox x:Name="ThemeBox" Header="Choose a theme"
+                <ComboBox x:Name="ThemeBox" Header="Choose a theme" not_win:IsEnabled="False"
                           SelectionChanged="ThemeBox_SelectionChanged">
                     <x:String>Default</x:String>
                     <x:String>Light</x:String>
@@ -38,6 +39,7 @@
                           Checked="ShowLlamaBingoBox_Checked" Unchecked="ShowLlamaBingoBox_Unchecked"/>
 
                 <CheckBox x:Name="ExtendIntoTitleBarBox" Content="Extend into title bar"
+                          not_win:IsEnabled="False" not_win:IsChecked="True"
                           Checked="ExtendIntoTitleBarBox_Checked" Unchecked="ExtendIntoTitleBarBox_Unchecked"/>
 
                 <CheckBox x:Name="ShowLiveTileBox" Content="Show live tile"

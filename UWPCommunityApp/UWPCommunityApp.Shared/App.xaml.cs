@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -30,6 +31,12 @@ namespace UWPCommunityApp
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += App_UnhandledException;
+        }
+
+        private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            Debug.WriteLine(e.Exception);
         }
 
         /// <summary>

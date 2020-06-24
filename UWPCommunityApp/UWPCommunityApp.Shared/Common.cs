@@ -157,8 +157,13 @@ namespace UWPCommunityApp
 
         public static bool IsInternetAvailable()
         {
+#if WINDOWS_UWP
             var profile = Windows.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile();
             return (profile != null) && !String.IsNullOrEmpty(profile.ProfileName);
+#else
+            // TODO: Find another way to check if internet is available
+            return true;
+#endif
         }
     }
 

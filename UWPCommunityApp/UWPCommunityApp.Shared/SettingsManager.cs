@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using UWPCommLib.Api.UWPComm.Models;
 using Windows.Foundation;
@@ -17,6 +18,7 @@ namespace UWPCommunityApp
 
         public static async Task SaveProjectDraft(Project proj, bool isNewApp = false)
         {
+#if WINDOWS_UWP
             var folder = await localFolder.CreateFolderAsync("ProjectDrafts", CreationCollisionOption.OpenIfExists);
             var file = await folder.CreateFileAsync(
                 (isNewApp ? "newapp" : proj.Id.ToString()) + ".json",
@@ -24,9 +26,11 @@ namespace UWPCommunityApp
             );
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(proj);
             await FileIO.WriteTextAsync(file, json);
+#endif
         }
         public static async Task<Project> LoadProjectDraft(int id, bool isNewApp = false)
         {
+#if WINDOWS_UWP
             try
             {
                 var folder = await localFolder.CreateFolderAsync("ProjectDrafts", CreationCollisionOption.OpenIfExists);
@@ -42,6 +46,9 @@ namespace UWPCommunityApp
             {
                 return null;
             }
+#else
+            return await Task.FromResult<Project>(null);
+#endif
         }
 
         public static void LoadDefaults(bool overrideCurr = true)
@@ -237,8 +244,9 @@ namespace UWPCommunityApp
             ShowLiveTileChanged?.Invoke(value);
             SettingsChanged?.Invoke("ShowLiveTile", value);
         }
-        public static async void ApplyLiveTile(bool value)
+        public static async Task ApplyLiveTile(bool value)
         {
+#if WINDOWS_UWP
             TileUpdateManager.CreateTileUpdaterForApplication().Clear();
 
             if (value)
@@ -289,15 +297,15 @@ namespace UWPCommunityApp
                             }
                         }
                     };
-#if WINDOWS_UWP
                     var notification = new TileNotification(tileContent.GetXml());
                     TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
                     TileUpdateManager.CreateTileUpdaterForApplication().Update(notification);
-#else
                     // TODO: How to do this on other platforms?
-#endif
                 }
             }
+#else
+            // TODO: Live tiles on other platforms?
+#endif
         }
         public delegate void ShowLiveTileChangedHandler(bool value);
         public static event ShowLiveTileChangedHandler ShowLiveTileChanged;

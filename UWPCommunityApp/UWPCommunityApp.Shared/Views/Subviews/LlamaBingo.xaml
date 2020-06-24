@@ -6,8 +6,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:UWPCommunityApp.Controls"
-    mc:Ignorable="d"
+    xmlns:not_win="http://uno.ui/not_win"
+    mc:Ignorable="d not_win"
     Background="Transparent">
+
+    <not_win:Page.Resources>
+        <SolidColorBrush x:Key="SystemRevealChromeMediumColor"
+                         Color="{ThemeResource SystemChromeMediumColor}"/>
+        <SolidColorBrush x:Key="SystemControlBackgroundListMediumRevealBorderBrush"
+                         Color="{ThemeResource SystemListMediumColor}"/>
+    </not_win:Page.Resources>
 
     <Grid>
         <Viewbox>

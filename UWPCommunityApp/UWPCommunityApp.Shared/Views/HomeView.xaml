@@ -13,6 +13,13 @@
     mc:Ignorable="d not_win"
     Background="Transparent">
 
+    <not_win:Page.Resources>
+        <SolidColorBrush x:Key="SystemRevealChromeMediumColor"
+                         Color="{ThemeResource SystemChromeMediumColor}"/>
+        <SolidColorBrush x:Key="SystemControlBackgroundListMediumRevealBorderBrush"
+                         Color="{ThemeResource SystemListMediumColor}"/>
+    </not_win:Page.Resources>
+    
     <toolkit:HeaderedContentControl>
         <toolkit:HeaderedContentControl.Header>
             <TextBlock Text="The homepage for the unofficial Discord server"
@@ -29,8 +36,8 @@
 
                 <toolkit:DropShadowPanel Margin="12,6,12,12">
                     <Grid x:Name="HomeCard" CornerRadius="2"
-                          Background="{ThemeResource SystemRevealChromeMediumColor}"
-                          BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"
+                          Background="{StaticResource SystemRevealChromeMediumColor}"
+                          BorderBrush="{StaticResource SystemControlBackgroundListMediumRevealBorderBrush}"
                           HorizontalAlignment="Stretch">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -80,7 +87,7 @@
                     </toolkit:AdaptiveGridView.ItemContainerStyle>
 
                     <toolkit:DropShadowPanel>
-                        <Grid x:Name="DiscordCard" CornerRadius="2" Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
+                        <Grid x:Name="DiscordCard" CornerRadius="2" Background="{StaticResource SystemRevealChromeMediumColor}" BorderBrush="{StaticResource SystemControlBackgroundListMediumRevealBorderBrush}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
@@ -98,7 +105,7 @@
                     </toolkit:DropShadowPanel>
 
                     <toolkit:DropShadowPanel Grid.Column="1">
-                        <Grid x:Name="GitHubCard" CornerRadius="2" Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}" >
+                        <Grid x:Name="GitHubCard" CornerRadius="2" Background="{StaticResource SystemRevealChromeMediumColor}" BorderBrush="{StaticResource SystemControlBackgroundListMediumRevealBorderBrush}" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
@@ -117,7 +124,7 @@
 
                     <toolkit:DropShadowPanel Grid.Column="2">
                         <Grid x:Name="Launch2019Card" CornerRadius="2" 
-                                Background="{ThemeResource SystemRevealChromeMediumColor}" BorderBrush="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}">
+                                Background="{StaticResource SystemRevealChromeMediumColor}" BorderBrush="{StaticResource SystemControlBackgroundListMediumRevealBorderBrush}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>

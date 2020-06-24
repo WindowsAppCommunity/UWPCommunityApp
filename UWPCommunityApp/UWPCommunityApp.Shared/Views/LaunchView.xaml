@@ -14,6 +14,13 @@
     mc:Ignorable="d not_win"
     Background="Transparent">
 
+    <not_win:Page.Resources>
+        <SolidColorBrush x:Key="SystemRevealChromeMediumColor"
+                         Color="{ThemeResource SystemChromeMediumColor}"/>
+        <SolidColorBrush x:Key="SystemControlBackgroundListMediumRevealBorderBrush"
+                         Color="{ThemeResource SystemListMediumColor}"/>
+    </not_win:Page.Resources>
+
     <RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
         <ScrollViewer>
             <StackPanel x:Name="BackgroundGrid">

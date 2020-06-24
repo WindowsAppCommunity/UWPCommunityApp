@@ -10,8 +10,16 @@
     xmlns:controls="using:UWPCommunityApp.Controls" 
     xmlns:converters="using:UWPCommunityApp.Converters"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d"
+    xmlns:not_win="http://uno.ui/not_win"
+    mc:Ignorable="d not_win"
     Background="Transparent">
+
+    <not_win:Page.Resources>
+        <SolidColorBrush x:Key="SystemRevealChromeMediumColor"
+                         Color="{ThemeResource SystemChromeMediumColor}"/>
+        <SolidColorBrush x:Key="SystemControlBackgroundListMediumRevealBorderBrush"
+                         Color="{ThemeResource SystemListMediumColor}"/>
+    </not_win:Page.Resources>
 
     <Page.Resources>
         <converters:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
