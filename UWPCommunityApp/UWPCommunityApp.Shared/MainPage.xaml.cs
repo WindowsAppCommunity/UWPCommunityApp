@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -22,6 +23,7 @@ namespace UWPCommunityApp
 
             Common.OnLoginStateChanged += Common_OnLoginStateChanged;
             MainFrame.Navigated += MainFrame_Navigated;
+            MainNav.ItemInvoked += MainNav_ItemInvoked;
             NavigationManager.PageFrame = MainFrame;
 
             foreach (PageInfo page in Pages)
@@ -61,6 +63,7 @@ namespace UWPCommunityApp
 
         private void MainFrame_Navigated(object sender, NavigationEventArgs e)
         {
+            return;
             MainNav.IsBackEnabled = MainFrame.CanGoBack;
             try
             {
@@ -75,7 +78,7 @@ namespace UWPCommunityApp
                 }
                 MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as NavigationViewItem).Content.ToString() == page.Title);
             }
-            catch
+            catch (Exception ex)
             {
                 MainNav.SelectedItem = null;
             }
@@ -122,6 +125,32 @@ namespace UWPCommunityApp
             }
 
             PageInfo pageInfo = Pages.Find((info) => info.Title == navItem.Content.ToString());
+            if (pageInfo == null)
+            {
+                NavigationManager.NavigateToHome();
+                return;
+            }
+
+            if (pageInfo != null && pageInfo.PageType.BaseType == typeof(Page))
+                MainFrame.Navigate(pageInfo.PageType);
+        }
+
+        private void MainNav_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        {
+            if (args.IsSettingsInvoked)
+            {
+                NavigationManager.NavigateToSettings();
+                return;
+            }
+
+            string navItem = args.InvokedItem as string;
+            if (navItem == null)
+            {
+                NavigationManager.NavigateToHome();
+                return;
+            }
+
+            PageInfo pageInfo = Pages.Find((info) => info.Title == navItem);
             if (pageInfo == null)
             {
                 NavigationManager.NavigateToHome();

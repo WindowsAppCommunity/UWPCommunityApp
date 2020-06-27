@@ -13,13 +13,13 @@
     not_win:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <NavigationView x:Name="MainNav" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed"
-                          SelectionChanged="NavigationView_SelectionChanged">
+                    SelectionChanged="NavigationView_SelectionChanged">
 
-        <!--<winui:NavigationView.Resources>
+        <!--<NavigationView.Resources>
             <ResourceDictionary>
                 <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="{ThemeResource SystemAccentColor}"/>
             </ResourceDictionary>
-        </winui:NavigationView.Resources>-->
+        </NavigationView.Resources>-->
 
         <NavigationView.PaneHeader>
             <Viewbox Margin="5">
@@ -45,7 +45,7 @@
                 <Button x:Name="UserButton" Visibility="Collapsed" Background="Transparent">
                     <Button.Content>
                         <Viewbox>
-                            <winui:PersonPicture x:Name="UserProfilePicture" PreferSmallImage="True"/>
+                            <PersonPicture x:Name="UserProfilePicture" PreferSmallImage="True"/>
                         </Viewbox>
                     </Button.Content>
 
