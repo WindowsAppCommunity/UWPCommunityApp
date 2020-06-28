@@ -60,7 +60,7 @@
                     </Grid>
                 </toolkit:DropShadowPanel>
 
-                <toolkit:AdaptiveGridView DesiredWidth="250" Grid.Row="1" StretchContentForSingleRow="True"
+                <toolkit:AdaptiveGridView DesiredWidth="400" Grid.Row="1" StretchContentForSingleRow="True"
                                           HorizontalContentAlignment="Center" SelectionMode="None"
                                           Margin="6,0,6,0">
                     <toolkit:AdaptiveGridView.ItemContainerStyle>

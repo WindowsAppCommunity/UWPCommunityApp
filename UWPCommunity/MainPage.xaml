@@ -39,7 +39,9 @@
             <Grid>
                 <Button x:Name="SignInButton" x:Load="True"
                         Click="SignInButton_Click"
-                        Content="Sign in" Style="{ThemeResource AccentButtonStyle}"/>
+                        ToolTipService.ToolTip="Sign in" Style="{ThemeResource AccentButtonStyle}">
+                    <SymbolIcon Symbol="AddFriend" />
+                </Button>
 
                 <Button x:Name="UserButton" x:Load="False" Background="Transparent">
                     <Button.Content>
