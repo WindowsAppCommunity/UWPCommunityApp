@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:UWPCommunity.Controls"
+    xmlns:fluent="using:Fluent.Icons"
     mc:Ignorable="d"
     NavigationCacheMode="Required">
 
@@ -17,21 +18,47 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Refresh" Label="Reset" Click="ResetBoardButton_Click"/>
-            <AppBarButton Icon="Share" Label="Share" Click="CopyLink_Click"/>
-            <AppBarButton Icon="Paste" Label="Load from Clipboard" Click="LoadLink_Click"/>
+            <AppBarButton Label="Reset" Click="ResetBoardButton_Click">
+                <IconSourceElement>
+                    <fluent:FluentIconSource Symbol="ArrowClockwise"/>
+                </IconSourceElement>
+            </AppBarButton>
+            <AppBarButton Label="Share" Click="CopyLink_Click">
+                <AppBarButton.Icon>
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Share"/>
+                    </IconSourceElement>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Label="Load from Clipboard" Click="LoadLink_Click">
+                <AppBarButton.Icon>
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="ClipboardLink"/>
+                    </IconSourceElement>
+                </AppBarButton.Icon>
+            </AppBarButton>
             <AppBarToggleButton x:Name="CompactOverlayButton" Label="Compact Overlay"
                                 Checked="CompactOverlayButton_Checked" Unchecked="CompactOverlayButton_Unchecked">
                 <AppBarToggleButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A7;"/>
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Dock"/>
+                    </IconSourceElement>
                 </AppBarToggleButton.Icon>
             </AppBarToggleButton>
 
             <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Save" Label="Save As Image" Click="SaveImage_Click"/>
+                <AppBarButton Label="Save As Image" Click="SaveImage_Click">
+                    <AppBarButton.Icon>
+                        <IconSourceElement>
+                            <fluent:FluentIconSource Symbol="Save"/>
+                        </IconSourceElement>
+                    </AppBarButton.Icon>
+                </AppBarButton>
                 <AppBarButton x:Name="HistoryButton" Label="History">
                     <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81C;" />
+                        <IconSourceElement>
+                            <fluent:FluentIconSource Symbol="History"/>
+                        </IconSourceElement>
                     </AppBarButton.Icon>
                     <AppBarButton.Flyout>
                         <Flyout>

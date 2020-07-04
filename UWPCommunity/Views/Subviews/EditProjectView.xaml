@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:fluent="using:Fluent.Icons"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -26,17 +27,31 @@
                     <MenuFlyout>
                         <MenuFlyoutItem Text="Save as draft" Click="SaveDraftButton_Click">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE28F;"/>
+                                <IconSourceElement>
+                                    <fluent:FluentIconSource Symbol="Drafts"/>
+                                </IconSourceElement>
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem Text="Load draft" Icon="OpenFile" Click="LoadDraftButton_Click"/>
+                        <MenuFlyoutItem Text="Load draft" Click="LoadDraftButton_Click">
+                            <MenuFlyoutItem.Icon>
+                                <IconSourceElement>
+                                    <fluent:FluentIconSource Symbol="Open"/>
+                                </IconSourceElement>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton x:Name="SubmitButton" Label="Register" Icon="Accept"
+            <AppBarButton x:Name="SubmitButton" Label="Register"
                           Background="{ThemeResource SystemControlBackgroundAccentBrush}"
                           Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
-                          Click="SubmitButton_Click"/>
+                          Click="SubmitButton_Click">
+                <AppBarButton.Icon>
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Checkmark"/>
+                    </IconSourceElement>
+                </AppBarButton.Icon>
+            </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
 

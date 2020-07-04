@@ -7,7 +7,7 @@
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
     xmlns:controls="using:UWPCommunity.Controls" 
-    xmlns:converters="using:UWPCommunity.Converters" xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:converters="using:UWPCommunity.Converters" xmlns:winui="using:Microsoft.UI.Xaml.Controls" xmlns:fluent="using:Fluent.Icons"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -43,7 +43,7 @@
                                     </MenuFlyout>
                                 </winui:DropDownButton.Flyout>
                                 <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="Sort" Margin="0,0,5,0"/>
+                                    <fluent:FluentSymbolIcon Symbol="ArrowSort"/>
                                     <TextBlock Text="Sort"/>
                                 </StackPanel>
                             </winui:DropDownButton>
@@ -51,7 +51,7 @@
                                                  Margin="5,0,0,0"
                                                  IsCheckedChanged="CategoryButton_IsCheckedChanged">
                                 <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="ShowResults" Margin="0,0,5,0"/>
+                                    <fluent:FluentSymbolIcon Symbol="GroupList"/>
                                     <TextBlock Text="Category"/>
                                 </StackPanel>
                                 <winui:ToggleSplitButton.Flyout>
@@ -82,19 +82,19 @@
                                         <Button Visibility="{x:Bind ExternalLink, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="ExternalLinkButton_Click" Margin="0,0,5,0">
                                             <Button.Content>
-                                                <SymbolIcon Symbol="Globe"/>
+                                                <fluent:FluentSymbolIcon Symbol="Globe"/>
                                             </Button.Content>
                                         </Button>
                                         <Button Visibility="{x:Bind GitHubLink, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="GitHubLinkButton_Click" Margin="0,0,5,0">
                                             <Button.Content>
-                                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF90;" />
+                                                <fluent:FluentSymbolIcon Symbol="Branch"/>
                                             </Button.Content>
                                         </Button>
                                         <Button Visibility="{x:Bind DownloadLink, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="DownloadLinkButton_Click" Margin="0,0,5,0">
                                             <Button.Content>
-                                                <SymbolIcon Symbol="Shop"/>
+                                                <fluent:FluentSymbolIcon Symbol="StoreMicrosoft"/>
                                             </Button.Content>
                                         </Button>
                                     </StackPanel>

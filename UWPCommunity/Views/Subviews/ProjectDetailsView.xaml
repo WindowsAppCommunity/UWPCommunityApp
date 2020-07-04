@@ -6,7 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:converters="using:UWPCommunity.Converters" xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:converters="using:UWPCommunity.Converters"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:fluent="using:Fluent.Icons"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -33,19 +35,19 @@
                             <Button Visibility="{x:Bind Project.ExternalLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="ExternalLinkButton_Click" Margin="0,0,5,0">
                                 <Button.Content>
-                                    <SymbolIcon Symbol="Globe"/>
+                                    <fluent:FluentSymbolIcon Symbol="Globe"/>
                                 </Button.Content>
                             </Button>
                             <Button Visibility="{x:Bind Project.GitHubLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="GitHubLinkButton_Click" Margin="0,0,5,0">
                                 <Button.Content>
-                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF90;" />
+                                    <fluent:FluentSymbolIcon Symbol="Branch"/>
                                 </Button.Content>
                             </Button>
                             <Button Visibility="{x:Bind Project.DownloadLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="DownloadLinkButton_Click" Margin="0,0,5,0">
                                 <Button.Content>
-                                    <SymbolIcon Symbol="Shop"/>
+                                    <fluent:FluentSymbolIcon Symbol="StoreMicrosoft"/>
                                 </Button.Content>
                             </Button>
                         </StackPanel>

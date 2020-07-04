@@ -55,7 +55,7 @@
                             <TextBlock x:Name="CardDetails" TextWrapping="WrapWholeWords"
                                Style="{StaticResource BodyTextBlockStyle}"/>
                             <Button Content="Take a look" Margin="0,10,0,0" Style="{StaticResource AccentButtonStyle}"
-                            Click="Launch2020Button_Click"/>
+                                    Click="Launch2020Button_Click"/>
                         </StackPanel>
                     </Grid>
                 </toolkit:DropShadowPanel>
