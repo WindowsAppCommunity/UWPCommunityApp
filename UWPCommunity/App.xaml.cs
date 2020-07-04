@@ -192,17 +192,10 @@ namespace UWPCommunity
 
                 ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = (Color)Current.Resources["SystemAccentColor"];
                 ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                ApplicationView.GetForCurrentView().TitleBar.ButtonHoverForegroundColor = (Color)Current.Resources["SystemAccentColor"];
-                ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
             }
             else
             {
                 coreTitleBar.ExtendViewIntoTitleBar = false;
-
-                ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = null;
-                ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = null;
-                ApplicationView.GetForCurrentView().TitleBar.ButtonHoverForegroundColor = null;
-                ApplicationView.GetForCurrentView().TitleBar.ButtonHoverBackgroundColor = null;
             }
         }
 
