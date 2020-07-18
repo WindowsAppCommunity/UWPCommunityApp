@@ -31,19 +31,22 @@
                               FlowDirection="RightToLeft">
                         <StackPanel Orientation="Horizontal">
                             <Button Visibility="{x:Bind Project.ExternalLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
-                                            Click="ExternalLinkButton_Click" Margin="0,0,5,0">
+                                    Click="ExternalLinkButton_Click" Margin="0,0,5,0"
+                                    ToolTipService.ToolTip="Open website" AutomationProperties.Name="Open website">
                                 <Button.Content>
                                     <SymbolIcon Symbol="Globe"/>
                                 </Button.Content>
                             </Button>
                             <Button Visibility="{x:Bind Project.GitHubLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
-                                            Click="GitHubLinkButton_Click" Margin="0,0,5,0">
+                                    Click="GitHubLinkButton_Click" Margin="0,0,5,0"
+                                    ToolTipService.ToolTip="Open GitHub repo" AutomationProperties.Name="Open GitHub repo">
                                 <Button.Content>
                                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF90;" />
                                 </Button.Content>
                             </Button>
                             <Button Visibility="{x:Bind Project.DownloadLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
-                                            Click="DownloadLinkButton_Click" Margin="0,0,5,0">
+                                    Click="DownloadLinkButton_Click" Margin="0,0,5,0"
+                                    ToolTipService.ToolTip="Download" AutomationProperties.Name="Download">
                                 <Button.Content>
                                     <SymbolIcon Symbol="Shop"/>
                                 </Button.Content>
@@ -59,7 +62,8 @@
 
         <Button x:Name="CloseButton" VerticalAlignment="Top" HorizontalAlignment="Right"
                 Click="CloseButton_Click" Windows10version1809:CornerRadius="0"
-                Width="48" Height="40" Style="{ThemeResource ButtonRevealStyle}">
+                Width="48" Height="40" Style="{ThemeResource ButtonRevealStyle}"
+                ToolTipService.ToolTip="Close" AutomationProperties.Name="Go back">
             <Button.Content>
                 <SymbolIcon Symbol="Clear"/>
             </Button.Content>

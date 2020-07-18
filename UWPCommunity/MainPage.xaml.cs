@@ -1,10 +1,8 @@
-﻿using Microsoft.UI.Xaml.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.System;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
@@ -98,6 +96,8 @@ namespace UWPCommunity
                 FindName("UserButton");
                 UserProfilePicture.ProfilePicture =
                     new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
+                AutomationProperties.SetName(UserButton, Common.DiscordUser.Username);
+                ToolTipService.SetToolTip(UserButton, Common.DiscordUser.Username);
                 (MainNav.MenuItems[4] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
             else
