@@ -9,7 +9,8 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    x:Name="RootControl">
+    x:Name="RootControl"
+    AutomationProperties.Name="{x:Bind BodyText}">
 
     <controls:DockPanel LastChildFill="True" Padding="4" HorizontalAlignment="Stretch" Background="{ThemeResource AppBarBackgroundThemeBrush}">
 
@@ -45,9 +46,9 @@
 
             <StackPanel Orientation="Vertical" Grid.Row="1" MaxHeight="90"
                         Spacing="5" Margin="5" HorizontalAlignment="Stretch">
-                <TextBlock Text="{x:Bind TitleText}"
+                <TextBlock Text="{x:Bind TitleText, Mode=OneWay}"
                        Style="{StaticResource SubtitleTextBlockStyle}" />
-                <TextBlock Text="{x:Bind BodyText}"
+                <TextBlock Text="{x:Bind BodyText, Mode=OneWay}"
                        Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
             </StackPanel>
 
@@ -79,7 +80,6 @@
             </ItemsControl>-->
             <ContentPresenter controls:DockPanel.Dock="Bottom" Grid.Row="2" 
                               HorizontalAlignment="Right" VerticalAlignment="Stretch"
-                              FlowDirection="RightToLeft"
                               Content="{Binding BadgeContent, ElementName=RootControl}"/>
 
         </Grid>
