@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Provider;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
@@ -7,7 +8,7 @@ using Windows.UI.Xaml.Media;
 
 namespace UWPCommunity.Controls
 {
-    public sealed partial class GridViewCardItem : UserControl
+    public sealed partial class GridViewCardItem : UserControl, IInvokeProvider
     {
         public GridViewCardItem()
         {
@@ -116,6 +117,17 @@ namespace UWPCommunity.Controls
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: View",
                 new Dictionary<string, string> {
                     { "DataContext", DataContext.ToString() },
+                }
+            );
+        }
+
+        public void Invoke()
+        {
+            ViewRequested?.Invoke(DataContext);
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: View",
+                new Dictionary<string, string> {
+                    { "DataContext", DataContext.ToString() },
+                    { "IsFromAutomation", "True" }
                 }
             );
         }

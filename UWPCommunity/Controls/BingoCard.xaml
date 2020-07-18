@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:Win1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"    mc:Ignorable="d"
     d:DesignHeight="600"
     d:DesignWidth="600">
 
@@ -14,7 +13,7 @@
         <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource SystemAccentColor}"/>
         <Style TargetType="Border">
             <Setter Property="BorderBrush"
-                        Value="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"/>
+                    Value="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="2"/>
         </Style>
@@ -28,7 +27,7 @@
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
             <Setter Property="BorderBrush"
-                        Value="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"/>
+                    Value="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"/>
             <!--Win1809:Setter Property="CornerRadius" Value="0"/-->
         </Style>
         <Style TargetType="TextBlock" x:Key="TitleRun">
@@ -79,10 +78,10 @@
             </TextBlock>
         </Border>
 
-        <toolkit:UniformGrid x:Name="BingoGrid"
-                 Columns="5" Rows="5" Grid.ColumnSpan="5" Grid.Row="1">
+        <toolkit:UniformGrid x:Name="BingoGrid" Columns="5" Rows="5"
+                             Grid.ColumnSpan="5" Grid.Row="1">
             <Grid Background="{ThemeResource SystemAccentColor}"
-                Grid.Row="2" Grid.Column="2" x:Name="tileFree">
+                  Grid.Row="2" Grid.Column="2" x:Name="tileFree">
                 <TextBlock Style="{StaticResource BingoBox}" FontSize="28">
                     <Run>Free</Run><LineBreak/><Run>🦙</Run>
                 </TextBlock>
