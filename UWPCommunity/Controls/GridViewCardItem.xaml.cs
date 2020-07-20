@@ -13,7 +13,10 @@ namespace UWPCommunity.Controls
         public GridViewCardItem()
         {
             this.InitializeComponent();
-            DataContextChanged += (sender, args) => Bindings.Update();
+            //DataContextChanged += (sender, args) =>
+            //{
+            //    if (args.NewValue != null) Bindings.Update();
+            //};
         }
 
         #region Access Options

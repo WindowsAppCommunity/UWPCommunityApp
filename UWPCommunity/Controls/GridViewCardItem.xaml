@@ -10,7 +10,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     x:Name="RootControl"
-    AutomationProperties.Name="{x:Bind BodyText}">
+    AutomationProperties.Name="{Binding BodyText}">
 
     <controls:DockPanel LastChildFill="True" Padding="4" HorizontalAlignment="Stretch" Background="{ThemeResource AppBarBackgroundThemeBrush}">
 
@@ -47,9 +47,9 @@
             <StackPanel Orientation="Vertical" Grid.Row="1" MaxHeight="90"
                         Spacing="5" Margin="5" HorizontalAlignment="Stretch">
                 <TextBlock Text="{x:Bind TitleText, Mode=OneWay}"
-                       Style="{StaticResource SubtitleTextBlockStyle}" />
+                           Style="{StaticResource SubtitleTextBlockStyle}" />
                 <TextBlock Text="{x:Bind BodyText, Mode=OneWay}"
-                       Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
+                           Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
             </StackPanel>
 
             <StackPanel controls:DockPanel.Dock="Bottom" Spacing="5" Grid.Row="2"
