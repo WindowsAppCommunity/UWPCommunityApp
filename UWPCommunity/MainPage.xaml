@@ -5,23 +5,16 @@
     xmlns:local="using:UWPCommunity"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
-    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
     <winui:NavigationView x:Name="MainNav" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed"
                           SelectionChanged="NavigationView_SelectionChanged">
 
-        <!--<winui:NavigationView.Resources>
-            <ResourceDictionary>
-                <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="{ThemeResource SystemAccentColor}"/>
-            </ResourceDictionary>
-        </winui:NavigationView.Resources>-->
-        
         <winui:NavigationView.PaneHeader>
-            <Viewbox Margin="5">
+            <Viewbox Margin="5" x:Name="HeaderLogo">
                 <StackPanel Orientation="Horizontal">
                     <Viewbox Height="120" Width="120">
                         <FontIcon Glyph="🐱‍🏍" FontFamily="Segoe UI Emoji"/>
@@ -37,17 +30,23 @@
 
         <winui:NavigationView.PaneFooter>
             <Grid>
-                <Button x:Name="SignInButton" x:Load="True"
-                        Click="SignInButton_Click"
-                        ToolTipService.ToolTip="Sign in" Style="{ThemeResource AccentButtonStyle}">
-                    <SymbolIcon Symbol="AddFriend" />
+                <Button x:Name="SignInButton" x:Load="True" Click="SignInButton_Click"
+                        Style="{ThemeResource AccentButtonStyle}" Windows10version1809:CornerRadius="0"
+                        ToolTipService.ToolTip="Sign in" AutomationProperties.Name="Sign in">
+                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        <SymbolIcon Symbol="AddFriend" />
+                        <TextBlock Text="Sign in"/>
+                    </StackPanel>
                 </Button>
 
                 <Button x:Name="UserButton" x:Load="False" Background="Transparent">
                     <Button.Content>
-                        <Viewbox>
-                            <winui:PersonPicture x:Name="UserProfilePicture" PreferSmallImage="True"/>
-                        </Viewbox>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <Viewbox>
+                                <winui:PersonPicture x:Name="UserProfilePicture" PreferSmallImage="True"/>
+                            </Viewbox>
+                            <TextBlock Text="Username" VerticalAlignment="Center" TextLineBounds="Tight"/>
+                        </StackPanel>
                     </Button.Content>
 
                     <Button.Flyout>
@@ -70,7 +69,36 @@
             </Grid>
         </winui:NavigationView.PaneFooter>
 
-        <Frame x:Name="MainFrame"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="TitlebarRow" Height="0"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border x:Name="TitlebarBorder" Background="{ThemeResource NavigationViewTopPaneBackground}">
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" TextLineBounds="Full" Margin="40,0,0,0">
+                            <Run Text="🐱‍🏍" FontSize="25" FontFamily="Segoe UI Emoji"/>
+                            <Run Text="UWP Community" FontSize="20" FontWeight="SemiBold"/>
+                        </TextBlock>
+                    </StackPanel>
+            </Border>
+            <Frame x:Name="MainFrame" Grid.Row="1"/>
+        </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Normal"/>
+                <VisualState x:Name="Compact">
+                    <VisualState.Setters>
+                        <Setter Target="MainNav.PaneDisplayMode" Value="LeftMinimal"/>
+                        <Setter Target="MainNav.IsTitleBarAutoPaddingEnabled" Value="False"/>
+                        <Setter Target="HeaderLogo.Visibility" Value="Collapsed"/>
+                        <Setter Target="TitlebarRow.Height" Value="40"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
     </winui:NavigationView>
 </Page>

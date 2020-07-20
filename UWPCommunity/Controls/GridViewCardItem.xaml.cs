@@ -1,29 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Windows.Input;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Provider;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace UWPCommunity.Controls
 {
-    public sealed partial class GridViewCardItem : UserControl
+    public sealed partial class GridViewCardItem : UserControl, IInvokeProvider
     {
         public GridViewCardItem()
         {
             this.InitializeComponent();
-            DataContextChanged += (sender, args) => Bindings.Update();
+            //DataContextChanged += (sender, args) =>
+            //{
+            //    if (args.NewValue != null) Bindings.Update();
+            //};
         }
 
         #region Access Options
@@ -127,6 +120,17 @@ namespace UWPCommunity.Controls
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: View",
                 new Dictionary<string, string> {
                     { "DataContext", DataContext.ToString() },
+                }
+            );
+        }
+
+        public void Invoke()
+        {
+            ViewRequested?.Invoke(DataContext);
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: View",
+                new Dictionary<string, string> {
+                    { "DataContext", DataContext.ToString() },
+                    { "IsFromAutomation", "True" }
                 }
             );
         }

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWPCommunity", "UWPCommunity\UWPCommunity.csproj", "{559EFE6D-BA32-4B8D-99D7-370894E2142D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWPCommLib", "UWPCommLib\UWPCommLib.csproj", "{77F56184-FB16-4757-BB79-0885AE7B5494}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UWPCommLib", "UWPCommLib\UWPCommLib.csproj", "{77F56184-FB16-4757-BB79-0885AE7B5494}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +22,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{559EFE6D-BA32-4B8D-99D7-370894E2142D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{559EFE6D-BA32-4B8D-99D7-370894E2142D}.Debug|Any CPU.Build.0 = Debug|x86
+		{559EFE6D-BA32-4B8D-99D7-370894E2142D}.Debug|Any CPU.Deploy.0 = Debug|x86
 		{559EFE6D-BA32-4B8D-99D7-370894E2142D}.Debug|ARM.ActiveCfg = Debug|ARM
 		{559EFE6D-BA32-4B8D-99D7-370894E2142D}.Debug|ARM.Build.0 = Debug|ARM
 		{559EFE6D-BA32-4B8D-99D7-370894E2142D}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -35,6 +37,8 @@ Global
 		{559EFE6D-BA32-4B8D-99D7-370894E2142D}.Debug|x86.Build.0 = Debug|x86
 		{559EFE6D-BA32-4B8D-99D7-370894E2142D}.Debug|x86.Deploy.0 = Debug|x86
 		{559EFE6D-BA32-4B8D-99D7-370894E2142D}.Release|Any CPU.ActiveCfg = Release|x86
+		{559EFE6D-BA32-4B8D-99D7-370894E2142D}.Release|Any CPU.Build.0 = Release|x86
+		{559EFE6D-BA32-4B8D-99D7-370894E2142D}.Release|Any CPU.Deploy.0 = Release|x86
 		{559EFE6D-BA32-4B8D-99D7-370894E2142D}.Release|ARM.ActiveCfg = Release|ARM
 		{559EFE6D-BA32-4B8D-99D7-370894E2142D}.Release|ARM.Build.0 = Release|ARM
 		{559EFE6D-BA32-4B8D-99D7-370894E2142D}.Release|ARM.Deploy.0 = Release|ARM
