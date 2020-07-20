@@ -5,9 +5,7 @@
     xmlns:local="using:UWPCommunity.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    d:DesignHeight="600"
-    d:DesignWidth="600">
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <UserControl.Resources>
         <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource SystemAccentColor}"/>

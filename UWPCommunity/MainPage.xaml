@@ -9,17 +9,17 @@
     mc:Ignorable="d"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
-    <winui:NavigationView x:Name="MainNav" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed"
-                          SelectionChanged="NavigationView_SelectionChanged">
+    <winui:NavigationView x:Name="MainNav" PaneDisplayMode="Auto" IsBackButtonVisible="Collapsed"
+                          IsTitleBarAutoPaddingEnabled="True" SelectionChanged="NavigationView_SelectionChanged">
 
         <!--<winui:NavigationView.Resources>
             <ResourceDictionary>
                 <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="{ThemeResource SystemAccentColor}"/>
             </ResourceDictionary>
         </winui:NavigationView.Resources>-->
-        
+
         <winui:NavigationView.PaneHeader>
-            <Viewbox Margin="5">
+            <Viewbox Margin="5" x:Name="HeaderLogo" Visibility="Collapsed">
                 <StackPanel Orientation="Horizontal">
                     <Viewbox Height="120" Width="120">
                         <FontIcon Glyph="🐱‍🏍" FontFamily="Segoe UI Emoji"/>
@@ -36,9 +36,12 @@
         <winui:NavigationView.PaneFooter>
             <Grid>
                 <Button x:Name="SignInButton" x:Load="True" Click="SignInButton_Click"
-                        Style="{ThemeResource AccentButtonStyle}"
+                        Style="{ThemeResource AccentButtonStyle}" CornerRadius="0"
                         ToolTipService.ToolTip="Sign in" AutomationProperties.Name="Sign in">
-                    <SymbolIcon Symbol="AddFriend" />
+                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        <SymbolIcon Symbol="AddFriend" />
+                        <TextBlock Text="Sign in"/>
+                    </StackPanel>
                 </Button>
 
                 <Button x:Name="UserButton" x:Load="False" Background="Transparent">
@@ -69,6 +72,22 @@
         </winui:NavigationView.PaneFooter>
 
         <Frame x:Name="MainFrame"/>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{x:Bind MainNav.CompactModeThresholdWidth}" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="MainNav.PaneDisplayMode" Value="Top"/>
+                        <Setter Target="MainNav.IsTitleBarAutoPaddingEnabled" Value="True"/>
+                        <Setter Target="HeaderLogo.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
     </winui:NavigationView>
 </Page>
