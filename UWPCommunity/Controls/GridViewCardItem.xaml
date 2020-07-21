@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     x:Name="RootControl"
-    AutomationProperties.Name="{Binding BodyText, Source={RelativeSource Mode=Self}}">
+    AutomationProperties.Name="{Binding BodyText, Source={RelativeSource Mode=Self}, Mode=OneWay}">
 
     <controls:DockPanel LastChildFill="True" Padding="4" HorizontalAlignment="Stretch" Background="{ThemeResource AppBarBackgroundThemeBrush}">
 
@@ -40,7 +40,7 @@
                     </Border.Background>
                 </Border>
             </Grid>-->
-            <controls:ImageEx Source="{Binding ImageSource, Source={RelativeSource Mode=Self}}" Stretch="Uniform"
+            <controls:ImageEx Source="{x:Bind ImageSource, Mode=OneWay}" Stretch="Uniform"
                               VerticalAlignment="Center" HorizontalAlignment="Center"
                               CacheMode="BitmapCache"/>
 
@@ -83,7 +83,7 @@
             </ItemsControl>-->
             <ContentPresenter controls:DockPanel.Dock="Bottom" Grid.Row="2" 
                               HorizontalAlignment="Right" VerticalAlignment="Stretch"
-                              Content="{Binding BadgeContent, ElementName=RootControl}"/>
+                              Content="{Binding BadgeContent, ElementName=RootControl, Mode=OneWay}"/>
 
         </Grid>
 
