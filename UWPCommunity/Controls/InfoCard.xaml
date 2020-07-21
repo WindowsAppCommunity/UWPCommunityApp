@@ -11,7 +11,7 @@
     d:DesignWidth="600"
     Background="Transparent">
 
-    <controls:DropShadowPanel BlurRadius="20" OffsetY="2" ShadowOpacity="0.5" HorizontalContentAlignment="Stretch"
+    <controls:DropShadowPanel HorizontalContentAlignment="Stretch" Background="{StaticResource SystemControlBackgroundBaseLowBrush}"
                               PointerEntered="Card_PointerEntered" PointerExited="Card_PointerExited">
         <Grid CornerRadius="2" 
                 Background="{ThemeResource SystemRevealChromeMediumColor}"

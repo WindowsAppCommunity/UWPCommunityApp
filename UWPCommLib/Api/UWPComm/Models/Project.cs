@@ -48,7 +48,10 @@ namespace UWPCommLib.Api.UWPComm.Models
         public bool? IsAwaitingLaunchApproval { get; set; }
 
         [JsonProperty(PropertyName = "heroImage")]
-        public string HeroImage { get; set; } = "https://uwpcommunity.com/assets/img/LaunchHero.png";
+        public string HeroImage { get; set; } = "https://uwpcommunity.com/assets/img/LaunchHero.jpg";
+
+        [JsonProperty(PropertyName = "appIcon")]
+        public string AppIcon { get; set; } = "https://uwpcommunity.com/assets/img/LaunchHero.jpg";
 
         [JsonProperty(PropertyName = "lookingForRoles")]
         public bool? IsLookingForRoles { get; set; }
@@ -57,7 +60,7 @@ namespace UWPCommLib.Api.UWPComm.Models
         /// The role the user had in this project. Only for use with POST /projects/
         /// </summary>
         [JsonProperty(PropertyName = "role")]
-        public string Role { get; set; }
+        public string Role { get; set; } = "Developer";
 
         public System.Uri HeroImageUri {
             get {
@@ -70,9 +73,7 @@ namespace UWPCommLib.Api.UWPComm.Models
         /// </summary>
         public string HeroImageSafe {
             get {
-                return HeroImage == null ?
-                    "https://images.freeimages.com/images/large-previews/809/phone-1635390.jpg"
-                    : HeroImage;
+                return HeroImage ?? "https://uwpcommunity.com/assets/img/LaunchHero.png";
             }
         }
 
@@ -263,6 +264,11 @@ namespace UWPCommLib.Api.UWPComm.Models
                     return ProjectCategory.BooksAndReference;
             }
         }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 
     public class NewProjectRequest
@@ -293,5 +299,30 @@ namespace UWPCommLib.Api.UWPComm.Models
 
         [JsonProperty(PropertyName = "role")]
         public string Role { get; set; }
+    }
+
+    public class DeleteProjectRequest
+    {
+        [JsonProperty(PropertyName = "appName")]
+        public string AppName { get; set; }
+
+        public DeleteProjectRequest(string appName)
+        {
+            AppName = appName;
+        }
+
+        public static explicit operator DeleteProjectRequest(string appName)
+        {
+            return new DeleteProjectRequest(appName);
+        }
+        public static explicit operator string(DeleteProjectRequest info)
+        {
+            return info?.AppName;
+        }
+
+        public override string ToString()
+        {
+            return AppName;
+        }
     }
 }

@@ -1,0 +1,37 @@
+v1.1.0
+- Added app messages
+- Removed Debug options
+- Mirrored search and filter options on the Projects page
+- Search and filter options reappear when scrolling up
+- Releasing for Launch 2020
+- Fixed a bug where invalid project badge links caused a crash
+- Fixed a bug where switching to the localhost API could cause the app to crash
+
+v1.0.3
+- Improved performance when loading projects
+- Added search and category filters for Projects
+- Added sort options for Projects
+- Added Pull to Refresh on project pages
+- Minor UI adjustments
+- Fixed a bug where projects could not be deleted from the Dashboard
+- Llamingo: Fixed a bug where attempting to load non-board data from clipboard would crash the app
+- Fixed a bug where switching to the Debug API without it running would crash the app
+- Fixed a bug where the UI think it was signed out after switching out of PiP
+
+v1.0.2
+- Added Picture-in-Picture mode for Llamingo
+- Added static live tile for Launch 2020
+- Fixed a bug where the app would crash when loading the Projects or Settings pages for the first time
+- Fixed a bug where some icons would show as boxes
+- Fixed a bug where Llamingo would appear even when disabled after restarting the app
+- Llamingo: "Copy Link" has been replaced with "Share"
+- Llamingo: Added board history
+- Llamingo: Fixed a bug where loading a link containing new-lines would fail to load the board
+
+v1.0.1
+- Added XAML Llama's Llamingo
+- Added About page
+- Added loading indicators for Projects and Launch pages
+- Fixed a bug where the "Read about Launch 2019" link would be clipped
+- Fixed a bug where the default theme in settings would be empty
+- Fixed a bug where the View Project button did nothing

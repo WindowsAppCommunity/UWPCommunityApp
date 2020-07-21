@@ -6,62 +6,112 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
-    xmlns:controls="using:UWPCommunity.Controls" xmlns:converters="using:UWPCommunity.Converters"
+    xmlns:controls="using:UWPCommunity.Controls" 
+    xmlns:converters="using:UWPCommunity.Converters"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Page.Resources>
         <converters:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
     </Page.Resources>
-    
-    <Grid>
 
-        <toolkit:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}" 
-                                  DesiredWidth="550" ItemHeight="400" SelectionMode="Single"
-                                  SelectionChanged="ProjectsGridView_SelectionChanged">
-            <toolkit:AdaptiveGridView.ItemContainerStyle>
-                <Style TargetType="GridViewItem">
-                    <Setter Property="Margin" Value="12"/>
-                </Style>
-            </toolkit:AdaptiveGridView.ItemContainerStyle>
-            <toolkit:AdaptiveGridView.ItemTemplate>
-                <DataTemplate x:DataType="models:Project">
-                    <toolkit:DropShadowPanel>
-                        <controls:GridViewCardItem TitleText="{x:Bind AppName}"
-                                                   ImageSource="{x:Bind HeroImageSafe}"
-                                                   BodyText="{x:Bind Description}"
-                                                   IsEditable="False" IsDeletable="False"
-                                                   ViewRequested="Project_ViewRequested"
-                                                   x:Name="HeroImageStartCtl" >
-                            <controls:GridViewCardItem.BadgeContent>
+    <Grid Padding="6">
+
+        <winui:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
+            <toolkit:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}"
+                                  DesiredWidth="550" ItemHeight="400" SelectionMode="None"
+                                  ItemClick="ProjectsGridView_ItemClick"
+                                  IsItemClickEnabled="True">
+                <toolkit:AdaptiveGridView.Header>
+                    <toolkit:ScrollHeader Mode="QuickReturn">
+                        <toolkit:DockPanel HorizontalAlignment="Stretch" Padding="5" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+                            <AutoSuggestBox x:Name="SearchBox" toolkit:DockPanel.Dock="Right" MinWidth="200" QueryIcon="Find"
+                                            PlaceholderText="Search projects" Margin="0,0,5,0" HorizontalAlignment="Stretch"
+                                            QuerySubmitted="SearchBox_QuerySubmitted" TabIndex="2"/>
+                            <winui:DropDownButton x:Name="FilterButton" toolkit:DockPanel.Dock="Left"
+                                                  Margin="0,0,0,0" AutomationProperties.Name="Sort" TabIndex="0">
+                                <winui:DropDownButton.Flyout>
+                                    <MenuFlyout x:Name="SortFlyout" Placement="Bottom">
+                                        <winui:RadioMenuFlyoutItem Text="Alphabetical (A-Z)" Click="SortOption_Click" IsChecked="True"/>
+                                        <winui:RadioMenuFlyoutItem Text="Alphabetical (Z-A)" Click="SortOption_Click"/>
+                                        <winui:RadioMenuFlyoutItem Text="Date Created (Latest-Oldest)" Click="SortOption_Click"/>
+                                        <winui:RadioMenuFlyoutItem Text="Date Created (Oldest-Latest)" Click="SortOption_Click"/>
+                                        <winui:RadioMenuFlyoutItem Text="Last Modified (Latest-Oldest)" Click="SortOption_Click"/>
+                                        <winui:RadioMenuFlyoutItem Text="Last Modified (Oldest-Latest)" Click="SortOption_Click"/>
+                                        <winui:RadioMenuFlyoutItem Text="Launch Year (Latest-Oldest)" Click="SortOption_Click"/>
+                                        <winui:RadioMenuFlyoutItem Text="Launch Year (Oldest-Latest)" Click="SortOption_Click"/>
+                                    </MenuFlyout>
+                                </winui:DropDownButton.Flyout>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Visibility="{x:Bind ExternalLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
-                                            Click="ExternalLinkButton_Click" Margin="0,0,5,0">
-                                        <Button.Content>
-                                            <SymbolIcon Symbol="Globe"/>
-                                        </Button.Content>
-                                    </Button>
-                                    <Button Visibility="{x:Bind GitHubLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
-                                            Click="GitHubLinkButton_Click" Margin="0,0,5,0">
-                                        <Button.Content>
-                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF90;" />
-                                        </Button.Content>
-                                    </Button>
-                                    <Button Visibility="{x:Bind DownloadLink, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
-                                            Click="DownloadLinkButton_Click" Margin="0,0,5,0">
-                                        <Button.Content>
-                                            <SymbolIcon Symbol="Shop"/>
-                                        </Button.Content>
-                                    </Button>
+                                    <SymbolIcon Symbol="Sort" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Sort"/>
                                 </StackPanel>
-                            </controls:GridViewCardItem.BadgeContent>
-                        </controls:GridViewCardItem>
-                    </toolkit:DropShadowPanel>
-                </DataTemplate>
-            </toolkit:AdaptiveGridView.ItemTemplate>
-        </toolkit:AdaptiveGridView>
+                            </winui:DropDownButton>
+                            <winui:ToggleSplitButton x:Name="CategoryButton" toolkit:DockPanel.Dock="Left"
+                                                     Margin="5,0,0,0" IsCheckedChanged="CategoryButton_IsCheckedChanged"
+                                                     AutomationProperties.Name="Filter by category" TabIndex="1">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="ShowResults" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Category"/>
+                                </StackPanel>
+                                <winui:ToggleSplitButton.Flyout>
+                                    <MenuFlyout x:Name="CategoryFlyout" Placement="Bottom"/>
+                                </winui:ToggleSplitButton.Flyout>
 
+                            </winui:ToggleSplitButton>
+                        </toolkit:DockPanel>
+                    </toolkit:ScrollHeader>
+                </toolkit:AdaptiveGridView.Header>
+                <toolkit:AdaptiveGridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="Margin" Value="6"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </toolkit:AdaptiveGridView.ItemContainerStyle>
+                <toolkit:AdaptiveGridView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Project">
+                        <toolkit:DropShadowPanel HorizontalContentAlignment="Stretch" AutomationProperties.Name="{x:Bind AppName}">
+                            <controls:GridViewCardItem TitleText="{x:Bind AppName}"
+                                                       ImageSource="{x:Bind HeroImageSafe}"
+                                                       BodyText="{x:Bind Description}"
+                                                       IsEditable="False" IsDeletable="False"
+                                                       ViewRequested="Project_ViewRequested"
+                                                       x:Name="HeroImageStartCtl">
+                                <controls:GridViewCardItem.BadgeContent>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Visibility="{x:Bind DownloadLink, Converter={StaticResource NullToVisibilityConverter}}"
+                                                Click="DownloadLinkButton_Click" Margin="5,0,0,0" ToolTipService.ToolTip="Download"
+                                                AutomationProperties.Name="Download">
+                                            <Button.Content>
+                                                <SymbolIcon Symbol="Shop"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Visibility="{x:Bind ExternalLink, Converter={StaticResource NullToVisibilityConverter}}"
+                                                Click="ExternalLinkButton_Click" Margin="5,0,0,0" ToolTipService.ToolTip="Open website"
+                                                AutomationProperties.Name="Open website">
+                                            <Button.Content>
+                                                <SymbolIcon Symbol="Globe"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Visibility="{x:Bind GitHubLink, Converter={StaticResource NullToVisibilityConverter}}"
+                                                Click="GitHubLinkButton_Click" Margin="5,0,0,0" ToolTipService.ToolTip="Open GitHub repo"
+                                                AutomationProperties.Name="Open GitHub repo">
+                                            <Button.Content>
+                                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF90;" />
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                </controls:GridViewCardItem.BadgeContent>
+                            </controls:GridViewCardItem>
+                        </toolkit:DropShadowPanel>
+                    </DataTemplate>
+                </toolkit:AdaptiveGridView.ItemTemplate>
+            </toolkit:AdaptiveGridView>
+        </winui:RefreshContainer>
+        
         <StackPanel x:Name="LoadingIndicator" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <ProgressRing IsActive="True" Width="50" Height="50" Visibility="Visible"/>
+            <winui:ProgressRing IsActive="True" Width="50" Height="50" Visibility="Visible"/>
             <TextBlock Text="Fetching projects..." Style="{StaticResource SubtitleTextBlockStyle}"/>
         </StackPanel>
 

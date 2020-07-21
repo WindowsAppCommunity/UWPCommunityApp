@@ -1,29 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Windows.Input;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Provider;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace UWPCommunity.Controls
 {
-    public sealed partial class GridViewCardItem : UserControl
+    public sealed partial class GridViewCardItem : UserControl, IInvokeProvider
     {
         public GridViewCardItem()
         {
             this.InitializeComponent();
-            DataContextChanged += (sender, args) => Bindings.Update();
+            //DataContextChanged += (sender, args) =>
+            //{
+            //    if (args.NewValue != null) Bindings.Update();
+            //};
         }
 
         #region Access Options
@@ -32,6 +25,7 @@ namespace UWPCommunity.Controls
             set {
                 SetValue(IsEditableProperty, value);
                 EditButton.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+                EditMenuButton.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
             }
         }
         public static readonly DependencyProperty IsEditableProperty =
@@ -42,6 +36,7 @@ namespace UWPCommunity.Controls
             set {
                 SetValue(IsDeletableProperty, value);
                 DeleteButton.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+                DeleteMenuButton.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
             }
         }
         public static readonly DependencyProperty IsDeletableProperty =
@@ -98,6 +93,11 @@ namespace UWPCommunity.Controls
         private void EditButton_Click(object sender, RoutedEventArgs args)
         {
             EditRequested?.Invoke(DataContext);
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: Edit",
+                new Dictionary<string, string> {
+                    { "DataContext", DataContext.ToString() },
+                }
+            );
         }
 
         public delegate void DeleteRequestedHandler(object p);
@@ -105,6 +105,11 @@ namespace UWPCommunity.Controls
         private void DeleteButton_Click(object sender, RoutedEventArgs args)
         {
             DeleteRequested?.Invoke(DataContext);
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: Delete",
+                new Dictionary<string, string> {
+                    { "DataContext", DataContext.ToString() },
+                }
+            );
         }
 
         public delegate void ViewRequestedHandler(object p);
@@ -112,6 +117,22 @@ namespace UWPCommunity.Controls
         private void ViewButton_Click(object sender, RoutedEventArgs args)
         {
             ViewRequested?.Invoke(DataContext);
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: View",
+                new Dictionary<string, string> {
+                    { "DataContext", DataContext.ToString() },
+                }
+            );
+        }
+
+        public void Invoke()
+        {
+            ViewRequested?.Invoke(DataContext);
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: View",
+                new Dictionary<string, string> {
+                    { "DataContext", DataContext.ToString() },
+                    { "IsFromAutomation", "True" }
+                }
+            );
         }
         #endregion
     }

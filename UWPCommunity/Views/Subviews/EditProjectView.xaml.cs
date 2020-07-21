@@ -14,8 +14,8 @@ namespace UWPCommunity.Views.Subviews
     /// </summary>
     public sealed partial class EditProjectView : Page
     {
-        private bool IsEditing { get; set; }
-        private Project oldProject;
+        private static bool IsEditing { get; set; }
+        private Project Project { get; set; }
         private string oldAppName;
 
         public EditProjectView()
@@ -29,53 +29,47 @@ namespace UWPCommunity.Views.Subviews
             CategoryBox.SelectedIndex = 0;
         }
 
+        public static string GetPageHeader(string appName)
+        {
+            return IsEditing ? "Editing " + appName : "Register an app";
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
             var project = e.Parameter as Project;
-            if (project != null)
+            if (project == null)
             {
-                IsEditing = true;
-                MainPivotTitle.Text = "Edit " + project.AppName;
-                oldProject = project;
-                oldAppName = project.AppName;
-
-                NameBox.Text = project.AppName;
-                DescriptionBox.Text = project.Description;
-                IsPrivateBox.IsChecked = project.IsPrivate;
-                HeroUrlBox.Text = project.HeroImage;
-                CategoryBox.SelectedValue = project.Category;
-                DownloadUrlBox.Text = project.DownloadLink == null ? "" : project.DownloadLink;
-                ExternalUrlBox.Text = project.ExternalLink == null ? "" : project.ExternalLink;
-                GithubUrlBox.Text = project.GitHubLink == null ? "" : project.GitHubLink;
+                Project = new Project();
+                IsEditing = false;
             }
+            else
+            {
+                oldAppName = project.AppName;
+                Project = project;
+                IsEditing = true;
+            }
+            Bindings.Update();
         }
 
         private async void SubmitButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var project = new Project();// oldProject;
-            project.AppName = NameBox.Text;
-            project.Description = DescriptionBox.Text;
-            project.IsPrivate = IsPrivateBox.IsChecked.Value;
-            project.HeroImage = HeroUrlBox.Text;
-            project.Category = (CategoryBox.SelectedValue == null) ? Project.GetCategoryTitle(0) : CategoryBox.SelectedValue.ToString();
-            project.Role = String.IsNullOrEmpty(project.Role) ? "Developer" : project.Role;
-            project.DownloadLink = DownloadUrlBox.Text;
-            project.GitHubLink = GithubUrlBox.Text;
-            project.ExternalLink = ExternalUrlBox.Text;
-            project.IsAwaitingLaunchApproval = IsLaunchBox.IsChecked.Value;
-
             try
             {
                 if (IsEditing)
                 {
-                    await Common.UwpCommApi.PutProject(oldAppName, project);
+                    await Common.UwpCommApi.PutProject(oldAppName, Project);
                 }
                 else
                 {
-                    await Common.UwpCommApi.PostProject(project);
+                    await Common.UwpCommApi.PostProject(Project);
                 }
+                Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: App registration submitted",
+                    new Dictionary<string, string> {
+                        { "Project", Project.ToString() }
+                    }
+                );
                 NavigationManager.PageFrame.GoBack();
             }
             catch (Refit.ApiException ex)
@@ -91,9 +85,49 @@ namespace UWPCommunity.Views.Subviews
                 ContentDialogResult result = await dialog.ShowAsync();
             }
         }
+        
+        private async void SaveDraftButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await SettingsManager.SaveProjectDraft(Project, !IsEditing);
+
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: App draft saved",
+                new Dictionary<string, string> {
+                    { "Project", Project.ToString() }
+                }
+            );
+        }
+
+        private async void LoadDraftButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Project draft = await SettingsManager.LoadProjectDraft(Project.Id, !IsEditing);
+            if (draft != null)
+            {
+                Project = draft;
+                Bindings.Update();
+            }
+            else
+            {
+                ContentDialog dialog = new ContentDialog
+                {
+                    Title = "Failed to load draft",
+                    Content = "No drafts have been saved for this project",
+                    CloseButtonText = "Ok",
+                    RequestedTheme = SettingsManager.GetAppTheme()
+                };
+                ContentDialogResult result = await dialog.ShowAsync();
+                return;
+            }
+
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: App draft loaded",
+                new Dictionary<string, string> {
+                    { "Project", Project.ToString() }
+                }
+            );
+        }
 
         private void CancelButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: App registration canceled");
             NavigationManager.PageFrame.GoBack();
         }
     }

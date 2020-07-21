@@ -5,17 +5,12 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using System.Web;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Documents;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -23,10 +18,10 @@ namespace UWPCommunity.Controls
 {
     public sealed partial class BingoCard : UserControl
     {
-        static readonly Version BingoVersion = new Version(1,0,1);
+        static readonly Version BingoVersion = new Version(App.GetVersion());
         const string fname = @"Assets\LlamaBingo-Tiles.txt";
         static readonly StorageFolder InstallationFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
-        List<string> AllTiles;
+        static List<string> AllTiles;
 
         public BingoCard()
         {
@@ -106,6 +101,7 @@ namespace UWPCommunity.Controls
                     SetTile(newTiles.ElementAt(boardIndex), x, y);
                 }
             }
+            BoardChanged?.Invoke(ToDataString());
         }
 
         private void SetTile(string text, int x, int y, bool isFilled = false)
@@ -254,7 +250,7 @@ namespace UWPCommunity.Controls
             // don't delete the code. Create an if branch to run the
             // previous version of the algorithm.
 
-            byte[] tileData = dataString.TakeEvery(2)
+            byte[] tileData = dataString.Replace("\r", String.Empty).Replace("\n", String.Empty).TakeEvery(2)
                 .Select(s => byte.Parse(s, System.Globalization.NumberStyles.HexNumber)).ToArray();
             for (int x = 0; x < 5; x++)
             {
@@ -274,11 +270,15 @@ namespace UWPCommunity.Controls
                     AddTile(text, isFilled);
                 }
             }
+            BoardChanged?.Invoke(dataString);
         }
 
         public string GetShareLink()
         {
             return $"uwpcommunity://llamabingo?version={BingoVersion}&board={ToDataString()}";
         }
+
+        public delegate void BoardChangedHandler(string data);
+        public event BoardChangedHandler BoardChanged;
     }
 }
