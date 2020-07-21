@@ -7,9 +7,6 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using System.Net.Http;
 using Windows.UI.StartScreen;
 
@@ -112,7 +109,6 @@ namespace UWPCommunity
                 ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
                 // TODO: Handle URI activation
                 // The received URI is eventArgs.Uri.AbsoluteUri
-
                 destination = NavigationManager.ParseProtocol(eventArgs.Uri);
             }
             rootFrame.Navigate(typeof(MainPage), destination);

@@ -41,12 +41,9 @@
 
                 <Button x:Name="UserButton" x:Load="False" Background="Transparent">
                     <Button.Content>
-                        <StackPanel Orientation="Horizontal" Spacing="5">
-                            <Viewbox>
-                                <winui:PersonPicture x:Name="UserProfilePicture" PreferSmallImage="True"/>
-                            </Viewbox>
-                            <TextBlock Text="Username" VerticalAlignment="Center" TextLineBounds="Tight"/>
-                        </StackPanel>
+                        <Viewbox>
+                            <winui:PersonPicture x:Name="UserProfilePicture" PreferSmallImage="True"/>
+                        </Viewbox>
                     </Button.Content>
 
                     <Button.Flyout>

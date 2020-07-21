@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using Windows.ApplicationModel.DataTransfer;
@@ -149,10 +150,11 @@ namespace UWPCommunity.Views.Subviews
         {
             base.OnNavigatedTo(e);
 
-            var queryParams = e.Parameter as NameValueCollection;
-            if (queryParams?["board"] != null)
+            var queryParams = e.Parameter as Dictionary<string, string>;
+            if (queryParams != null && queryParams.ContainsKey("board"))
             {
-                Bingo.SetByDataString(queryParams["board"]);
+                Version boardVersion = queryParams.ContainsKey("version") ? new Version(queryParams["version"]) : null;
+                Bingo.SetByDataString(queryParams["board"], boardVersion);
             }
             else if (e.Parameter != null)
             {

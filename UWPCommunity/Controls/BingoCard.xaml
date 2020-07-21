@@ -31,7 +31,6 @@
         <Style TargetType="TextBlock" x:Key="TitleRun">
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="HorizontalTextAlignment" Value="Center"/>
             <Setter Property="TextAlignment" Value="Center"/>
         </Style>
     </UserControl.Resources>

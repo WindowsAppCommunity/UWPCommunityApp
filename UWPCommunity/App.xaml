@@ -21,7 +21,7 @@
                         <Setter Property="BlurRadius" Value="10"/>
                         <Setter Property="OffsetY" Value="2"/>
                         <Setter Property="ShadowOpacity" Value="0.5"/>
-                        <Setter Property="IsMasked" Value="False"/>
+                        <!--Setter Property="IsMasked" Value="False"/-->
                     </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
