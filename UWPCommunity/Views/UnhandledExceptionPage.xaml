@@ -23,7 +23,7 @@
         <TextBlock FontSize="100" Grid.Row="0" Text=":("/>
         <TextBlock FontSize="24" FontWeight="SemiBold" Grid.Row="1"
                    Text="UWP Community ran into an unexpected error." TextWrapping="Wrap"/>
-        <TextBox Grid.Row="2" Text="{x:Bind Path=ExceptionText}" AcceptsReturn="True" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <TextBox Grid.Row="2" Text="{x:Bind Path=ExceptionText}" AcceptsReturn="True" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap">
             <TextBox.Header>
                 <TextBlock Text="Exception:"/>
             </TextBox.Header>
