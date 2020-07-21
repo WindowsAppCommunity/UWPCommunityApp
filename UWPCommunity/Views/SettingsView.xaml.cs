@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
@@ -26,20 +25,10 @@ namespace UWPCommunity.Views
             SettingsPivot.Items.Remove(DebugTab);
             #endif
 
-            SettingsManager.SettingsChanged += SettingsManager_SettingsChanged;
             SettingsManager.AppThemeChanged += SettingsManager_AppThemeChanged;
             SettingsManager.ProjectCardSizeChanged += SettingsManager_ProjectCardSizeChanged;
             SettingsManager.ShowLlamaBingoChanged += SettingsManager_ShowLlamaBingoChanged;
             SettingsManager.UseDebugApiChanged += SettingsManager_UseDebugApiChanged;
-        }
-
-        private void SettingsManager_SettingsChanged(string name, object value)
-        {
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Settings: setting changed",
-                new Dictionary<string, string> {
-                    { "Setting", name + ": " + value?.ToString() },
-                }
-            );
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -61,13 +50,6 @@ namespace UWPCommunity.Views
 
             if (e.Parameter is SettingsPages)
                 SettingsPivot.SelectedIndex = (int)e.Parameter;
-
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Settings: Navigated to",
-                new Dictionary<string, string> {
-                    { "From", e.SourcePageType.Name },
-                    { "Parameters", e.Parameter?.ToString() }
-                }
-            );
         }
 
         private void ShowRestartRequiredDialog()

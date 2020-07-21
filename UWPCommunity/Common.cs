@@ -6,6 +6,7 @@ using UWPCommLib.Api.Discord;
 using UWPCommLib.Api.UWPComm;
 using Windows.UI.Xaml.Media;
 using UWPCommLib.Api.Yoshi;
+using System.Linq;
 
 namespace UWPCommunity
 {

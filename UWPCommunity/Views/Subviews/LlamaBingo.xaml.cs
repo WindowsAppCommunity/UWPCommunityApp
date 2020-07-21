@@ -58,11 +58,6 @@ namespace UWPCommunity.Views.Subviews
         {
             // Save the current board in case of a crash
             SettingsManager.SetSavedLlamaBingo(data);
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Llamingo: Board changed",
-                new Dictionary<string, string> {
-                    { "BoardData", data },
-                }
-            );
         }
 
         private async void SaveImage_Click(object sender, RoutedEventArgs e)
@@ -124,12 +119,6 @@ namespace UWPCommunity.Views.Subviews
             request.Data.Properties.Description = "Share your current Llamingo board";
             request.Data.Properties.ContentSourceApplicationLink = boardLink;
             //request.Data.Properties.Thumbnail = boardLink;
-
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Llamingo: Board shared",
-                new Dictionary<string, string> {
-                    { "BoardData", boardUrl },
-                }
-            );
         }
 
         public static async Task<WriteableBitmap> RenderUIElement(UIElement element)
@@ -170,7 +159,6 @@ namespace UWPCommunity.Views.Subviews
         {
             Bingo.ResetBoard();
             RecentBoards.Insert(0, Bingo.ToDataString());
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Llamingo: Board reset");
         }
 
         private async void LoadLink_Click(object sender, RoutedEventArgs e)
@@ -179,11 +167,12 @@ namespace UWPCommunity.Views.Subviews
             if (clipboardPackage.Contains(StandardDataFormats.Text))
             {
                 string link = await clipboardPackage.GetTextAsync();
-                var queries = HttpUtility.ParseQueryString(link);
-                if (queries?["board"] != null)
+                var queries = new WwwFormUrlDecoder(link);
+                string board = queries.GetFirstValueByName("board");
+                if (board != null)
                 {
-                    Bingo.SetByDataString(queries["board"]);
-                    RecentBoards.Insert(0, queries["board"]);
+                    Bingo.SetByDataString(board);
+                    RecentBoards.Insert(0, board);
                     return;
                 }
             }

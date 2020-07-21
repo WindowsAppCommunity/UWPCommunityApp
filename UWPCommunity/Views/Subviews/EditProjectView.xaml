@@ -5,14 +5,12 @@
     xmlns:local="using:UWPCommunity.Views.Subviews"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
         <Style TargetType="StackPanel">
             <Setter Property="Margin" Value="0,5,0,0"/>
-            <Setter Property="Spacing" Value="5"/>
         </Style>
     </Page.Resources>
 
@@ -48,30 +46,30 @@
 
         <PivotItem Header="Basic info">
             <StackPanel>
-                <TextBox x:Name="NameBox" Text="{x:Bind Project.AppName, Mode=TwoWay}">
+                <TextBox x:Name="NameBox" Text="{x:Bind Project.AppName, Mode=TwoWay}" Margin="0,0,0,5">
                     <TextBox.Header>
-                        <StackPanel Orientation="Horizontal" Spacing="2" Margin="0">
-                            <TextBlock Text="Project name"/>
+                        <StackPanel Orientation="Horizontal" Margin="0">
+                            <TextBlock Text="Project name" Margin="0,0,2,0"/>
                             <TextBlock Text="*" Foreground="Red"/>
                         </StackPanel>
                     </TextBox.Header>
                 </TextBox>
 
                 <TextBox x:Name="DescriptionBox" PlaceholderText="Enter a brief description"
-                         Text="{x:Bind Project.Description, Mode=TwoWay}" AcceptsReturn="True">
+                         Text="{x:Bind Project.Description, Mode=TwoWay}" AcceptsReturn="True" Margin="0,0,0,5">
                     <TextBox.Header>
-                        <StackPanel Orientation="Horizontal" Spacing="2" Margin="0">
-                            <TextBlock Text="Description"/>
+                        <StackPanel Orientation="Horizontal" Margin="0">
+                            <TextBlock Text="Description" Margin="0,0,2,0"/>
                             <TextBlock Text="*" Foreground="Red"/>
                         </StackPanel>
                     </TextBox.Header>
                 </TextBox>
 
                 <TextBox x:Name="HeroUrlBox" PlaceholderText="External link to an image of your app"
-                         Text="{x:Bind Project.HeroImage, Mode=TwoWay}">
+                         Text="{x:Bind Project.HeroImage, Mode=TwoWay}" Margin="0,0,0,5">
                     <TextBox.Header>
-                        <StackPanel Orientation="Horizontal" Spacing="2" Margin="0">
-                            <TextBlock Text="Hero image"/>
+                        <StackPanel Orientation="Horizontal" Margin="0">
+                            <TextBlock Text="Hero image" Margin="0,0,2,0"/>
                             <TextBlock Text="*" Foreground="Red"/>
                         </StackPanel>
                     </TextBox.Header>
@@ -88,10 +86,10 @@
 
         <PivotItem Header="Project links">
             <StackPanel>
-                <TextBox x:Name="DownloadUrlBox" Header="Download link" extensions:TextBoxMask.CustomMask="^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$"
+                <TextBox x:Name="DownloadUrlBox" Header="Download link" Margin="0,0,0,5"
                          Text="{x:Bind Project.DownloadLink, Mode=TwoWay}"/>
 
-                <TextBox x:Name="GithubUrlBox" Header="GitHub link"
+                <TextBox x:Name="GithubUrlBox" Header="GitHub link" Margin="0,0,0,5"
                          Text="{x:Bind Project.GitHubLink, Mode=TwoWay}"/>
 
                 <TextBox x:Name="ExternalUrlBox" Header="External link"
@@ -100,10 +98,10 @@
         </PivotItem>
 
         <PivotItem Header="More info">
-            <StackPanel Spacing="5">
-                <ComboBox x:Name="CategoryBox" Header="Category"
+            <StackPanel>
+                <ComboBox x:Name="CategoryBox" Header="Category" Margin="0,0,0,5"
                           SelectedValue="{x:Bind Project.Category, Mode=TwoWay}"/>
-                <CheckBox x:Name="IsPrivateBox" Content="Project is private/secret"
+                <CheckBox x:Name="IsPrivateBox" Content="Project is private/secret" Margin="0,0,0,5"
                           IsChecked="{x:Bind Project.IsPrivate, Mode=TwoWay}"/>
                 <CheckBox x:Name="IsLaunchBox" Content="Participation in Launch 2020"
                           IsEnabled="False"/>

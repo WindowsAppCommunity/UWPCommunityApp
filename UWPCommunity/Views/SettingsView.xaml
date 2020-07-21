@@ -6,45 +6,38 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    xmlns:controls="using:UWPCommunity.Controls"
     mc:Ignorable="d"
     NavigationCacheMode="Disabled">
 
-    <Page.Resources>
-        <Style TargetType="StackPanel">
-            <Setter Property="Spacing" Value="10"/>
-        </Style>
-    </Page.Resources>
-    
     <Pivot x:Name="SettingsPivot">
         <PivotItem Header="General" Margin="12,0,12,0">
             <StackPanel>
 
-                <ComboBox x:Name="ThemeBox" Header="Choose a theme"
+                <ComboBox x:Name="ThemeBox" Header="Choose a theme" Margin="0,0,0,5"
                           SelectionChanged="ThemeBox_SelectionChanged">
                     <x:String>Default</x:String>
                     <x:String>Light</x:String>
                     <x:String>Dark</x:String>
                 </ComboBox>
 
-                <StackPanel Orientation="Horizontal">
-                    <winui:NumberBox x:Name="ProjectCardWidth" Header="Card Width"
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                    <winui:NumberBox x:Name="ProjectCardWidth" Header="Card Width" Margin="0,0,5,0"
                                      Minimum="0" ValueChanged="ProjectCardSize_ValueChanged"/>
                     <winui:NumberBox x:Name="ProjectCardHeight" Header="Height"
                                      Minimum="0" ValueChanged="ProjectCardSize_ValueChanged"/>
                 </StackPanel>
 
-                <CheckBox x:Name="ShowLlamaBingoBox" Content="Show Llamingo"
+                <CheckBox x:Name="ShowLlamaBingoBox" Content="Show Llamingo" Margin="0,0,0,5"
                           Checked="ShowLlamaBingoBox_Checked" Unchecked="ShowLlamaBingoBox_Unchecked"/>
 
-                <CheckBox x:Name="ExtendIntoTitleBarBox" Content="Extend into title bar"
+                <CheckBox x:Name="ExtendIntoTitleBarBox" Content="Extend into title bar" Margin="0,0,0,5"
                           Checked="ExtendIntoTitleBarBox_Checked" Unchecked="ExtendIntoTitleBarBox_Unchecked"/>
-                
-                <CheckBox x:Name="ShowLiveTileBox" Content="Show live tile"
+
+                <CheckBox x:Name="ShowLiveTileBox" Content="Show live tile" Margin="0,0,0,5"
                           Checked="ShowLiveTileBox_Checked" Unchecked="ShowLiveTileBox_Unchecked"/>
 
                 <Button x:Name="DefaultButton" Content="Restore default settings"
-                        Click="DefaultButton_Click"/>
+                        Click="DefaultButton_Click" Margin="0,0,0,5"/>
 
                 <Button x:Load="False" x:Name="ResetButton" Content="Reset app" Foreground="White" Click="ResetButton_Click">
                     <Button.Background>
@@ -58,12 +51,14 @@
         <PivotItem Header="Messages">
             <StackPanel>
                 <CheckBox x:Name="ShowAppMessagesBox" Content="Show new messages on startup"
-                          Checked="ShowAppMessagesBox_Checked" Unchecked="ShowAppMessagesBox_Unchecked"/>
+                          Checked="ShowAppMessagesBox_Checked" Unchecked="ShowAppMessagesBox_Unchecked"
+                          Margin="0,0,0,5"/>
 
-                <StackPanel Spacing="-5">
+                <StackPanel>
                     <Slider x:Name="ImportanceLevelSlider" Minimum="0" Maximum="3"
-                        Value="3" TickFrequency="1" SmallChange="1" LargeChange="1" Width="150"
-                        ValueChanged="ImportanceLevelSlider_ValueChanged" HorizontalAlignment="Left"/>
+                            Value="3" TickFrequency="1" SmallChange="1" LargeChange="1" Width="150"
+                            ValueChanged="ImportanceLevelSlider_ValueChanged" HorizontalAlignment="Left"
+                            Margin="0,0,0,-5"/>
 
                     <TextBlock x:Name="ImportanceLevelDesc" xmlns:converters="using:UWPCommunity.Converters"
                                Text="{x:Bind converters:SliderValueToStringConverter.Convert(ImportanceLevelSlider.Value), Mode=OneWay}"
@@ -77,11 +72,11 @@
             <Grid>
                 <Viewbox Grid.Column="1" Grid.Row="1" MaxWidth="450" MaxHeight="200" Margin="50">
                     <StackPanel Orientation="Horizontal">
-                        <Viewbox Height="120" Width="120">
+                        <Viewbox Height="120" Width="120" Margin="0,0,0,5">
                             <FontIcon Glyph="🐱‍🏍" FontFamily="Segoe UI Emoji"/>
                         </Viewbox>
 
-                        <StackPanel Spacing="0">
+                        <StackPanel>
                             <TextBlock Text="UWP" FontSize="60" FontWeight="Bold"/>
                             <TextBlock Text="Community" FontSize="40" Margin="0,-15,0,0"/>
                         </StackPanel>
@@ -116,7 +111,7 @@
         <PivotItem x:Name="DebugTab" Header="Debug">
             <StackPanel>
 
-                <StackPanel Spacing="0">
+                <StackPanel Margin="0,0,0,5">
                     <CheckBox x:Name="UseDebugApiBox" Content="Use Debug (localhost) API" IsChecked="False"
                           Unchecked="UseDebugApiBox_Changed" Checked="UseDebugApiBox_Changed"/>
                     <TextBlock Text="*This feature requires the UWP Community backend to be running on the host machine at localhost."/>

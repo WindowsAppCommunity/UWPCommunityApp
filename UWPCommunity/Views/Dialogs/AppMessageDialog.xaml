@@ -16,14 +16,14 @@
         <TextBlock Text="{x:Bind Message.Title}" Foreground="{StaticResource SystemAccentColor}" />
     </ContentDialog.Title>
 
-    <StackPanel Spacing="5">
+    <StackPanel>
         <toolkit:MarkdownTextBlock x:Name="ContentBox" Background="Transparent"
-                                   Text="{x:Bind Message.Message}"/>
-        <Grid>
+                                   Text="{x:Bind Message.Message}" Margin="0,0,0,5"/>
+        <Grid Margin="0,0,0,5">
             <TextBlock Foreground="{ThemeResource SystemColorGrayTextColor}" HorizontalAlignment="Left"
                        Text="{x:Bind DateString}" />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5">
-                <TextBlock Text="by" Foreground="{ThemeResource SystemColorGrayTextColor}"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Text="by" Foreground="{ThemeResource SystemColorGrayTextColor}" Margin="0,0,0,5"/>
                 <TextBlock x:Name="AuthorBlock" Foreground="{ThemeResource SystemColorGrayTextColor}"
                            Text="{x:Bind Message.Author}"/>
             </StackPanel>

@@ -30,13 +30,6 @@ namespace UWPCommunity.Views
             DestinationPage = page == null ? typeof(HomeView) : page;
 
             base.OnNavigatedTo(e);
-
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Sign in: auth flow started",
-                new System.Collections.Generic.Dictionary<string, string> {
-                    { "From", e.SourcePageType.Name },
-                    { "Parameters", e.Parameter?.ToString() }
-                }
-            );
         }
 
         private async void LoginWrapper_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
@@ -53,8 +46,6 @@ namespace UWPCommunity.Views
                 var authResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<TokenResponse>(System.Text.Encoding.ASCII.GetString(data));
 
                 await Common.SignIn(authResponse.Token, authResponse.RefreshToken);
-
-                Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Sign in: success");
 
                 NavigationManager.Navigate(DestinationPage);
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using UWPCommLib.Api.Yoshi.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -13,7 +14,7 @@ namespace UWPCommunity.Views.Dialogs
         public string DateString {
             get {
                 var date = new DateTime(1970, 1, 1).AddSeconds(Message.Timestamp).ToLocalTime();
-                return date.ToShortDateString() + " " + date.ToShortTimeString();
+                return date.ToString(CultureInfo.CurrentUICulture.DateTimeFormat);
             }
         }
 

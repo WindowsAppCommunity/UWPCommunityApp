@@ -4,13 +4,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
     x:Name="RootControl"
-    AutomationProperties.Name="{Binding BodyText}">
+    AutomationProperties.Name="{Binding BodyText, Source={RelativeSource Mode=Self}}">
 
     <controls:DockPanel LastChildFill="True" Padding="4" HorizontalAlignment="Stretch" Background="{ThemeResource AppBarBackgroundThemeBrush}">
 
@@ -29,8 +28,9 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Grid>
-                <!--This grid handles the blurred backdrop-->
+            <!--This grid handles the blurred backdrop, which relies on the
+                Media package of WCT 6.0-->
+            <!--<Grid>
                 <controls:ImageEx Source="{x:Bind ImageSource}"
                                   VerticalAlignment="Center" HorizontalAlignment="Center"
                                   Stretch="UniformToFill" Opacity="0.25"/>
@@ -39,29 +39,32 @@
                         <media:BackdropBlurBrush Amount="10"/>
                     </Border.Background>
                 </Border>
-            </Grid>
-            <controls:ImageEx Source="{x:Bind ImageSource}" Stretch="Uniform"
+            </Grid>-->
+            <controls:ImageEx Source="{Binding ImageSource, Source={RelativeSource Mode=Self}}" Stretch="Uniform"
                               VerticalAlignment="Center" HorizontalAlignment="Center"
-                              CacheMode="BitmapCache" CachingStrategy="Internal"/>
+                              CacheMode="BitmapCache"/>
 
             <StackPanel Orientation="Vertical" Grid.Row="1" MaxHeight="90"
-                        Spacing="5" Margin="5" HorizontalAlignment="Stretch">
-                <TextBlock Text="{x:Bind TitleText, Mode=OneWay}"
+                        Margin="5" HorizontalAlignment="Stretch">
+                <TextBlock Text="{x:Bind TitleText, Mode=OneWay}" Margin="0,0,0,5"
                            Style="{StaticResource SubtitleTextBlockStyle}" />
                 <TextBlock Text="{x:Bind BodyText, Mode=OneWay}"
                            Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
             </StackPanel>
 
-            <StackPanel controls:DockPanel.Dock="Bottom" Spacing="5" Grid.Row="2"
+            <StackPanel controls:DockPanel.Dock="Bottom" Grid.Row="2"
                         HorizontalAlignment="Left" VerticalAlignment="Stretch" 
                         Orientation="Horizontal">
-                <Button x:Name="ViewButton" Click="ViewButton_Click" ToolTipService.ToolTip="View">
+                <Button x:Name="ViewButton" Click="ViewButton_Click" Margin="0,0,5,0"
+                        ToolTipService.ToolTip="View" AutomationProperties.Name="View">
                     <SymbolIcon Symbol="View"/>
                 </Button>
-                <Button x:Name="EditButton" Click="EditButton_Click" ToolTipService.ToolTip="Edit">
+                <Button x:Name="EditButton" Click="EditButton_Click" Margin="0,0,5,0"
+                        ToolTipService.ToolTip="Edit" AutomationProperties.Name="Edit">
                     <SymbolIcon Symbol="Edit"/>
                 </Button>
-                <Button x:Name="DeleteButton" Click="DeleteButton_Click" ToolTipService.ToolTip="Delete">
+                <Button x:Name="DeleteButton" Click="DeleteButton_Click"
+                        ToolTipService.ToolTip="Delete" AutomationProperties.Name="Delete">
                     <SymbolIcon Symbol="Delete"/>
                 </Button>
             </StackPanel>

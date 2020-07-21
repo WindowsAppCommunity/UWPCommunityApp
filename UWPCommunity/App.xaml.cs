@@ -26,11 +26,6 @@ namespace UWPCommunity
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             this.UnhandledException += App_UnhandledException;
-            AppCenter.LogLevel = LogLevel.Verbose;
-#if !DEBUG
-            AppCenter.Start("fbea1ef8-e96d-4848-baf2-fa79983b30f4",
-                   typeof(Analytics), typeof(Crashes));
-#endif
         }
 
         /// <summary>

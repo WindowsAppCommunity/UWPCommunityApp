@@ -66,46 +66,24 @@ namespace UWPCommunity.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Projects: Navigated to",
-                new Dictionary<string, string> {
-                    { "From", e.SourcePageType.Name },
-                    { "Parameters", e.Parameter?.ToString() }
-                }
-            );
         }
 
         private async void ExternalLinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             var project = (sender as Button)?.DataContext as Project;
             await NavigationManager.OpenInBrowser(project.ExternalLink);
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: External link badge clicked",
-                new Dictionary<string, string> {
-                    { "Proj", project.Id.ToString() },
-                }
-            );
         }
 
         private async void GitHubLinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             var project = (sender as Button)?.DataContext as Project;
             await NavigationManager.OpenInBrowser(project.GitHubLink);
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: GitHub link badge clicked",
-                new Dictionary<string, string> {
-                    { "Proj", project.Id.ToString() },
-                }
-            );
         }
 
         private async void DownloadLinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             var project = (sender as Button)?.DataContext as Project;
             await NavigationManager.OpenInBrowser(project.DownloadLink);
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: Download link badge clicked",
-                new Dictionary<string, string> {
-                    { "Proj", project.Id.ToString() },
-                }
-            );
         }
 
         private void Project_ViewRequested(object p)
@@ -178,12 +156,6 @@ namespace UWPCommunity.Views
                 FilterByCategory(collection: results);
             else
                 Sort(collection: results);
-
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Projects: Search",
-                new Dictionary<string, string> {
-                    { "Query", query },
-                }
-            );
         }
 
         private void FilterByCategory(string category = null, IEnumerable<Project> collection = null)
@@ -200,12 +172,6 @@ namespace UWPCommunity.Views
             }
 
             Sort(collection: collection.Where(x => x.Category.Equals(category)));
-
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Projects: Category filter",
-                new Dictionary<string, string> {
-                    { "Category", category },
-                }
-            );
         }
 
         private void Sort(string mode = null, IEnumerable<Project> collection = null)
@@ -255,12 +221,6 @@ namespace UWPCommunity.Views
             }
             Projects = new ObservableCollection<Project>(sorted);
             Bindings.Update();
-
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Projects: Sort",
-                new Dictionary<string, string> {
-                    { "Mode", mode },
-                }
-            );
         }
 
         private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)

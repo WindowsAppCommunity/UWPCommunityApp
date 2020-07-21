@@ -4,13 +4,25 @@ namespace UWPCommunity.Converters
 {
     public class SliderValueToStringConverter
     {
-        public static string Convert(double x) => x switch
+        public static string Convert(double x)
         {
-            0 => "Don't show me any messages",
-            1 => "Show me messages only about big UWP Community events",
-            2 => "Show me changelogs and UWP Community event notifcations",
-            3 => "Show me all messages from the developer",
-            _ => throw new ArgumentOutOfRangeException()
-        };
+            switch (x)
+            {
+                case 0:
+                    return "Don't show me any messages";
+
+                case 1:
+                    return "Show me messages only about big UWP Community events";
+
+                case 2:
+                    return "Show me changelogs and UWP Community event notifcations";
+
+                case 3:
+                    return "Show me all messages from the developer";
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }

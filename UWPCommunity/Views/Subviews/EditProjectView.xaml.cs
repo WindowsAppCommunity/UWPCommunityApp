@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml.Controls;
 using UWPCommLib.Api.UWPComm.Models;
 using System;
 using System.Linq;
@@ -65,11 +64,6 @@ namespace UWPCommunity.Views.Subviews
                 {
                     await Common.UwpCommApi.PostProject(Project);
                 }
-                Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: App registration submitted",
-                    new Dictionary<string, string> {
-                        { "Project", Project.ToString() }
-                    }
-                );
                 NavigationManager.PageFrame.GoBack();
             }
             catch (Refit.ApiException ex)
@@ -89,12 +83,6 @@ namespace UWPCommunity.Views.Subviews
         private async void SaveDraftButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             await SettingsManager.SaveProjectDraft(Project, !IsEditing);
-
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: App draft saved",
-                new Dictionary<string, string> {
-                    { "Project", Project.ToString() }
-                }
-            );
         }
 
         private async void LoadDraftButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -117,17 +105,10 @@ namespace UWPCommunity.Views.Subviews
                 ContentDialogResult result = await dialog.ShowAsync();
                 return;
             }
-
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: App draft loaded",
-                new Dictionary<string, string> {
-                    { "Project", Project.ToString() }
-                }
-            );
         }
 
         private void CancelButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: App registration canceled");
             NavigationManager.PageFrame.GoBack();
         }
     }

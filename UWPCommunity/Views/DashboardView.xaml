@@ -75,9 +75,10 @@
 
                         <GridView.Header>
                             <Viewbox MaxHeight="32" Margin="5" HorizontalAlignment="Left">
-                                <Grid ColumnSpacing="5">
+                                <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
+                                        <ColumnDefinition Width="5"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <!--TODO: For some reason, the PathIcon appears fuzzy.
@@ -86,7 +87,7 @@
                                     <PathIcon Data="F1 M 12.5 16.25 L 12.5 15 L 13.75 15 L 13.75 16.25 Z M 15 16.25 L 15 15 L 20 15 L 20 16.25 Z M 12.5 18.75 L 12.5 17.5 L 13.75 17.5 L 13.75 18.75 Z M 15 18.75 L 15 17.5 L 20 17.5 L 20 18.75 Z M 12.5 13.75 L 12.5 12.5 L 13.75 12.5 L 13.75 13.75 Z M 15 12.5 L 20 12.5 L 20 13.75 L 15 13.75 Z M 18.75 0 L 18.75 10 L 10 10 L 10 18.75 L 0 18.75 L 0 0 Z M 8.75 17.5 L 8.75 10 L 1.25 10 L 1.25 17.5 Z M 8.75 8.75 L 8.75 1.25 L 1.25 1.25 L 1.25 8.75 Z M 17.5 8.75 L 17.5 1.25 L 10 1.25 L 10 8.75 Z "
                                               VerticalAlignment="Center" HorizontalAlignment="Center" />
                                     <TextBlock Text="My apps" Style="{StaticResource BaseTextBlockStyle}"
-                                               Grid.Column="1" VerticalAlignment="Center"/>
+                                               Grid.Column="2" VerticalAlignment="Center"/>
                                 </Grid>
                             </Viewbox>
                         </GridView.Header>
