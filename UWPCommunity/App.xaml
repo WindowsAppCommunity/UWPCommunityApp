@@ -15,6 +15,8 @@
                 <flui:FluiFrameworkThemeResources/>
 
                 <ResourceDictionary>
+                    <SolidColorBrush x:Key="SystemAccentColorBrush" Color="{ThemeResource SystemAccentColor}" />
+
                     <Windows10version1903:ThemeShadow x:Name="CardThemeShadow"/>
 
                     <Style TargetType="toolkit:DropShadowPanel">

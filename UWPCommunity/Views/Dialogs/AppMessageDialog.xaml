@@ -13,7 +13,7 @@
     IsSecondaryButtonEnabled="False">
 
     <ContentDialog.Title>
-        <TextBlock Text="{x:Bind Message.Title}" Foreground="{StaticResource SystemAccentColor}" />
+        <TextBlock Text="{x:Bind Message.Title}" Foreground="{StaticResource SystemAccentColorBrush}" />
     </ContentDialog.Title>
 
     <StackPanel>
