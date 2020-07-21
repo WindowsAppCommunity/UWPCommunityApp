@@ -14,7 +14,7 @@
 
     <ContentDialog.Title>
         <StackPanel>
-            <TextBlock Text="Edit profile" Foreground="{StaticResource SystemAccentColor}" />
+            <TextBlock Text="Edit profile" Foreground="{StaticResource SystemAccentColorBrush}" />
             <winui:ProgressBar x:Name="LoadingBar" IsIndeterminate="True" HorizontalAlignment="Stretch"/>
         </StackPanel>
     </ContentDialog.Title>

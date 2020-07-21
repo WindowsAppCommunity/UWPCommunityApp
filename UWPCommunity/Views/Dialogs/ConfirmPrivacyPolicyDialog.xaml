@@ -12,7 +12,7 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
     <ContentDialog.Title>
-        <TextBlock Text="Please confirm" Foreground="{StaticResource SystemAccentColor}" />
+        <TextBlock Text="Please confirm" Foreground="{StaticResource SystemAccentColorBrush}" />
     </ContentDialog.Title>
 
     <TextBlock TextWrapping="WrapWholeWords">
