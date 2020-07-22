@@ -7,8 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:controls="using:UWPCommunity.Controls"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
-    NavigationCacheMode="Disabled">
+    NavigationCacheMode="Disabled"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
         <Style TargetType="StackPanel">
@@ -75,7 +77,7 @@
         
         <PivotItem Header="About">
             <Grid>
-                <Viewbox Grid.Column="1" Grid.Row="1" MaxWidth="450" MaxHeight="200" Margin="50">
+                <!--<Viewbox MaxWidth="450" MaxHeight="200" Margin="50">
                     <StackPanel Orientation="Horizontal">
                         <Viewbox Height="120" Width="120">
                             <FontIcon Glyph="🐱‍🏍" FontFamily="Segoe UI Emoji"/>
@@ -86,20 +88,59 @@
                             <TextBlock Text="Community" FontSize="40" Margin="0,-15,0,0"/>
                         </StackPanel>
                     </StackPanel>
-                </Viewbox>
+                </Viewbox>-->
 
-                <TextBlock TextWrapping="Wrap" Grid.ColumnSpan="3">
-                    <Run Text="The official client for the UWP Community website. Released as part of Launch 2020."/>
+                <StackPanel Spacing="10">
+                    <TextBlock TextWrapping="Wrap">
+                        <Run Text="The official client for the UWP Community website. Developed by Joshua Askharoun, released as part of Launch 2020."/>
                     
-                    <LineBreak/><Run Text="Visit the UWP Community website at "/>
-                    <Hyperlink NavigateUri="https://uwpcommunity.com/">
-                        <Run Text="https://uwpcommunity.com/"/>
-                    </Hyperlink>
-                    <Run Text="."/>
-                    
-                    <LineBreak/><Run FontWeight="Bold" Text="App version:"/>
-                    <Run x:Name="AppVersionRun"/>
-                </TextBlock>
+                        <LineBreak/><Run Text="Visit the UWP Community website at "/>
+                        <Hyperlink NavigateUri="https://uwpcommunity.com/">
+                            <Run Text="https://uwpcommunity.com/"/>
+                        </Hyperlink>
+                        <Run Text="."/>
+                    </TextBlock>
+
+                    <TextBlock>
+                        <Run FontWeight="Bold" Text="App version:"/>
+                        <Run x:Name="AppVersionRun"/>
+                    </TextBlock>
+
+                    <TextBlock Text="Contributors" FontWeight="Bold"/>
+                    <ScrollViewer>
+                        <ItemsControl x:Name="ContributorPanel" ItemsSource="{x:Bind Contributors}" Loaded="ContributorPanel_Loaded">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="github:GitHubUser" xmlns:github="using:UWPCommLib.Api.GitHub.Models">
+                                    <Button Margin="0,0,0,5" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                            PointerEntered="element_PointerEntered" PointerExited="element_PointerExited"
+                                            Click="element_Click" AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
+                                        <Grid ColumnSpacing="10" RowSpacing="5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <toolkit:ImageEx Source="{x:Bind AvatarUrl, Mode=OneWay}" CornerRadius="100"
+                                                             MaxHeight="75" Grid.RowSpan="2"/>
+                                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" FontWeight="SemiBold"
+                                                       Grid.Column="1" VerticalAlignment="Bottom"/>
+                                            <TextBlock Text="{x:Bind Bio, Mode=OneWay}" TextWrapping="Wrap"
+                                                       Grid.Column="1" Grid.Row="1" VerticalAlignment="Top"/>
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </StackPanel>
             </Grid>
         </PivotItem>
 

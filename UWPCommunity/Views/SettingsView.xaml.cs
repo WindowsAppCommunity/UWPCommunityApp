@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Numerics;
+using UWPCommLib.Api.GitHub.Models;
 using Windows.Foundation;
+using Windows.UI.Composition;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -82,6 +87,8 @@ namespace UWPCommunity.Views
             dialog.ShowAsync();
         }
 
+        #region Settings Manager
+
         private void SettingsManager_UseDebugApiChanged(bool value)
         {
             UseDebugApiBox.IsChecked = value;
@@ -153,6 +160,24 @@ namespace UWPCommunity.Views
             SettingsManager.SetShowLiveTile(false);
         }
 
+        private void ShowAppMessagesBox_Checked(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.AppMessageSettings.SetShowAppMessages(true);
+        }
+
+        private void ShowAppMessagesBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.AppMessageSettings.SetShowAppMessages(false);
+        }
+
+        private void ImportanceLevelSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (isReady)
+                SettingsManager.AppMessageSettings.SetImportanceLevel((int)e.NewValue);
+        }
+
+        #endregion
+
         private async void DefaultButton_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog dialog = new ContentDialog
@@ -209,20 +234,77 @@ namespace UWPCommunity.Views
             }
         }
 
-        private void ShowAppMessagesBox_Checked(object sender, RoutedEventArgs e)
+        #region Contributor Panel
+        ObservableCollection<GitHubUser> Contributors { get; set; } = new ObservableCollection<GitHubUser>();
+        Compositor _compositor = Window.Current.Compositor;
+        SpringVector3NaturalMotionAnimation _springAnimation;
+
+        private async void ContributorPanel_Loaded(object sender, RoutedEventArgs e)
         {
-            SettingsManager.AppMessageSettings.SetShowAppMessages(true);
+            var contribs = await Common.GitHubApi.GetContributors("UWPCommunity", "UWPCommunityApp");
+            Contributors.Clear();
+            foreach (Contributor c in contribs)
+            {
+                Contributors.Add(await Common.GitHubApi.GetUser(c.Login));
+            }
+
+            // TODO: How is this supposed to be done when items are databound?
+
+            // Animate the translation of each button relative to the scale and translation of the button above.
+            //var anim = _compositor.CreateExpressionAnimation();
+            //anim.Expression = "(above.Scale.Y - 1) * 50 + above.Translation.Y % (50 * index)";
+            //anim.Target = "Translation.Y";
+
+            //var panel = sender as StackPanel;
+            //for (int i = 1; i < panel.Children.Count; i++)
+            //{
+            //    var current = panel.Children[i];
+            //    var before = panel.Children[i - 1];
+
+            //    // Animate the second button relative to the first.
+            //    anim.SetExpressionReferenceParameter("above", before);
+            //    anim.SetScalarParameter("index", i);
+            //    current.StartAnimation(anim);
+            //}
         }
 
-        private void ShowAppMessagesBox_Unchecked(object sender, RoutedEventArgs e)
+        private void CreateOrUpdateSpringAnimation(float finalValue)
         {
-            SettingsManager.AppMessageSettings.SetShowAppMessages(false);
+            if (_springAnimation == null)
+            {
+                _springAnimation = _compositor.CreateSpringVector3Animation();
+                _springAnimation.Target = "Scale";
+            }
+
+            _springAnimation.FinalValue = new Vector3(finalValue);
         }
 
-        private void ImportanceLevelSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        private void element_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            if (isReady)
-                SettingsManager.AppMessageSettings.SetImportanceLevel((int)e.NewValue);
+            return;
+            // Scale up to 1.25
+            CreateOrUpdateSpringAnimation(1.25f);
+
+            (sender as UIElement).StartAnimation(_springAnimation);
         }
+
+        private void element_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            return;
+            // Scale back down to 1.0
+            CreateOrUpdateSpringAnimation(1.0f);
+
+            (sender as UIElement).StartAnimation(_springAnimation);
+        }
+
+        private async void element_Click(object sender, RoutedEventArgs e)
+        {
+            if ((sender as Button)?.DataContext is GitHubUser user)
+            {
+                await NavigationManager.OpenInBrowser(user.HtmlUrl);
+            }
+        }
+
+        #endregion
     }
 }

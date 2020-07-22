@@ -55,13 +55,13 @@
             <StackPanel controls:DockPanel.Dock="Bottom" Spacing="5" Grid.Row="2"
                         HorizontalAlignment="Left" VerticalAlignment="Stretch" 
                         Orientation="Horizontal">
-                <Button x:Name="ViewButton" Click="ViewButton_Click" ToolTipService.ToolTip="View">
+                <Button x:Name="ViewButton" Click="ViewButton_Click" ToolTipService.ToolTip="View" AutomationProperties.Name="View">
                     <SymbolIcon Symbol="View"/>
                 </Button>
-                <Button x:Name="EditButton" Click="EditButton_Click" ToolTipService.ToolTip="Edit">
+                <Button x:Name="EditButton" Click="EditButton_Click" ToolTipService.ToolTip="Edit" AutomationProperties.Name="Edit">
                     <SymbolIcon Symbol="Edit"/>
                 </Button>
-                <Button x:Name="DeleteButton" Click="DeleteButton_Click" ToolTipService.ToolTip="Delete">
+                <Button x:Name="DeleteButton" Click="DeleteButton_Click" ToolTipService.ToolTip="Delete" AutomationProperties.Name="Delete">
                     <SymbolIcon Symbol="Delete"/>
                 </Button>
             </StackPanel>

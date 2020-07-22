@@ -6,6 +6,7 @@ using UWPCommLib.Api.Discord;
 using UWPCommLib.Api.UWPComm;
 using Windows.UI.Xaml.Media;
 using UWPCommLib.Api.Yoshi;
+using UWPCommLib.Api.GitHub;
 
 namespace UWPCommunity
 {
@@ -20,6 +21,12 @@ namespace UWPCommunity
         );
         public static IDiscordApi DiscordApi = RestService.For<IDiscordApi>(
             "https://discordapp.com/api"
+        );
+        public static IGitHubApi GitHubApi = RestService.For<IGitHubApi>(
+            "https://api.github.com", new RefitSettings()
+            {
+                //AuthorizationHeaderValueGetter = () => Task.FromResult("75639cbf660614e011edafc8a48cf10eab857c13")
+            }
         );
 
         static string _token;
