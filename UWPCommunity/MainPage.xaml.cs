@@ -108,18 +108,19 @@ namespace UWPCommunity
 
             if (isLoggedIn.Value)
             {
-                UnloadObject(SignInButton);
-                FindName("UserButton");
+                SignInButton.Visibility = Visibility.Collapsed;
+                UserButton.Visibility = Visibility.Visible;
                 UserProfilePicture.ProfilePicture =
                     new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
                 AutomationProperties.SetName(UserButton, Common.DiscordUser.Username);
                 ToolTipService.SetToolTip(UserButton, Common.DiscordUser.Username);
+                UserProfileName.Text = Common.DiscordUser.Username;
                 (MainNav.MenuItems[4] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility = Visibility.Visible;
             }
             else
             {
-                FindName("SignInButton");
-                UnloadObject(UserButton);
+                SignInButton.Visibility = Visibility.Visible;
+                UserButton.Visibility = Visibility.Collapsed;
                 (MainNav.MenuItems[4] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility = Visibility.Collapsed;
             }
         }

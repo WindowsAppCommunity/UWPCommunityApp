@@ -30,22 +30,26 @@
 
         <winui:NavigationView.PaneFooter>
             <Grid>
-                <Button x:Name="SignInButton" x:Load="True" Click="SignInButton_Click"
+                <Button x:Name="SignInButton" Visibility="Visible" Click="SignInButton_Click"
                         Style="{ThemeResource AccentButtonStyle}" Windows10version1809:CornerRadius="0"
-                        ToolTipService.ToolTip="Sign in" AutomationProperties.Name="Sign in">
-                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        ToolTipService.ToolTip="Sign in" AutomationProperties.Name="Sign in"
+                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                    <StackPanel Spacing="8" Orientation="Horizontal">
                         <SymbolIcon Symbol="AddFriend" />
                         <TextBlock Text="Sign in"/>
                     </StackPanel>
                 </Button>
 
-                <Button x:Name="UserButton" x:Load="False" Background="Transparent">
+                <Button x:Name="UserButton" Visibility="Collapsed" Background="Transparent"
+                        Windows10version1809:CornerRadius="0" HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left">
                     <Button.Content>
-                        <StackPanel Orientation="Horizontal" Spacing="5">
-                            <Viewbox>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Viewbox x:Name="UserProfilePictureBox" MaxHeight="9999">
                                 <winui:PersonPicture x:Name="UserProfilePicture" PreferSmallImage="True"/>
                             </Viewbox>
-                            <TextBlock Text="Username" VerticalAlignment="Center" TextLineBounds="Tight"/>
+                            <TextBlock x:Name="UserProfileName" Text="Username"
+                                       VerticalAlignment="Center" TextLineBounds="Tight"/>
                         </StackPanel>
                     </Button.Content>
 
@@ -95,6 +99,9 @@
                         <Setter Target="MainNav.IsTitleBarAutoPaddingEnabled" Value="False"/>
                         <Setter Target="HeaderLogo.Visibility" Value="Collapsed"/>
                         <Setter Target="TitlebarRow.Height" Value="40"/>
+                        <Setter Target="UserProfilePictureBox.MaxHeight" Value="20"/>
+                        <Setter Target="SignInButton.Padding" Value="8,10"/>
+                        <Setter Target="UserButton.Padding" Value="8,10"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

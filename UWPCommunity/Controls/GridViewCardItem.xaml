@@ -10,7 +10,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     x:Name="RootControl"
-    AutomationProperties.Name="{Binding BodyText}">
+    AutomationProperties.Name="{Binding BodyText, Source={RelativeSource Mode=Self}, Mode=OneWay}">
 
     <controls:DockPanel LastChildFill="True" Padding="4" HorizontalAlignment="Stretch" Background="{ThemeResource AppBarBackgroundThemeBrush}">
 
@@ -31,7 +31,7 @@
 
             <Grid>
                 <!--This grid handles the blurred backdrop-->
-                <controls:ImageEx Source="{x:Bind ImageSource}"
+                <controls:ImageEx Source="{x:Bind ImageSource, Mode=OneWay}"
                                   VerticalAlignment="Center" HorizontalAlignment="Center"
                                   Stretch="UniformToFill" Opacity="0.25"/>
                 <Border>
@@ -40,7 +40,7 @@
                     </Border.Background>
                 </Border>
             </Grid>
-            <controls:ImageEx Source="{x:Bind ImageSource}" Stretch="Uniform"
+            <controls:ImageEx Source="{x:Bind ImageSource, Mode=OneWay}" Stretch="Uniform"
                               VerticalAlignment="Center" HorizontalAlignment="Center"
                               CacheMode="BitmapCache" CachingStrategy="Internal"/>
 
