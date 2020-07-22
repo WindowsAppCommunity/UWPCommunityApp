@@ -6,8 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    xmlns:controls="using:UWPCommunity.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d"
     NavigationCacheMode="Disabled"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -123,7 +123,7 @@
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
-                                            <toolkit:ImageEx Source="{x:Bind AvatarUrl, Mode=OneWay}" CornerRadius="100"
+                                            <toolkit:ImageEx Source="{x:Bind AvatarUrl, Mode=OneWay}" Windows10version1809:CornerRadius="100"
                                                              MaxHeight="75" Grid.RowSpan="2"/>
                                             <TextBlock Text="{x:Bind Name, Mode=OneWay}" FontWeight="SemiBold"
                                                        Grid.Column="1" VerticalAlignment="Bottom"/>
