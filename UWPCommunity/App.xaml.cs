@@ -198,6 +198,9 @@ namespace UWPCommunity
             else
             {
                 coreTitleBar.ExtendViewIntoTitleBar = false;
+
+                ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = null;
+                ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = null; 
             }
         }
 
