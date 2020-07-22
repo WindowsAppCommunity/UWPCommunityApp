@@ -111,10 +111,10 @@
                         <ItemsControl x:Name="ContributorPanel" ItemsSource="{x:Bind Contributors}" Loaded="ContributorPanel_Loaded">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="github:GitHubUser" xmlns:github="using:UWPCommLib.Api.GitHub.Models">
-                                    <Button Margin="0,0,0,5" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                    <Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
                                             PointerEntered="element_PointerEntered" PointerExited="element_PointerExited"
                                             Click="element_Click" AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
-                                        <Grid ColumnSpacing="10" RowSpacing="5">
+                                        <Grid ColumnSpacing="10" RowSpacing="10">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
@@ -123,7 +123,7 @@
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
-                                            <toolkit:ImageEx Source="{x:Bind AvatarUrl, Mode=OneWay}" Windows10version1809:CornerRadius="100"
+                                            <toolkit:ImageEx Source="{x:Bind AvatarUrl, Mode=OneWay}"
                                                              MaxHeight="75" Grid.RowSpan="2"/>
                                             <TextBlock Text="{x:Bind Name, Mode=OneWay}" FontWeight="SemiBold"
                                                        Grid.Column="1" VerticalAlignment="Bottom"/>
