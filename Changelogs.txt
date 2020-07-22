@@ -1,3 +1,21 @@
+v1.2.0
+- FINALLY! Fixed a bug where attempting to edit a project resulted in HTTP error 401
+- Added project drafts
+- Added compact mode for small screens/window sizes
+- Added ability to edit a project's app icon
+- Added jump list navigation (right-click the pinned Start tile to see this in action)
+- Increased accessibility and Narrator compatability by adding tooltips and automation names
+- Hero images on the Projects page are no longer clipped
+- Project descriptions on the Projects page are limited to a maximum of two lines
+- Added contributors list to About page
+- Fixed a bug where hero card images wouldn't load
+- Fixed a bug where clicking "Manage message preferences" navigated to the About page
+- Fixed a bug where App Message preferences were reversed
+- Fixed sizing of secondary cards on Home page
+- Fixed website protocol activation
+- Fixed an issue with hover on title bar buttons
+- Other various UI changes
+
 v1.1.0
 - Added app messages
 - Removed Debug options
