@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace UWPCommLib.Api.UWPComm.Models
 {
@@ -10,11 +11,16 @@ namespace UWPCommLib.Api.UWPComm.Models
         [JsonProperty(PropertyName = "isOwner")]
         public bool IsOwner { get; set; }
 
+        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public enum RoleType
         {
             Developer,
+
             Translator,
+
+            [EnumMember(Value = "Beta Tester")]
             BetaTester,
+
             Other
         }
     }

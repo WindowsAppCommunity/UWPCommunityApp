@@ -12,5 +12,13 @@ namespace UWPCommLib.Api.Discord
         /// </summary>
         [Get("/users/@me")]
         Task<User> GetCurrentUser();
+
+        /// <summary>
+        /// Gets the public information for the user with the given ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Get("/users/{id}")]
+        Task<User> GetUser(string id);
     }
 }

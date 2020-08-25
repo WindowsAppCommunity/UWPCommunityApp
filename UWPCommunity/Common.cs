@@ -7,6 +7,7 @@ using UWPCommLib.Api.UWPComm;
 using Windows.UI.Xaml.Media;
 using UWPCommLib.Api.Yoshi;
 using UWPCommLib.Api.GitHub;
+using UWPCommLib.Api.UWPComm.Models;
 
 namespace UWPCommunity
 {
@@ -23,10 +24,7 @@ namespace UWPCommunity
             "https://discordapp.com/api"
         );
         public static IGitHubApi GitHubApi = RestService.For<IGitHubApi>(
-            "https://api.github.com", new RefitSettings()
-            {
-                //AuthorizationHeaderValueGetter = () => Task.FromResult("75639cbf660614e011edafc8a48cf10eab857c13")
-            }
+            "https://api.github.com"
         );
 
         static string _token;
@@ -168,6 +166,11 @@ namespace UWPCommunity
             var profile = Windows.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile();
             return (profile != null) && !String.IsNullOrEmpty(profile.ProfileName);
         }
+
+        public static bool IsOwner(Project p)
+		{
+
+		}
     }
 
     public static class StringExtensions
