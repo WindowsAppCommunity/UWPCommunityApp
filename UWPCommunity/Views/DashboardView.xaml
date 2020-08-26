@@ -65,8 +65,8 @@
                                     <controls:GridViewCardItem TitleText="{x:Bind AppName}"
                                                                ImageSource="{x:Bind HeroImageSafe}"
                                                                BodyText="{x:Bind Description}"
-                                                               IsEditable="True"
-                                                               IsDeletable="True"
+                                                               IsEditable="{x:Bind IsOwner(local:Common.DiscordUser.DiscordId)}"
+                                                               IsDeletable="{x:Bind IsOwner(local:Common.DiscordUser.DiscordId)}"
                                                                EditRequested="Project_EditRequested"
                                                                DeleteRequested="Project_DeleteRequested"
                                                                ViewRequested="Project_ViewRequested"/>

@@ -166,11 +166,6 @@ namespace UWPCommunity
             var profile = Windows.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile();
             return (profile != null) && !String.IsNullOrEmpty(profile.ProfileName);
         }
-
-        public static bool IsOwner(Project p)
-		{
-
-		}
     }
 
     public static class StringExtensions

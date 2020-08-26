@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UWPCommLib.Api.UWPComm.Models
 {
@@ -264,6 +265,28 @@ namespace UWPCommLib.Api.UWPComm.Models
                     return ProjectCategory.BooksAndReference;
             }
         }
+
+        /// <summary>
+        /// Checks if the user is the owner of this project
+        /// </summary>
+        public bool IsOwner(string userId)
+		{
+            var owner = Collaborators.Find(c => c.IsOwner == true);
+            return owner.Id == userId;
+		}
+
+        public IEnumerable<Collaborator> GetDevelopers()
+		{
+            return Collaborators.Where(c => c.Role == Collaborator.RoleType.Developer);
+		}
+        public IEnumerable<Collaborator> GetTranslators()
+		{
+            return Collaborators.Where(c => c.Role == Collaborator.RoleType.Translator);
+		}
+        public IEnumerable<Collaborator> GetBetaTesters()
+		{
+            return Collaborators.Where(c => c.Role == Collaborator.RoleType.BetaTester);
+		}
 
         public override string ToString()
         {
