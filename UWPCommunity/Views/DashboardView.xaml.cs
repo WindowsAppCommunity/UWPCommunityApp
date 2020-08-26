@@ -86,7 +86,7 @@ namespace UWPCommunity.Views
             RefreshProjects();
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: Edit project",
                 new Dictionary<string, string> {
-                    { "Proj", (p as Project).Id.ToString() },
+                    { "Proj", (p as ProjectViewModel).project.Id.ToString() },
                 }
             );
         }
@@ -107,11 +107,11 @@ namespace UWPCommunity.Views
                 try
                 {
                     await Common.UwpCommApi.DeleteProject(
-                        new DeleteProjectRequest((p as Project).AppName));
+                        new DeleteProjectRequest((p as ProjectViewModel).project.AppName));
                     RefreshProjects();
                     Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: Delete project",
                         new Dictionary<string, string> {
-                            { "Proj", (p as Project).Id.ToString() },
+                            { "Proj", (p as ProjectViewModel).project.Id.ToString() },
                         }
                     );
                 }

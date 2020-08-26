@@ -25,12 +25,12 @@ namespace UWPCommunity.Views.Subviews
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ConnectedAnimation animation =
-                ConnectedAnimationService.GetForCurrentView().GetAnimation("projectView");
-            if (animation != null)
-            {
-                animation.TryStart(HeroImageCtl);
-            }
+            //ConnectedAnimation animation =
+            //    ConnectedAnimationService.GetForCurrentView().GetAnimation("projectView");
+            //if (animation != null)
+            //{
+            //    animation.TryStart(HeroImageCtl);
+            //}
             PreviousPage = e.SourcePageType;
 
             var project = e.Parameter as Project;

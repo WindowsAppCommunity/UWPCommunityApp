@@ -115,7 +115,7 @@ namespace UWPCommunity.Views
 
         private void ViewProject(Project item)
         {
-            ProjectsGridView.PrepareConnectedAnimation("projectView", item, "HeroImageStartCtl");
+            //ProjectsGridView.PrepareConnectedAnimation("projectView", item, "HeroImageStartCtl");
             NavigationManager.NavigateToViewProject(item);
         }
 
