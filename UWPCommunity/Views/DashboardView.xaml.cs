@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using UWPCommLib.Api.UWPComm.Models;
+using UWPCommunity.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -16,7 +17,7 @@ namespace UWPCommunity.Views
     /// </summary>
     public sealed partial class DashboardView : Page
     {
-        public ObservableCollection<ProjectCardViewModel> Projects { get; set; } = new ObservableCollection<ProjectCardViewModel>();
+        public ObservableCollection<ProjectViewModel> Projects { get; set; } = new ObservableCollection<ProjectViewModel>();
         public DashboardView()
         {
             this.InitializeComponent();
@@ -57,7 +58,7 @@ namespace UWPCommunity.Views
                 var projs = await Common.UwpCommApi.GetUserProjects(Common.DiscordUser.DiscordId);
                 foreach (var project in projs)
                 {
-                    Projects.Add(new ProjectCardViewModel(project));
+                    Projects.Add(new ProjectViewModel(project));
                 }
             }
             catch (Refit.ApiException ex)
@@ -131,7 +132,7 @@ namespace UWPCommunity.Views
 
         private void Project_ViewRequested(object p)
         {
-            Project proj = (p as ProjectCardViewModel).project;
+            Project proj = (p as ProjectViewModel).project;
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: View project",
                 new Dictionary<string, string> {
                     { "Proj", proj.Id.ToString() },
@@ -156,20 +157,5 @@ namespace UWPCommunity.Views
                 }
             );
         }
-    }
-
-    public class ProjectCardViewModel
-    {
-        public Project project;
-
-        public ProjectCardViewModel(Project project)
-        {
-            this.project = project;
-        }
-
-        public bool IsOwner => project.IsOwner(Common.DiscordUser.DiscordId);
-        public bool IsDeveloper => project.IsDeveloper(Common.DiscordUser.DiscordId);
-        public bool IsTranslator => project.IsTranslator(Common.DiscordUser.DiscordId);
-        public bool IsBetaTester => project.IsBetaTester(Common.DiscordUser.DiscordId);
     }
 }

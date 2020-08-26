@@ -5,11 +5,11 @@
     xmlns:local="using:UWPCommunity"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls="using:UWPCommunity.Controls"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters" xmlns:views="using:UWPCommunity.Views"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:viewmodels="using:UWPCommunity.ViewModels"
 	mc:Ignorable="d">
 
     <Page.Resources>
@@ -66,7 +66,7 @@
                                               DesiredWidth="550" ItemHeight="400">
 
                         <toolkit:AdaptiveGridView.ItemTemplate>
-                            <DataTemplate x:DataType="views:ProjectCardViewModel">
+                            <DataTemplate x:DataType="viewmodels:ProjectViewModel">
                                 <toolkit:DropShadowPanel>
                                     <controls:GridViewCardItem TitleText="{x:Bind project.AppName}"
                                                                ImageSource="{x:Bind project.HeroImageSafe}"
