@@ -78,10 +78,14 @@
                                                                ViewRequested="Project_ViewRequested">
                                         <controls:GridViewCardItem.BadgeContent>
                                             <StackPanel Spacing="5" Orientation="Horizontal">
-                                                <SymbolIcon Symbol="Admin" Visibility="{x:Bind IsOwner}" />
-                                                <FontIcon Glyph="&#xF1AD;" Visibility="{x:Bind IsBetaTester}"/>
-                                                <FontIcon Glyph="&#xF2B7;" Visibility="{x:Bind IsTranslator}"/>
-                                                <FontIcon Glyph="&#xE943;" Visibility="{x:Bind IsDeveloper}"/>
+                                                <SymbolIcon Symbol="Admin" Visibility="{x:Bind IsOwner}"
+                                                            AutomationProperties.Name="Owner" ToolTipService.ToolTip="Owner" />
+                                                <FontIcon Glyph="&#xF1AD;" Visibility="{x:Bind IsBetaTester}"
+                                                          AutomationProperties.Name="Beta tester" ToolTipService.ToolTip="Beta tester"/>
+                                                <FontIcon Glyph="&#xF2B7;" Visibility="{x:Bind IsTranslator}"
+                                                          AutomationProperties.Name="Translator" ToolTipService.ToolTip="Translator"/>
+                                                <FontIcon Glyph="&#xE943;" Visibility="{x:Bind IsDeveloper}"
+                                                          AutomationProperties.Name="Developer" ToolTipService.ToolTip="Developer"/>
                                             </StackPanel>
                                         </controls:GridViewCardItem.BadgeContent>
                                     </controls:GridViewCardItem>
