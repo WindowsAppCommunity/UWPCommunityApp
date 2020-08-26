@@ -5,11 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
     xmlns:controls="using:UWPCommunity.Controls" 
     xmlns:converters="using:UWPCommunity.Converters"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    NavigationCacheMode="Enabled"
+    xmlns:viewmodels="using:UWPCommunity.ViewModels"
+	NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -20,9 +20,9 @@
 
         <winui:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
             <toolkit:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}"
-                                  DesiredWidth="550" ItemHeight="400" SelectionMode="None"
-                                  ItemClick="ProjectsGridView_ItemClick"
-                                  IsItemClickEnabled="True">
+                                      DesiredWidth="550" ItemHeight="400" SelectionMode="None"
+                                      ItemClick="ProjectsGridView_ItemClick"
+                                      IsItemClickEnabled="True">
                 <toolkit:AdaptiveGridView.Header>
                     <toolkit:ScrollHeader Mode="QuickReturn">
                         <toolkit:DockPanel HorizontalAlignment="Stretch" Padding="5" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
@@ -70,31 +70,32 @@
                     </Style>
                 </toolkit:AdaptiveGridView.ItemContainerStyle>
                 <toolkit:AdaptiveGridView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Project">
-                        <toolkit:DropShadowPanel HorizontalContentAlignment="Stretch" AutomationProperties.Name="{x:Bind AppName}">
-                            <controls:GridViewCardItem TitleText="{x:Bind AppName}"
-                                                       ImageSource="{x:Bind HeroImageSafe}"
-                                                       BodyText="{x:Bind Description}"
-                                                       IsEditable="False" IsDeletable="False"
+                    <DataTemplate x:DataType="viewmodels:ProjectViewModel">
+                        <toolkit:DropShadowPanel HorizontalContentAlignment="Stretch" AutomationProperties.Name="{x:Bind project.AppName}">
+                            <controls:GridViewCardItem TitleText="{x:Bind project.AppName}"
+                                                       ImageSource="{x:Bind project.HeroImageSafe}"
+                                                       BodyText="{x:Bind project.Description}"
+                                                       IsEditable="{x:Bind IsOwner}"
+                                                       IsDeletable="{x:Bind IsOwner}"
                                                        ViewRequested="Project_ViewRequested"
                                                        x:Name="HeroImageStartCtl">
                                 <controls:GridViewCardItem.BadgeContent>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Visibility="{x:Bind DownloadLink, Converter={StaticResource NullToVisibilityConverter}}"
+                                        <Button Visibility="{x:Bind project.DownloadLink, Converter={StaticResource NullToVisibilityConverter}}"
                                                 Click="DownloadLinkButton_Click" Margin="5,0,0,0" ToolTipService.ToolTip="Download"
                                                 AutomationProperties.Name="Download">
                                             <Button.Content>
                                                 <SymbolIcon Symbol="Shop"/>
                                             </Button.Content>
                                         </Button>
-                                        <Button Visibility="{x:Bind ExternalLink, Converter={StaticResource NullToVisibilityConverter}}"
+                                        <Button Visibility="{x:Bind project.ExternalLink, Converter={StaticResource NullToVisibilityConverter}}"
                                                 Click="ExternalLinkButton_Click" Margin="5,0,0,0" ToolTipService.ToolTip="Open website"
                                                 AutomationProperties.Name="Open website">
                                             <Button.Content>
                                                 <SymbolIcon Symbol="Globe"/>
                                             </Button.Content>
                                         </Button>
-                                        <Button Visibility="{x:Bind GitHubLink, Converter={StaticResource NullToVisibilityConverter}}"
+                                        <Button Visibility="{x:Bind project.GitHubLink, Converter={StaticResource NullToVisibilityConverter}}"
                                                 Click="GitHubLinkButton_Click" Margin="5,0,0,0" ToolTipService.ToolTip="Open GitHub repo"
                                                 AutomationProperties.Name="Open GitHub repo">
                                             <Button.Content>

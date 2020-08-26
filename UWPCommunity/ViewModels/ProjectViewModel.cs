@@ -11,9 +11,40 @@ namespace UWPCommunity.ViewModels
             this.project = project;
         }
 
-        public bool IsOwner => project.IsOwner(Common.DiscordUser.DiscordId);
-        public bool IsDeveloper => project.IsDeveloper(Common.DiscordUser.DiscordId);
-        public bool IsTranslator => project.IsTranslator(Common.DiscordUser.DiscordId);
-        public bool IsBetaTester => project.IsBetaTester(Common.DiscordUser.DiscordId);
+        public bool IsOwner {
+            get
+			{
+                if (Common.DiscordUser == null)
+                    return false;
+                return project.IsOwner(Common.DiscordUser.DiscordId);
+            }
+        }
+        public bool IsDeveloper
+        {
+            get
+            {
+                if (Common.DiscordUser == null)
+                    return false;
+                return project.IsDeveloper(Common.DiscordUser.DiscordId);
+            }
+        }
+        public bool IsTranslator
+        {
+            get
+            {
+                if (Common.DiscordUser == null)
+                    return false;
+                return project.IsTranslator(Common.DiscordUser.DiscordId);
+            }
+        }
+        public bool IsBetaTester
+        {
+            get
+            {
+                if (Common.DiscordUser == null)
+                    return false;
+                return project.IsBetaTester(Common.DiscordUser.DiscordId);
+            }
+        }
     }
 }

@@ -7,7 +7,6 @@ using UWPCommLib.Api.UWPComm;
 using Windows.UI.Xaml.Media;
 using UWPCommLib.Api.Yoshi;
 using UWPCommLib.Api.GitHub;
-using UWPCommLib.Api.UWPComm.Models;
 
 namespace UWPCommunity
 {

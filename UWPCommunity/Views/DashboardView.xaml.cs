@@ -141,6 +141,11 @@ namespace UWPCommunity.Views
             NavigationManager.NavigateToViewProject(proj);
         }
 
+        private void ProjectsGridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Project_ViewRequested(e.ClickedItem);
+        }
+
         private void RefreshContainer_RefreshRequested(Microsoft.UI.Xaml.Controls.RefreshContainer sender, Microsoft.UI.Xaml.Controls.RefreshRequestedEventArgs args)
         {
             RefreshProjects();

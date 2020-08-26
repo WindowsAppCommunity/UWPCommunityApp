@@ -61,9 +61,9 @@
             <ScrollViewer>
                 <StackPanel>
                     <toolkit:AdaptiveGridView x:Name="ProjectsGridView" ItemsSource="{x:Bind Projects}"
-                                              IsItemClickEnabled="False" CanDragItems="False" Padding="10,10,10,0"
-                                              AllowDrop="False" CanReorderItems="False" SelectionMode="None" FlowDirection="LeftToRight"
-                                              DesiredWidth="550" ItemHeight="400">
+                                              ItemClick="ProjectsGridView_ItemClick"
+                                              DesiredWidth="550" ItemHeight="400" SelectionMode="None"
+                                              IsItemClickEnabled="True" Padding="10,10,10,0">
 
                         <toolkit:AdaptiveGridView.ItemTemplate>
                             <DataTemplate x:DataType="viewmodels:ProjectViewModel">

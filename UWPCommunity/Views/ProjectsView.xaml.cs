@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.Net.Http;
+using UWPCommunity.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -17,8 +18,8 @@ namespace UWPCommunity.Views
     /// </summary>
     public sealed partial class ProjectsView : Page
     {
-        private List<Project> AllProjects { get; set; }
-        public ObservableCollection<Project> Projects { get; set; } = new ObservableCollection<Project>();
+        private List<ProjectViewModel> AllProjects { get; set; }
+        public ObservableCollection<ProjectViewModel> Projects { get; set; } = new ObservableCollection<ProjectViewModel>();
 
         public ProjectsView()
         {
@@ -49,12 +50,11 @@ namespace UWPCommunity.Views
             try
             {
                 var projs = (await Common.UwpCommApi.GetProjects()).OrderBy(x => x.AppName);
-                Projects = new ObservableCollection<Project>(projs);
-                AllProjects = Projects.ToList();
-                if (ProjectsGridView.Items.Count != Projects.Count)
+                foreach (var project in projs)
                 {
-                    Bindings.Update();
+                    Projects.Add(new ProjectViewModel(project));
                 }
+                AllProjects = Projects.ToList();
                 LoadingIndicator.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
             catch (HttpRequestException ex)
@@ -110,7 +110,7 @@ namespace UWPCommunity.Views
 
         private void Project_ViewRequested(object p)
         {
-            ViewProject(p as Project);
+            ViewProject((p as ProjectViewModel).project);
         }
 
         private void ViewProject(Project item)
@@ -121,7 +121,7 @@ namespace UWPCommunity.Views
 
         private void ProjectsGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            ViewProject(e.ClickedItem as Project);
+            ViewProject((e.ClickedItem as ProjectViewModel).project);
         }
 
         private void RefreshContainer_RefreshRequested(Microsoft.UI.Xaml.Controls.RefreshContainer sender, Microsoft.UI.Xaml.Controls.RefreshRequestedEventArgs args)
@@ -154,7 +154,7 @@ namespace UWPCommunity.Views
             else
             {
                 // Filter is disabled
-                Projects = new ObservableCollection<Project>(AllProjects);
+                Projects = new ObservableCollection<ProjectViewModel>(AllProjects);
                 // Must call Sort() here because FilterByCategory() won't
                 // do it for us in this branch
                 Sort();
@@ -166,13 +166,13 @@ namespace UWPCommunity.Views
         {
             if (String.IsNullOrWhiteSpace(query))
             {
-                Projects = new ObservableCollection<Project>(AllProjects);
+                Projects = new ObservableCollection<ProjectViewModel>(AllProjects);
                 Bindings.Update();
                 return;
             }
             var results = AllProjects.Where(x =>
-                x.AppName.ToLower().Contains(query.ToLower()) ||
-                x.Description.ToLower().Contains(query.ToLower()));
+                x.project.AppName.ToLower().Contains(query.ToLower()) ||
+                x.project.Description.ToLower().Contains(query.ToLower()));
 
             if (CategoryButton.IsChecked)
                 FilterByCategory(collection: results);
@@ -186,7 +186,7 @@ namespace UWPCommunity.Views
             );
         }
 
-        private void FilterByCategory(string category = null, IEnumerable<Project> collection = null)
+        private void FilterByCategory(string category = null, IEnumerable<ProjectViewModel> collection = null)
         {
             if (collection == null)
                 collection = AllProjects;
@@ -199,7 +199,7 @@ namespace UWPCommunity.Views
                     ? ((RadioMenuFlyoutItem)CategoryFlyout.Items[0]).Text : option.Text;
             }
 
-            Sort(collection: collection.Where(x => x.Category.Equals(category)));
+            Sort(collection: collection.Where(x => x.project.Category.Equals(category)));
 
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Projects: Category filter",
                 new Dictionary<string, string> {
@@ -208,7 +208,7 @@ namespace UWPCommunity.Views
             );
         }
 
-        private void Sort(string mode = null, IEnumerable<Project> collection = null)
+        private void Sort(string mode = null, IEnumerable<ProjectViewModel> collection = null)
         {
             if (collection == null)
                 collection = AllProjects;
@@ -218,42 +218,42 @@ namespace UWPCommunity.Views
                 mode = sortOption.Text;
             }
 
-            IOrderedEnumerable<Project> sorted;
+            IOrderedEnumerable<ProjectViewModel> sorted;
             switch (mode)
             {
                 case "Alphabetical (A-Z)":
-                    sorted = collection.OrderBy(x => x.AppName);
+                    sorted = collection.OrderBy(x => x.project.AppName);
                     break;
                 case "Alphabetical (Z-A)":
-                    sorted = collection.OrderByDescending(x => x.AppName);
+                    sorted = collection.OrderByDescending(x => x.project.AppName);
                     break;
 
                 case "Date Created (Latest-Oldest)":
-                    sorted = collection.OrderByDescending(x => DateTime.Parse(x.CreatedAt));
+                    sorted = collection.OrderByDescending(x => DateTime.Parse(x.project.CreatedAt));
                     break;
                 case "Date Created (Oldest-Latest)":
-                    sorted = collection.OrderBy(x => DateTime.Parse(x.CreatedAt));
+                    sorted = collection.OrderBy(x => DateTime.Parse(x.project.CreatedAt));
                     break;
 
                 case "Last Modified (Latest-Oldest)":
-                    sorted = collection.OrderByDescending(x => DateTime.Parse(x.UpdatedAt));
+                    sorted = collection.OrderByDescending(x => DateTime.Parse(x.project.UpdatedAt));
                     break;
                 case "Last Modified (Oldest-Latest)":
-                    sorted = collection.OrderBy(x => DateTime.Parse(x.UpdatedAt));
+                    sorted = collection.OrderBy(x => DateTime.Parse(x.project.UpdatedAt));
                     break;
 
                 case "Launch Year (Latest-Oldest)":
-                    sorted = collection.OrderByDescending(x => x.LaunchYear);
+                    sorted = collection.OrderByDescending(x => x.project.LaunchYear);
                     break;
                 case "Launch Year (Oldest-Latest)":
-                    sorted = collection.OrderBy(x => x.LaunchYear);
+                    sorted = collection.OrderBy(x => x.project.LaunchYear);
                     break;
 
                 default:
-                    sorted = collection.OrderBy(x => x.AppName);
+                    sorted = collection.OrderBy(x => x.project.AppName);
                     break;
             }
-            Projects = new ObservableCollection<Project>(sorted);
+            Projects = new ObservableCollection<ProjectViewModel>(sorted);
             Bindings.Update();
 
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Projects: Sort",
