@@ -7,8 +7,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:controls="using:UWPCommunity.Controls" xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d">
+    xmlns:controls="using:UWPCommunity.Controls"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters" xmlns:views="using:UWPCommunity.Views"
+	mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Page.Resources>
 
     <toolkit:DockPanel LastChildFill="True">
 
@@ -60,16 +66,25 @@
                                               DesiredWidth="550" ItemHeight="400">
 
                         <toolkit:AdaptiveGridView.ItemTemplate>
-                            <DataTemplate x:DataType="models:Project">
+                            <DataTemplate x:DataType="views:ProjectCardViewModel">
                                 <toolkit:DropShadowPanel>
-                                    <controls:GridViewCardItem TitleText="{x:Bind AppName}"
-                                                               ImageSource="{x:Bind HeroImageSafe}"
-                                                               BodyText="{x:Bind Description}"
-                                                               IsEditable="{x:Bind IsOwner(local:Common.DiscordUser.DiscordId)}"
-                                                               IsDeletable="{x:Bind IsOwner(local:Common.DiscordUser.DiscordId)}"
+                                    <controls:GridViewCardItem TitleText="{x:Bind project.AppName}"
+                                                               ImageSource="{x:Bind project.HeroImageSafe}"
+                                                               BodyText="{x:Bind project.Description}"
+                                                               IsEditable="{x:Bind IsOwner}"
+                                                               IsDeletable="{x:Bind IsOwner}"
                                                                EditRequested="Project_EditRequested"
                                                                DeleteRequested="Project_DeleteRequested"
-                                                               ViewRequested="Project_ViewRequested"/>
+                                                               ViewRequested="Project_ViewRequested">
+                                        <controls:GridViewCardItem.BadgeContent>
+                                            <StackPanel Spacing="5" Orientation="Horizontal">
+                                                <SymbolIcon Symbol="Admin" Visibility="{x:Bind IsOwner}" />
+                                                <FontIcon Glyph="&#xF1AD;" Visibility="{x:Bind IsBetaTester}"/>
+                                                <FontIcon Glyph="&#xF2B7;" Visibility="{x:Bind IsTranslator}"/>
+                                                <FontIcon Glyph="&#xE943;" Visibility="{x:Bind IsDeveloper}"/>
+                                            </StackPanel>
+                                        </controls:GridViewCardItem.BadgeContent>
+                                    </controls:GridViewCardItem>
                                 </toolkit:DropShadowPanel>
                             </DataTemplate>
                         </toolkit:AdaptiveGridView.ItemTemplate>

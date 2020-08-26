@@ -166,6 +166,11 @@ namespace UWPCommunity
             var profile = Windows.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile();
             return (profile != null) && !String.IsNullOrEmpty(profile.ProfileName);
         }
+
+        public static Windows.UI.Xaml.Visibility BoolToVisibility(bool value)
+		{
+            return value ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
+		}
     }
 
     public static class StringExtensions

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using UWPCommLib.Api.Discord.Models;
 using UWPCommLib.Api.UWPComm.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,7 +17,7 @@ namespace UWPCommunity.Views
     /// </summary>
     public sealed partial class DashboardView : Page
     {
-        public ObservableCollection<Project> Projects { get; set; } = new ObservableCollection<Project>();
+        public ObservableCollection<ProjectCardViewModel> Projects { get; set; } = new ObservableCollection<ProjectCardViewModel>();
         public DashboardView()
         {
             this.InitializeComponent();
@@ -57,7 +58,7 @@ namespace UWPCommunity.Views
                 var projs = await Common.UwpCommApi.GetUserProjects(Common.DiscordUser.DiscordId);
                 foreach (var project in projs)
                 {
-                    Projects.Add(project);
+                    Projects.Add(new ProjectCardViewModel(project));
                 }
             }
             catch (Refit.ApiException ex)
@@ -131,12 +132,13 @@ namespace UWPCommunity.Views
 
         private void Project_ViewRequested(object p)
         {
+            Project proj = (p as ProjectCardViewModel).project;
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: View project",
                 new Dictionary<string, string> {
-                    { "Proj", (p as Project).Id.ToString() },
+                    { "Proj", proj.Id.ToString() },
                 }
             );
-            NavigationManager.NavigateToViewProject(p);
+            NavigationManager.NavigateToViewProject(proj);
         }
 
         private void RefreshContainer_RefreshRequested(Microsoft.UI.Xaml.Controls.RefreshContainer sender, Microsoft.UI.Xaml.Controls.RefreshRequestedEventArgs args)
@@ -155,5 +157,20 @@ namespace UWPCommunity.Views
                 }
             );
         }
+    }
+
+    public class ProjectCardViewModel
+    {
+        public Project project;
+
+        public ProjectCardViewModel(Project project)
+        {
+            this.project = project;
+        }
+
+        public bool IsOwner => project.IsOwner(Common.DiscordUser.DiscordId);
+        public bool IsDeveloper => project.IsDeveloper(Common.DiscordUser.DiscordId);
+        public bool IsTranslator => project.IsTranslator(Common.DiscordUser.DiscordId);
+        public bool IsBetaTester => project.IsBetaTester(Common.DiscordUser.DiscordId);
     }
 }

@@ -272,7 +272,32 @@ namespace UWPCommLib.Api.UWPComm.Models
         public bool IsOwner(string userId)
 		{
             var owner = Collaborators.Find(c => c.IsOwner == true);
-            return owner.Id == userId;
+            return owner.DiscordId == userId;
+		}
+
+        /// <summary>
+        /// Checks if the user is a developer for this project
+        /// </summary>
+        public bool IsDeveloper(string userId)
+		{
+            var user = Collaborators.Find(c => c.DiscordId == userId);
+            return user.Role == Collaborator.RoleType.Developer;
+		}
+        /// <summary>
+        /// Checks if the user is a translator for this project
+        /// </summary>
+        public bool IsTranslator(string userId)
+		{
+            var user = Collaborators.Find(c => c.DiscordId == userId);
+            return user.Role == Collaborator.RoleType.Translator;
+		}
+        /// <summary>
+        /// Checks if the user is a beta tester for this project
+        /// </summary>
+        public bool IsBetaTester(string userId)
+		{
+            var user = Collaborators.Find(c => c.DiscordId == userId);
+            return user.Role == Collaborator.RoleType.BetaTester;
 		}
 
         public IEnumerable<Collaborator> GetDevelopers()
