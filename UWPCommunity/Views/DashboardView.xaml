@@ -64,6 +64,12 @@
                                               ItemClick="ProjectsGridView_ItemClick"
                                               DesiredWidth="550" ItemHeight="400" SelectionMode="None"
                                               IsItemClickEnabled="True" Padding="10,10,10,0">
+                        <toolkit:AdaptiveGridView.ItemContainerStyle>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="Margin" Value="6"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </toolkit:AdaptiveGridView.ItemContainerStyle>
 
                         <toolkit:AdaptiveGridView.ItemTemplate>
                             <DataTemplate x:DataType="viewmodels:ProjectViewModel">
