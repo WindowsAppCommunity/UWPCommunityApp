@@ -10,7 +10,7 @@
   <Identity
     Name="52374YoshiAskharoun.UWPCommunity"
     Publisher="CN=CD3113F3-18EB-4B8D-9D8A-C6D373E7A464"
-    Version="1.2.0.0" />
+    Version="1.2.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="3a704640-a193-4af4-81ce-4d14572f0603" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
