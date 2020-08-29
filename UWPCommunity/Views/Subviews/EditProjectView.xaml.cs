@@ -38,17 +38,16 @@ namespace UWPCommunity.Views.Subviews
         {
             base.OnNavigatedTo(e);
 
-            var project = e.Parameter as Project;
-            if (project == null)
-            {
-                Project = new Project();
-                IsEditing = false;
+            if (e.Parameter is ViewModels.ProjectViewModel vm)
+			{
+                oldAppName = vm.project.AppName;
+                Project = vm.project;
+                IsEditing = true;
             }
             else
             {
-                oldAppName = project.AppName;
-                Project = project;
-                IsEditing = true;
+                Project = new Project();
+                IsEditing = false;
             }
             Bindings.Update();
         }
