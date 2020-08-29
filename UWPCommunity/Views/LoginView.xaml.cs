@@ -3,6 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using UWPCommLib.Api.Discord.Models;
+using System.Text.RegularExpressions;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -39,16 +40,18 @@ namespace UWPCommunity.Views
             );
         }
 
+        const string authRespUrl = "https://uwpcommunity.com/signin?authResponse=";
+        const string errorRespUrl = "http://uwpcommunity-site-backend.herokuapp.com/signin/redirect?error=";
+        bool isDialogOpen = false;
         private async void LoginWrapper_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
-            const string redBaseUrl = "https://uwpcommunity.com/signin?authResponse=";
             string redirect = args.Uri.AbsoluteUri;
-            if (redirect.StartsWith(redBaseUrl))
+            if (redirect.StartsWith(authRespUrl))
             {
                 sender.Visibility = Visibility.Collapsed;
                 LoadingIndicator.Visibility = Visibility.Visible;
 
-                var authResponseBase64 = redirect.Replace(redBaseUrl, "");
+                var authResponseBase64 = redirect.Replace(authRespUrl, "");
                 byte[] data = Convert.FromBase64String(authResponseBase64);
                 var authResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<TokenResponse>(System.Text.Encoding.ASCII.GetString(data));
 
@@ -57,6 +60,36 @@ namespace UWPCommunity.Views
                 Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Sign in: success");
 
                 NavigationManager.Navigate(DestinationPage);
+            }
+            else if (redirect.StartsWith(errorRespUrl))
+			{
+                // Prevent the wrapper from navigating multiple times,
+                // resulting in two ContentDialogs being requested at the same time
+                //LoginWrapper.Stop();
+
+                Match match = Regex.Match(redirect, @"(?:\?|&)error=(?<error>\S+)(?:\?|&)error_description=(?<error_description>\S+)");
+			    switch (match?.Groups["error"]?.Value)
+				{
+					case "access_denied":
+						// User cancelled sign in
+						break;
+
+					default:
+                        if (isDialogOpen)
+                            break;
+                        ContentDialog dialog = new ContentDialog
+                        {
+                            Title = "Sign in failed",
+                            Content = match.Groups["error_description"].Value.Replace("+", " "),
+                            CloseButtonText = "Ok",
+                            RequestedTheme = SettingsManager.GetAppTheme()
+                        };
+                        dialog.Closed += (s, e) => isDialogOpen = false;
+                        isDialogOpen = true;
+                        ContentDialogResult result = await dialog.ShowAsync();
+                        break;
+                }
+                NavigationManager.NavigateToHome();
             }
         }
 
