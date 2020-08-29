@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using System.Web;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -96,6 +97,7 @@ namespace UWPCommunity.Controls
                         continue;
 
                     int boardIndex = 5 * x + y;
+                    // Account for free space
                     if (boardIndex > 12)
                         boardIndex--;
                     SetTile(newTiles.ElementAt(boardIndex), x, y);
@@ -148,6 +150,10 @@ namespace UWPCommunity.Controls
             var tileText = tileButton.Content as TextBlock;
             return (tileText.Text, tileButton.IsChecked.Value);
         }
+        private (string, bool) GetTile(Point p)
+		{
+            return GetTile((int)p.X, (int)p.Y);
+		}
 
         private Grid GenerateFreeTile()
         {
@@ -276,6 +282,78 @@ namespace UWPCommunity.Controls
         public string GetShareLink()
         {
             return $"uwpcommunity://llamabingo?version={BingoVersion}&board={HttpUtility.UrlEncode(ToDataString())}";
+        }
+
+        /// <summary>
+        /// Checks if the current board has any Llamingos
+        /// </summary>
+        /// <param name="tiles">A list of the tiles involved in completing the bingo</param>
+        public bool HasBingo(out List<Point> tiles)
+		{
+            // TODO: Check the edge tiles first. It's impossible to have
+            // a bingo without at least two edge tiles filled.
+
+            tiles = new List<Point>();
+            for (int x = 0; x < 5; x++)
+            {
+                for (int y = 0; y < 5; y++)
+                {
+                    // Check if the tile is the free space
+                    if (x == 2 && y == 2)
+                        continue;
+
+                    (_, bool isFilled) = GetTile(x, y);
+                    // A bingo can only occur when tiles are next to each other,
+                    // so only check around filled tiles
+                    if (!isFilled)
+                        continue;
+
+                    var adjs = HasAdjacent(x, y);
+                }
+            }
+            return false;
+        }
+
+        private readonly Dictionary<Point, Direction> DIRECTIONS = new Dictionary<Point, Direction>()
+        {
+            { new Point(0, 1), Direction.Up },
+            { new Point(1, 1), Direction.UpRight },
+            { new Point(1, 0), Direction.Right },
+            { new Point(1, -1), Direction.DownRight },
+            { new Point(0, -1), Direction.Down },
+            { new Point(-1, -1), Direction.DownLeft },
+            { new Point(-1, 0), Direction.Left },
+            { new Point(-1, 1), Direction.UpLeft },
+        };
+        /// <summary>
+        /// Returns all of the directions in which the given tile has
+        /// a filled tile.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        private IEnumerable<Direction> HasAdjacent(int x, int y)
+		{
+            foreach (KeyValuePair<Point, Direction> pair in DIRECTIONS)
+			{
+                Point d = pair.Key;
+                (_, bool isFilled) = GetTile(x + (int)d.X, y + (int)d.Y);
+                if (isFilled)
+                    yield return pair.Value;
+			}
+		}
+
+        [Flags]
+        public enum Direction : byte
+		{
+            Up          = 0b_1000,
+            UpRight     = Up | Right,
+            Right       = 0b_0001,
+            DownRight   = Down | Right,
+            Down        = 0b_0100,
+            DownLeft    = Down | Left,
+            Left        = 0b_0010,
+            UpLeft      = Up | Left,
         }
 
         public delegate void BoardChangedHandler(string data);
