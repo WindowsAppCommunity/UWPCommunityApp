@@ -77,35 +77,107 @@ namespace UWPCommunity.Views
 
         private async void ExternalLinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var project = (sender as Button)?.DataContext as Project;
-            await NavigationManager.OpenInBrowser(project.ExternalLink);
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: External link badge clicked",
-                new Dictionary<string, string> {
+            Project project = null;
+            if ((sender as Button)?.DataContext is Project _proj)
+            {
+                project = _proj;
+            }
+            else if ((sender as Button)?.DataContext is ProjectViewModel _projVM)
+            {
+                project = _projVM.project;
+            }
+
+            if (project != null)
+            {
+                await NavigationManager.OpenInBrowser(project.ExternalLink);
+                Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: External link badge clicked",
+                    new Dictionary<string, string> {
                     { "Proj", project.Id.ToString() },
-                }
-            );
+                    }
+                );
+            }
+            else
+            {
+                // Tell the user that the link could not be opened
+                ContentDialog dialog = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = "Could not open external link",
+                    CloseButtonText = "Ok",
+                    RequestedTheme = SettingsManager.GetAppTheme()
+                };
+                ContentDialogResult result = await dialog.ShowAsync();
+            }
         }
 
         private async void GitHubLinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var project = (sender as Button)?.DataContext as Project;
-            await NavigationManager.OpenInBrowser(project.GitHubLink);
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: GitHub link badge clicked",
-                new Dictionary<string, string> {
+            Project project = null;
+            if ((sender as Button)?.DataContext is Project _proj)
+            {
+                project = _proj;
+            }
+            else if ((sender as Button)?.DataContext is ProjectViewModel _projVM)
+            {
+                project = _projVM.project;
+            }
+
+            if (project != null)
+            {
+                await NavigationManager.OpenInBrowser(project.GitHubLink);
+                Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: GitHub link badge clicked",
+                    new Dictionary<string, string> {
                     { "Proj", project.Id.ToString() },
-                }
-            );
+                    }
+                );
+            }
+            else
+            {
+                // Tell the user that the link could not be opened
+                ContentDialog dialog = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = "Could not open GitHub link",
+                    CloseButtonText = "Ok",
+                    RequestedTheme = SettingsManager.GetAppTheme()
+                };
+                ContentDialogResult result = await dialog.ShowAsync();
+            }
         }
 
         private async void DownloadLinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var project = (sender as Button)?.DataContext as Project;
-            await NavigationManager.OpenInBrowser(project.DownloadLink);
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: Download link badge clicked",
-                new Dictionary<string, string> {
+            Project project = null;
+            if ((sender as Button)?.DataContext is Project _proj)
+			{
+                project = _proj;
+			}
+            else if ((sender as Button)?.DataContext is ProjectViewModel _projVM)
+            {
+                project = _projVM.project;
+            }
+
+            if (project != null)
+			{
+                await NavigationManager.OpenInBrowser(project.DownloadLink);
+                Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Proj: Download link badge clicked",
+                    new Dictionary<string, string> {
                     { "Proj", project.Id.ToString() },
-                }
-            );
+                    }
+                );
+            }
+            else
+			{
+                // Tell the user that the link could not be opened
+                ContentDialog dialog = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = "Could not open download link",
+                    CloseButtonText = "Ok",
+                    RequestedTheme = SettingsManager.GetAppTheme()
+                };
+                ContentDialogResult result = await dialog.ShowAsync();
+            }
         }
 
         private void Project_ViewRequested(object p)
