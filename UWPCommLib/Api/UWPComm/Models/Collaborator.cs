@@ -21,6 +21,14 @@ namespace UWPCommLib.Api.UWPComm.Models
             [EnumMember(Value = "Beta Tester")]
             BetaTester,
 
+            Lead,
+
+            Advocate,
+
+            Support,
+
+            Patreon,
+
             Other
         }
     }
