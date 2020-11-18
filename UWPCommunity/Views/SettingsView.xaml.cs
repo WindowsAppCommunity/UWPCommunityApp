@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Numerics;
-using UWPCommLib.Api.GitHub.Models;
+using Github;
+using GitHub.Models;
 using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Notifications;
@@ -239,13 +240,13 @@ namespace UWPCommunity.Views
         Compositor _compositor = Window.Current.Compositor;
         SpringVector3NaturalMotionAnimation _springAnimation;
 
-        private async void ContributorPanel_Loaded(object sender, RoutedEventArgs e)
+        private async void ContributorView_Loaded(object sender, RoutedEventArgs e)
         {
-            var contribs = await Common.GitHubApi.GetContributors("UWPCommunity", "UWPCommunityApp");
+            var contribs = await Api.GetContributors("UWPCommunity", "UWPCommunityApp");
             Contributors.Clear();
             foreach (Contributor c in contribs)
             {
-                Contributors.Add(await Common.GitHubApi.GetUser(c.Login));
+                Contributors.Add(await Api.GetUser(c.Login));
             }
 
             // TODO: How is this supposed to be done when items are databound?
@@ -297,14 +298,13 @@ namespace UWPCommunity.Views
             (sender as UIElement).StartAnimation(_springAnimation);
         }
 
-        private async void element_Click(object sender, RoutedEventArgs e)
+        private async void ContributorView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if ((sender as Button)?.DataContext is GitHubUser user)
+            if (e.ClickedItem is GitHubUser user)
             {
                 await NavigationManager.OpenInBrowser(user.HtmlUrl);
             }
         }
-
         #endregion
     }
 }

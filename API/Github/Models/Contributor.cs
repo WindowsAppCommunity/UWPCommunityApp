@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace UWPCommLib.Api.GitHub.Models
+namespace GitHub.Models
 {
     public class Contributor : UserBase
     {

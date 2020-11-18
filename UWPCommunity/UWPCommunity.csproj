@@ -386,6 +386,10 @@
       <Project>{2b8b54b6-5432-405b-a9de-6bce2abda465}</Project>
       <Name>Discord</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Api\Github\Github.csproj">
+      <Project>{331c66f9-4a23-4ef4-88e7-936ffc65bcb2}</Project>
+      <Name>Github</Name>
+    </ProjectReference>
     <ProjectReference Include="..\API\UwpCommunityBackend\UwpCommunityBackend.csproj">
       <Project>{fad41557-c466-4c3d-9642-1f3b23f57046}</Project>
       <Name>UwpCommunityBackend</Name>

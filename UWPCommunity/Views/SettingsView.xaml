@@ -107,39 +107,39 @@
                     </TextBlock>
 
                     <TextBlock Text="Contributors" FontWeight="Bold"/>
-                    <ScrollViewer>
-                        <ItemsControl x:Name="ContributorPanel" ItemsSource="{x:Bind Contributors}" Loaded="ContributorPanel_Loaded">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="github:GitHubUser" xmlns:github="using:UWPCommLib.Api.GitHub.Models">
-                                    <Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                                            PointerEntered="element_PointerEntered" PointerExited="element_PointerExited"
-                                            Click="element_Click" AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
-                                        <Grid ColumnSpacing="10" RowSpacing="10">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <toolkit:ImageEx Source="{x:Bind AvatarUrl, Mode=OneWay}"
-                                                             MaxHeight="75" Grid.RowSpan="2"/>
-                                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" FontWeight="SemiBold"
-                                                       Grid.Column="1" VerticalAlignment="Bottom"/>
-                                            <TextBlock Text="{x:Bind Bio, Mode=OneWay}" TextWrapping="Wrap"
-                                                       Grid.Column="1" Grid.Row="1" VerticalAlignment="Top"/>
-                                        </Grid>
-                                    </Button>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                    </ScrollViewer>
+                    <ListView x:Name="ContributorView" ItemsSource="{x:Bind Contributors}"
+                              ItemClick="ContributorView_ItemClick" Loaded="ContributorView_Loaded"
+                              SelectionMode="None" IsItemClickEnabled="True">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="github:GitHubUser" xmlns:github="using:GitHub.Models">
+                                <ListViewItem HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                              PointerEntered="element_PointerEntered" PointerExited="element_PointerExited"
+                                              AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
+                                    <Grid ColumnSpacing="10" RowSpacing="10" Padding="0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <toolkit:ImageEx Source="{x:Bind AvatarUrl, Mode=OneWay}"
+                                                         MaxHeight="75" Grid.RowSpan="2"/>
+                                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" FontWeight="SemiBold"
+                                                   Grid.Column="1" VerticalAlignment="Bottom"/>
+                                        <TextBlock Text="{x:Bind Bio, Mode=OneWay}" TextWrapping="Wrap"
+                                                   Grid.Column="1" Grid.Row="1" VerticalAlignment="Top"/>
+                                    </Grid>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.ItemContainerTransitions>
+                            <TransitionCollection>
+                                <AddDeleteThemeTransition />
+                            </TransitionCollection>
+                        </ListView.ItemContainerTransitions>
+                    </ListView>
                 </StackPanel>
             </Grid>
         </PivotItem>

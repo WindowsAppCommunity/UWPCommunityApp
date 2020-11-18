@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
 using UWPCommLib.Api.Yoshi;
-using UWPCommLib.Api.GitHub;
 
 namespace UWPCommunity
 {
@@ -12,9 +11,6 @@ namespace UWPCommunity
     {
         public static IYoshiApi YoshiApi = RestService.For<IYoshiApi>(
             "https://yoshiask.herokuapp.com/api"
-        );
-        public static IGitHubApi GitHubApi = RestService.For<IGitHubApi>(
-            "https://api.github.com"
         );
 
         public static Discord.Models.User DiscordUser { get; private set; }
