@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace UWPCommLib.Api.Discord.Models
+namespace Discord.Models
 {
     public class GuildMember
     {

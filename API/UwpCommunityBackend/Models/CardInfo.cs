@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace UWPCommLib.Api.UWPComm.Models
+namespace UwpCommunityBackend.Models
 {
     public class CardInfo
     {

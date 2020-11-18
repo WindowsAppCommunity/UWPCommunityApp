@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UwpCommunityBackend;
 using Windows.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -34,7 +35,7 @@ namespace UWPCommunity.Views.Dialogs
             {
                 changes.Add("email", EmailBox.Text);
             }
-            await Common.UwpCommApi.SetUser(changes);
+            await Api.SetUser(changes);
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

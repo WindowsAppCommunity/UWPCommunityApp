@@ -382,6 +382,14 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\API\Discord\Discord.csproj">
+      <Project>{2b8b54b6-5432-405b-a9de-6bce2abda465}</Project>
+      <Name>Discord</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\API\UwpCommunityBackend\UwpCommunityBackend.csproj">
+      <Project>{fad41557-c466-4c3d-9642-1f3b23f57046}</Project>
+      <Name>UwpCommunityBackend</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UWPCommLib\UWPCommLib.csproj">
       <Project>{77f56184-fb16-4757-bb79-0885ae7b5494}</Project>
       <Name>UWPCommLib</Name>

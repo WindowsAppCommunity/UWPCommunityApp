@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
-using UWPCommLib.Api.UWPComm.Models;
+using UwpCommunityBackend.Models;
 using System;
 using System.Linq;
 using Windows.UI.Xaml.Navigation;
+using UwpCommunityBackend;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -58,11 +59,11 @@ namespace UWPCommunity.Views.Subviews
             {
                 if (IsEditing)
                 {
-                    await Common.UwpCommApi.PutProject(oldAppName, Project);
+                    await Api.PutProject(oldAppName, Project);
                 }
                 else
                 {
-                    await Common.UwpCommApi.PostProject(Project);
+                    await Api.PostProject(Project);
                 }
                 Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: App registration submitted",
                     new Dictionary<string, string> {
@@ -71,13 +72,25 @@ namespace UWPCommunity.Views.Subviews
                 );
                 NavigationManager.PageFrame.GoBack();
             }
-            catch (Refit.ApiException ex)
+            catch (Flurl.Http.FlurlHttpException ex)
             {
-                var error = await ex.GetContentAsAsync<Error>();
+                string reason = "An unknown error occurred";
+                var errorJson = await ex.GetResponseStringAsync();
+                if (!String.IsNullOrWhiteSpace(errorJson))
+                {
+                    // Wrap this in a try-catch block, because sometimes errorJson contains
+                    // HTML or other non-JSON content
+                    try
+                    {
+                        var error = Newtonsoft.Json.JsonConvert.DeserializeObject<Error>(errorJson);
+                        reason = error.Reason;
+                    }
+                    catch { }
+                }
                 ContentDialog dialog = new ContentDialog
                 {
                     Title = "Failed to create project",
-                    Content = error.Reason,
+                    Content = reason,
                     CloseButtonText = "Ok",
                     RequestedTheme = SettingsManager.GetAppTheme()
                 };

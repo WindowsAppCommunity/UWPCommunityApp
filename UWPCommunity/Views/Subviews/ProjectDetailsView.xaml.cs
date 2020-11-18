@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using UWPCommLib.Api.UWPComm.Models;
+using UwpCommunityBackend.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;

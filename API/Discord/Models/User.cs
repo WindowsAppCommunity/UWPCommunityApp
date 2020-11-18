@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace UWPCommLib.Api.Discord.Models
+namespace Discord.Models
 {
     public class User
     {

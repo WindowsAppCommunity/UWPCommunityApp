@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace UWPCommLib.Api.UWPComm.Models
+namespace UwpCommunityBackend.Models
 {
     public class UserBase
     {

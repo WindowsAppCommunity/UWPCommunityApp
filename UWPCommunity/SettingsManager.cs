@@ -1,7 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Threading.Tasks;
-using UWPCommLib.Api.UWPComm.Models;
+using UwpCommunityBackend.Models;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI.Notifications;
@@ -146,10 +146,10 @@ namespace UWPCommunity
         }
         public static void ApplyUseDebugApi(bool value)
         {
-            Common.UwpCommApiHostUrl = value ? DEBUG_API_URL : PROD_API_URL;
-            Common.UwpCommApi = Refit.RestService.For<UWPCommLib.Api.UWPComm.IUwpCommApi>(
-                Common.UwpCommApiHostUrl
-            );
+            UwpCommunityBackend.Api.BaseUrl =
+                value ?
+                UwpCommunityBackend.Api.LOCAL_BASE_URL :
+                UwpCommunityBackend.Api.WEB_BASE_URL;
         }
         public delegate void UseDebugApiChangedHandler(bool value);
         public static event UseDebugApiChangedHandler UseDebugApiChanged;

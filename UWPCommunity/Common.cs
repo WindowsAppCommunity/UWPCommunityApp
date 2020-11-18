@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UWPCommLib.Api.Discord;
-using UWPCommLib.Api.UWPComm;
 using Windows.UI.Xaml.Media;
 using UWPCommLib.Api.Yoshi;
 using UWPCommLib.Api.GitHub;
@@ -12,50 +10,17 @@ namespace UWPCommunity
 {
     public static class Common
     {
-        public static string UwpCommApiHostUrl = "https://uwpcommunity-site-backend.herokuapp.com";
-        public static IUwpCommApi UwpCommApi = RestService.For<IUwpCommApi>(
-            UwpCommApiHostUrl
-        );
         public static IYoshiApi YoshiApi = RestService.For<IYoshiApi>(
             "https://yoshiask.herokuapp.com/api"
-        );
-        public static IDiscordApi DiscordApi = RestService.For<IDiscordApi>(
-            "https://discordapp.com/api"
         );
         public static IGitHubApi GitHubApi = RestService.For<IGitHubApi>(
             "https://api.github.com"
         );
 
-        static string _token;
-        public static string DiscordToken
+        public static Discord.Models.User DiscordUser { get; private set; }
+        public static async Task<UwpCommunityBackend.Models.Collaborator> GetCurrentUser()
         {
-            get {
-                return _token;
-            }
-            set {
-                _token = value;
-                UwpCommApi = RestService.For<IUwpCommApi>(
-                    UwpCommApiHostUrl,
-                    new RefitSettings()
-                    {
-                        AuthorizationHeaderValueGetter = () => Task.FromResult(_token)
-                    }
-                );
-                DiscordApi = RestService.For<IDiscordApi>(
-                    "https://discordapp.com/api",
-                    new RefitSettings()
-                    {
-                        AuthorizationHeaderValueGetter = () => Task.FromResult(_token)
-                    }
-                );
-            }
-        }
-        public static string DiscordRefreshToken { get; set; }
-
-        public static UWPCommLib.Api.Discord.Models.User DiscordUser { get; private set; }
-        public static async Task<UWPCommLib.Api.UWPComm.Models.Collaborator> GetCurrentUser()
-        {
-            return await UwpCommApi.GetUser(DiscordUser.DiscordId);
+            return await UwpCommunityBackend.Api.GetUser(DiscordUser.DiscordId);
         }
 
         public static bool IsLoggedIn = false;
@@ -66,13 +31,13 @@ namespace UWPCommunity
         {
             try
             {
-                DiscordToken = discordToken;
-                DiscordRefreshToken = refreshToken;
-                DiscordUser = await DiscordApi.GetCurrentUser();
+                Discord.Api.Token = discordToken;
+                UwpCommunityBackend.Api.Token = discordToken;
+                DiscordUser = await Discord.Api.GetCurrentUser();
 
                 var vault = new Windows.Security.Credentials.PasswordVault();
                 vault.Add(new Windows.Security.Credentials.PasswordCredential(
-                    resourceName, DiscordUser.DiscordId, DiscordToken));
+                    resourceName, DiscordUser.DiscordId, refreshToken));
 
                 try
                 {
@@ -80,11 +45,11 @@ namespace UWPCommunity
                 }
                 catch (ApiException ex)
                 {
-                    var error = await ex.GetContentAsAsync<UWPCommLib.Api.UWPComm.Models.Error>();
+                    var error = await ex.GetContentAsAsync<UwpCommunityBackend.Models.Error>();
                     if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
                     {
                         // The user does not exist yet, so create an account for them
-                        await UwpCommApi.PostUser(new Dictionary<string, string>() {
+                        await UwpCommunityBackend.Api.PostUser(new Dictionary<string, string>() {
                             { "name", DiscordUser.Username },
                         });
                     }
@@ -133,11 +98,10 @@ namespace UWPCommunity
         {
             var vault = new Windows.Security.Credentials.PasswordVault();
             vault.Remove(new Windows.Security.Credentials.PasswordCredential(
-                resourceName, DiscordUser.DiscordId, DiscordToken));
+                resourceName, DiscordUser.DiscordId, null));
 
             IsLoggedIn = false;
-            DiscordToken = "";
-            DiscordRefreshToken = "";
+            UwpCommunityBackend.Api.Token = "";
             DiscordUser = null;            
 
             OnLoginStateChanged(IsLoggedIn);

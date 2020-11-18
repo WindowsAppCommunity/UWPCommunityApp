@@ -2,7 +2,8 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Net.Http;
-using UWPCommLib.Api.UWPComm.Models;
+using UwpCommunityBackend;
+using UwpCommunityBackend.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -56,7 +57,7 @@ namespace UWPCommunity.Views
         {
             try
             {
-                var launch = await Common.UwpCommApi.GetLaunchProjects(2020);
+                var launch = await Api.GetLaunchProjects(2020);
                 LaunchProjects = new ObservableCollection<Project>(launch.Projects);
                 if (ParticipantsGridView.Items.Count != LaunchProjects.Count)
                 {
@@ -102,7 +103,7 @@ namespace UWPCommunity.Views
         private void ParticipantsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Project item = ParticipantsGridView.SelectedItem as Project;
-            ParticipantsGridView.PrepareConnectedAnimation("projectView", item, "HeroImageStartCtl");
+            //ParticipantsGridView.PrepareConnectedAnimation("projectView", item, "HeroImageStartCtl");
             NavigationManager.NavigateToViewProject(item);
         }
 
@@ -111,13 +112,13 @@ namespace UWPCommunity.Views
             if (PersistantProject != null)
             {
                 ParticipantsGridView.ScrollIntoView(PersistantProject);
-                ConnectedAnimation animation =
-                    ConnectedAnimationService.GetForCurrentView().GetAnimation("projectView");
-                if (animation != null)
-                {
-                    await ParticipantsGridView.TryStartConnectedAnimationAsync(
-                        animation, PersistantProject, "HeroImageStartCtl");
-                }
+                //ConnectedAnimation animation =
+                //    ConnectedAnimationService.GetForCurrentView().GetAnimation("projectView");
+                //if (animation != null)
+                //{
+                //    await ParticipantsGridView.TryStartConnectedAnimationAsync(
+                //        animation, PersistantProject, "HeroImageStartCtl");
+                //}
             }
         }
 

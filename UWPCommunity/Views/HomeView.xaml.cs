@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using UWPCommLib.Api.UWPComm.Models;
+using UwpCommunityBackend.Models;
 using UWPCommunity.Views.Dialogs;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

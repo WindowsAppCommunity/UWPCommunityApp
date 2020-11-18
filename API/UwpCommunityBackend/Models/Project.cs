@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace UWPCommLib.Api.UWPComm.Models
+namespace UwpCommunityBackend.Models
 {
     public class Project
     {

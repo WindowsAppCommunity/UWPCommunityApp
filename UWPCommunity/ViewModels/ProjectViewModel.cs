@@ -1,4 +1,4 @@
-﻿using UWPCommLib.Api.UWPComm.Models;
+﻿using UwpCommunityBackend.Models;
 
 namespace UWPCommunity.ViewModels
 {

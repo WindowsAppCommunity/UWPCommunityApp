@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace UWPCommLib.Api.Discord.Models
+namespace Discord.Models
 {
     public class LoginResult
     {

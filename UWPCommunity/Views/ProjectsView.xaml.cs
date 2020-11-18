@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using UWPCommLib.Api.UWPComm.Models;
+using UwpCommunityBackend.Models;
 using Windows.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.Net.Http;
 using UWPCommunity.ViewModels;
+using UwpCommunityBackend;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -49,7 +50,7 @@ namespace UWPCommunity.Views
         {
             try
             {
-                var projs = (await Common.UwpCommApi.GetProjects()).OrderBy(x => x.AppName);
+                var projs = (await Api.GetProjects()).OrderBy(x => x.AppName);
                 foreach (var project in projs)
                 {
                     Projects.Add(new ProjectViewModel(project));

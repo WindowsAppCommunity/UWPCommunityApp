@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace UWPCommLib.Api.UWPComm.Models
+namespace UwpCommunityBackend.Models
 {
     public class LaunchProjects
     {

@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
-    xmlns:models="using:UWPCommLib.Api.UWPComm.Models"
+    xmlns:models="using:UwpCommunityBackend.Models"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -63,8 +63,8 @@
                 </controls:DropShadowPanel>
 
                 <controls:AdaptiveGridView x:Name="ParticipantsGridView" ItemsSource="{x:Bind LaunchProjects}" SelectionMode="Single"
-                                    DesiredWidth="600" Margin="16" SelectionChanged="ParticipantsGridView_SelectionChanged"
-                                    Loaded="ParticipantsGridView_Loaded">
+                                           DesiredWidth="600" Margin="16" SelectionChanged="ParticipantsGridView_SelectionChanged"
+                                           Loaded="ParticipantsGridView_Loaded">
                     <controls:AdaptiveGridView.ItemTemplate>
                         <DataTemplate x:DataType="models:Project">
                             <!-- TODO: Create a template for showing projects -->

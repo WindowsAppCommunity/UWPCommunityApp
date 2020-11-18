@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using UWPCommLib.Api.UWPComm.Models;
+using UwpCommunityBackend.Models;
 using UWPCommunity.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using UwpCommunityBackend;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -55,7 +56,7 @@ namespace UWPCommunity.Views
             Projects.Clear();
             try
             {
-                var projs = await Common.UwpCommApi.GetUserProjects(Common.DiscordUser.DiscordId);
+                var projs = await Api.GetUserProjects(Common.DiscordUser.DiscordId);
                 foreach (var project in projs)
                 {
                     Projects.Add(new ProjectViewModel(project));
@@ -106,7 +107,7 @@ namespace UWPCommunity.Views
             {
                 try
                 {
-                    await Common.UwpCommApi.DeleteProject(
+                    await Api.DeleteProject(
                         new DeleteProjectRequest((p as ProjectViewModel).project.AppName));
                     RefreshProjects();
                     Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: Delete project",
@@ -156,7 +157,7 @@ namespace UWPCommunity.Views
             base.OnNavigatedTo(e);
 
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: Navigated to",
-                new System.Collections.Generic.Dictionary<string, string> {
+                new Dictionary<string, string> {
                     { "From", e.SourcePageType.Name },
                     { "Parameters", e.Parameter?.ToString() }
                 }

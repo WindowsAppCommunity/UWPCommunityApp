@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Runtime.Serialization;
 
-namespace UWPCommLib.Api.UWPComm.Models
+namespace UwpCommunityBackend.Models
 {
     public class Collaborator : UserBase
     {
