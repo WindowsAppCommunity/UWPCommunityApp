@@ -3,16 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
-using UWPCommLib.Api.Yoshi;
 
 namespace UWPCommunity
 {
     public static class Common
     {
-        public static IYoshiApi YoshiApi = RestService.For<IYoshiApi>(
-            "https://yoshiask.herokuapp.com/api"
-        );
-
         public static Discord.Models.User DiscordUser { get; private set; }
         public static async Task<UwpCommunityBackend.Models.Collaborator> GetCurrentUser()
         {

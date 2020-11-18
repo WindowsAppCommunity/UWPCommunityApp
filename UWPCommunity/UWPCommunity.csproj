@@ -394,9 +394,9 @@
       <Project>{fad41557-c466-4c3d-9642-1f3b23f57046}</Project>
       <Name>UwpCommunityBackend</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UWPCommLib\UWPCommLib.csproj">
-      <Project>{77f56184-fb16-4757-bb79-0885ae7b5494}</Project>
-      <Name>UWPCommLib</Name>
+    <ProjectReference Include="..\Api\YoshiServer\YoshiServer.csproj">
+      <Project>{c220047d-2bfb-4a8d-b4a0-9b9ae018cc2c}</Project>
+      <Name>YoshiServer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

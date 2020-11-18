@@ -1,5 +1,5 @@
 ﻿using System;
-using UWPCommLib.Api.Yoshi.Models;
+using YoshiServer.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

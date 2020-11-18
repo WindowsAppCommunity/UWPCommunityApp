@@ -244,8 +244,8 @@ namespace UWPCommunity
             if (value)
             {
                 // Load all app messages
-                var messages = await Common.YoshiApi.GetAppMessages("UWPCommunity");
-                foreach (UWPCommLib.Api.Yoshi.Models.AppMessage message in messages)
+                var messages = await YoshiServer.Api.GetAppMessages("UWPCommunity");
+                foreach (YoshiServer.Models.AppMessage message in messages)
                 {
                     if (message.Importance > 1)
                         continue;

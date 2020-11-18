@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace UWPCommLib.Api.Yoshi.Models
+namespace YoshiServer.Models
 {
     public class AppMessage
     {
