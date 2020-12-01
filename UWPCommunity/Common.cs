@@ -1,5 +1,4 @@
-﻿using Refit;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Security.Credentials;
@@ -49,10 +48,10 @@ namespace UWPCommunity
                 {
                     _ = await GetCurrentUser();
                 }
-                catch (ApiException ex)
+                catch (Flurl.Http.FlurlHttpException ex)
                 {
-                    var error = await ex.GetContentAsAsync<UwpCommunityBackend.Models.Error>();
-                    if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    var error = await ex.GetResponseJsonAsync<UwpCommunityBackend.Models.Error>();
+                    if (ex.Call.Response.StatusCode == System.Net.HttpStatusCode.NotFound)
                     {
                         // The user does not exist yet, so create an account for them
                         await UwpCommunityBackend.Api.PostUser(new Dictionary<string, string>() {

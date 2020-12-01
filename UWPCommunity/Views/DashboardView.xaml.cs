@@ -25,7 +25,7 @@ namespace UWPCommunity.Views
             Loaded += DashboardView_Loaded;
         }
 
-        private void DashboardView_Loaded(object sender, RoutedEventArgs e)
+        private async void DashboardView_Loaded(object sender, RoutedEventArgs e)
         {
             var cardSize = SettingsManager.GetProjectCardSize();
             ProjectsGridView.DesiredWidth = cardSize.X;
@@ -44,9 +44,9 @@ namespace UWPCommunity.Views
                     new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
                 UserProfileUsername.Text = Common.DiscordUser.Username;
             }
-            catch (Refit.ApiException ex)
+            catch (Flurl.Http.FlurlHttpException ex)
             {
-                Debug.WriteLine("API Exception:\n" + ex.ReasonPhrase);
+                Debug.WriteLine("API Exception:\n" + await ex.GetResponseStringAsync());
             }
 
         }
@@ -62,9 +62,9 @@ namespace UWPCommunity.Views
                     Projects.Add(new ProjectViewModel(project));
                 }
             }
-            catch (Refit.ApiException ex)
+            catch (Flurl.Http.FlurlHttpException ex)
             {
-                if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                if (ex.Call.Response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     // This means something went wrong with authentication,
                     // so attempt to log in again.
@@ -116,9 +116,9 @@ namespace UWPCommunity.Views
                         }
                     );
                 }
-                catch (Refit.ApiException ex)
+                catch (Flurl.Http.FlurlHttpException ex)
                 {
-                    var error = await ex.GetContentAsAsync<Error>();
+                    var error = await ex.GetResponseJsonAsync<Error>();
                     ContentDialog errorDialog = new ContentDialog
                     {
                         Title = "Failed to delete project",

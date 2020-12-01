@@ -343,9 +343,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FluiFramework.UWP">
-      <Version>0.0.33</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
       <Version>3.2.2</Version>
     </PackageReference>
@@ -378,9 +375,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.4.2</Version>
-    </PackageReference>
-    <PackageReference Include="Refit">
-      <Version>5.1.67</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
