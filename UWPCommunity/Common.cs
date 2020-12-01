@@ -19,7 +19,7 @@ namespace UWPCommunity
         public static event OnLoginStateChangedHandler OnLoginStateChanged;
 
         public static async Task<bool> SignIn(string discordToken, string refreshToken)
-        {
+       {
             try
             {
                 if (discordToken == null)
@@ -61,6 +61,8 @@ namespace UWPCommunity
                 }
 
                 IsLoggedIn = true;
+                // TODO: The catch block below will fire if any of the registered handlers
+                // throw an exception
                 OnLoginStateChanged(IsLoggedIn);
             }
             catch
