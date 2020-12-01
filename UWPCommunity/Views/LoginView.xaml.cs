@@ -26,9 +26,9 @@ namespace UWPCommunity.Views
             NavigationManager.RemovePreviousFromBackStack();
             LoginWrapper.NavigationCompleted += LoginWrapper_NavigationCompleted;
             LoginWrapper.Navigate(new Uri("https://discordapp.com/api/oauth2/authorize?client_id=611491369470525463&redirect_uri=http%3A%2F%2Fuwpcommunity-site-backend.herokuapp.com%2Fsignin%2Fredirect&response_type=code&scope=identify%20guilds"));
-            
+
             Type page = e.Parameter as Type;
-            DestinationPage = page == null ? typeof(HomeView) : page;
+            DestinationPage = page ?? typeof(HomeView);
 
             base.OnNavigatedTo(e);
 
@@ -43,8 +43,26 @@ namespace UWPCommunity.Views
         const string authRespUrl = "https://uwpcommunity.com/signin?authResponse=";
         const string errorRespUrl = "http://uwpcommunity-site-backend.herokuapp.com/signin/redirect?error=";
         bool isDialogOpen = false;
+        bool removedQrCode = false;
         private async void LoginWrapper_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
+            await System.Threading.Tasks.Task.Delay(1500);
+
+            if (!removedQrCode)
+            {
+                try
+                {
+                    // Execute some Javascript to remove the QR code and separator
+                    await RemoveHTMLElement("qrLogin-1AOZMt");
+                    await RemoveHTMLElement("verticalSeparator-3huAjp");
+                    removedQrCode = true;
+                }
+                catch
+                {
+                    removedQrCode = false;
+                }
+            }
+
             string redirect = args.Uri.AbsoluteUri;
             if (redirect.StartsWith(authRespUrl))
             {
@@ -95,7 +113,22 @@ namespace UWPCommunity.Views
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            // Do some cleanup, otherwise the WebView will stay loaded in the background.
+            // Figured this out with Edge Dev Tools
             LoginWrapper.NavigationCompleted -= LoginWrapper_NavigationCompleted;
+            LoginWrapper = null;
+        }
+
+        /// <summary>
+        /// Removes (from the DOM) the first HTML element with the specified class name
+        /// </summary>
+        private async System.Threading.Tasks.Task RemoveHTMLElement(string className)
+        {
+            // 
+            await LoginWrapper?.InvokeScriptAsync("eval", new string[]
+            {
+                $"var selectedElem = document.getElementsByClassName('{className}')[0];\nselectedElem.parentElement.removeChild(selectedElem);"
+            });
         }
     }
 }
