@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.Security.Credentials;
 using Windows.UI.Xaml.Media;
 
 namespace UWPCommunity
@@ -22,13 +23,27 @@ namespace UWPCommunity
         {
             try
             {
+                if (discordToken == null)
+                {
+                    // Use refresh token to get a new token
+                    (await UwpCommunityBackend.Api.UseRefreshToken(refreshToken)).Deconstruct(out var newTokens, out var error);
+                    if (newTokens != null)
+                    {
+                        discordToken = newTokens.Token;
+                        refreshToken = newTokens.RefreshToken;
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine(error);
+                    }
+                }
+
                 Discord.Api.Token = discordToken;
+                Discord.Api.RefreshToken = refreshToken;
                 UwpCommunityBackend.Api.Token = discordToken;
                 DiscordUser = await Discord.Api.GetCurrentUser();
 
-                var vault = new Windows.Security.Credentials.PasswordVault();
-                vault.Add(new Windows.Security.Credentials.PasswordCredential(
-                    resourceName, DiscordUser.DiscordId, refreshToken));
+                Vault.Add(new PasswordCredential(resourceName, DiscordUser.DiscordId, refreshToken));
 
                 try
                 {
@@ -51,6 +66,9 @@ namespace UWPCommunity
             }
             catch
             {
+                Discord.Api.Token = null;
+                Discord.Api.RefreshToken = null;
+                UwpCommunityBackend.Api.Token = null;
                 IsLoggedIn = false;
             }
             return IsLoggedIn;
@@ -67,14 +85,14 @@ namespace UWPCommunity
 
                 // TODO: Figure out how to reauthenticate with UWP Comm API
                 // with the Discord credential
-                if (false)//loginCredential != null)
+                if (loginCredential != null)
                 {
                     // There is a credential stored in the locker.
                     // Populate the Password property of the credential
                     // for automatic login.
                     loginCredential.RetrievePassword();
 
-                    await SignIn(loginCredential.Password);
+                    await SignIn(null, loginCredential.Password);
                 }
                 else if (useUi)
                 {
@@ -87,9 +105,9 @@ namespace UWPCommunity
         }
         public static void SignOut()
         {
-            var vault = new Windows.Security.Credentials.PasswordVault();
-            vault.Remove(new Windows.Security.Credentials.PasswordCredential(
-                resourceName, DiscordUser.DiscordId, null));
+            var vault = new PasswordVault();
+            vault.Remove(new PasswordCredential(
+                resourceName, DiscordUser.DiscordId, Discord.Api.RefreshToken));
 
             IsLoggedIn = false;
             UwpCommunityBackend.Api.Token = "";
@@ -98,13 +116,23 @@ namespace UWPCommunity
             OnLoginStateChanged(IsLoggedIn);
         }
 
-        private static string resourceName = "Discord";
-        private static Windows.Security.Credentials.PasswordCredential GetCredentialFromLocker()
+        private static PasswordVault _vault;
+        private static PasswordVault Vault
         {
-            Windows.Security.Credentials.PasswordCredential credential = null;
+            get
+            {
+                if (_vault == null)
+                    _vault = new PasswordVault();
+                return _vault;
+            }
+        }
 
-            var vault = new Windows.Security.Credentials.PasswordVault();
-            var credentialList = vault.RetrieveAll();
+        private static string resourceName = "Discord";
+        private static PasswordCredential GetCredentialFromLocker()
+        {
+            PasswordCredential credential = null;
+
+            var credentialList = Vault.RetrieveAll();
             if (credentialList.Count > 0)
             {
                 credential = credentialList[0];

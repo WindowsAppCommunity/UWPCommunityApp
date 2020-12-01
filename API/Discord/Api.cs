@@ -10,6 +10,7 @@ namespace Discord
         public const string BASE_URL = "https://discordapp.com/api";
 
         public static string Token { get; set; }
+        public static string RefreshToken { get; set; }
 
         /// <summary>
         /// Gets the user's registered projects (requires authentication)
