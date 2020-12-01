@@ -108,18 +108,19 @@ namespace UWPCommunity
 
             if (isLoggedIn.Value)
             {
-                SignInItem.Visibility = Visibility.Collapsed;
-                UserItem.Visibility = Visibility.Visible;
-                UserProfilePicture.UriSource = Common.DiscordUser.AvatarUri;
-                AutomationProperties.SetName(UserItem, Common.DiscordUser.Username);
-                ToolTipService.SetToolTip(UserItem, Common.DiscordUser.Username);
-                UserItem.Content = Common.DiscordUser.Username;
+                SignInButton.Visibility = Visibility.Collapsed;
+                UserButton.Visibility = Visibility.Visible;
+                UserProfilePicture.ProfilePicture =
+                    new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
+                AutomationProperties.SetName(UserButton, Common.DiscordUser.Username);
+                ToolTipService.SetToolTip(UserButton, Common.DiscordUser.Username);
+                UserProfileName.Text = Common.DiscordUser.Username;
                 (MainNav.MenuItems[4] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility = Visibility.Visible;
             }
             else
             {
-                SignInItem.Visibility = Visibility.Visible;
-                UserItem.Visibility = Visibility.Collapsed;
+                SignInButton.Visibility = Visibility.Visible;
+                UserButton.Visibility = Visibility.Collapsed;
                 (MainNav.MenuItems[4] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility = Visibility.Collapsed;
             }
         }
@@ -130,10 +131,6 @@ namespace UWPCommunity
             {
                 NavigationManager.NavigateToSettings();
                 return;
-            }
-            else if (args.SelectedItem == SignInItem)
-            {
-                NavigationManager.RequestSignIn(typeof(Views.DashboardView));
             }
 
             if (!(args.SelectedItem is Microsoft.UI.Xaml.Controls.NavigationViewItem navItem))
@@ -153,6 +150,10 @@ namespace UWPCommunity
                 MainFrame.Navigate(pageInfo.PageType);
         }
 
+        private void SignInButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationManager.RequestSignIn(typeof(Views.DashboardView));
+        }
         private void SignOutButton_Click(object sender, RoutedEventArgs e)
         {
             Common.SignOut();
