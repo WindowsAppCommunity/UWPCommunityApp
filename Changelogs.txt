@@ -1,3 +1,16 @@
+v1.2.3
+- Fixed a bug where the app would crash when loading projects due to a new contributor label
+- Restarting the app no longer automatically signs out
+- Fixed a bug where clicking on a project badge sometimes caused a crash
+- Fixed a bug where navigating to/from a project's details page would cause a crash
+
+v1.2.2
+- Fixed a bug where loading a page with projects caused a crash
+- Projects on the Dashboard now respect your card settings
+- Your role in a project is now visible on cards on the Dashboard
+- Cancelling the sign in process shows a proper dialog
+- Fixed a bug where translators and beta testers were listed as developers in the project details page
+
 v1.2.0
 - FINALLY! Fixed a bug where attempting to edit a project resulted in HTTP error 401
 - Added project drafts
