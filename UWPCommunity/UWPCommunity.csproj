@@ -23,10 +23,10 @@
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>False</GenerateTestArtifacts>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxBundle>Always</AppxBundle>
-    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <PackageCertificateThumbprint>E4BA37F92DAD20C9F98F9A2F892DED436C569CDE</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
