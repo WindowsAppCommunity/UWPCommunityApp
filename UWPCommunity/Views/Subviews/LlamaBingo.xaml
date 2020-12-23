@@ -10,13 +10,16 @@
     NavigationCacheMode="Required">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
         <Viewbox>
             <controls:BingoCard x:Name="Bingo" Width="550" Height="550"/>
         </Viewbox>
-    </Grid>
 
-    <Page.BottomAppBar>
-        <CommandBar>
+        <CommandBar Grid.Row="1">
             <AppBarButton Icon="Refresh" Label="Reset" Click="ResetBoardButton_Click"/>
             <AppBarButton Icon="Share" Label="Share" Click="CopyLink_Click"/>
             <AppBarButton Icon="Paste" Label="Load from Clipboard" Click="LoadLink_Click"/>
@@ -42,6 +45,6 @@
                 </AppBarButton>
             </CommandBar.SecondaryCommands>
         </CommandBar>
-    </Page.BottomAppBar>
+    </Grid>
     
 </Page>

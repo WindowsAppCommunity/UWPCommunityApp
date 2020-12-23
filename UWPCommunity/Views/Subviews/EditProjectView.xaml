@@ -9,15 +9,93 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Page.Resources>
-        <Style TargetType="StackPanel">
-            <Setter Property="Margin" Value="0,5,0,0"/>
-            <Setter Property="Spacing" Value="5"/>
-        </Style>
-    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <Pivot x:Name="MainPivot">
 
-    <Page.BottomAppBar>
-        <CommandBar DefaultLabelPosition="Right" Style="{ThemeResource CommandBarRevealStyle}">
+            <Pivot.Resources>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Margin" Value="0,5,0,0"/>
+                    <Setter Property="Spacing" Value="5"/>
+                </Style>
+            </Pivot.Resources>
+
+            <Pivot.Title>
+                <TextBlock x:Name="MainPivotTitle" Style="{StaticResource TitleTextBlockStyle}"
+                       Text="{x:Bind local:EditProjectView.GetPageHeader(Project.AppName)}" FontWeight="SemiBold"/>
+            </Pivot.Title>
+
+            <PivotItem Header="Basic info">
+                <StackPanel>
+                    <TextBox x:Name="NameBox" Text="{x:Bind Project.AppName, Mode=TwoWay}">
+                        <TextBox.Header>
+                            <StackPanel Orientation="Horizontal" Spacing="2" Margin="0">
+                                <TextBlock Text="Project name"/>
+                                <TextBlock Text="*" Foreground="Red"/>
+                            </StackPanel>
+                        </TextBox.Header>
+                    </TextBox>
+
+                    <TextBox x:Name="DescriptionBox" PlaceholderText="Enter a brief description"
+                         Text="{x:Bind Project.Description, Mode=TwoWay}" AcceptsReturn="True">
+                        <TextBox.Header>
+                            <StackPanel Orientation="Horizontal" Spacing="2" Margin="0">
+                                <TextBlock Text="Description"/>
+                                <TextBlock Text="*" Foreground="Red"/>
+                            </StackPanel>
+                        </TextBox.Header>
+                    </TextBox>
+
+                    <TextBox x:Name="HeroUrlBox" PlaceholderText="External link to an image of your app"
+                         Text="{x:Bind Project.HeroImage, Mode=TwoWay}">
+                        <TextBox.Header>
+                            <StackPanel Orientation="Horizontal" Spacing="2" Margin="0">
+                                <TextBlock Text="Hero image"/>
+                                <TextBlock Text="*" Foreground="Red"/>
+                            </StackPanel>
+                        </TextBox.Header>
+                    </TextBox>
+
+                    <TextBox x:Name="IconUrlBox" PlaceholderText="External link to your app's icon, if applicable"
+                         Text="{x:Bind Project.AppIcon, Mode=TwoWay}">
+                        <TextBox.Header>
+                            <TextBlock Text="App icon"/>
+                        </TextBox.Header>
+                    </TextBox>
+                </StackPanel>
+            </PivotItem>
+
+            <PivotItem Header="Project links">
+                <StackPanel>
+                    <TextBox x:Name="DownloadUrlBox" Header="Download link" extensions:TextBoxMask.CustomMask="^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$"
+                         Text="{x:Bind Project.DownloadLink, Mode=TwoWay}"/>
+
+                    <TextBox x:Name="GithubUrlBox" Header="GitHub link"
+                         Text="{x:Bind Project.GitHubLink, Mode=TwoWay}"/>
+
+                    <TextBox x:Name="ExternalUrlBox" Header="External link"
+                         Text="{x:Bind Project.ExternalLink, Mode=TwoWay}"/>
+                </StackPanel>
+            </PivotItem>
+
+            <PivotItem Header="More info">
+                <StackPanel Spacing="5">
+                    <ComboBox x:Name="CategoryBox" Header="Category"
+                          SelectedValue="{x:Bind Project.Category, Mode=TwoWay}"/>
+                    <CheckBox x:Name="IsPrivateBox" Content="Project is private/secret"
+                          IsChecked="{x:Bind Project.IsPrivate, Mode=TwoWay}"/>
+                    <CheckBox x:Name="IsLaunchBox" Content="Participation in Launch 2020"
+                          IsEnabled="False"/>
+                </StackPanel>
+            </PivotItem>
+
+        </Pivot>
+
+        <CommandBar DefaultLabelPosition="Right" Style="{ThemeResource CommandBarRevealStyle}" Grid.Row="1">
             <AppBarButton x:Name="CancelButton" Label="Cancel" Icon="Cancel"
                           Click="CancelButton_Click"/>
             <AppBarButton Label="Drafts..." Icon="Preview">
@@ -37,79 +115,6 @@
                           Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
                           Click="SubmitButton_Click"/>
         </CommandBar>
-    </Page.BottomAppBar>
-
-    <Pivot x:Name="MainPivot">
-
-        <Pivot.Title>
-            <TextBlock x:Name="MainPivotTitle" Style="{StaticResource TitleTextBlockStyle}"
-                       Text="{x:Bind local:EditProjectView.GetPageHeader(Project.AppName)}" FontWeight="SemiBold"/>
-        </Pivot.Title>
-
-        <PivotItem Header="Basic info">
-            <StackPanel>
-                <TextBox x:Name="NameBox" Text="{x:Bind Project.AppName, Mode=TwoWay}">
-                    <TextBox.Header>
-                        <StackPanel Orientation="Horizontal" Spacing="2" Margin="0">
-                            <TextBlock Text="Project name"/>
-                            <TextBlock Text="*" Foreground="Red"/>
-                        </StackPanel>
-                    </TextBox.Header>
-                </TextBox>
-
-                <TextBox x:Name="DescriptionBox" PlaceholderText="Enter a brief description"
-                         Text="{x:Bind Project.Description, Mode=TwoWay}" AcceptsReturn="True">
-                    <TextBox.Header>
-                        <StackPanel Orientation="Horizontal" Spacing="2" Margin="0">
-                            <TextBlock Text="Description"/>
-                            <TextBlock Text="*" Foreground="Red"/>
-                        </StackPanel>
-                    </TextBox.Header>
-                </TextBox>
-
-                <TextBox x:Name="HeroUrlBox" PlaceholderText="External link to an image of your app"
-                         Text="{x:Bind Project.HeroImage, Mode=TwoWay}">
-                    <TextBox.Header>
-                        <StackPanel Orientation="Horizontal" Spacing="2" Margin="0">
-                            <TextBlock Text="Hero image"/>
-                            <TextBlock Text="*" Foreground="Red"/>
-                        </StackPanel>
-                    </TextBox.Header>
-                </TextBox>
-
-                <TextBox x:Name="IconUrlBox" PlaceholderText="External link to your app's icon, if applicable"
-                         Text="{x:Bind Project.AppIcon, Mode=TwoWay}">
-                    <TextBox.Header>
-                        <TextBlock Text="App icon"/>
-                    </TextBox.Header>
-                </TextBox>
-            </StackPanel>
-        </PivotItem>
-
-        <PivotItem Header="Project links">
-            <StackPanel>
-                <TextBox x:Name="DownloadUrlBox" Header="Download link" extensions:TextBoxMask.CustomMask="^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$"
-                         Text="{x:Bind Project.DownloadLink, Mode=TwoWay}"/>
-
-                <TextBox x:Name="GithubUrlBox" Header="GitHub link"
-                         Text="{x:Bind Project.GitHubLink, Mode=TwoWay}"/>
-
-                <TextBox x:Name="ExternalUrlBox" Header="External link"
-                         Text="{x:Bind Project.ExternalLink, Mode=TwoWay}"/>
-            </StackPanel>
-        </PivotItem>
-
-        <PivotItem Header="More info">
-            <StackPanel Spacing="5">
-                <ComboBox x:Name="CategoryBox" Header="Category"
-                          SelectedValue="{x:Bind Project.Category, Mode=TwoWay}"/>
-                <CheckBox x:Name="IsPrivateBox" Content="Project is private/secret"
-                          IsChecked="{x:Bind Project.IsPrivate, Mode=TwoWay}"/>
-                <CheckBox x:Name="IsLaunchBox" Content="Participation in Launch 2020"
-                          IsEnabled="False"/>
-            </StackPanel>
-        </PivotItem>
-
-    </Pivot>
+    </Grid>
 
 </Page>
