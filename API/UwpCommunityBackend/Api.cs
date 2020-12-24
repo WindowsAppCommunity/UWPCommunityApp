@@ -15,6 +15,8 @@ namespace UwpCommunityBackend
         public const string WEB_BASE_URL = "https://uwpcommunity-site-backend.herokuapp.com";
         public const string LOCAL_BASE_URL = "http://localhost:5000";
 
+        public const string GITHUB_RAW_BASE_URL = "https://raw.githubusercontent.com/UWPCommunity/uwpcommunity.github.io/gh-pages-dev/";
+
         public static string BaseUrl { get; set; } = WEB_BASE_URL;
 
         public static string Token { get; set; }
@@ -188,5 +190,11 @@ namespace UwpCommunityBackend
             }
         }
         #endregion
+
+        public static async Task<CardInfoResponse> GetCard(string name)
+        {
+            return await GITHUB_RAW_BASE_URL.AppendPathSegments("src", "assets", "views", name + ".json")
+                .GetJsonAsync<CardInfoResponse>();
+        }
     }
 }

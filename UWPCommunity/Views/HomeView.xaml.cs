@@ -26,9 +26,7 @@ namespace UWPCommunity.Views
         private async void HomeView_Loaded(object sender, RoutedEventArgs e)
         {
             // Get the card information from the website frontend
-            var response = await new System.Net.Http.HttpClient().GetAsync("https://raw.githubusercontent.com/UWPCommunity/uwpcommunity.github.io/master/assets/views/home.json");
-            string json = await response.Content.ReadAsStringAsync();
-            var card = Newtonsoft.Json.JsonConvert.DeserializeObject<CardInfoResponse>(json).Main;
+            var card = (await UwpCommunityBackend.Api.GetCard("home")).Main;
             CardSubtitle.Text = card.Subtitle;
             CardDetails.Text = String.Join(" ", card.Details);
 

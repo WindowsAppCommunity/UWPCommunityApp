@@ -40,9 +40,7 @@ namespace UWPCommunity.Views
             try
             {
                 // Get the card information from the website frontend
-                var response = await new HttpClient().GetAsync("https://raw.githubusercontent.com/UWPCommunity/uwpcommunity.github.io/master/assets/views/launch.json");
-                string json = await response.Content.ReadAsStringAsync();
-                var card = Newtonsoft.Json.JsonConvert.DeserializeObject<CardInfoResponse>(json).Main;
+                var card = (await Api.GetCard("launch")).Main;
                 CardTitle = card.Title;
                 CardSubtitle = card.Subtitle;
                 CardDetails = String.Join(" ", card.Details);
