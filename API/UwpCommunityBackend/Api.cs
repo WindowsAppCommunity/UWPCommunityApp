@@ -1,7 +1,6 @@
 ﻿using Flurl;
 using Flurl.Http;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -138,21 +137,21 @@ namespace UwpCommunityBackend
         /// <summary>
         /// Gets the user's profile information from Discord
         /// </summary>
-        public static async Task<List<dynamic>> GetDiscordUser(string userId)
+        public static async Task<Discord.Models.User> GetDiscordUser(string userId)
         {
             // TODO: Deserialize to a class rather than returning a dynamic
             return await BaseUrl.AppendPathSegments("bot", "user", userId)
-                .GetJsonAsync();
+                .GetJsonAsync<Discord.Models.User>();
         }
 
         /// <summary>
         /// Gets the user's roles in the UWP Community Discord server
         /// </summary>
-        public static async Task<List<dynamic>> GetDiscordUserRoles(string userId)
+        public static async Task<List<Discord.Models.Role>> GetDiscordUserRoles(string userId)
         {
             // TODO: Deserialize to a class rather than returning a dynamic
             return await BaseUrl.AppendPathSegments("bot", "user", userId, "roles")
-                .GetJsonAsync();
+                .GetJsonAsync<List<Discord.Models.Role>>();
         }
         #endregion
 
