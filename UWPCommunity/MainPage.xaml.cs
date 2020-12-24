@@ -22,7 +22,7 @@ namespace UWPCommunity
         {
             this.InitializeComponent();
 
-            Common.OnLoginStateChanged += Common_OnLoginStateChanged;
+            UserManager.OnLoginStateChanged += Common_OnLoginStateChanged;
             MainFrame.Navigated += MainFrame_Navigated;
             NavigationManager.PageFrame = MainFrame;
 
@@ -66,7 +66,7 @@ namespace UWPCommunity
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            await Common.TrySignIn(false);
+            await UserManager.SignInFromVault(false);
             UpdateSignInUI();
 
             if (e.Parameter is Tuple<Type, object> launchInfo && launchInfo.Item1 != null)
@@ -104,17 +104,17 @@ namespace UWPCommunity
         private void UpdateSignInUI(bool? isLoggedIn = null)
         {
             if (!isLoggedIn.HasValue)
-                isLoggedIn = Common.IsLoggedIn;
+                isLoggedIn = UserManager.IsLoggedIn;
 
             if (isLoggedIn.Value)
             {
                 SignInButton.Visibility = Visibility.Collapsed;
                 UserButton.Visibility = Visibility.Visible;
                 UserProfilePicture.ProfilePicture =
-                    new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
-                AutomationProperties.SetName(UserButton, Common.DiscordUser.Username);
-                ToolTipService.SetToolTip(UserButton, Common.DiscordUser.Username);
-                UserProfileName.Text = Common.DiscordUser.Username;
+                    new Windows.UI.Xaml.Media.Imaging.BitmapImage(UserManager.DiscordUser.AvatarUri);
+                AutomationProperties.SetName(UserButton, UserManager.DiscordUser.Username);
+                ToolTipService.SetToolTip(UserButton, UserManager.DiscordUser.Username);
+                UserProfileName.Text = UserManager.DiscordUser.Username;
                 (MainNav.MenuItems[4] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility = Visibility.Visible;
             }
             else
@@ -156,7 +156,7 @@ namespace UWPCommunity
         }
         private void SignOutButton_Click(object sender, RoutedEventArgs e)
         {
-            Common.SignOut();
+            UserManager.SignOut();
         }
 
         public static List<PageInfo> Pages = new List<PageInfo>

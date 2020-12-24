@@ -32,7 +32,7 @@ namespace UWPCommunity
 
         public static async void RequestSignIn(Type returnToPage)
         {
-            if (!Common.IsLoggedIn)
+            if (!UserManager.IsLoggedIn)
             {
                 var privacyPolicyResult = await (new Views.Dialogs.ConfirmPrivacyPolicyDialog().ShowAsync());
                 if (privacyPolicyResult != ContentDialogResult.Primary)

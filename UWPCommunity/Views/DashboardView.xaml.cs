@@ -8,6 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using UwpCommunityBackend;
+using System.Linq;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,18 +32,24 @@ namespace UWPCommunity.Views
             ProjectsGridView.DesiredWidth = cardSize.X;
             ProjectsGridView.ItemHeight = cardSize.Y;
 
-            if (!Common.IsLoggedIn)
+            if (!UserManager.IsLoggedIn)
             {
                 NavigationManager.RequestSignIn(typeof(DashboardView));
                 return;
+            }
+
+            bool isInServer = (await Discord.Api.GetCurrentUserGuilds()).Any(g => g.Id == "372137812037730304");
+            if (!isInServer)
+            {
+                NavigationManager.Navigate(typeof(NewAccount.JoinServerView));
             }
 
             try
             {
                 RefreshProjects();
                 UserProfilePicture.ProfilePicture =
-                    new Windows.UI.Xaml.Media.Imaging.BitmapImage(Common.DiscordUser.AvatarUri);
-                UserProfileUsername.Text = Common.DiscordUser.Username;
+                    new Windows.UI.Xaml.Media.Imaging.BitmapImage(UserManager.DiscordUser.AvatarUri);
+                UserProfileUsername.Text = UserManager.DiscordUser.Username;
             }
             catch (Flurl.Http.FlurlHttpException ex)
             {
@@ -56,7 +63,7 @@ namespace UWPCommunity.Views
             Projects.Clear();
             try
             {
-                var projs = await Api.GetUserProjects(Common.DiscordUser.DiscordId);
+                var projs = await Api.GetUserProjects(UserManager.DiscordUser.DiscordId);
                 foreach (var project in projs)
                 {
                     Projects.Add(new ProjectViewModel(project));
@@ -69,7 +76,7 @@ namespace UWPCommunity.Views
                     // This means something went wrong with authentication,
                     // so attempt to log in again.
                     // TODO: Maybe this can be solved with refresh tokens?
-                    Common.SignOut();
+                    UserManager.SignOut();
                     NavigationManager.RequestSignIn(typeof(DashboardView));
                 }
             }

@@ -148,6 +148,7 @@
     <Compile Include="NavigationManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsManager.cs" />
+    <Compile Include="UserManager.cs" />
     <Compile Include="ViewModels\ProjectViewModel.cs" />
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
@@ -169,6 +170,12 @@
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewAccount\JoinServerView.xaml.cs">
+      <DependentUpon>JoinServerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewAccount\SetUpProfileView.xaml.cs">
+      <DependentUpon>SetUpProfileView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProjectsView.xaml.cs">
       <DependentUpon>ProjectsView.xaml</DependentUpon>
@@ -309,6 +316,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewAccount\JoinServerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewAccount\SetUpProfileView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

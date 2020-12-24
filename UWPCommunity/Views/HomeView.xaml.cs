@@ -47,7 +47,7 @@ namespace UWPCommunity.Views
 
         private async void DiscordButton_Click(object sender, RoutedEventArgs e)
         {
-            await NavigationManager.OpenDiscordInvite("eBHZSKG");
+            await NavigationManager.OpenDiscordInvite(Common.DISCORD_INVITE);
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Home: Discord button clicked");
         }
 
