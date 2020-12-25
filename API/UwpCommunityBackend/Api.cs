@@ -61,7 +61,11 @@ namespace UwpCommunityBackend
         /// <summary>
         /// Registers a project with the given details
         /// </summary>
+#if NET_STANDARD_14
         public static async Task<HttpResponseMessage> PostProject(Project info)
+#else
+        public static async Task<IFlurlResponse> PostProject(Project info)
+#endif
         {
             return await BaseUrl.AppendPathSegments("projects")
                 .WithOAuthBearerToken(Token)
@@ -71,7 +75,11 @@ namespace UwpCommunityBackend
         /// <summary>
         /// Updates the project with the given details
         /// </summary>
+#if NET_STANDARD_14
         public static async Task<HttpResponseMessage> PutProject(string appName, Project info)
+#else
+        public static async Task<IFlurlResponse> PutProject(string appName, Project info)
+#endif
         {
             return await BaseUrl.AppendPathSegments("projects")
                 .SetQueryParam(nameof(appName), appName)
@@ -82,7 +90,11 @@ namespace UwpCommunityBackend
         /// <summary>
         /// Deletes the project that matches the app name the closest
         /// </summary>
+#if NET_STANDARD_14
         public static async Task<HttpResponseMessage> DeleteProject(DeleteProjectRequest info)
+#else
+        public static async Task<IFlurlResponse> DeleteProject(DeleteProjectRequest info)
+#endif
         {
             return await BaseUrl.AppendPathSegments("projects")
                 .WithOAuthBearerToken(Token)
@@ -115,7 +127,11 @@ namespace UwpCommunityBackend
         /// <summary>
         /// Sets the user's profile information
         /// </summary>
+#if NET_STANDARD_14
         public static async Task<HttpResponseMessage> SetUser(Dictionary<string, string> newInfo)
+#else
+        public static async Task<IFlurlResponse> SetUser(Dictionary<string, string> newInfo)
+#endif
         {
             return await BaseUrl.AppendPathSegments("user")
                 .WithOAuthBearerToken(Token)
@@ -125,7 +141,11 @@ namespace UwpCommunityBackend
         /// <summary>
         /// Creates a user with the specified profile information
         /// </summary>
+#if NET_STANDARD_14
         public static async Task<HttpResponseMessage> PostUser(Dictionary<string, string> info)
+#else
+        public static async Task<IFlurlResponse> PostUser(Dictionary<string, string> info)
+#endif
         {
             return await BaseUrl.AppendPathSegments("user")
                 .WithOAuthBearerToken(Token)
@@ -156,7 +176,11 @@ namespace UwpCommunityBackend
         #endregion
 
         #region /signin/
+#if NET_STANDARD_14
         public static async Task<HttpResponseMessage> Redirect(string code)
+#else
+        public static async Task<IFlurlResponse> Redirect(string code)
+#endif
         {
             return await BaseUrl.AppendPathSegments("signin", "redirect")
                 .SetQueryParam(nameof(code), code)
@@ -171,7 +195,12 @@ namespace UwpCommunityBackend
 
             // TODO: Use response.IsSuccessStatusCode
             // At the moment, the API returns 200 OK even if there was an error.
-            var responseString = await httpResponse.Content.ReadAsStringAsync();
+            string responseString;
+#if NET_STANDARD_14
+            responseString = await httpResponse.Content.ReadAsStringAsync();
+#else
+            responseString = await httpResponse.GetStringAsync();
+#endif
 
             // The API returns an escaped string containing a JSON object. The following two
             // lines unescape the string and remove the enclosing qoutes.

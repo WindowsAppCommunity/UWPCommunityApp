@@ -17,6 +17,8 @@ namespace UwpCommunityBackend.Models
 
     public class CardInfoResponse
     {
+        public CardInfoResponse() { }
+
         [JsonProperty(PropertyName = "main")]
         public CardInfo Main { get; set; }
     }
