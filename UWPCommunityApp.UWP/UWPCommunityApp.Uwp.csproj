@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <ItemGroup>
@@ -18,7 +18,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>242354c0-1808-4b14-92eb-58d21ccf4598</ProjectGuid>
+    <ProjectGuid>{242354C0-1808-4B14-92EB-58D21CCF4598}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UWPCommunityApp</RootNamespace>
@@ -127,6 +127,22 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <ProjectReference Include="..\API\Discord\Discord.csproj">
+      <Project>{69581010-7845-43ec-9fb1-a77cb82e1a88}</Project>
+      <Name>Discord</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\API\Github\Github.csproj">
+      <Project>{11341748-7ad4-4443-b623-2c212173905c}</Project>
+      <Name>Github</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\API\UwpCommunityBackend\UwpCommunityBackend.csproj">
+      <Project>{4d98c3d8-1ab6-46e6-aefc-218dbc383890}</Project>
+      <Name>UwpCommunityBackend</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\API\YoshiServer\YoshiServer.csproj">
+      <Project>{60adf5f2-154b-4746-8874-2e737a1b9c9e}</Project>
+      <Name>YoshiServer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

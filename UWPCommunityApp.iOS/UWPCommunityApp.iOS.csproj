@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-    <ProjectGuid>aad79249-778a-41a4-90d5-ecdad11ace00</ProjectGuid>
+    <ProjectGuid>{AAD79249-778A-41A4-90D5-ECDAD11ACE00}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>UWPCommunityApp</RootNamespace>
@@ -149,10 +149,24 @@
       <Visible>false</Visible>
     </ImageAsset>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Media" Visible="false" />
-    <Folder Include="Media\AppIcons" Visible="false" />
-    <Folder Include="Media\LaunchImages" Visible="false" />
+    <ProjectReference Include="..\API\Discord\Discord.csproj">
+      <Project>{69581010-7845-43ec-9fb1-a77cb82e1a88}</Project>
+      <Name>Discord</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\API\Github\Github.csproj">
+      <Project>{11341748-7ad4-4443-b623-2c212173905c}</Project>
+      <Name>Github</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\API\UwpCommunityBackend\UwpCommunityBackend.csproj">
+      <Project>{4d98c3d8-1ab6-46e6-aefc-218dbc383890}</Project>
+      <Name>UwpCommunityBackend</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\API\YoshiServer\YoshiServer.csproj">
+      <Project>{60adf5f2-154b-4746-8874-2e737a1b9c9e}</Project>
+      <Name>YoshiServer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\UWPCommunityApp.Shared\UWPCommunityApp.Shared.projitems" Label="Shared" Condition="Exists('..\UWPCommunityApp.Shared\UWPCommunityApp.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

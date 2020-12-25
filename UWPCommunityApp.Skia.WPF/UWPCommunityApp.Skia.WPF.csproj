@@ -13,5 +13,11 @@
   <ItemGroup>
     <UpToDateCheckInput Include="..\UWPCommunityApp.Shared\**\*.xaml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\API\Discord\Discord.csproj" />
+    <ProjectReference Include="..\API\Github\Github.csproj" />
+    <ProjectReference Include="..\API\UwpCommunityBackend\UwpCommunityBackend.csproj" />
+    <ProjectReference Include="..\API\YoshiServer\YoshiServer.csproj" />
+  </ItemGroup>
   <Import Project="..\UWPCommunityApp.Shared\UWPCommunityApp.Shared.projitems" Label="Shared" />
 </Project>

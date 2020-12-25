@@ -14,6 +14,10 @@
     <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\API\Discord\Discord.csproj" />
+    <ProjectReference Include="..\API\Github\Github.csproj" />
+    <ProjectReference Include="..\API\UwpCommunityBackend\UwpCommunityBackend.csproj" />
+    <ProjectReference Include="..\API\YoshiServer\YoshiServer.csproj" />
     <ProjectReference Include="..\UWPCommunityApp.Skia.WPF\UWPCommunityApp.Skia.WPF.csproj" />
   </ItemGroup>
 </Project>
