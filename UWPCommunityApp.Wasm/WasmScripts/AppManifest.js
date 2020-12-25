@@ -1,7 +1,7 @@
 var UnoAppManifest = {
 
     splashScreenImage: "Assets/SplashScreen.png",
-    splashScreenColor: "#0078D7",
-    displayName: "UWPCommunityApp"
+    splashScreenColor: "#E92031",
+    displayName: "UWP Community"
 
 }

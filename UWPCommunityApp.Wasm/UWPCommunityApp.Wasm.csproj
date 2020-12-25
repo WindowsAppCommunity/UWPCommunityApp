@@ -12,10 +12,14 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Assets\AppIcon.png" />
     <Content Include="Assets\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Include="..\UWPCommunityApp.Shared\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\AppIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="WasmCSS\Fonts.css" />
