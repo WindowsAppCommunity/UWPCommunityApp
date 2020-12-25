@@ -7,6 +7,11 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.0.0" />
+    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.Connectivity" Version="6.1.0-build.205.g2e0e348372" />
+    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.Notifications" Version="6.1.0-build.205.g2e0e348372" />
+    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI" Version="6.1.0-build.205.g2e0e348372" />
+    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Animations" Version="6.1.0-build.205.g2e0e348372" />
     <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls" Version="6.1.0-build.205.g2e0e348372" />
     <PackageReference Include="Uno.UI.Skia.Wpf" Version="3.4.0" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="3.4.0" Condition="'$(Configuration)'=='Debug'" />

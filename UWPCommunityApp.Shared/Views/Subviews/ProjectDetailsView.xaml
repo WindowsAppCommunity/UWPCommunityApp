@@ -1,0 +1,75 @@
+﻿<Page
+    x:Class="UWPCommunityApp.Views.Subviews.ProjectDetailsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPCommunityApp.Views.Subviews"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:converters="using:UWPCommunityApp.Converters"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    </Page.Resources>
+
+    <Grid>
+        <ContentControl HorizontalContentAlignment="Stretch" Margin="10">
+            <toolkit:DockPanel LastChildFill="True" VerticalAlignment="Stretch">
+                <RelativePanel toolkit:DockPanel.Dock="Top" animations:Connected.AnchorElement="{x:Bind HeroImageCtl}">
+                    <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{x:Bind Project.AppName}"
+                               FontWeight="SemiBold" x:Name="TitleBlock"/>
+                    <TextBlock RelativePanel.Below="TitleBlock" Text="{x:Bind Project.Description}"
+                               Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"
+                               x:Name="DescriptionBlock"/>
+                    <TextBlock RelativePanel.Below="DescriptionBlock" Style="{StaticResource BodyTextBlockStyle}"
+                               TextWrapping="WrapWholeWords" Margin="0,5,0,0" x:Name="CollaboratorsBlock"
+                               Text="Developed by: "/>
+
+                    <ContentPresenter RelativePanel.RightOf="TitleBlock"
+                              HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                              FlowDirection="RightToLeft">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Visibility="{x:Bind Project.ExternalLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
+                                    Click="ExternalLinkButton_Click" Margin="0,0,5,0"
+                                    ToolTipService.ToolTip="Open website" AutomationProperties.Name="Open website">
+                                <Button.Content>
+                                    <SymbolIcon Symbol="Globe"/>
+                                </Button.Content>
+                            </Button>
+                            <Button Visibility="{x:Bind Project.GitHubLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
+                                    Click="GitHubLinkButton_Click" Margin="0,0,5,0"
+                                    ToolTipService.ToolTip="Open GitHub repo" AutomationProperties.Name="Open GitHub repo">
+                                <Button.Content>
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF90;" />
+                                </Button.Content>
+                            </Button>
+                            <Button Visibility="{x:Bind Project.DownloadLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
+                                    Click="DownloadLinkButton_Click" Margin="0,0,5,0"
+                                    ToolTipService.ToolTip="Download" AutomationProperties.Name="Download">
+                                <Button.Content>
+                                    <SymbolIcon Symbol="Shop"/>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                    </ContentPresenter>
+                </RelativePanel>
+
+                <Image x:Name="HeroImageCtl" Source="{x:Bind Project.HeroImageSafe}" Stretch="Uniform"
+                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,0,0"
+                       animations:Connected.Key="item"/>
+            </toolkit:DockPanel>
+        </ContentControl>
+
+        <Button x:Name="CloseButton" VerticalAlignment="Top" HorizontalAlignment="Right"
+                Click="CloseButton_Click" Windows10version1809:CornerRadius="0"
+                Width="48" Height="40" Style="{ThemeResource ButtonRevealStyle}"
+                ToolTipService.ToolTip="Close" AutomationProperties.Name="Go back">
+            <Button.Content>
+                <SymbolIcon Symbol="Clear"/>
+            </Button.Content>
+        </Button>
+    </Grid>
+</Page>

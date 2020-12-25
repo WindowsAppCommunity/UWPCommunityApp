@@ -3,11 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.StartScreen;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -169,5 +174,70 @@ namespace UWPCommunityApp
 				.AddConsole(LogLevel.Information);
 #endif
 		}
-    }
+
+		private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+		{
+			Type exType = e.Exception.GetType();
+			e.Handled = true;
+			Frame rootFrame = new Frame();
+			Window.Current.Content = rootFrame;
+
+			this.UnhandledException -= App_UnhandledException;
+
+			if (exType == typeof(HttpRequestException) || exType == typeof(Flurl.Http.FlurlHttpException))
+			{
+				rootFrame.Navigate(typeof(Views.Subviews.NoInternetPage), e);
+				return;
+			}
+
+			rootFrame.Navigate(typeof(Views.UnhandledExceptionPage), e);
+		}
+
+		private async System.Threading.Tasks.Task SetJumplist()
+		{
+			if (JumpList.IsSupported())
+			{
+				var jumpList = await JumpList.LoadCurrentAsync();
+				jumpList.Items.Clear();
+
+				foreach (PageInfo page in MainPage.Pages)
+				{
+					var item = JumpListItem.CreateWithArguments(page.Protocol, page.Title);
+					item.Description = page.Subhead;
+					item.Logo = page.IconAsset;
+					jumpList.Items.Add(item);
+				}
+
+				await jumpList.SaveAsync();
+			}
+		}
+
+		private void ExtendIntoTitleBar()
+		{
+			var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+			if (SettingsManager.GetExtendIntoTitleBar())
+			{
+				coreTitleBar.ExtendViewIntoTitleBar = true;
+
+				ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = (Color)Current.Resources["SystemAccentColor"];
+				ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = Colors.Transparent;
+			}
+			else
+			{
+				coreTitleBar.ExtendViewIntoTitleBar = false;
+
+				ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = null;
+				ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = null;
+			}
+		}
+
+		public static string GetVersion()
+		{
+			Package package = Package.Current;
+			PackageId packageId = package.Id;
+			PackageVersion version = packageId.Version;
+
+			return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
+		}
+	}
 }
