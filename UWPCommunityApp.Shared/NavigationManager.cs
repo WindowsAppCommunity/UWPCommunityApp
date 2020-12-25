@@ -136,8 +136,20 @@ namespace UWPCommunityApp
             }
             if (path.StartsWith("/"))
                 path = path.Remove(0, 1);
-            var queryParams = System.Web.HttpUtility.ParseQueryString(ptcl.Query.Replace("\r", String.Empty).Replace("\n", String.Empty));
-            
+
+            string stripped = ptcl.Query.Replace("\r", String.Empty).Replace("\n", String.Empty);
+            System.Collections.Specialized.NameValueCollection queryParams;
+#if __ANDROID__
+            var url = new Flurl.Url(ptcl);
+            queryParams = new System.Collections.Specialized.NameValueCollection();
+            foreach (var param in url.QueryParams)
+            {
+                queryParams.Add(param.Name, param.Value.ToString());
+            }
+#else
+            queryParams = System.Web.HttpUtility.ParseQueryString(stripped);
+#endif
+
             PageInfo pageInfo = MainPage.Pages.Find(p => p.Path == path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries)[0]);
             destination = pageInfo != null ? pageInfo.PageType : typeof(HomeView);
             return new Tuple<Type, object>(destination, queryParams);

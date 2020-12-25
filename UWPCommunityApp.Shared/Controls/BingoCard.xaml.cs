@@ -281,7 +281,13 @@ namespace UWPCommunityApp.Controls
 
         public string GetShareLink()
         {
-            return $"uwpcommunity://llamabingo?version={BingoVersion}&board={HttpUtility.UrlEncode(ToDataString())}";
+            string boardUrlEnc;
+#if __ANDROID__
+            boardUrlEnc = System.Net.WebUtility.UrlEncode(ToDataString());
+#else
+            boardUrlEnc = HttpUtility.UrlEncode(ToDataString());
+#endif
+            return $"uwpcommunity://llamabingo?version={BingoVersion}&board={boardUrlEnc}";
         }
 
         /// <summary>

@@ -50,12 +50,7 @@ namespace UWPCommunityApp
                 catch (Flurl.Http.FlurlHttpException ex)
                 {
                     var error = await ex.GetResponseJsonAsync<UwpCommunityBackend.Models.Error>();
-#if __WASM__
-                    // WASM requires a newer version of Flurl
                     if (ex.Call.Response.StatusCode == 404)
-#else
-                    if (ex.Call.Response.StatusCode == System.Net.HttpStatusCode.NotFound)
-#endif
                     {
                         // The user does not exist yet, so create an account for them
                         await UwpCommunityBackend.Api.PostUser(new Dictionary<string, string>() {

@@ -177,13 +177,24 @@ namespace UWPCommunityApp.Views.Subviews
             if (clipboardPackage.Contains(StandardDataFormats.Text))
             {
                 string link = await clipboardPackage.GetTextAsync();
-                var queries = HttpUtility.ParseQueryString(link);
+#if __ANDROID__
+                var queries = new Flurl.Url(link).QueryParams;
+                var board = queries.First(t => t.Name == "board");
+                if (board.Value != null)
+                {
+                    Bingo.SetByDataString(board.Value.ToString());
+                    RecentBoards.Insert(0, board.Value.ToString());
+                    return;
+                }
+#else
+                NameValueCollection queries = HttpUtility.ParseQueryString(link);
                 if (queries?["board"] != null)
                 {
                     Bingo.SetByDataString(queries["board"]);
                     RecentBoards.Insert(0, queries["board"]);
                     return;
                 }
+#endif
             }
 
             ContentDialog dialog = new ContentDialog

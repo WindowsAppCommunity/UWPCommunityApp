@@ -53,7 +53,7 @@ namespace UWPCommunityApp.Views
             }
             catch (Flurl.Http.FlurlHttpException ex)
             {
-                Debug.WriteLine("API Exception:\n" + await ex.GetResponseStringAsync());
+                System.Diagnostics.Debug.WriteLine("API Exception:\n" + await ex.GetResponseStringAsync());
             }
 
         }
@@ -71,12 +71,7 @@ namespace UWPCommunityApp.Views
             }
             catch (Flurl.Http.FlurlHttpException ex)
             {
-#if __WASM__
-                // WASM requires a newer version of Flurl
                 if (ex.Call.Response.StatusCode == 401)
-#else
-                if (ex.Call.Response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-#endif
                 {
                     // This means something went wrong with authentication,
                     // so attempt to log in again.

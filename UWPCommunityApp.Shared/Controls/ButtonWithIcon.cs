@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Media;
 
 namespace UWPCommunityApp.Controls
 {
-    public sealed class ButtonWithIcon : Button
+    public partial class ButtonWithIcon : Button
     {
         public ButtonWithIcon()
         {
