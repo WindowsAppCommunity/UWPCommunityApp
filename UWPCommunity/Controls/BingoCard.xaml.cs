@@ -252,6 +252,10 @@ namespace UWPCommunity.Controls
             ResetBoard();
             BingoGrid.Children.Clear();
 
+            if (string.IsNullOrWhiteSpace(dataString))
+                // There is no data to load
+                return;
+
             // NOTE: When making significant changes to this algorithm,
             // don't delete the code. Create an if branch to run the
             // previous version of the algorithm.

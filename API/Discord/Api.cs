@@ -46,5 +46,15 @@ namespace Discord
                 .WithOAuthBearerToken(Token)
                 .GetJsonAsync<User>();
         }
+
+        /// <summary>
+        /// Returns a <see cref="GuildMember"/> object for the specified user.
+        /// </summary>
+        public static async Task<GuildMember> GetGuildMember(string guildId, string userId)
+        {
+            return await BASE_URL.AppendPathSegments("guilds", guildId, "members", userId)
+                .WithOAuthBearerToken(Token)
+                .GetJsonAsync<GuildMember>();
+        }
     }
 }

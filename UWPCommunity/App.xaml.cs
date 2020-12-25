@@ -113,7 +113,7 @@ namespace UWPCommunity
                 // TODO: Handle URI activation
                 // The received URI is eventArgs.Uri.AbsoluteUri
 
-                destination = NavigationManager.ParseProtocol(eventArgs.Uri);
+                destination = NavigationManager.ParseProtocol(new Flurl.Url(eventArgs.Uri));
             }
             rootFrame.Navigate(typeof(MainPage), destination);
 

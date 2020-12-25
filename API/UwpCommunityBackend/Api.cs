@@ -139,7 +139,6 @@ namespace UwpCommunityBackend
         /// </summary>
         public static async Task<Discord.Models.User> GetDiscordUser(string userId)
         {
-            // TODO: Deserialize to a class rather than returning a dynamic
             return await BaseUrl.AppendPathSegments("bot", "user", userId)
                 .GetJsonAsync<Discord.Models.User>();
         }
@@ -149,7 +148,6 @@ namespace UwpCommunityBackend
         /// </summary>
         public static async Task<List<Discord.Models.Role>> GetDiscordUserRoles(string userId)
         {
-            // TODO: Deserialize to a class rather than returning a dynamic
             return await BaseUrl.AppendPathSegments("bot", "user", userId, "roles")
                 .GetJsonAsync<List<Discord.Models.Role>>();
         }
@@ -195,5 +193,12 @@ namespace UwpCommunityBackend
             return await GITHUB_RAW_BASE_URL.AppendPathSegments("src", "assets", "views", name + ".json")
                 .GetJsonAsync<CardInfoResponse>();
         }
+
+        public static readonly Dictionary<string, string> SpecialRoles = new Dictionary<string, string>()
+        {
+            { "Developer", "746853910974562394" },
+            { "Designer", "746853909783380029" },
+            { "LlamaSqaud", "746853934571978802" }
+        };
     }
 }

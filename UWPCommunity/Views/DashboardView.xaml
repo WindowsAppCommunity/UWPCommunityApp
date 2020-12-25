@@ -10,6 +10,7 @@
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:viewmodels="using:UWPCommunity.ViewModels"
+    d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	mc:Ignorable="d">
 
     <Page.Resources>
@@ -19,7 +20,7 @@
     <toolkit:DockPanel LastChildFill="True">
 
         <toolkit:DockPanel Background="{ThemeResource SystemAccentColor}" Height="120" toolkit:DockPanel.Dock="Top"
-                            HorizontalAlignment="Stretch" LastChildFill="True">
+                           HorizontalAlignment="Stretch" LastChildFill="True">
             <StackPanel x:Name="UserProfilePanel" Orientation="Horizontal"
                         Margin="10,10,0,10" toolkit:DockPanel.Dock="Left">
                 <winui:PersonPicture x:Name="UserProfilePicture"/>
@@ -31,6 +32,12 @@
 
             <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
+                    <AppBarButton x:Name="BecomeDeveloperButton" x:Load="False" Label="Become a Developer" Style="{StaticResource AppBarButtonRevealStyle}" Foreground="{StaticResource SystemAltHighColor}" Click="BecomeDeveloperButton_Click">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE943;"
+                                      VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
                     <AppBarButton x:Name="RegisterAppButton" Label="Register an app" Style="{StaticResource AppBarButtonRevealStyle}" Foreground="{StaticResource SystemAltHighColor}" Click="RegisterAppButton_Click">
                         <AppBarButton.Icon>
                             <PathIcon Data="F1 M 18.75 0 L 18.75 10 L 10 10 L 10 18.75 L 0 18.75 L 0 0 Z M 8.75 17.5 L 8.75 10 L 1.25 10 L 1.25 17.5 Z M 8.75 8.75 L 8.75 1.25 L 1.25 1.25 L 1.25 8.75 Z M 17.5 8.75 L 17.5 1.25 L 10 1.25 L 10 8.75 Z M 16.25 15 L 20 15 L 20 16.25 L 16.25 16.25 L 16.25 20 L 15 20 L 15 16.25 L 11.25 16.25 L 11.25 15 L 15 15 L 15 11.25 L 16.25 11.25 Z "
@@ -43,6 +50,13 @@
                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </AppBarButton.Icon>
                     </AppBarButton>
+
+                    <StackPanel.ChildrenTransitions>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition/>
+                            <RepositionThemeTransition/>
+                        </TransitionCollection>
+                    </StackPanel.ChildrenTransitions>
                 </StackPanel>
             </Viewbox>
         </toolkit:DockPanel>

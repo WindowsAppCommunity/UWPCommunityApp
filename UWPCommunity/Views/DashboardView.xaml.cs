@@ -50,6 +50,21 @@ namespace UWPCommunity.Views
                 UserProfilePicture.ProfilePicture =
                     new Windows.UI.Xaml.Media.Imaging.BitmapImage(UserManager.DiscordUser.AvatarUri);
                 UserProfileUsername.Text = UserManager.DiscordUser.Username;
+
+                var roles = await Api.GetDiscordUserRoles(UserManager.DiscordUser.DiscordId);
+                //var member = await Discord.Api.GetGuildMember(Common.DISCORD_GUILD_ID, UserManager.DiscordUser.DiscordId);
+                if (roles.Any(r => r.Id == Api.SpecialRoles["Developer"]))
+                {
+                    // User is a developer, set the buttons accordingly
+                    BecomeDeveloperButton.Visibility = Visibility.Collapsed;
+                    RegisterAppButton.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    // User is NOT a developer, set the buttons accordingly
+                    BecomeDeveloperButton.Visibility = Visibility.Visible;
+                    RegisterAppButton.Visibility = Visibility.Collapsed;
+                }
             }
             catch (Flurl.Http.FlurlHttpException ex)
             {
@@ -169,6 +184,11 @@ namespace UWPCommunity.Views
                     { "Parameters", e.Parameter?.ToString() }
                 }
             );
+        }
+
+        private void BecomeDeveloperButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

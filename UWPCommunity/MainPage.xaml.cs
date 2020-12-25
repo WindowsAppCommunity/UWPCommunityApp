@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
+using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
 using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -30,7 +31,7 @@ namespace UWPCommunity
 
             foreach (PageInfo page in Pages)
             {
-                MainNav.MenuItems.Add(new Microsoft.UI.Xaml.Controls.NavigationViewItem()
+                MainNav.MenuItems.Add(new NavigationViewItem()
                 {
                     Content = page.Title,
                     Icon = page.Icon,
@@ -39,7 +40,7 @@ namespace UWPCommunity
             }
             MainNav.SelectedItem = MainNav.MenuItems[0];
 
-            (MainNav.MenuItems[3] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility =
+            (MainNav.MenuItems[3] as NavigationViewItem).Visibility =
                 SettingsManager.GetShowLlamaBingo() ? Visibility.Visible : Visibility.Collapsed;
             SettingsManager.ShowLlamaBingoChanged += SettingsManager_ShowLlamaBingoChanged;
         }
@@ -60,7 +61,7 @@ namespace UWPCommunity
 
         private void SettingsManager_ShowLlamaBingoChanged(bool newValue)
         {
-            (MainNav.MenuItems[3] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility =
+            (MainNav.MenuItems[3] as NavigationViewItem).Visibility =
                 newValue ? Visibility.Visible : Visibility.Collapsed;
         }
 
@@ -89,7 +90,7 @@ namespace UWPCommunity
                     MainNav.SelectedItem = null;
                     return;
                 }
-                MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as Microsoft.UI.Xaml.Controls.NavigationViewItem).Content.ToString() == page.Title);
+                MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as NavigationViewItem).Content.ToString() == page.Title);
             }
             catch
             {
@@ -115,13 +116,13 @@ namespace UWPCommunity
                 AutomationProperties.SetName(UserButton, UserManager.DiscordUser.Username);
                 ToolTipService.SetToolTip(UserButton, UserManager.DiscordUser.Username);
                 UserProfileName.Text = UserManager.DiscordUser.Username;
-                (MainNav.MenuItems[4] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility = Visibility.Visible;
+                (MainNav.MenuItems[4] as NavigationViewItem).Visibility = Visibility.Visible;
             }
             else
             {
                 SignInButton.Visibility = Visibility.Visible;
                 UserButton.Visibility = Visibility.Collapsed;
-                (MainNav.MenuItems[4] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Visibility = Visibility.Collapsed;
+                (MainNav.MenuItems[4] as NavigationViewItem).Visibility = Visibility.Collapsed;
             }
         }
 
@@ -133,7 +134,7 @@ namespace UWPCommunity
                 return;
             }
 
-            if (!(args.SelectedItem is Microsoft.UI.Xaml.Controls.NavigationViewItem navItem))
+            if (!(args.SelectedItem is NavigationViewItem navItem))
             {
                 NavigationManager.NavigateToHome();
                 return;

@@ -10,6 +10,7 @@ namespace UWPCommunity
     public static class Common
     {
         public const string DISCORD_INVITE = "eBHZSKG";
+        public const string DISCORD_GUILD_ID = "372137812037730304";
 
 
         public static readonly FontFamily SegoeMDL2Assets = new FontFamily("Segoe MDL2 Assets");
