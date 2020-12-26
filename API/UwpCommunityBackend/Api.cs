@@ -88,6 +88,28 @@ namespace UwpCommunityBackend
                 .WithOAuthBearerToken(Token)
                 .SendUrlEncodedAsync(HttpMethod.Delete, info);
         }
+
+        /// <summary>
+        /// Gets the list of projects with the tag specified by the <paramref name="tagId"/>
+        /// </summary>
+        public static async Task<List<Project>> GetTags(int tagId)
+        {
+            return await BaseUrl.AppendPathSegments("projects", "tags")
+                .SetQueryParam(nameof(tagId), tagId)
+                .WithOAuthBearerToken(Token)
+                .GetJsonAsync<List<Project>>();
+        }
+
+        /// <summary>
+        /// Gets the list of projects with the tag specified by the <paramref name="tagName"/>
+        /// </summary>
+        public static async Task<List<Project>> GetTags(string tagName)
+        {
+            return await BaseUrl.AppendPathSegments("projects", "tags")
+                .SetQueryParam(nameof(tagName), tagName)
+                .WithOAuthBearerToken(Token)
+                .GetJsonAsync<List<Project>>();
+        }
         #endregion
 
         #region /user/

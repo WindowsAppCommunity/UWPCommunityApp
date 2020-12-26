@@ -6,61 +6,70 @@ namespace UwpCommunityBackend.Models
 {
     public class Project
     {
-        [JsonProperty(PropertyName = "id")]
+        [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonProperty(PropertyName = "collaborators")]
+        [JsonProperty("collaborators")]
         public List<Collaborator> Collaborators { get; set; }
 
-        [JsonProperty(PropertyName = "launchYear")]
+        [JsonProperty("launchYear")]
         public short? LaunchYear { get; set; }
 
-        [JsonProperty(PropertyName = "createdAt")]
+        [JsonProperty("createdAt")]
         public string CreatedAt { get; set; }
 
-        [JsonProperty(PropertyName = "updatedAt")]
+        [JsonProperty("updatedAt")]
         public string UpdatedAt { get; set; }
 
-        [JsonProperty(PropertyName = "needsManualReview")]
+        [JsonProperty("needsManualReview")]
         public bool NeedsManualReview { get; set; }
 
-        [JsonProperty(PropertyName = "appName")]
+        [JsonProperty("appName")]
         public string AppName { get; set; }
 
-        [JsonProperty(PropertyName = "description")]
+        [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty(PropertyName = "isPrivate")]
+        [JsonProperty("isPrivate")]
         public bool IsPrivate { get; set; }
 
-        [JsonProperty(PropertyName = "downloadLink")]
+        [JsonProperty("downloadLink")]
         public string DownloadLink { get; set; }
 
-        [JsonProperty(PropertyName = "githubLink")]
+        [JsonProperty("githubLink")]
         public string GitHubLink { get; set; }
 
-        [JsonProperty(PropertyName = "externalLink")]
+        [JsonProperty("externalLink")]
         public string ExternalLink { get; set; }
 
-        [JsonProperty(PropertyName = "category")]
+        [JsonProperty("category")]
         public string Category { get; set; }
 
-        [JsonProperty(PropertyName = "awaitingLaunchApproval")]
+        [JsonProperty("awaitingLaunchApproval")]
         public bool? IsAwaitingLaunchApproval { get; set; }
 
-        [JsonProperty(PropertyName = "heroImage")]
+        [JsonProperty("heroImage")]
         public string HeroImage { get; set; } = "https://uwpcommunity.com/assets/img/LaunchHero.jpg";
 
-        [JsonProperty(PropertyName = "appIcon")]
+        [JsonProperty("appIcon")]
         public string AppIcon { get; set; } = "https://uwpcommunity.com/assets/img/LaunchHero.jpg";
 
-        [JsonProperty(PropertyName = "lookingForRoles")]
+        [JsonProperty("lookingForRoles")]
         public bool? IsLookingForRoles { get; set; }
+
+        [JsonProperty("images")]
+        public List<object> Images { get; set; }
+
+        [JsonProperty("tags")]
+        public List<Tag> Tags { get; set; }
+
+        [JsonProperty("accentColor")]
+        public string AccentColor { get; set; }
 
         /// <summary>
         /// The role the user had in this project. Only for use with POST /projects/
         /// </summary>
-        [JsonProperty(PropertyName = "role")]
+        [JsonProperty("role")]
         public string Role { get; set; } = "Developer";
 
         public System.Uri HeroImageUri {
@@ -77,6 +86,8 @@ namespace UwpCommunityBackend.Models
                 return HeroImage ?? "https://uwpcommunity.com/assets/img/LaunchHero.png";
             }
         }
+
+        public Collaborator Owner => Collaborators.First(c => c.IsOwner);
 
         public enum ProjectCategory
         {
@@ -315,43 +326,43 @@ namespace UwpCommunityBackend.Models
 
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(this);
+            return $"{AppName} by {Owner.Name}: {Description}";
         }
     }
 
     public class NewProjectRequest
     {
-        [JsonProperty(PropertyName = "appName")]
+        [JsonProperty("appName")]
         public string AppName { get; set; }
 
-        [JsonProperty(PropertyName = "description")]
+        [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty(PropertyName = "isPrivate")]
+        [JsonProperty("isPrivate")]
         public bool IsPrivate { get; set; }
 
-        [JsonProperty(PropertyName = "downloadLink")]
+        [JsonProperty("downloadLink")]
         public string DownloadLink { get; set; }
 
-        [JsonProperty(PropertyName = "githubLink")]
+        [JsonProperty("githubLink")]
         public string GitHubLink { get; set; }
 
-        [JsonProperty(PropertyName = "externalLink")]
+        [JsonProperty("externalLink")]
         public string ExternalLink { get; set; }
 
-        [JsonProperty(PropertyName = "category")]
+        [JsonProperty("category")]
         public string Category { get; set; }
 
-        [JsonProperty(PropertyName = "heroImage")]
+        [JsonProperty("heroImage")]
         public string HeroImage { get; set; }
 
-        [JsonProperty(PropertyName = "role")]
+        [JsonProperty("role")]
         public string Role { get; set; }
     }
 
     public class DeleteProjectRequest
     {
-        [JsonProperty(PropertyName = "appName")]
+        [JsonProperty("appName")]
         public string AppName { get; set; }
 
         public DeleteProjectRequest(string appName)
