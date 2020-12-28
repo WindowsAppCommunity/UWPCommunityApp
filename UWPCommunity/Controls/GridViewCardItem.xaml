@@ -10,78 +10,61 @@
     x:Name="RootControl"
     AutomationProperties.Name="{x:Bind BodyText, Mode=OneWay}">
 
-    <controls:DockPanel LastChildFill="True" Padding="4" HorizontalAlignment="Stretch" Background="{ThemeResource AppBarBackgroundThemeBrush}">
+    <Grid HorizontalAlignment="Stretch" Padding="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        <controls:DockPanel.ContextFlyout>
-            <MenuFlyout>
-                <MenuFlyoutItem x:Name="EditMenuButton" Text="Edit" Icon="Edit" Click="EditButton_Click"/>
-                <MenuFlyoutItem x:Name="DeleteMenuButton" Text="Delete" Icon="Delete" Click="DeleteButton_Click"/>
-                <MenuFlyoutItem Text="View" Icon="View" Click="ViewButton_Click"/>
-            </MenuFlyout>
-        </controls:DockPanel.ContextFlyout>
-
-        <Grid HorizontalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <Grid>
-                <!--This grid handles the blurred backdrop-->
-                <controls:ImageEx Source="{x:Bind ImageSource, Mode=OneWay}"
-                                  VerticalAlignment="Center" HorizontalAlignment="Center"
-                                  Stretch="UniformToFill" Opacity="0.25"/>
-                <Border>
-                    <Border.Background>
-                        <media:BackdropBlurBrush Amount="10"/>
-                    </Border.Background>
-                </Border>
-            </Grid>
-            <controls:ImageEx Source="{x:Bind ImageSource, Mode=OneWay}" Stretch="Uniform"
-                              VerticalAlignment="Center" HorizontalAlignment="Center"
-                              CacheMode="BitmapCache" CachingStrategy="Internal"/>
-
-            <StackPanel Orientation="Vertical" Grid.Row="1" MaxHeight="90"
-                        Spacing="5" Margin="5" HorizontalAlignment="Stretch">
-                <TextBlock Text="{x:Bind TitleText, Mode=OneWay}"
-                           Style="{StaticResource SubtitleTextBlockStyle}" />
-                <TextBlock Text="{x:Bind BodyText, Mode=OneWay}"
-                           Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"/>
-            </StackPanel>
-
-            <StackPanel controls:DockPanel.Dock="Bottom" Spacing="5" Grid.Row="2"
-                        HorizontalAlignment="Left" VerticalAlignment="Stretch" 
-                        Orientation="Horizontal">
-                <Button x:Name="ViewButton" Click="ViewButton_Click" ToolTipService.ToolTip="View" AutomationProperties.Name="View">
-                    <SymbolIcon Symbol="View"/>
-                </Button>
-                <Button x:Name="EditButton" Click="EditButton_Click" ToolTipService.ToolTip="Edit" AutomationProperties.Name="Edit">
-                    <SymbolIcon Symbol="Edit"/>
-                </Button>
-                <Button x:Name="DeleteButton" Click="DeleteButton_Click" ToolTipService.ToolTip="Delete" AutomationProperties.Name="Delete">
-                    <SymbolIcon Symbol="Delete"/>
-                </Button>
-            </StackPanel>
-
-            <!--<ItemsControl controls:DockPanel.Dock="Bottom" Grid.Row="2"
-                          HorizontalAlignment="Right" VerticalAlignment="Stretch"
-                          FlowDirection="RightToLeft"
-                          x:Name="BadgePanel">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" Spacing="5"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-
-                
-            </ItemsControl>-->
-            <ContentPresenter controls:DockPanel.Dock="Bottom" Grid.Row="2" 
-                              HorizontalAlignment="Right" VerticalAlignment="Stretch"
-                              Content="{x:Bind BadgeContent, Mode=OneWay}"/>
-
+        <Grid>
+            <!--This grid handles the blurred backdrop-->
+            <controls:ImageEx Source="{x:Bind ImageSource, Mode=OneWay}" Opacity="0.25"
+                              VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill"/>
+            <Border>
+                <Border.Background>
+                    <media:BackdropBlurBrush Amount="10"/>
+                </Border.Background>
+            </Border>
         </Grid>
+        <controls:ImageEx Source="{x:Bind ImageSource, Mode=OneWay}" Stretch="Uniform"
+                          VerticalAlignment="Center" HorizontalAlignment="Center"
+                          CacheMode="BitmapCache" CachingStrategy="Internal"/>
 
-    </controls:DockPanel>
-    
+        <StackPanel Orientation="Vertical" Grid.Row="1" MaxHeight="90"
+                    Spacing="5" Margin="5" HorizontalAlignment="Stretch">
+            <TextBlock Text="{x:Bind TitleText, Mode=OneWay}" Style="{StaticResource SubtitleTextBlockStyle}" />
+            <TextBlock Text="{x:Bind BodyText, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}"
+                       TextWrapping="WrapWholeWords"/>
+        </StackPanel>
+
+        <StackPanel Spacing="5" Grid.Row="2" Orientation="Horizontal"
+                    HorizontalAlignment="Left" VerticalAlignment="Stretch">
+            <Button x:Name="ViewButton" Click="ViewButton_Click"
+                    ToolTipService.ToolTip="View" AutomationProperties.Name="View">
+                <SymbolIcon Symbol="View"/>
+            </Button>
+            <Button x:Name="EditButton" Click="EditButton_Click"
+                    ToolTipService.ToolTip="Edit" AutomationProperties.Name="Edit">
+                <SymbolIcon Symbol="Edit"/>
+            </Button>
+            <Button x:Name="DeleteButton" Click="DeleteButton_Click"
+                    ToolTipService.ToolTip="Delete" AutomationProperties.Name="Delete">
+                <SymbolIcon Symbol="Delete"/>
+            </Button>
+        </StackPanel>
+        
+        <ContentPresenter Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                          Content="{x:Bind BadgeContent, Mode=OneWay}"/>
+
+    </Grid>
+
+    <UserControl.ContextFlyout>
+        <MenuFlyout>
+            <MenuFlyoutItem x:Name="EditMenuButton" Text="Edit" Icon="Edit" Click="EditButton_Click"/>
+            <MenuFlyoutItem x:Name="DeleteMenuButton" Text="Delete" Icon="Delete" Click="DeleteButton_Click"/>
+            <MenuFlyoutItem Text="View" Icon="View" Click="ViewButton_Click"/>
+        </MenuFlyout>
+    </UserControl.ContextFlyout>
+
 </UserControl>
