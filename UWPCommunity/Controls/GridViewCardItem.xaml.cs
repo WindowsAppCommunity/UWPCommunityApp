@@ -49,28 +49,28 @@ namespace UWPCommunity.Controls
             set { SetValue(TitleTextProperty, value); }
         }
         public static readonly DependencyProperty TitleTextProperty =
-            DependencyProperty.Register("TitleText", typeof(string), typeof(GridViewCardItem), null);
+            DependencyProperty.Register("TitleText", typeof(string), typeof(GridViewCardItem), new PropertyMetadata(""));
 
         public Visibility TitleTextVisibility {
             get { return (Visibility)GetValue(TitleTextVisibilityProperty); }
             set { SetValue(TitleTextVisibilityProperty, value); }
         }
         public static readonly DependencyProperty TitleTextVisibilityProperty =
-            DependencyProperty.Register("TitleTextVisibility", typeof(Visibility), typeof(GridViewCardItem), null);
+            DependencyProperty.Register("TitleTextVisibility", typeof(Visibility), typeof(GridViewCardItem), new PropertyMetadata(Visibility.Visible));
 
         public string BodyText {
             get { return (string)GetValue(BodyTextProperty); }
             set { SetValue(BodyTextProperty, value); }
         }
         public static readonly DependencyProperty BodyTextProperty =
-            DependencyProperty.Register("BodyText", typeof(string), typeof(GridViewCardItem), null);
+            DependencyProperty.Register("BodyText", typeof(string), typeof(GridViewCardItem), new PropertyMetadata(""));
 
         public Visibility BodyTextVisibility {
             get { return (Visibility)GetValue(BodyTextVisibilityProperty); }
             set { SetValue(BodyTextVisibilityProperty, value); }
         }
         public static readonly DependencyProperty BodyTextVisibilityProperty =
-            DependencyProperty.Register("BodyTextVisibility", typeof(Visibility), typeof(GridViewCardItem), null);
+            DependencyProperty.Register("BodyTextVisibility", typeof(Visibility), typeof(GridViewCardItem), new PropertyMetadata(Visibility.Visible));
 
         public ImageSource ImageSource {
             get { return (ImageSource)GetValue(ImageSourceProperty); }

@@ -6,11 +6,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400"
+    mc:Ignorable="d" d:DesignHeight="300"  d:DesignWidth="400"
     x:Name="RootControl"
-    AutomationProperties.Name="{Binding BodyText, Source={RelativeSource Mode=Self}, Mode=OneWay}">
+    AutomationProperties.Name="{x:Bind BodyText, Mode=OneWay}">
 
     <controls:DockPanel LastChildFill="True" Padding="4" HorizontalAlignment="Stretch" Background="{ThemeResource AppBarBackgroundThemeBrush}">
 
@@ -80,7 +78,7 @@
             </ItemsControl>-->
             <ContentPresenter controls:DockPanel.Dock="Bottom" Grid.Row="2" 
                               HorizontalAlignment="Right" VerticalAlignment="Stretch"
-                              Content="{Binding BadgeContent, ElementName=RootControl}"/>
+                              Content="{x:Bind BadgeContent, Mode=OneWay}"/>
 
         </Grid>
 

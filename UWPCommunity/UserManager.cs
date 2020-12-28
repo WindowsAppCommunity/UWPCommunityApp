@@ -59,8 +59,6 @@ namespace UWPCommunity
                     }
                 }
 
-                var tags = await UwpCommunityBackend.Api.GetTags(2);
-
                 IsLoggedIn = true;
                 OnLoginStateChanged(IsLoggedIn);
             }
