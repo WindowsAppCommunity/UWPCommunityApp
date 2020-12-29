@@ -34,7 +34,6 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A7;"/>
                 </AppBarToggleButton.Icon>
             </AppBarToggleButton>
-            <AppBarButton Icon="Admin" Label="Check for Bingo" Click="AppBarButton_Click"/>
 
             <CommandBar.SecondaryCommands>
                 <AppBarButton Icon="Save" Label="Save As Image" Click="SaveImage_Click"/>

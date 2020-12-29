@@ -72,7 +72,7 @@ namespace UWPCommunity.Controls
             }
         }
 
-        public async void ResetBoard()
+        public async Task ResetBoard()
         {
             await InitBoard();
 
@@ -98,13 +98,13 @@ namespace UWPCommunity.Controls
                     // Account for free space
                     if (boardIndex > 12)
                         boardIndex--;
-                    SetTile(newTiles.ElementAt(boardIndex), x, y);
+                    SetTile(newTiles.ElementAt(boardIndex), x, y, false, false);
                 }
             }
             BoardChanged?.Invoke(ToDataString());
         }
 
-        private void SetTile(string text, int x, int y, bool isFilled = false)
+        private void SetTile(string text, int x, int y, bool isFilled = false, bool fireBoardChanged = true)
         {
             if (x == 2 && y == 2)
             {
@@ -112,21 +112,24 @@ namespace UWPCommunity.Controls
                 return;
             }
 
-            var tileButton = new ToggleButton();
-            var tileText = new TextBlock();
-            tileText.Style = (Style)Resources["BingoBox"];
-            tileText.Text = text;
-            tileButton.Content = tileText;
-            tileButton.IsChecked = isFilled;
+            var tileButton = CreateTile(text, isFilled);
 
             int boardIndex = 5 * x + y;
             if (boardIndex >= BingoGrid.Children.Count)
                 BingoGrid.Children.Add(tileButton);
             else
                 BingoGrid.Children.Insert(5 * x + y, tileButton);
+
+            if (fireBoardChanged)
+                BoardChanged?.Invoke(ToDataString());
         }
 
         private void AddTile(string text, bool isFilled = false)
+        {
+            BingoGrid.Children.Add(CreateTile(text, isFilled));
+        }
+
+        private ToggleButton CreateTile(string text, bool isFilled)
         {
             var tileButton = new ToggleButton();
             var tileText = new TextBlock();
@@ -134,7 +137,9 @@ namespace UWPCommunity.Controls
             tileText.Text = text;
             tileButton.Content = tileText;
             tileButton.IsChecked = isFilled;
-            BingoGrid.Children.Add(tileButton);
+            tileButton.Checked += InvokeBoardChanged;
+            tileButton.Unchecked += InvokeBoardChanged;
+            return tileButton;
         }
 
         private (string text, bool isFilled) GetTile(int x, int y)
@@ -240,14 +245,13 @@ namespace UWPCommunity.Controls
         /// <summary>
         /// Sets the current state of the board to the one specified by the data string
         /// </summary>
-        public async void SetByDataString(string dataString, Version boardVersion = null)
+        public async Task SetByDataString(string dataString, Version boardVersion = null)
         {
             // Check if the version is provided. If not, assume it is the current version.
             if (boardVersion == null)
                 boardVersion = BingoVersion;
 
-            await InitBoard();
-            ResetBoard();
+            await ResetBoard();
             BingoGrid.Children.Clear();
 
             if (string.IsNullOrWhiteSpace(dataString))
@@ -292,6 +296,7 @@ namespace UWPCommunity.Controls
         /// <param name="tiles">A list of the tiles involved in completing the bingo</param>
         public bool HasBingo(out List<Point> tiles)
 		{
+            int adjacentCount = 0;
             tiles = new List<Point>();
 
             // Check the edge tiles first. It's impossible to have
@@ -300,33 +305,41 @@ namespace UWPCommunity.Controls
             // Check top and bottom edges
             for (int y = 0; y < 5; y++)
             {
+                adjacentCount = 0;
                 bool isTopFilled = GetTile(0, y).isFilled;
                 bool isBottomFilled = GetTile(4, y).isFilled;
 
                 if (isTopFilled && isBottomFilled)
                 {
                     tiles.Add(new Point(0, y));
-                    tiles.Add(new Point(0, y));
+                    tiles.Add(new Point(4, y));
 
                     // Check the tiles in-between the edges
                     for (int x = 1; x < 4; x++)
                     {
-                        if (!GetTile(x, y).isFilled)
-                            return false;
-
-                        tiles.Add(new Point(x, y));
+                        if (GetTile(x, y).isFilled)
+                        {
+                            tiles.Add(new Point(x, y));
+                            adjacentCount++;
+                        }
                     }
-                    return true;                    
+
+                    // Look for three adjacent, since we already know that
+                    // two of the tiles (the ends) are filled
+                    if (adjacentCount >= 3)
+                        return true;
+                    else tiles.Clear();
                 }
             }
 
             // Check left and right edges
-            for (int x = 1; x < 4; x++)
+            for (int x = 0; x < 5; x++)
             {
-                bool isTopFilled = GetTile(x, 0).isFilled;
-                bool isBottomFilled = GetTile(x, 4).isFilled;
+                adjacentCount = 0;
+                bool isLeftFilled = GetTile(x, 0).isFilled;
+                bool isRightFilled = GetTile(x, 4).isFilled;
 
-                if (isTopFilled && isBottomFilled)
+                if (isLeftFilled && isRightFilled)
                 {
                     tiles.Add(new Point(x, 0));
                     tiles.Add(new Point(x, 4));
@@ -334,12 +347,18 @@ namespace UWPCommunity.Controls
                     // Check the tiles in-between the edges
                     for (int y = 1; y < 4; y++)
                     {
-                        if (!GetTile(x, y).isFilled)
-                            return false;
-
-                        tiles.Add(new Point(x, y));
+                        if (GetTile(x, y).isFilled)
+                        {
+                            tiles.Add(new Point(x, y));
+                            adjacentCount++;
+                        }
                     }
-                    return true;
+
+                    // Look for three adjacent, since we already know that
+                    // two of the tiles (the ends) are filled
+                    if (adjacentCount >= 3)
+                        return true;
+                    else tiles.Clear();
                 }
             }
 
@@ -348,15 +367,23 @@ namespace UWPCommunity.Controls
             bool isBottomRightFilled = GetTile(4, 4).isFilled;
             if (isTopLeftFilled && isBottomRightFilled)
             {
+                adjacentCount = 0;
+                int y;
                 for (int x = 1; x < 4; x++)
                 {
-                    int y = x;
-                    if (!GetTile(x, y).isFilled)
-                        return false;
-
-                    tiles.Add(new Point(x, y));
+                    y = x;
+                    if (GetTile(x, y).isFilled)
+                    {
+                        tiles.Add(new Point(x, y));
+                        adjacentCount++;
+                    }
                 }
-                return true;
+
+                // Look for three adjacent, since we already know that
+                // two of the tiles (the ends) are filled
+                if (adjacentCount >= 3)
+                    return true;
+                else tiles.Clear();
             }
 
             // Check top-right/bottom-left (ascending) diagonal
@@ -364,15 +391,22 @@ namespace UWPCommunity.Controls
             bool isBottomLeftFilled = GetTile(4, 0).isFilled;
             if (isTopRightFilled && isBottomLeftFilled)
             {
+                adjacentCount = 0;
                 for (int x = 1; x < 4; x++)
                 {
                     int y = 4 - x;
-                    if (!GetTile(x, y).isFilled)
-                        return false;
-
-                    tiles.Add(new Point(x, y));
+                    if (GetTile(x, y).isFilled)
+                    {
+                        tiles.Add(new Point(x, y));
+                        adjacentCount++;
+                    }
                 }
-                return true;
+
+                // Look for three adjacent, since we already know that
+                // two of the tiles (the ends) are filled
+                if (adjacentCount >= 3)
+                    return true;
+                else tiles.Clear();
             }
 
             // If we've gone this far, then there can't be
@@ -423,5 +457,7 @@ namespace UWPCommunity.Controls
 
         public delegate void BoardChangedHandler(string data);
         public event BoardChangedHandler BoardChanged;
+
+        private void InvokeBoardChanged(object sender, RoutedEventArgs e) => BoardChanged?.Invoke(ToDataString());
     }
 }
