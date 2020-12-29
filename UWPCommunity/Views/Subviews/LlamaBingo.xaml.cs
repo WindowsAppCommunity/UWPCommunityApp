@@ -57,6 +57,9 @@ namespace UWPCommunity.Views.Subviews
         {
             // Save the current board in case of a crash
             SettingsManager.SetSavedLlamaBingo(data);
+
+            // TODO: Check the board for bingos
+
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Llamingo: Board changed",
                 new Dictionary<string, string> {
                     { "BoardData", data },
@@ -218,6 +221,11 @@ namespace UWPCommunity.Views.Subviews
             Bingo.SetByDataString(e.ClickedItem as string);
             // Do this so that the board we just loaded isn't duplicated
             //RecentBoards.RemoveAt(0);
+        }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            Bingo.HasBingo(out _);
         }
     }
 }

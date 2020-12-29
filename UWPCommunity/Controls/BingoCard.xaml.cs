@@ -20,8 +20,6 @@ namespace UWPCommunity.Controls
     public sealed partial class BingoCard : UserControl
     {
         static readonly Version BingoVersion = new Version(App.GetVersion());
-        const string fname = @"Assets\LlamaBingo-Tiles.txt";
-        static readonly StorageFolder InstallationFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
         static List<string> AllTiles;
 
         public BingoCard()
@@ -34,7 +32,7 @@ namespace UWPCommunity.Controls
             this.InitializeComponent();
             // TODO: Create a board from data string
             ResetBoard();
-            SetByDataString(dataString);
+            SetByDataString(dataString, new Version(boardVersion));
         }
 
         /// <summary>
@@ -139,7 +137,7 @@ namespace UWPCommunity.Controls
             BingoGrid.Children.Add(tileButton);
         }
 
-        private (string, bool) GetTile(int x, int y)
+        private (string text, bool isFilled) GetTile(int x, int y)
         {
             var tileButton = BingoGrid.Children[5 * x + y] as ToggleButton;
             if (tileButton == null)
@@ -150,7 +148,7 @@ namespace UWPCommunity.Controls
             var tileText = tileButton.Content as TextBlock;
             return (tileText.Text, tileButton.IsChecked.Value);
         }
-        private (string, bool) GetTile(Point p)
+        private (string text, bool isFilled) GetTile(Point p)
 		{
             return GetTile((int)p.X, (int)p.Y);
 		}
@@ -294,27 +292,91 @@ namespace UWPCommunity.Controls
         /// <param name="tiles">A list of the tiles involved in completing the bingo</param>
         public bool HasBingo(out List<Point> tiles)
 		{
-            // TODO: Check the edge tiles first. It's impossible to have
+            tiles = new List<Point>();
+
+            // Check the edge tiles first. It's impossible to have
             // a bingo without at least two edge tiles filled.
 
-            tiles = new List<Point>();
-            for (int x = 0; x < 5; x++)
+            // Check top and bottom edges
+            for (int y = 0; y < 5; y++)
             {
-                for (int y = 0; y < 5; y++)
+                bool isTopFilled = GetTile(0, y).isFilled;
+                bool isBottomFilled = GetTile(4, y).isFilled;
+
+                if (isTopFilled && isBottomFilled)
                 {
-                    // Check if the tile is the free space
-                    if (x == 2 && y == 2)
-                        continue;
+                    tiles.Add(new Point(0, y));
+                    tiles.Add(new Point(0, y));
 
-                    (_, bool isFilled) = GetTile(x, y);
-                    // A bingo can only occur when tiles are next to each other,
-                    // so only check around filled tiles
-                    if (!isFilled)
-                        continue;
+                    // Check the tiles in-between the edges
+                    for (int x = 1; x < 4; x++)
+                    {
+                        if (!GetTile(x, y).isFilled)
+                            return false;
 
-                    var adjs = HasAdjacent(x, y);
+                        tiles.Add(new Point(x, y));
+                    }
+                    return true;                    
                 }
             }
+
+            // Check left and right edges
+            for (int x = 1; x < 4; x++)
+            {
+                bool isTopFilled = GetTile(x, 0).isFilled;
+                bool isBottomFilled = GetTile(x, 4).isFilled;
+
+                if (isTopFilled && isBottomFilled)
+                {
+                    tiles.Add(new Point(x, 0));
+                    tiles.Add(new Point(x, 4));
+
+                    // Check the tiles in-between the edges
+                    for (int y = 1; y < 4; y++)
+                    {
+                        if (!GetTile(x, y).isFilled)
+                            return false;
+
+                        tiles.Add(new Point(x, y));
+                    }
+                    return true;
+                }
+            }
+
+            // Check top-left/bottom-right (descending) diagonal
+            bool isTopLeftFilled = GetTile(0, 0).isFilled;
+            bool isBottomRightFilled = GetTile(4, 4).isFilled;
+            if (isTopLeftFilled && isBottomRightFilled)
+            {
+                for (int x = 1; x < 4; x++)
+                {
+                    int y = x;
+                    if (!GetTile(x, y).isFilled)
+                        return false;
+
+                    tiles.Add(new Point(x, y));
+                }
+                return true;
+            }
+
+            // Check top-right/bottom-left (ascending) diagonal
+            bool isTopRightFilled = GetTile(0, 4).isFilled;
+            bool isBottomLeftFilled = GetTile(4, 0).isFilled;
+            if (isTopRightFilled && isBottomLeftFilled)
+            {
+                for (int x = 1; x < 4; x++)
+                {
+                    int y = 4 - x;
+                    if (!GetTile(x, y).isFilled)
+                        return false;
+
+                    tiles.Add(new Point(x, y));
+                }
+                return true;
+            }
+
+            // If we've gone this far, then there can't be
+            // any bingos.
             return false;
         }
 
@@ -341,8 +403,7 @@ namespace UWPCommunity.Controls
             foreach (KeyValuePair<Point, Direction> pair in DIRECTIONS)
 			{
                 Point d = pair.Key;
-                (_, bool isFilled) = GetTile(x + (int)d.X, y + (int)d.Y);
-                if (isFilled)
+                if (GetTile(x + (int)d.X, y + (int)d.Y).isFilled)
                     yield return pair.Value;
 			}
 		}
