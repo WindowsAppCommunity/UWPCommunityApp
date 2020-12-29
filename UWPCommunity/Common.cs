@@ -25,6 +25,11 @@ namespace UWPCommunity
 		{
             return value ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
 		}
+
+        public static float RandomBetween(float min, float max)
+        {
+            return min + (float)new Random().NextDouble() * (max - min);
+        }
     }
 
     public static class StringExtensions

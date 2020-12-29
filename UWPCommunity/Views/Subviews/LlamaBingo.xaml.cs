@@ -225,7 +225,10 @@ namespace UWPCommunity.Views.Subviews
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            Bingo.HasBingo(out _);
+            if (Bingo.HasBingo(out _))
+            {
+                ConfettiEnabled = true;
+            }
         }
     }
 }
