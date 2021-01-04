@@ -30,9 +30,8 @@ namespace UWPCommunity.Controls
         public BingoCard(string dataString, string boardVersion)
         {
             this.InitializeComponent();
-            // TODO: Create a board from data string
-            ResetBoard();
-            SetByDataString(dataString, new Version(boardVersion));
+            // Create a board from data string
+            
         }
 
         /// <summary>

@@ -43,7 +43,7 @@
                     </AppBarButton.Icon>
                     <AppBarButton.Flyout>
                         <Flyout>
-                            <ListView ItemsSource="{Binding RecentBoards}" IsItemClickEnabled="True"
+                            <ListView ItemsSource="{x:Bind RecentBoards, Mode=OneWay}" IsItemClickEnabled="True"
                                       ItemClick="RecentBoardsList_ItemClick" SelectionMode="None"/>
                         </Flyout>
                     </AppBarButton.Flyout>

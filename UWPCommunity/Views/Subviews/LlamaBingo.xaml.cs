@@ -28,7 +28,7 @@ namespace UWPCommunity.Views.Subviews
     /// </summary>
     public sealed partial class LlamaBingo : Page
     {
-        public static ObservableCollection<string> RecentBoards { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> RecentBoards { get; set; } = new ObservableCollection<string>();
 
         public LlamaBingo()
         {
