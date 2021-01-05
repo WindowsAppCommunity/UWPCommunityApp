@@ -85,7 +85,6 @@ namespace UWPCommunity
 
         protected override void OnActivated(IActivatedEventArgs args)
         {
-            this.UnhandledException += App_UnhandledException;
             Frame rootFrame = Window.Current.Content as Frame;
             ExtendIntoTitleBar();
 
