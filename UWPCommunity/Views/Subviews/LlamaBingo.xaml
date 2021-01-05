@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:UWPCommunity.Controls"
     xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:fluent="using:Fluent.Icons.Compact"
     mc:Ignorable="d"
     NavigationCacheMode="Required">
 
@@ -25,21 +26,37 @@
                                       ClearColor="Transparent" IsHitTestVisible="False"/>
 
         <CommandBar Grid.Row="1">
-            <AppBarButton Icon="Refresh" Label="Reset" Click="ResetBoardButton_Click"/>
-            <AppBarButton Icon="Share" Label="Share" Click="CopyLink_Click"/>
-            <AppBarButton Icon="Paste" Label="Load from Clipboard" Click="LoadLink_Click"/>
+            <AppBarButton Label="Reset" Click="ResetBoardButton_Click">
+                <AppBarButton.Icon>
+                    <fluent:FluentIconElement Symbol="Dismiss"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Label="Share" Click="CopyLink_Click">
+                <AppBarButton.Icon>
+                    <fluent:FluentIconElement Symbol="Share"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Label="Load from Clipboard" Click="LoadLink_Click">
+                <AppBarButton.Icon>
+                    <fluent:FluentIconElement Symbol="ClipboardLink"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
             <AppBarToggleButton x:Name="CompactOverlayButton" Label="Compact Overlay"
                                 Checked="CompactOverlayButton_Checked" Unchecked="CompactOverlayButton_Unchecked">
                 <AppBarToggleButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A7;"/>
+                    <fluent:FluentIconElement Symbol="Open"/>
                 </AppBarToggleButton.Icon>
             </AppBarToggleButton>
 
             <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Save" Label="Save As Image" Click="SaveImage_Click"/>
+                <AppBarButton Label="Save As Image" Click="SaveImage_Click">
+                    <AppBarButton.Icon>
+                        <fluent:FluentIconElement Symbol="Save"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
                 <AppBarButton x:Name="HistoryButton" Label="History">
                     <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81C;" />
+                        <fluent:FluentIconElement Symbol="History"/>
                     </AppBarButton.Icon>
                     <AppBarButton.Flyout>
                         <Flyout>

@@ -7,6 +7,7 @@
     xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:fluent="using:Fluent.Icons.Compact"
     mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400"
     x:Name="RootControl"
     AutomationProperties.Name="{x:Bind BodyText, Mode=OneWay}">
@@ -25,7 +26,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.RowSpan="3">
+        <Grid>
             <!--This grid handles the blurred backdrop-->
             <controls:ImageEx Source="{x:Bind ImageSource, Mode=OneWay}" Stretch="UniformToFill"
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
@@ -52,27 +53,39 @@
                     HorizontalAlignment="Right" VerticalAlignment="Stretch">
             <Button x:Name="ViewButton" Click="ViewButton_Click" Windows10version1809:CornerRadius="0"
                     ToolTipService.ToolTip="View" AutomationProperties.Name="View">
-                <SymbolIcon Symbol="View"/>
+                <fluent:FluentIconElement Symbol="EyeShow"/>
             </Button>
             <Button x:Name="EditButton" Click="EditButton_Click" Windows10version1809:CornerRadius="0"
                     ToolTipService.ToolTip="Edit" AutomationProperties.Name="Edit">
-                <SymbolIcon Symbol="Edit"/>
+                <fluent:FluentIconElement Symbol="Edit"/>
             </Button>
             <Button x:Name="DeleteButton" Click="DeleteButton_Click" Windows10version1809:CornerRadius="0"
                     ToolTipService.ToolTip="Delete" AutomationProperties.Name="Delete">
-                <SymbolIcon Symbol="Delete"/>
+                <fluent:FluentIconElement Symbol="Delete"/>
             </Button>
         </StackPanel>
         
         <ContentPresenter Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Stretch"
-                          Padding="0,5,0,0" Content="{x:Bind BadgeContent, Mode=OneWay}"/>
+                          Padding="0,5,0,5" Content="{x:Bind BadgeContent, Mode=OneWay}"/>
     </Grid>
 
     <UserControl.ContextFlyout>
         <MenuFlyout>
-            <MenuFlyoutItem x:Name="EditMenuButton" Text="Edit" Icon="Edit" Click="EditButton_Click"/>
-            <MenuFlyoutItem x:Name="DeleteMenuButton" Text="Delete" Icon="Delete" Click="DeleteButton_Click"/>
-            <MenuFlyoutItem Text="View" Icon="View" Click="ViewButton_Click"/>
+            <MenuFlyoutItem x:Name="EditMenuButton" Text="Edit" Click="EditButton_Click">
+                <MenuFlyoutItem.Icon>
+                    <fluent:FluentIconElement Symbol="Edit"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem x:Name="DeleteMenuButton" Text="Delete" Click="DeleteButton_Click">
+                <MenuFlyoutItem.Icon>
+                    <fluent:FluentIconElement Symbol="Delete"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="View" Click="ViewButton_Click">
+                <MenuFlyoutItem.Icon>
+                    <fluent:FluentIconElement Symbol="EyeShow"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
         </MenuFlyout>
     </UserControl.ContextFlyout>
 

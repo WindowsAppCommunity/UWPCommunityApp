@@ -9,6 +9,7 @@
     xmlns:converters="using:UWPCommunity.Converters"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:fluent="using:Fluent.Icons.Compact"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -31,17 +32,17 @@
                     <Button Visibility="{x:Bind Project.DownloadLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
                             Click="DownloadLinkButton_Click" Windows10version1809:CornerRadius="0"
                             ToolTipService.ToolTip="Download" AutomationProperties.Name="Download">
-                        <SymbolIcon Symbol="Shop"/>
+                        <fluent:FluentIconElement Symbol="ArrowDownload"/>
+                    </Button>
+                    <Button Visibility="{x:Bind Project.ExternalLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
+                            Click="ExternalLinkButton_Click" Windows10version1809:CornerRadius="0"
+                            ToolTipService.ToolTip="Open website" AutomationProperties.Name="Open website">
+                        <fluent:FluentIconElement Symbol="Globe"/>
                     </Button>
                     <Button Visibility="{x:Bind Project.GitHubLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
                             Click="GitHubLinkButton_Click" Windows10version1809:CornerRadius="0"
                             ToolTipService.ToolTip="Open GitHub repo" AutomationProperties.Name="Open GitHub repo">
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF90;" />
-                    </Button>
-                    <Button Visibility="{x:Bind Project.ExternalLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
-                            Click="ExternalLinkButton_Click" Windows10version1809:CornerRadius="0"
-                            ToolTipService.ToolTip="Open website" AutomationProperties.Name="Open website">
-                        <SymbolIcon Symbol="Globe"/>
                     </Button>
                 </StackPanel>
                 <TextBlock RelativePanel.Below="TitleBlock" Text="{x:Bind Project.Description}"
@@ -60,7 +61,7 @@
         <Button x:Name="CloseButton" VerticalAlignment="Top" HorizontalAlignment="Right"
                 Click="CloseButton_Click" Width="48" Height="40" Windows10version1809:CornerRadius="0"
                 ToolTipService.ToolTip="Close" AutomationProperties.Name="Go back">
-            <SymbolIcon Symbol="Clear"/>
+            <fluent:FluentIconElement Symbol="Dismiss"/>
         </Button>
     </Grid>
 </Page>

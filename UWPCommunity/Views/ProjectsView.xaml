@@ -10,6 +10,7 @@
     xmlns:converters="using:UWPCommunity.Converters"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:viewmodels="using:UWPCommunity.ViewModels"
+    xmlns:fluent="using:Fluent.Icons.Compact"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -28,9 +29,13 @@
                 <toolkit:AdaptiveGridView.Header>
                     <toolkit:ScrollHeader Mode="QuickReturn">
                         <toolkit:DockPanel HorizontalAlignment="Stretch" Padding="5" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-                            <AutoSuggestBox x:Name="SearchBox" toolkit:DockPanel.Dock="Right" MinWidth="200" QueryIcon="Find"
+                            <AutoSuggestBox x:Name="SearchBox" toolkit:DockPanel.Dock="Right" MinWidth="200"
                                             PlaceholderText="Search projects" Margin="0,0,5,0" HorizontalAlignment="Stretch"
-                                            QuerySubmitted="SearchBox_QuerySubmitted" TabIndex="2"/>
+                                            QuerySubmitted="SearchBox_QuerySubmitted" TabIndex="2">
+                                <AutoSuggestBox.QueryIcon>
+                                    <fluent:FluentIconElement Symbol="Search"/>
+                                </AutoSuggestBox.QueryIcon>
+                            </AutoSuggestBox>
                             <winui:DropDownButton x:Name="FilterButton" toolkit:DockPanel.Dock="Left"
                                                   Margin="0,0,0,0" AutomationProperties.Name="Sort" TabIndex="0">
                                 <winui:DropDownButton.Flyout>
@@ -46,7 +51,7 @@
                                     </MenuFlyout>
                                 </winui:DropDownButton.Flyout>
                                 <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="Sort" Margin="0,0,5,0"/>
+                                    <fluent:FluentIconElement Symbol="ArrowSort" Margin="0,0,5,0"/>
                                     <TextBlock Text="Sort"/>
                                 </StackPanel>
                             </winui:DropDownButton>
@@ -54,7 +59,7 @@
                                                      Margin="5,0,0,0" IsCheckedChanged="CategoryButton_IsCheckedChanged"
                                                      AutomationProperties.Name="Filter by category" TabIndex="1">
                                 <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="ShowResults" Margin="0,0,5,0"/>
+                                    <fluent:FluentIconElement Symbol="GroupList" Margin="0,0,5,0"/>
                                     <TextBlock Text="Category"/>
                                 </StackPanel>
                                 <winui:ToggleSplitButton.Flyout>
@@ -90,14 +95,14 @@
                                             Click="DownloadLinkButton_Click" ToolTipService.ToolTip="Download"
                                             AutomationProperties.Name="Download" Windows10version1809:CornerRadius="0">
                                         <Button.Content>
-                                            <SymbolIcon Symbol="Shop"/>
+                                            <fluent:FluentIconElement Symbol="ArrowDownload"/>
                                         </Button.Content>
                                     </Button>
                                     <Button Visibility="{x:Bind project.ExternalLink, Converter={StaticResource NullToVisibilityConverter}}"
                                             Click="ExternalLinkButton_Click" ToolTipService.ToolTip="Open website"
                                             AutomationProperties.Name="Open website" Windows10version1809:CornerRadius="0">
                                         <Button.Content>
-                                            <SymbolIcon Symbol="Globe"/>
+                                            <fluent:FluentIconElement Symbol="Globe"/>
                                         </Button.Content>
                                     </Button>
                                     <Button Visibility="{x:Bind project.GitHubLink, Converter={StaticResource NullToVisibilityConverter}}"
