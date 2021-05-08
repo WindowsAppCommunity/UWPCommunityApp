@@ -49,7 +49,7 @@ namespace UWPCommunity.Controls
             set { SetValue(TitleTextProperty, value); }
         }
         public static readonly DependencyProperty TitleTextProperty =
-            DependencyProperty.Register("TitleText", typeof(string), typeof(GridViewCardItem), null);
+            DependencyProperty.Register("TitleText", typeof(string), typeof(GridViewCardItem), new PropertyMetadata(string.Empty));
 
         public Visibility TitleTextVisibility {
             get { return (Visibility)GetValue(TitleTextVisibilityProperty); }
@@ -63,7 +63,7 @@ namespace UWPCommunity.Controls
             set { SetValue(BodyTextProperty, value); }
         }
         public static readonly DependencyProperty BodyTextProperty =
-            DependencyProperty.Register("BodyText", typeof(string), typeof(GridViewCardItem), null);
+            DependencyProperty.Register("BodyText", typeof(string), typeof(GridViewCardItem), new PropertyMetadata(string.Empty));
 
         public Visibility BodyTextVisibility {
             get { return (Visibility)GetValue(BodyTextVisibilityProperty); }

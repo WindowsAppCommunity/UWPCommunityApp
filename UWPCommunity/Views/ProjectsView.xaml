@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls="using:UWPCommunity.Controls" 
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:converters="using:UWPCommunity.Converters"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:viewmodels="using:UWPCommunity.ViewModels"
@@ -79,7 +78,6 @@
                                                        IsEditable="{x:Bind IsOwner}"
                                                        IsDeletable="{x:Bind IsOwner}"
                                                        ViewRequested="Project_ViewRequested"
-                                                       animations:Connected.Key="item"
                                                        x:Name="HeroImageStartCtl">
                                 <controls:GridViewCardItem.BadgeContent>
                                     <StackPanel Orientation="Horizontal">

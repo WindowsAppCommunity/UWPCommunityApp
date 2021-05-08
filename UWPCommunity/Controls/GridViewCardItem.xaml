@@ -10,7 +10,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     x:Name="RootControl"
-    AutomationProperties.Name="{Binding BodyText, Source={RelativeSource Mode=Self}, Mode=OneWay}">
+    AutomationProperties.Name="{x:Bind BodyText, Mode=OneWay}">
 
     <controls:DockPanel LastChildFill="True" Padding="4" HorizontalAlignment="Stretch" Background="{ThemeResource AppBarBackgroundThemeBrush}">
 
