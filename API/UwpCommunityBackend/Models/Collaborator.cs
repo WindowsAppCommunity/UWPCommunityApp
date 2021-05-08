@@ -6,7 +6,7 @@ namespace UwpCommunityBackend.Models
     public class Collaborator : UserBase
     {
         [JsonProperty(PropertyName = "role")]
-        public RoleType Role { get; set; }
+        public RoleType? Role { get; set; }
 
         [JsonProperty(PropertyName = "isOwner")]
         public bool IsOwner { get; set; }

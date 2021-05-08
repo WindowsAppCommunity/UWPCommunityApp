@@ -32,9 +32,9 @@ namespace Discord.Models
         public int Permissions { get; set; }
 
         [JsonProperty(PropertyName = "managed")]
-        public bool Managed { get; set; }
+        public bool IsManaged { get; set; }
 
         [JsonProperty(PropertyName = "mentionable")]
-        public bool Mentionable { get; set; }
+        public bool IsMentionable { get; set; }
     }
 }

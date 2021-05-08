@@ -73,7 +73,7 @@ namespace UWPCommunity.Views
                 byte[] data = Convert.FromBase64String(authResponseBase64);
                 var authResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<TokenResponse>(System.Text.Encoding.ASCII.GetString(data));
 
-                await Common.SignIn(authResponse.Token, authResponse.RefreshToken);
+                await UserManager.SignIn(authResponse.Token, authResponse.RefreshToken);
 
                 Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Sign in: success");
 

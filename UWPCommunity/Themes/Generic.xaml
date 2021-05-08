@@ -15,7 +15,7 @@
                                           ContentTransitions="{TemplateBinding ContentTransitions}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
+                            <VisualStateGroup x:Name="UserManagerStates">
                                 <VisualState x:Name="Normal">
                                     <Storyboard>
                                         <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter"/>

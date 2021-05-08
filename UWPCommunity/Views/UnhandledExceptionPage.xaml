@@ -10,7 +10,7 @@
 
     <Page.Resources>
         <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="{ThemeResource MediaTextThemeBrush}"/>
         </Style>
     </Page.Resources>
 
@@ -18,9 +18,10 @@
         <TextBlock FontSize="100"
                    Text=":("/>
         <TextBlock FontSize="24" FontWeight="SemiBold"
-                   Text="UWP Community Companion ran into an unexpected error."/>
-        <TextBox FontSize="24"
-                 Text="{x:Bind Path=ExceptionText}" AcceptsReturn="True" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                   Text="UWP Community App ran into an unexpected error."/>
+        <TextBox FontSize="24" Text="{x:Bind Path=ExceptionText}" AcceptsReturn="True"
+                 IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 TextWrapping="Wrap">
             <TextBox.Header>
                 <TextBlock Text="Exception:"/>
             </TextBox.Header>

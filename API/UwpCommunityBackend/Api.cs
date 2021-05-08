@@ -1,7 +1,6 @@
 ﻿using Flurl;
 using Flurl.Http;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -14,6 +13,8 @@ namespace UwpCommunityBackend
     {
         public const string WEB_BASE_URL = "https://uwpcommunity-site-backend.herokuapp.com";
         public const string LOCAL_BASE_URL = "http://localhost:5000";
+
+        public const string GITHUB_RAW_BASE_URL = "https://raw.githubusercontent.com/UWPCommunity/uwpcommunity.github.io/gh-pages-dev/";
 
         public static string BaseUrl { get; set; } = WEB_BASE_URL;
 
@@ -87,6 +88,28 @@ namespace UwpCommunityBackend
                 .WithOAuthBearerToken(Token)
                 .SendUrlEncodedAsync(HttpMethod.Delete, info);
         }
+
+        /// <summary>
+        /// Gets the list of projects with the tag specified by the <paramref name="tagId"/>
+        /// </summary>
+        public static async Task<List<Project>> GetTags(int tagId)
+        {
+            return await BaseUrl.AppendPathSegments("projects", "tags")
+                .SetQueryParam(nameof(tagId), tagId)
+                .WithOAuthBearerToken(Token)
+                .GetJsonAsync<List<Project>>();
+        }
+
+        /// <summary>
+        /// Gets the list of projects with the tag specified by the <paramref name="tagName"/>
+        /// </summary>
+        public static async Task<List<Project>> GetTags(string tagName)
+        {
+            return await BaseUrl.AppendPathSegments("projects", "tags")
+                .SetQueryParam(nameof(tagName), tagName)
+                .WithOAuthBearerToken(Token)
+                .GetJsonAsync<List<Project>>();
+        }
         #endregion
 
         #region /user/
@@ -136,21 +159,19 @@ namespace UwpCommunityBackend
         /// <summary>
         /// Gets the user's profile information from Discord
         /// </summary>
-        public static async Task<List<dynamic>> GetDiscordUser(string userId)
+        public static async Task<Discord.Models.User> GetDiscordUser(string userId)
         {
-            // TODO: Deserialize to a class rather than returning a dynamic
             return await BaseUrl.AppendPathSegments("bot", "user", userId)
-                .GetJsonAsync();
+                .GetJsonAsync<Discord.Models.User>();
         }
 
         /// <summary>
         /// Gets the user's roles in the UWP Community Discord server
         /// </summary>
-        public static async Task<List<dynamic>> GetDiscordUserRoles(string userId)
+        public static async Task<List<Discord.Models.Role>> GetDiscordUserRoles(string userId)
         {
-            // TODO: Deserialize to a class rather than returning a dynamic
             return await BaseUrl.AppendPathSegments("bot", "user", userId, "roles")
-                .GetJsonAsync();
+                .GetJsonAsync<List<Discord.Models.Role>>();
         }
         #endregion
 
@@ -188,5 +209,18 @@ namespace UwpCommunityBackend
             }
         }
         #endregion
+
+        public static async Task<CardInfoResponse> GetCard(string name)
+        {
+            return await GITHUB_RAW_BASE_URL.AppendPathSegments("src", "assets", "views", name + ".json")
+                .GetJsonAsync<CardInfoResponse>();
+        }
+
+        public static readonly Dictionary<string, string> SpecialRoles = new Dictionary<string, string>()
+        {
+            { "Developer", "746853910974562394" },
+            { "Designer", "746853909783380029" },
+            { "LlamaSqaud", "746853934571978802" }
+        };
     }
 }

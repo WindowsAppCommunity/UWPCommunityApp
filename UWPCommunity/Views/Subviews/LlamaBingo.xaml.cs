@@ -28,7 +28,7 @@ namespace UWPCommunity.Views.Subviews
     /// </summary>
     public sealed partial class LlamaBingo : Page
     {
-        public static ObservableCollection<string> RecentBoards { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> RecentBoards { get; set; } = new ObservableCollection<string>();
 
         public LlamaBingo()
         {
@@ -57,6 +57,10 @@ namespace UWPCommunity.Views.Subviews
         {
             // Save the current board in case of a crash
             SettingsManager.SetSavedLlamaBingo(data);
+
+            // Check the board for bingos
+            ConfettiEnabled = Bingo.HasBingo(out _);
+
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Llamingo: Board changed",
                 new Dictionary<string, string> {
                     { "BoardData", data },

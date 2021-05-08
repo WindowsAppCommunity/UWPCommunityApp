@@ -4,6 +4,7 @@ using Windows.System;
 using Windows.UI.Xaml.Controls;
 using UWPCommunity.Views;
 using Windows.UI.Xaml;
+using Flurl;
 
 namespace UWPCommunity
 {
@@ -32,7 +33,7 @@ namespace UWPCommunity
 
         public static async void RequestSignIn(Type returnToPage)
         {
-            if (!Common.IsLoggedIn)
+            if (!UserManager.IsLoggedIn)
             {
                 var privacyPolicyResult = await (new Views.Dialogs.ConfirmPrivacyPolicyDialog().ShowAsync());
                 if (privacyPolicyResult != ContentDialogResult.Primary)
@@ -107,15 +108,16 @@ namespace UWPCommunity
             PageFrame.BackStack.RemoveAt(PageFrame.BackStack.Count - 1);
         }
 
-        public static Tuple<Type, object> ParseProtocol(Uri ptcl)
+        public static Tuple<Type, object> ParseProtocol(Url ptcl)
         {
             Type destination = typeof(HomeView);
 
             if (ptcl == null)
                 return new Tuple<Type, object>(destination, null);
 
+            string scheme = ptcl.Path.Split(":")[0];
             string path;
-            switch (ptcl.Scheme)
+            switch (scheme)
             {
                 case "http":
                     path = ptcl.ToString().Remove(0, 23);
@@ -126,7 +128,7 @@ namespace UWPCommunity
                     break;
 
                 case "uwpcommunity":
-                    path = ptcl.ToString().Remove(0, ptcl.Scheme.Length + 3);
+                    path = ptcl.ToString().Remove(0, scheme.Length + 3);
                     break;
 
                 default:
@@ -143,7 +145,7 @@ namespace UWPCommunity
         }
         public static Tuple<Type, object> ParseProtocol(string url)
         {
-            return ParseProtocol(String.IsNullOrWhiteSpace(url) ? null : new Uri(url));
+            return ParseProtocol(String.IsNullOrWhiteSpace(url) ? null : new Url(url));
         }
     }
 

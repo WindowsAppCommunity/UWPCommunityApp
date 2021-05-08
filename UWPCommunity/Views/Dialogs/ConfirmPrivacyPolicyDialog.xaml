@@ -19,7 +19,8 @@
         <Span>
             <Run>By logging in, you confirm that you have read and agree to our </Run>
             <Hyperlink NavigateUri="https://uwpcommunity.com/privacy-policy">Privacy Policy</Hyperlink>
-            <Run> and that you are at least 13 years of age.</Run></Span>
+            <Run> and that you are at least 13 years of age.</Run>
+        </Span>
     </TextBlock>
     
 </ContentDialog>
