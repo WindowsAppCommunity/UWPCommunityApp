@@ -5,7 +5,7 @@
     xmlns:local="using:UWPCommunity.Views.Subviews"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:tkui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:fluent="using:Fluent.Icons.Compact"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -72,7 +72,7 @@
 
             <PivotItem Header="Project links">
                 <StackPanel>
-                    <TextBox x:Name="DownloadUrlBox" Header="Download link" extensions:TextBoxMask.CustomMask="^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$"
+                    <TextBox x:Name="DownloadUrlBox" Header="Download link" tkui:TextBoxExtensions.CustomMask="^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$"
                              Text="{x:Bind Project.DownloadLink, Mode=TwoWay}"/>
 
                     <TextBox x:Name="GithubUrlBox" Header="GitHub link"

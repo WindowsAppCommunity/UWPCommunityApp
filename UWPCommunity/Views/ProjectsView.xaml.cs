@@ -42,8 +42,8 @@ namespace UWPCommunity.Views
         private void ProjectsView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             var cardSize = SettingsManager.GetProjectCardSize();
-            ProjectsGridView.DesiredWidth = cardSize.X;
-            ProjectsGridView.ItemHeight = cardSize.Y;
+            //ProjectsGridView.DesiredWidth = cardSize.X;
+            //ProjectsGridView.ItemHeight = cardSize.Y;
         }
 
         private async void RefreshProjects()
@@ -211,6 +211,7 @@ namespace UWPCommunity.Views
         {
             CategoryButton.IsChecked = true;
             SearchBox.Text = "";
+            // TODO: Check for null here
             var option = sender as RadioMenuFlyoutItem;
             FilterByCategory(option.Text);
             Bindings.Update();
