@@ -19,19 +19,14 @@ namespace UWPCommunity.Views
     /// </summary>
     public sealed partial class DashboardView : Page
     {
-        public ObservableCollection<ProjectViewModel> Projects { get; set; } = new ObservableCollection<ProjectViewModel>();
         public DashboardView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Loaded += DashboardView_Loaded;
         }
 
         private async void DashboardView_Loaded(object sender, RoutedEventArgs e)
         {
-            var cardSize = SettingsManager.GetProjectCardSize();
-            ProjectsGridView.DesiredWidth = cardSize.X;
-            ProjectsGridView.ItemHeight = cardSize.Y;
-
             if (!UserManager.IsLoggedIn)
             {
                 NavigationManager.RequestSignIn(typeof(DashboardView));
@@ -75,14 +70,11 @@ namespace UWPCommunity.Views
 
         private async void RefreshProjects()
         {
-            Projects.Clear();
             try
             {
+                ViewModel.AllProjects?.Clear();
                 var projs = await Api.GetUserProjects(UserManager.DiscordUser.DiscordId);
-                foreach (var project in projs)
-                {
-                    Projects.Add(new ProjectViewModel(project));
-                }
+                ViewModel.AllProjects = projs.Select(p => new ProjectViewModel(p)).ToList();
             }
             catch (Flurl.Http.FlurlHttpException ex)
             {

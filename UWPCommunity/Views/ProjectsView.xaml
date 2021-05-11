@@ -34,8 +34,7 @@
                     <fluent:FluentIconElement Symbol="Search"/>
                 </AutoSuggestBox.QueryIcon>
             </AutoSuggestBox>
-            <winui:DropDownButton x:Name="FilterButton" toolkit:DockPanel.Dock="Left"
-                                  Margin="0,0,0,0" AutomationProperties.Name="Sort" TabIndex="0">
+            <winui:DropDownButton x:Name="FilterButton" toolkit:DockPanel.Dock="Left" AutomationProperties.Name="Sort" TabIndex="0">
                 <winui:DropDownButton.Flyout>
                     <MenuFlyout x:Name="SortFlyout" Placement="Bottom">
                         <winui:RadioMenuFlyoutItem Text="Alphabetical (A-Z)" Click="SortOption_Click" IsChecked="True"/>
