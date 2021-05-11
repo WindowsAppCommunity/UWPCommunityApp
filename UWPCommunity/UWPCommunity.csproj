@@ -150,6 +150,7 @@
     <Compile Include="SettingsManager.cs" />
     <Compile Include="UserManager.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\LaunchViewModel.cs" />
     <Compile Include="ViewModels\ProjectListViewModel.cs" />
     <Compile Include="ViewModels\ProjectViewModel.cs" />
     <Compile Include="Views\DashboardView.xaml.cs">
