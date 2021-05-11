@@ -44,13 +44,13 @@ namespace UWPCommunity.Views.Subviews
                 CompactOverlayButton.Visibility = Visibility.Collapsed;
             }
 
-            Bingo.BoardChanged += Bingo_BoardChanged;
-
             var savedBoard = SettingsManager.GetSavedLlamaBingo();
             if (savedBoard != null)
             {
                 Bingo.SetByDataString(savedBoard);
             }
+
+            Bingo.BoardChanged += Bingo_BoardChanged;
         }
 
         private void Bingo_BoardChanged(string data)

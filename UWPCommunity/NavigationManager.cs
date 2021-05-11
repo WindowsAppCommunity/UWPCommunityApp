@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Controls;
 using UWPCommunity.Views;
 using Windows.UI.Xaml;
 using Flurl;
+using System.Linq;
 
 namespace UWPCommunity
 {
@@ -138,9 +139,17 @@ namespace UWPCommunity
             if (path.StartsWith("/"))
                 path = path.Remove(0, 1);
             var queryParams = System.Web.HttpUtility.ParseQueryString(ptcl.Query.Replace("\r", String.Empty).Replace("\n", String.Empty));
-            
-            PageInfo pageInfo = MainPage.Pages.Find(p => p.Path == path.Split('/', StringSplitOptions.RemoveEmptyEntries)[0]);
-            destination = pageInfo != null ? pageInfo.PageType : typeof(HomeView);
+
+            string root = path.Split('/', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(root))
+            {
+                destination = typeof(HomeView);
+            }
+            else
+            {
+                PageInfo pageInfo = MainPage.Pages.Find(p => p.Path == root);
+                destination = pageInfo != null ? pageInfo.PageType : typeof(HomeView);
+            }
             return new Tuple<Type, object>(destination, queryParams);
         }
         public static Tuple<Type, object> ParseProtocol(string url)
