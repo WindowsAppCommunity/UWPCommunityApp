@@ -11,7 +11,7 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:viewmodels="using:UWPCommunity.ViewModels"
     xmlns:fluent="using:Fluent.Icons.Compact"
-    d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	mc:Ignorable="d">
 
     <Page.Resources>
@@ -83,44 +83,54 @@
                 </Viewbox>
             </PivotItem.Header>
 
-            <toolkit:DockPanel Background="{ThemeResource SystemAccentColor}" Height="120" toolkit:DockPanel.Dock="Top"
-                        HorizontalAlignment="Stretch" LastChildFill="True">
-                <StackPanel x:Name="UserProfilePanel" Orientation="Horizontal"
-                    Margin="10,10,0,10" toolkit:DockPanel.Dock="Left">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <StackPanel x:Name="UserProfilePanel" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,8,0,8">
                     <winui:PersonPicture x:Name="UserProfilePicture"/>
-                    <TextBlock x:Name="UserProfileUsername" Text="Username"
-                        FontWeight="SemiBold" Foreground="{StaticResource SystemAltHighColor}"
-                        Style="{StaticResource SubheaderTextBlockStyle}" VerticalAlignment="Center"
-                        Margin="10,0,0,0"/>
+                    <TextBlock x:Name="UserProfileUsername" Text="Username" VerticalAlignment="Center"
+                               FontWeight="SemiBold" Style="{StaticResource SubheaderTextBlockStyle}" Margin="16,0,0,0"/>
                 </StackPanel>
 
-                <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel Orientation="Horizontal">
-                        <AppBarButton x:Name="BecomeDeveloperButton" x:Load="False" Label="Become a Developer" Style="{StaticResource AppBarButtonRevealStyle}" Foreground="{StaticResource SystemAltHighColor}" Click="BecomeDeveloperButton_Click">
-                            <AppBarButton.Icon>
-                                <fluent:FluentIconElement Symbol="DeveloperBoard" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            </AppBarButton.Icon>
-                        </AppBarButton>
-                        <AppBarButton x:Name="RegisterAppButton" Label="Register an app" Style="{StaticResource AppBarButtonRevealStyle}" Foreground="{StaticResource SystemAltHighColor}" Click="RegisterAppButton_Click">
-                            <AppBarButton.Icon>
-                                <fluent:FluentIconElement Symbol="AppsAddIn" />
-                            </AppBarButton.Icon>
-                        </AppBarButton>
-                        <AppBarButton Label="Manage roles" Style="{StaticResource AppBarButtonRevealStyle}" Foreground="{StaticResource SystemAltHighColor}" IsEnabled="False">
-                            <AppBarButton.Icon>
-                                <fluent:FluentIconElement Symbol="Bot" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            </AppBarButton.Icon>
-                        </AppBarButton>
-
-                        <StackPanel.ChildrenTransitions>
-                            <TransitionCollection>
-                                <AddDeleteThemeTransition/>
-                                <RepositionThemeTransition/>
-                            </TransitionCollection>
-                        </StackPanel.ChildrenTransitions>
-                    </StackPanel>
-                </Viewbox>
-            </toolkit:DockPanel>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12" Grid.Row="1">
+                    <StackPanel.Resources>
+                        <Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            <Setter Property="Padding" Value="12"/>
+                        </Style>
+                        <Style TargetType="fluent:FluentIconElement">
+                            <Setter Property="FontSize" Value="38"/>
+                        </Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="24"/>
+                            <Setter Property="TextLineBounds" Value="Tight"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    
+                    <Button x:Name="BecomeDeveloperButton" x:Load="False" Click="BecomeDeveloperButton_Click">
+                        <StackPanel Spacing="4" Orientation="Horizontal">
+                            <fluent:FluentIconElement Symbol="DeveloperBoard" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Text="Become a Developer"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="RegisterAppButton" Click="RegisterAppButton_Click">
+                        <StackPanel Spacing="4" Orientation="Horizontal">
+                            <fluent:FluentIconElement Symbol="AppsAddIn" />
+                            <TextBlock Text="Register an app"/>
+                        </StackPanel>
+                    </Button>
+                    <Button IsEnabled="False">
+                        <StackPanel Spacing="4" Orientation="Horizontal">
+                            <fluent:FluentIconElement Symbol="Bot" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Text="Manage roles"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
         </PivotItem>
 
         <!-- My Apps -->
