@@ -182,5 +182,11 @@ namespace UWPCommunity.Views
         {
 
         }
+
+        private void EditProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Dialogs.EditProfileDialog();
+            dialog.ShowAsync();
+        }
     }
 }

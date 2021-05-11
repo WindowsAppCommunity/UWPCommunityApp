@@ -110,11 +110,21 @@
                             <Setter Property="VerticalAlignment" Value="Center"/>
                         </Style>
                     </StackPanel.Resources>
-                    
+
                     <Button x:Name="BecomeDeveloperButton" x:Load="False" Click="BecomeDeveloperButton_Click">
-                        <StackPanel Spacing="4" Orientation="Horizontal">
+                        <Grid ColumnSpacing="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
                             <fluent:FluentIconElement Symbol="DeveloperBoard" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock Text="Become a Developer"/>
+                            <TextBlock Text="Become a Developer" Grid.Column="1" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="EditProfileButton" Click="EditProfileButton_Click">
+                        <StackPanel Spacing="4" Orientation="Horizontal">
+                            <fluent:FluentIconElement Symbol="Edit" />
+                            <TextBlock Text="Edit profile"/>
                         </StackPanel>
                     </Button>
                     <Button x:Name="RegisterAppButton" Click="RegisterAppButton_Click">
