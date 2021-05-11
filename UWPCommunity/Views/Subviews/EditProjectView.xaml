@@ -72,7 +72,8 @@
 
             <PivotItem Header="Project links">
                 <StackPanel>
-                    <TextBox x:Name="DownloadUrlBox" Header="Download link" tkui:TextBoxExtensions.CustomMask="^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$"
+                    <TextBox x:Name="DownloadUrlBox" Header="Download link"
+                             tkui:TextBoxExtensions.CustomMask="^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$"
                              Text="{x:Bind Project.DownloadLink, Mode=TwoWay}"/>
 
                     <TextBox x:Name="GithubUrlBox" Header="GitHub link"

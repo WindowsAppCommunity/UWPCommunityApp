@@ -1,14 +1,29 @@
-﻿using UwpCommunityBackend.Models;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using UwpCommunityBackend.Models;
 
 namespace UWPCommunity.ViewModels
 {
-    public class ProjectViewModel
+    public class ProjectViewModel : ObservableObject
     {
-        public Project project;
-
         public ProjectViewModel(Project project)
         {
-            this.project = project;
+            Project = project;
+
+            CardSizeChanged(SettingsManager.GetProjectCardSize());
+            SettingsManager.ProjectCardSizeChanged += CardSizeChanged;
+        }
+
+        private void CardSizeChanged(Windows.Foundation.Point cardSize)
+        {
+            CardWidth = cardSize.X;
+            CardHeight = cardSize.Y;
+        }
+
+        private Project _Project;
+        public Project Project
+        {
+            get => _Project;
+            set => SetProperty(ref _Project, value);
         }
 
         public bool IsOwner {
@@ -16,7 +31,7 @@ namespace UWPCommunity.ViewModels
 			{
                 if (UserManager.DiscordUser == null)
                     return false;
-                return project.IsOwner(UserManager.DiscordUser.DiscordId);
+                return Project.IsOwner(UserManager.DiscordUser.DiscordId);
             }
         }
         public bool IsDeveloper
@@ -25,7 +40,7 @@ namespace UWPCommunity.ViewModels
             {
                 if (UserManager.DiscordUser == null)
                     return false;
-                return project.IsDeveloper(UserManager.DiscordUser.DiscordId);
+                return Project.IsDeveloper(UserManager.DiscordUser.DiscordId);
             }
         }
         public bool IsTranslator
@@ -34,7 +49,7 @@ namespace UWPCommunity.ViewModels
             {
                 if (UserManager.DiscordUser == null)
                     return false;
-                return project.IsTranslator(UserManager.DiscordUser.DiscordId);
+                return Project.IsTranslator(UserManager.DiscordUser.DiscordId);
             }
         }
         public bool IsBetaTester
@@ -43,8 +58,22 @@ namespace UWPCommunity.ViewModels
             {
                 if (UserManager.DiscordUser == null)
                     return false;
-                return project.IsBetaTester(UserManager.DiscordUser.DiscordId);
+                return Project.IsBetaTester(UserManager.DiscordUser.DiscordId);
             }
+        }
+
+        private double _CardWidth;
+        public double CardWidth
+        {
+            get => _CardWidth;
+            set => SetProperty(ref _CardWidth, value);
+        }
+
+        private double _CardHeight;
+        public double CardHeight
+        {
+            get => _CardHeight;
+            set => SetProperty(ref _CardHeight, value);
         }
     }
 }

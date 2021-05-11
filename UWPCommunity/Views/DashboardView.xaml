@@ -85,9 +85,9 @@
 
                         <toolkit:AdaptiveGridView.ItemTemplate>
                             <DataTemplate x:DataType="viewmodels:ProjectViewModel">
-                                <controls:GridViewCardItem TitleText="{x:Bind project.AppName}"
-                                                           ImageSource="{x:Bind project.HeroImageSafe}"
-                                                           BodyText="{x:Bind project.Description}"
+                                <controls:GridViewCardItem TitleText="{x:Bind Project.AppName}"
+                                                           ImageSource="{x:Bind Project.HeroImageSafe}"
+                                                           BodyText="{x:Bind Project.Description}"
                                                            IsEditable="{x:Bind IsOwner}"
                                                            IsDeletable="{x:Bind IsOwner}"
                                                            EditRequested="Project_EditRequested"
