@@ -34,7 +34,7 @@ namespace UWPCommunity.Views
             }
 
             bool isInServer = (await Discord.Api.GetCurrentUserGuilds()).Any(g => g.Id == "372137812037730304");
-            if (!isInServer)
+            if (false)//!isInServer)
             {
                 NavigationManager.Navigate(typeof(NewAccount.JoinServerView));
             }
@@ -42,9 +42,7 @@ namespace UWPCommunity.Views
             try
             {
                 RefreshProjects();
-                UserProfilePicture.ProfilePicture =
-                    new Windows.UI.Xaml.Media.Imaging.BitmapImage(UserManager.DiscordUser.AvatarUri);
-                UserProfileUsername.Text = UserManager.DiscordUser.Username;
+                RefreshUser();
 
                 var roles = await Api.GetDiscordUserRoles(UserManager.DiscordUser.DiscordId);
                 //var member = await Discord.Api.GetGuildMember(Common.DISCORD_GUILD_ID, UserManager.DiscordUser.DiscordId);
@@ -87,6 +85,18 @@ namespace UWPCommunity.Views
                     NavigationManager.RequestSignIn(typeof(DashboardView));
                 }
             }
+        }
+
+        private async void RefreshUser()
+        {
+            var discordUser = UserManager.DiscordUser;
+            UserProfilePicture.ProfilePicture =
+                new Windows.UI.Xaml.Media.Imaging.BitmapImage(discordUser.AvatarUri);
+            UserProfileUsername.Text = discordUser.Username + "#" + discordUser.Discriminator;
+
+            var user = await UserManager.GetCurrentUser();
+            UserProfileName.Text = user.Name;
+            UserProfileEmail.Text = user.Email;
         }
 
         private void RegisterAppButton_Click(object sender, RoutedEventArgs e)
@@ -183,10 +193,14 @@ namespace UWPCommunity.Views
 
         }
 
-        private void EditProfileButton_Click(object sender, RoutedEventArgs e)
+        private async void EditProfileButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new Dialogs.EditProfileDialog();
-            dialog.ShowAsync();
+            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+            {
+                // User likely updated profile, update UI to reflect changes
+                RefreshUser();
+            }
         }
     }
 }

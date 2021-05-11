@@ -88,58 +88,91 @@
                     <RowDefinition Height="120"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                
-                <StackPanel x:Name="UserProfilePanel" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,8,0,8">
-                    <winui:PersonPicture x:Name="UserProfilePicture"/>
-                    <TextBlock x:Name="UserProfileUsername" Text="Username" VerticalAlignment="Center"
-                               FontWeight="SemiBold" Style="{StaticResource SubheaderTextBlockStyle}" Margin="16,0,0,0"/>
-                </StackPanel>
 
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12" Grid.Row="1">
-                    <StackPanel.Resources>
-                        <Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
-                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                            <Setter Property="Padding" Value="12"/>
-                        </Style>
-                        <Style TargetType="fluent:FluentIconElement">
-                            <Setter Property="FontSize" Value="38"/>
-                        </Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="FontSize" Value="24"/>
-                            <Setter Property="TextLineBounds" Value="Tight"/>
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                        </Style>
-                    </StackPanel.Resources>
+                <Grid ColumnSpacing="16">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <Button x:Name="BecomeDeveloperButton" x:Load="False" Click="BecomeDeveloperButton_Click">
-                        <Grid ColumnSpacing="4">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <fluent:FluentIconElement Symbol="DeveloperBoard" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock Text="Become a Developer" Grid.Column="1" HorizontalAlignment="Center"/>
-                        </Grid>
-                    </Button>
-                    <Button x:Name="EditProfileButton" Click="EditProfileButton_Click">
-                        <StackPanel Spacing="4" Orientation="Horizontal">
-                            <fluent:FluentIconElement Symbol="Edit" />
-                            <TextBlock Text="Edit profile"/>
-                        </StackPanel>
-                    </Button>
-                    <Button x:Name="RegisterAppButton" Click="RegisterAppButton_Click">
-                        <StackPanel Spacing="4" Orientation="Horizontal">
-                            <fluent:FluentIconElement Symbol="AppsAddIn" />
-                            <TextBlock Text="Register an app"/>
-                        </StackPanel>
-                    </Button>
-                    <Button IsEnabled="False">
-                        <StackPanel Spacing="4" Orientation="Horizontal">
-                            <fluent:FluentIconElement Symbol="Bot" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock Text="Manage roles"/>
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
+                    <winui:PersonPicture x:Name="UserProfilePicture" Grid.RowSpan="3"/>
+
+                    <TextBlock x:Name="UserProfileName" d:Text="Full Name" VerticalAlignment="Bottom"
+                               FontWeight="SemiBold" Style="{StaticResource SubheaderTextBlockStyle}"
+                               Grid.Column="1" TextLineBounds="TrimToBaseline"/>
+                    <TextBlock x:Name="UserProfileUsername" d:Text="Username" VerticalAlignment="Center"
+                               FontSize="20" Style="{StaticResource SubheaderTextBlockStyle}"
+                               Grid.Column="1" Grid.Row="1" TextLineBounds="Tight"/>
+                    <TextBlock x:Name="UserProfileEmail" d:Text="Email" VerticalAlignment="Top"
+                               FontSize="20" Style="{StaticResource SubheaderTextBlockStyle}"
+                               Grid.Column="1" Grid.Row="2" TextLineBounds="Tight"/>
+                </Grid>
+
+                <ScrollViewer Grid.Row="1">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
+                        <StackPanel.Resources>
+                            <Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Padding" Value="12"/>
+                            </Style>
+                            <Style TargetType="fluent:FluentIconElement">
+                                <Setter Property="FontSize" Value="38"/>
+                            </Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontSize" Value="24"/>
+                                <Setter Property="TextLineBounds" Value="Tight"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </StackPanel.Resources>
+
+                        <Button x:Name="BecomeDeveloperButton" Click="BecomeDeveloperButton_Click" x:Load="False">
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <fluent:FluentIconElement Symbol="DeveloperBoard" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <TextBlock Text="Become a Developer" Grid.Column="1" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+                        <Button x:Name="EditProfileButton" Click="EditProfileButton_Click">
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <fluent:FluentIconElement Symbol="Edit" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <TextBlock Text="Edit profile" Grid.Column="1" HorizontalAlignment="Left"/>
+                            </Grid>
+                        </Button>
+                        <Button x:Name="RegisterAppButton" Click="RegisterAppButton_Click">
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <fluent:FluentIconElement Symbol="AppsAddIn" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <TextBlock Text="Register an app" Grid.Column="1" HorizontalAlignment="Left"/>
+                            </Grid>
+                        </Button>
+                        <Button IsEnabled="False">
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <fluent:FluentIconElement Symbol="Bot" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <TextBlock Text="Manage roles" Grid.Column="1" HorizontalAlignment="Left"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
             </Grid>
         </PivotItem>
 
