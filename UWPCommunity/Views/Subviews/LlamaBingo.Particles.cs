@@ -290,6 +290,9 @@ namespace UWPCommunity.Views.Subviews
                 // Grab a particle from the freeParticles store, or create a new one if freeParticles is empty.
                 Particle particle = (freeParticles.Count > 0) ? freeParticles.Pop() : new Particle();
 
+                // No idea how this happens, but it sometimes does
+                // when switching into compact overlay
+                if (particle == null) continue;
                 InitializeParticle(particle, where);
 
                 activeParticles.Add(particle);

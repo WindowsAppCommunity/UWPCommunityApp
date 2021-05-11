@@ -28,7 +28,7 @@ namespace UWPCommunity.Views
             // Get the card information from the website frontend
             var card = (await UwpCommunityBackend.Api.GetCard("home")).Main;
             CardSubtitle.Text = card.Subtitle;
-            CardDetails.Text = String.Join(" ", card.Details);
+            CardDetails.Text = string.Join("\r\n", card.Details);
 
             SettingsManager.ApplyLiveTile(SettingsManager.GetShowLiveTile());
         }
@@ -62,10 +62,10 @@ namespace UWPCommunity.Views
             await NavigationManager.OpenInBrowser("https://github.com/UWPCommunity/");
         }
 
-        private async void Launch2019Button_Click(object sender, RoutedEventArgs e)
+        private async void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Home: Launch 2019 button clicked");
-            await NavigationManager.OpenInBrowser("https://medium.com/@Arlodottxt/launch-2019-7efd37cc0877");
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Home: Launch button clicked");
+            await NavigationManager.OpenInBrowser("https://medium.com/@Arlodottxt/uwp-community-launch-2020-1772efb1e382");
         }
 
         private async void ShowLatestAppMessage()

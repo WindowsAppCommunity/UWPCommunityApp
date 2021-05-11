@@ -25,7 +25,7 @@
                                       Update="BingoCanvas_Update" Draw="BingoCanvas_Draw"
                                       ClearColor="Transparent" IsHitTestVisible="False"/>
 
-        <CommandBar Grid.Row="1">
+        <CommandBar Grid.Row="1" DefaultLabelPosition="Right">
             <AppBarButton Label="Reset" Click="ResetBoardButton_Click">
                 <AppBarButton.Icon>
                     <fluent:FluentIconElement Symbol="Dismiss"/>
