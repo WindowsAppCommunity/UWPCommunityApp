@@ -1,3 +1,13 @@
+v1.3.0
+- Fixed a bug where navigating pages would sometimes caused a crash
+- Fixed a bug that would causse the app to crash on startup when launching from a `uwpcommunity://` link
+- Improved performance on Projects page, especially when resizing the window
+- Introduced new Dashboard UI
+- Separated Owner/Developer/Beta Tester/Translator into their own lists in the Dashboard
+- Switched to new Fluent System Icons
+- Added confetti to Llamingo
+- Removed broken QR code on Discord sign in page
+
 v1.2.3
 - Fixed a bug where the app would crash when loading projects due to a new contributor label
 - Restarting the app no longer automatically signs out
