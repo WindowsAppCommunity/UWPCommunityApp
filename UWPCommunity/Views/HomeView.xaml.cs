@@ -25,12 +25,20 @@ namespace UWPCommunity.Views
 
         private async void HomeView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Get the card information from the website frontend
-            var card = (await UwpCommunityBackend.Api.GetCard("home")).Main;
-            CardSubtitle.Text = card.Subtitle;
-            CardDetails.Text = String.Join(" ", card.Details);
+            try
+            {
+                // Get the card information from the website frontend
+                var card = (await UwpCommunityBackend.Api.GetCard("home")).Main;
+                CardSubtitle.Text = card.Subtitle;
+                CardDetails.Text = string.Join(" ", card.Details);
 
-            SettingsManager.ApplyLiveTile(SettingsManager.GetShowLiveTile());
+                SettingsManager.ApplyLiveTile(SettingsManager.GetShowLiveTile());
+            }
+            catch (Flurl.Http.FlurlHttpException)
+            {
+                var appFrame = Window.Current.Content as Frame;
+                appFrame.Navigate(typeof(Subviews.NoInternetPage));
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -74,13 +82,21 @@ namespace UWPCommunity.Views
             if (level == 0)
                 return;
 
-            // Load most recent app message
-            var message = (await YoshiServer.Api.GetAppMessages("UWPCommunity", 0))[0];
-            if (message.Id != SettingsManager.AppMessageSettings.GetLastAppMessageId()
-                && message.Importance <= level)
+            try
             {
-                await new AppMessageDialog(message).ShowAsync();
-                SettingsManager.AppMessageSettings.SetLastAppMessageId(message.Id);
+                // Load most recent app message
+                var message = (await YoshiServer.Api.GetAppMessages("UWPCommunity", 0))[0];
+                if (message.Id != SettingsManager.AppMessageSettings.GetLastAppMessageId()
+                    && message.Importance <= level)
+                {
+                    await new AppMessageDialog(message).ShowAsync();
+                    SettingsManager.AppMessageSettings.SetLastAppMessageId(message.Id);
+                }
+            }
+            catch (Flurl.Http.FlurlHttpException)
+            {
+                var appFrame = Window.Current.Content as Frame;
+                appFrame.Navigate(typeof(Subviews.NoInternetPage));
             }
         }
     }

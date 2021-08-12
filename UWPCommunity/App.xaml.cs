@@ -28,7 +28,6 @@ namespace UWPCommunity
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-            this.UnhandledException += App_UnhandledException;
             AppCenter.LogLevel = LogLevel.Verbose;
 #if !DEBUG
             AppCenter.Start("fbea1ef8-e96d-4848-baf2-fa79983b30f4",
@@ -71,7 +70,14 @@ namespace UWPCommunity
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(MainPage), NavigationManager.ParseProtocol(e.Arguments));
+                    if (!Common.IsInternetAvailable())
+                    {
+                        rootFrame.Navigate(typeof(Views.Subviews.NoInternetPage));
+                    }
+                    else
+                    {
+                        rootFrame.Navigate(typeof(MainPage), NavigationManager.ParseProtocol(e.Arguments));
+                    }
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
@@ -145,24 +151,6 @@ namespace UWPCommunity
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
-        }
-
-        private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
-        {
-            Type exType = e.Exception.GetType();
-            e.Handled = true;
-            Frame rootFrame = new Frame();
-            Window.Current.Content = rootFrame;
-
-            this.UnhandledException -= App_UnhandledException;
-
-            if (exType == typeof(HttpRequestException))
-            {
-                rootFrame.Navigate(typeof(Views.Subviews.NoInternetPage), e);
-                return;
-            }
-
-            rootFrame.Navigate(typeof(Views.UnhandledExceptionPage), e);
         }
 
         private async System.Threading.Tasks.Task SetJumplist()

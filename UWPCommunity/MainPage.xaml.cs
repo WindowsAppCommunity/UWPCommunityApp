@@ -68,13 +68,21 @@ namespace UWPCommunity
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            await UserManager.SignInFromVault(false);
-            UpdateSignInUI();
-
-            if (e.Parameter is Tuple<Type, object> launchInfo && launchInfo.Item1 != null)
-                NavigationManager.Navigate(launchInfo.Item1, launchInfo.Item2);
-
             base.OnNavigatedTo(e);
+
+            if (!Common.IsInternetAvailable())
+            {
+                var appFrame = Window.Current.Content as Frame;
+                appFrame.Navigate(typeof(Views.Subviews.NoInternetPage));
+            }
+            else
+            {
+                await UserManager.SignInFromVault(false);
+                UpdateSignInUI();
+
+                if (e.Parameter is Tuple<Type, object> launchInfo && launchInfo.Item1 != null)
+                    NavigationManager.Navigate(launchInfo.Item1, launchInfo.Item2);
+            }
         }
 
         private void MainFrame_Navigated(object sender, NavigationEventArgs e)

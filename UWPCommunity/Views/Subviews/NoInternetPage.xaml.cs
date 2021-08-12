@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -33,16 +34,19 @@ namespace UWPCommunity.Views.Subviews
         {
             base.OnNavigatedTo(e);
 
-            // Keep checking for an internet connection and
-            // return to previous page if reconnected
-            while (true)
-            {
-                if (NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
-                {
-                    await Launcher.LaunchUriAsync(new Uri("uwpcommunity://"));
-                    return;
-                }
-            }
+            _ = Task.Run(() =>
+              {
+                // Keep checking for an internet connection and
+                // return to previous page if reconnected
+                while (true)
+                  {
+                      if (NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+                      {
+                          NavigationManager.NavigateToHome();
+                          return;
+                      }
+                  }
+              });
         }
     }
 }
