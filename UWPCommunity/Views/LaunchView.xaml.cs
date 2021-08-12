@@ -1,8 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
-using System;
-using System.Collections.ObjectModel;
 using System.Net.Http;
-using UwpCommunityBackend;
 using UwpCommunityBackend.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -19,13 +16,6 @@ namespace UWPCommunity.Views
     /// </summary>
     public sealed partial class LaunchView : Page
     {
-        public ObservableCollection<Project> LaunchProjects { get; set; } = new ObservableCollection<Project>();
-        public Project PersistantProject;
-
-        public string CardTitle { get; set; }
-        public string CardSubtitle { get; set; }
-        public string CardDetails { get; set; }
-
         public LaunchView()
         {
             InitializeComponent();
@@ -39,11 +29,7 @@ namespace UWPCommunity.Views
 
             try
             {
-                // Get the card information from the website frontend
-                var card = (await Api.GetCard("launch")).Main;
-                CardTitle = card.Title;
-                CardSubtitle = card.Subtitle;
-                CardDetails = String.Join(" ", card.Details);
+                await ViewModel.InitializeAsync();
             }
             catch (HttpRequestException ex)
             {
@@ -55,12 +41,7 @@ namespace UWPCommunity.Views
         {
             try
             {
-                var launch = await Api.GetLaunchProjects(2020);
-                LaunchProjects = new ObservableCollection<Project>(launch.Projects);
-                if (ParticipantsGridView.Items.Count != LaunchProjects.Count)
-                {
-                    Bindings.Update();
-                }
+                await ViewModel.RefreshProjects();
                 LoadingIndicator.Visibility = Visibility.Collapsed;
             }
             catch (HttpRequestException e)
@@ -71,7 +52,7 @@ namespace UWPCommunity.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            PersistantProject = e.Parameter as Project;
+            ViewModel.PersistantProject = e.Parameter as Project;
 
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Launch: Navigated to",
                 new System.Collections.Generic.Dictionary<string, string> {
@@ -81,19 +62,7 @@ namespace UWPCommunity.Views
             );
         }
 
-        private void Card_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            Storyboard sb = ((DropShadowPanel)sender).Resources["EnterStoryboard"] as Storyboard;
-            sb.Begin();
-        }
-
-        private void Card_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            Storyboard sb = ((DropShadowPanel)sender).Resources["ExitStoryboard"] as Storyboard;
-            sb.Begin();
-        }
-
-        private void Launch2020Button_Click(object sender, RoutedEventArgs e)
+        private void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationManager.NavigateToDashboard();
         }
@@ -105,11 +74,11 @@ namespace UWPCommunity.Views
             NavigationManager.NavigateToViewProject(item);
         }
 
-        private async void ParticipantsGridView_Loaded(object sender, RoutedEventArgs e)
+        private void ParticipantsGridView_Loaded(object sender, RoutedEventArgs e)
         {
-            if (PersistantProject != null)
+            if (ViewModel.PersistantProject != null)
             {
-                ParticipantsGridView.ScrollIntoView(PersistantProject);
+                ParticipantsGridView.ScrollIntoView(ViewModel.PersistantProject);
                 //ConnectedAnimation animation =
                 //    ConnectedAnimationService.GetForCurrentView().GetAnimation("projectView");
                 //if (animation != null)

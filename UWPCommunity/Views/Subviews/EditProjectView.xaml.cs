@@ -41,8 +41,8 @@ namespace UWPCommunity.Views.Subviews
 
             if (e.Parameter is ViewModels.ProjectViewModel vm)
 			{
-                oldAppName = vm.project.AppName;
-                Project = vm.project;
+                oldAppName = vm.Project.AppName;
+                Project = vm.Project;
                 IsEditing = true;
             }
             else

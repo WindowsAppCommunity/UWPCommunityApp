@@ -19,19 +19,14 @@ namespace UWPCommunity.Views
     /// </summary>
     public sealed partial class DashboardView : Page
     {
-        public ObservableCollection<ProjectViewModel> Projects { get; set; } = new ObservableCollection<ProjectViewModel>();
         public DashboardView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Loaded += DashboardView_Loaded;
         }
 
         private async void DashboardView_Loaded(object sender, RoutedEventArgs e)
         {
-            var cardSize = SettingsManager.GetProjectCardSize();
-            ProjectsGridView.DesiredWidth = cardSize.X;
-            ProjectsGridView.ItemHeight = cardSize.Y;
-
             if (!UserManager.IsLoggedIn)
             {
                 NavigationManager.RequestSignIn(typeof(DashboardView));
@@ -39,7 +34,7 @@ namespace UWPCommunity.Views
             }
 
             bool isInServer = (await Discord.Api.GetCurrentUserGuilds()).Any(g => g.Id == "372137812037730304");
-            if (!isInServer)
+            if (false)//!isInServer)
             {
                 NavigationManager.Navigate(typeof(NewAccount.JoinServerView));
             }
@@ -47,9 +42,7 @@ namespace UWPCommunity.Views
             try
             {
                 RefreshProjects();
-                UserProfilePicture.ProfilePicture =
-                    new Windows.UI.Xaml.Media.Imaging.BitmapImage(UserManager.DiscordUser.AvatarUri);
-                UserProfileUsername.Text = UserManager.DiscordUser.Username;
+                RefreshUser();
 
                 var roles = await Api.GetDiscordUserRoles(UserManager.DiscordUser.DiscordId);
                 //var member = await Discord.Api.GetGuildMember(Common.DISCORD_GUILD_ID, UserManager.DiscordUser.DiscordId);
@@ -75,14 +68,11 @@ namespace UWPCommunity.Views
 
         private async void RefreshProjects()
         {
-            Projects.Clear();
             try
             {
+                ViewModel.AllProjects?.Clear();
                 var projs = await Api.GetUserProjects(UserManager.DiscordUser.DiscordId);
-                foreach (var project in projs)
-                {
-                    Projects.Add(new ProjectViewModel(project));
-                }
+                ViewModel.AllProjects = projs.Select(p => new ProjectViewModel(p)).ToList();
             }
             catch (Flurl.Http.FlurlHttpException ex)
             {
@@ -97,6 +87,18 @@ namespace UWPCommunity.Views
             }
         }
 
+        private async void RefreshUser()
+        {
+            var discordUser = UserManager.DiscordUser;
+            UserProfilePicture.ProfilePicture =
+                new Windows.UI.Xaml.Media.Imaging.BitmapImage(discordUser.AvatarUri);
+            UserProfileUsername.Text = discordUser.Username + "#" + discordUser.Discriminator;
+
+            var user = await UserManager.GetCurrentUser();
+            UserProfileName.Text = user.Name;
+            UserProfileEmail.Text = user.Email;
+        }
+
         private void RegisterAppButton_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: App registration started");
@@ -109,7 +111,7 @@ namespace UWPCommunity.Views
             RefreshProjects();
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: Edit project",
                 new Dictionary<string, string> {
-                    { "Proj", (p as ProjectViewModel).project.Id.ToString() },
+                    { "Proj", (p as ProjectViewModel).Project.Id.ToString() },
                 }
             );
         }
@@ -130,11 +132,11 @@ namespace UWPCommunity.Views
                 try
                 {
                     await Api.DeleteProject(
-                        new DeleteProjectRequest((p as ProjectViewModel).project.AppName));
+                        new DeleteProjectRequest((p as ProjectViewModel).Project.AppName));
                     RefreshProjects();
                     Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: Delete project",
                         new Dictionary<string, string> {
-                            { "Proj", (p as ProjectViewModel).project.Id.ToString() },
+                            { "Proj", (p as ProjectViewModel).Project.Id.ToString() },
                         }
                     );
                 }
@@ -155,7 +157,7 @@ namespace UWPCommunity.Views
 
         private void Project_ViewRequested(object p)
         {
-            Project proj = (p as ProjectViewModel).project;
+            Project proj = (p as ProjectViewModel).Project;
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Dashboard: View project",
                 new Dictionary<string, string> {
                     { "Proj", proj.Id.ToString() },
@@ -189,6 +191,16 @@ namespace UWPCommunity.Views
         private void BecomeDeveloperButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private async void EditProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Dialogs.EditProfileDialog();
+            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+            {
+                // User likely updated profile, update UI to reflect changes
+                RefreshUser();
+            }
         }
     }
 }

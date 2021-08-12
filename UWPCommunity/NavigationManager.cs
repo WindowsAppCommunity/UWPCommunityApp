@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Controls;
 using UWPCommunity.Views;
 using Windows.UI.Xaml;
 using Flurl;
+using System.Linq;
 
 namespace UWPCommunity
 {
