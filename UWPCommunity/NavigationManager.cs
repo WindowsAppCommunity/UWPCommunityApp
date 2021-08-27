@@ -112,45 +112,53 @@ namespace UWPCommunity
         public static Tuple<Type, object> ParseProtocol(Url ptcl)
         {
             Type destination = typeof(HomeView);
+            var defaultResult = new Tuple<Type, object>(destination, null);
 
-            if (ptcl == null)
-                return new Tuple<Type, object>(destination, null);
+            if (ptcl == null || string.IsNullOrWhiteSpace(ptcl.Path))
+                return defaultResult;
 
-            string scheme = ptcl.Path.Split(":")[0];
-            string path;
-            switch (scheme)
+            try
             {
-                case "http":
-                    path = ptcl.ToString().Remove(0, 23);
-                    break;
+                string scheme = ptcl.Path.Split(":")[0];
+                string path;
+                switch (scheme)
+                {
+                    case "http":
+                        path = ptcl.ToString().Remove(0, 23);
+                        break;
 
-                case "https":
-                    path = ptcl.ToString().Remove(0, 24);
-                    break;
+                    case "https":
+                        path = ptcl.ToString().Remove(0, 24);
+                        break;
 
-                case "uwpcommunity":
-                    path = ptcl.ToString().Remove(0, scheme.Length + 3);
-                    break;
+                    case "uwpcommunity":
+                        path = ptcl.ToString().Remove(0, scheme.Length + 3);
+                        break;
 
-                default:
-                    // Unrecognized protocol
-                    return new Tuple<Type, object>(destination, null);
+                    default:
+                        // Unrecognized protocol
+                        return defaultResult;
+                }
+                if (path.StartsWith("/"))
+                    path = path.Remove(0, 1);
+                var queryParams = System.Web.HttpUtility.ParseQueryString(ptcl.Query.Replace("\r", String.Empty).Replace("\n", String.Empty));
+
+                string rootPath = path.Split('/', StringSplitOptions.RemoveEmptyEntries)[0];
+                switch (rootPath)
+                {
+                    case "nointernet":
+                        return new Tuple<Type, object>(typeof(Views.Subviews.NoInternetPage), queryParams);
+
+                    default:
+                        PageInfo pageInfo = MainPage.Pages.Find(p => p.Path == rootPath);
+                        destination = pageInfo != null ? pageInfo.PageType : typeof(HomeView);
+                        return new Tuple<Type, object>(destination, queryParams);
+                }
             }
-            if (path.StartsWith("/"))
-                path = path.Remove(0, 1);
-            var queryParams = System.Web.HttpUtility.ParseQueryString(ptcl.Query.Replace("\r", String.Empty).Replace("\n", String.Empty));
-
-            string root = path.Split('/', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
-            if (string.IsNullOrWhiteSpace(root))
+            catch
             {
-                destination = typeof(HomeView);
+                return defaultResult;
             }
-            else
-            {
-                PageInfo pageInfo = MainPage.Pages.Find(p => p.Path == root);
-                destination = pageInfo != null ? pageInfo.PageType : typeof(HomeView);
-            }
-            return new Tuple<Type, object>(destination, queryParams);
         }
         public static Tuple<Type, object> ParseProtocol(string url)
         {

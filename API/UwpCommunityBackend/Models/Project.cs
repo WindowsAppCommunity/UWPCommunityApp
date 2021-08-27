@@ -72,12 +72,14 @@ namespace UwpCommunityBackend.Models
         [JsonProperty("role")]
         public string Role { get; set; } = "Developer";
 
+        [JsonIgnore]
         public System.Uri HeroImageUri {
             get {
                 return new System.Uri(HeroImageSafe);
             }
         }
 
+        [JsonIgnore]
         /// <summary>
         /// A duplicate of HeroImage, but returns a dummy image if null
         /// </summary>
@@ -87,7 +89,8 @@ namespace UwpCommunityBackend.Models
             }
         }
 
-        public Collaborator Owner => Collaborators.First(c => c.IsOwner);
+        [JsonIgnore]
+        public Collaborator Owner => Collaborators?.First(c => c.IsOwner);
 
         public enum ProjectCategory
         {
@@ -326,7 +329,7 @@ namespace UwpCommunityBackend.Models
 
         public override string ToString()
         {
-            return $"{AppName} by {Owner.Name}: {Description}";
+            return $"{AppName} by {Owner?.Name ?? string.Empty}: {Description}";
         }
     }
 
