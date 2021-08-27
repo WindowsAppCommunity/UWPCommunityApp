@@ -29,7 +29,8 @@ namespace UWPCommunity.Views
             var card = (await UwpCommunityBackend.Api.GetCard("home")).Main;
             CardSubtitle.Text = card.Subtitle;
             CardDetails.Text = String.Join("\r\n", card.Details);
-
+            try
+            {
                 SettingsManager.ApplyLiveTile(SettingsManager.GetShowLiveTile());
             }
             catch (Flurl.Http.FlurlHttpException)
