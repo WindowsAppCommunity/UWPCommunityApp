@@ -9,7 +9,8 @@
     PrimaryButtonText="I Agree"
     SecondaryButtonText="Cancel"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    Style="{ThemeResource DefaultContentDialogStyle}">
 
     <ContentDialog.Title>
         <TextBlock Text="Please confirm" Foreground="{StaticResource SystemAccentColor}" />

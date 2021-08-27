@@ -10,7 +10,8 @@
     mc:Ignorable="d"
     PrimaryButtonText="Ok"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    IsSecondaryButtonEnabled="False">
+    IsSecondaryButtonEnabled="False"
+    Style="{ThemeResource DefaultContentDialogStyle}">
 
     <ContentDialog.Title>
         <TextBlock Text="{x:Bind Message.Title}" Foreground="{StaticResource SystemAccentColor}" />
