@@ -8,6 +8,7 @@
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     xmlns:fluent="using:Fluent.Icons"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
@@ -88,6 +89,20 @@
                     </StackPanel>
             </Border>
             <Frame x:Name="MainFrame" Grid.Row="1"/>
+            <winui:InfoBar x:Name="MessageBox" IsOpen="False" Severity="Informational" Grid.Row="1"
+                           VerticalAlignment="Bottom" Background="{ThemeResource SystemControlAcrylicElementBrush}">
+                <winui:InfoBar.Content>
+                    <StackPanel Margin="0,0,0,8">
+                        <toolkit:MarkdownTextBlock x:Name="MessageContentBox" Background="Transparent"/>
+                        <TextBlock Foreground="{ThemeResource SystemColorGrayTextColor}">
+                            <Run x:Name="MessageTimestampRun"/>
+                            <Run Text="by "/><Run x:Name="MessageAuthorRun"/>
+                        </TextBlock>
+                        <HyperlinkButton Content="Change message preferences" Click="PreferencesButton_Click"
+                                         Margin="-12,4,0,0"/>
+                    </StackPanel>
+                </winui:InfoBar.Content>
+            </winui:InfoBar>
         </Grid>
 
         <VisualStateManager.VisualStateGroups>
@@ -97,7 +112,7 @@
                     <VisualState.Setters>
                         <Setter Target="MainNav.PaneDisplayMode" Value="LeftMinimal"/>
                         <Setter Target="MainNav.IsTitleBarAutoPaddingEnabled" Value="False"/>
-                        <Setter Target="HeaderLogo.Visibility" Value="Collapsed"/>
+                        <Setter Target="HeaderLogo.Margin" Value="0,0,20,20"/>
                         <Setter Target="TitlebarRow.Height" Value="40"/>
                         <Setter Target="UserProfilePictureBox.MaxHeight" Value="20"/>
                         <Setter Target="SignInButton.Padding" Value="8,10"/>

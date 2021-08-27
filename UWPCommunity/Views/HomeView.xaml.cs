@@ -19,8 +19,6 @@ namespace UWPCommunity.Views
         {
             this.InitializeComponent();
             Loaded += HomeView_Loaded;
-
-            ShowLatestAppMessage();
         }
 
         private async void HomeView_Loaded(object sender, RoutedEventArgs e)
@@ -73,30 +71,6 @@ namespace UWPCommunity.Views
         {
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Home: Launch button clicked");
             await NavigationManager.OpenInBrowser("https://medium.com/@Arlodottxt/uwp-community-launch-2020-1772efb1e382");
-        }
-
-        private async void ShowLatestAppMessage()
-        {
-            int level = SettingsManager.AppMessageSettings.GetImportanceLevel();
-            if (level == 0)
-                return;
-
-            try
-            {
-                // Load most recent app message
-                var message = (await YoshiServer.Api.GetAppMessages("UWPCommunity", 0))[0];
-                if (message.Id != SettingsManager.AppMessageSettings.GetLastAppMessageId()
-                    && message.Importance <= level)
-                {
-                    await new AppMessageDialog(message).ShowAsync();
-                    SettingsManager.AppMessageSettings.SetLastAppMessageId(message.Id);
-                }
-            }
-            catch (Flurl.Http.FlurlHttpException)
-            {
-                var appFrame = Window.Current.Content as Frame;
-                appFrame.Navigate(typeof(Subviews.NoInternetPage));
-            }
         }
     }
 }
