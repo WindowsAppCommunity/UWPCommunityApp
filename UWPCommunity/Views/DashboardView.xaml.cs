@@ -33,7 +33,21 @@ namespace UWPCommunity.Views
                 return;
             }
 
-            bool isInServer = (await Discord.Api.GetCurrentUserGuilds()).Any(g => g.Id == "372137812037730304");
+            List<Discord.Models.Guild> guilds = null;
+            try
+            {
+                guilds = await Discord.Api.GetCurrentUserGuilds();
+            }
+            catch (Flurl.Http.FlurlHttpException ex)
+            {
+                if (ex.Message.Contains("429"))
+                {
+                    // HTTP error 429 is Too Many Requests. Wait and try again.
+                    await System.Threading.Tasks.Task.Delay(1000);
+                    guilds = await Discord.Api.GetCurrentUserGuilds();
+                }
+            }
+            bool isInServer = guilds?.Any(g => g.Id == "372137812037730304") ?? false;
             if (false)//!isInServer)
             {
                 NavigationManager.Navigate(typeof(NewAccount.JoinServerView));

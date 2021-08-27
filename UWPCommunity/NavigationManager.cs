@@ -36,7 +36,7 @@ namespace UWPCommunity
         {
             if (!UserManager.IsLoggedIn)
             {
-                var privacyPolicyResult = await (new Views.Dialogs.ConfirmPrivacyPolicyDialog().ShowAsync());
+                var privacyPolicyResult = await new Views.Dialogs.ConfirmPrivacyPolicyDialog().ShowAsync();
                 if (privacyPolicyResult != ContentDialogResult.Primary)
                     return;
 
@@ -179,12 +179,12 @@ namespace UWPCommunity
 
         public PageInfo(NavigationViewItem navItem)
         {
-            Title = (navItem.Content == null) ? "" : navItem.Content.ToString();
-            Icon = (navItem.Icon == null) ? new SymbolIcon(Symbol.Document) : navItem.Icon;
+            Title = navItem.Content?.ToString() ?? string.Empty;
+            Icon = navItem.Icon ?? new SymbolIcon(Symbol.Document);
             Visibility = navItem.Visibility;
 
             var tooltip = ToolTipService.GetToolTip(navItem);
-            Tooltip = (tooltip == null) ? "" : tooltip.ToString();
+            Tooltip = tooltip?.ToString() ?? string.Empty;
         }
 
         public string Title { get; set; }
@@ -212,16 +212,8 @@ namespace UWPCommunity
                 return item;
             }
         }
-        public string Protocol {
-            get {
-                return "uwpcommunity://" + Path;
-            }
-        }
-        public Uri IconAsset {
-            get {
-                return new Uri("ms-appx:///Assets/Icons/" + Path + ".png");
-            }
-        }
+        public string Protocol => "uwpcommunity://" + Path;
+        public Uri IconAsset => new Uri("ms-appx:///Assets/Icons/" + Path + ".png");
     }
 
     public enum SettingsPages
