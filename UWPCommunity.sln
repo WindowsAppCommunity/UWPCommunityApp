@@ -1,19 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29001.49
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31606.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWPCommunity", "UWPCommunity\UWPCommunity.csproj", "{559EFE6D-BA32-4B8D-99D7-370894E2142D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{4D27A348-8906-4DCD-A0E3-6CBE3A038B3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UwpCommunityBackend", "API\UwpCommunityBackend\UwpCommunityBackend.csproj", "{FAD41557-C466-4C3D-9642-1F3B23F57046}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UwpCommunityBackend", "API\UwpCommunityBackend\UwpCommunityBackend.csproj", "{FAD41557-C466-4C3D-9642-1F3B23F57046}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord", "API\Discord\Discord.csproj", "{2B8B54B6-5432-405B-A9DE-6BCE2ABDA465}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord", "API\Discord\Discord.csproj", "{2B8B54B6-5432-405B-A9DE-6BCE2ABDA465}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Github", "Api\Github\Github.csproj", "{331C66F9-4A23-4EF4-88E7-936FFC65BCB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Github", "Api\Github\Github.csproj", "{331C66F9-4A23-4EF4-88E7-936FFC65BCB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoshiServer", "Api\YoshiServer\YoshiServer.csproj", "{C220047D-2BFB-4A8D-B4A0-9B9AE018CC2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoshiServer", "Api\YoshiServer\YoshiServer.csproj", "{C220047D-2BFB-4A8D-B4A0-9B9AE018CC2C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EDF3EA7E-3B76-42AA-8EB0-A75A56CCFF95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UwpCommunityBackend.Tests", "Tests\UwpCommunityBackend.Tests\UwpCommunityBackend.Tests.csproj", "{944F1B23-1EE1-4F79-97B6-A601CEEAB332}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,6 +143,26 @@ Global
 		{C220047D-2BFB-4A8D-B4A0-9B9AE018CC2C}.Release|x64.Build.0 = Release|Any CPU
 		{C220047D-2BFB-4A8D-B4A0-9B9AE018CC2C}.Release|x86.ActiveCfg = Release|Any CPU
 		{C220047D-2BFB-4A8D-B4A0-9B9AE018CC2C}.Release|x86.Build.0 = Release|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Debug|ARM.Build.0 = Debug|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Debug|x64.Build.0 = Debug|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Debug|x86.Build.0 = Debug|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Release|Any CPU.Build.0 = Release|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Release|ARM.ActiveCfg = Release|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Release|ARM.Build.0 = Release|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Release|ARM64.Build.0 = Release|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Release|x64.ActiveCfg = Release|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Release|x64.Build.0 = Release|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Release|x86.ActiveCfg = Release|Any CPU
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,6 +172,7 @@ Global
 		{2B8B54B6-5432-405B-A9DE-6BCE2ABDA465} = {4D27A348-8906-4DCD-A0E3-6CBE3A038B3A}
 		{331C66F9-4A23-4EF4-88E7-936FFC65BCB2} = {4D27A348-8906-4DCD-A0E3-6CBE3A038B3A}
 		{C220047D-2BFB-4A8D-B4A0-9B9AE018CC2C} = {4D27A348-8906-4DCD-A0E3-6CBE3A038B3A}
+		{944F1B23-1EE1-4F79-97B6-A601CEEAB332} = {EDF3EA7E-3B76-42AA-8EB0-A75A56CCFF95}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5BA47F0A-F75D-4959-992F-49EDD697863D}

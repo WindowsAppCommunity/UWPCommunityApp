@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -73,21 +74,13 @@ namespace UwpCommunityBackend.Models
         public string Role { get; set; } = "Developer";
 
         [JsonIgnore]
-        public System.Uri HeroImageUri {
-            get {
-                return new System.Uri(HeroImageSafe);
-            }
-        }
+        public Uri HeroImageUri => new Uri(HeroImageSafe);
 
         [JsonIgnore]
         /// <summary>
         /// A duplicate of HeroImage, but returns a dummy image if null
         /// </summary>
-        public string HeroImageSafe {
-            get {
-                return HeroImage ?? "https://uwpcommunity.com/assets/img/LaunchHero.png";
-            }
-        }
+        public string HeroImageSafe => HeroImage ?? "https://uwpcommunity.com/assets/img/LaunchHero.png";
 
         [JsonIgnore]
         public Collaborator Owner => Collaborators?.First(c => c.IsOwner);
@@ -121,211 +114,75 @@ namespace UwpCommunityBackend.Models
         }
         public static string GetCategoryTitle(ProjectCategory category)
         {
-            switch (category)
+            string catStr = category.ToString().Replace("And", "&");
+            string name = string.Empty;
+            for (int i = 0; i < catStr.Length; i++)
             {
-                case ProjectCategory.BooksAndReference:
-                    return "Books & reference";
-
-                case ProjectCategory.Business:
-                    return "Business";
-
-                case ProjectCategory.DeveloperTools:
-                    return "Developer tools";
-
-                case ProjectCategory.Education:
-                    return "Education";
-
-                case ProjectCategory.Entertainment:
-                    return "Entertainment";
-
-                case ProjectCategory.FoodAndDining:
-                    return "Food & dining";
-
-                case ProjectCategory.GovernmentAndPolitics:
-                    return "Government & politics";
-
-                case ProjectCategory.KidsAndFamily:
-                    return "Kids & family";
-
-                case ProjectCategory.Lifestyle:
-                    return "Lifestyle";
-
-                case ProjectCategory.Medical:
-                    return "Medical";
-
-                case ProjectCategory.MultimediaDesign:
-                    return "Multimedia design";
-
-                case ProjectCategory.Music:
-                    return "Music";
-
-                case ProjectCategory.NavigationAndMaps:
-                    return "Navigation & maps";
-
-                case ProjectCategory.NewsAndWeather:
-                    return "News & weather";
-
-                case ProjectCategory.PersonalFinance:
-                    return "Personal finance";
-
-                case ProjectCategory.Personalization:
-                    return "Personalization";
-
-                case ProjectCategory.PhotoAndVideo:
-                    return "Photo & video";
-
-                case ProjectCategory.Productivity:
-                    return "Productivity";
-
-                case ProjectCategory.Security:
-                    return "Security";
-
-                case ProjectCategory.Shopping:
-                    return "Shopping";
-
-                case ProjectCategory.Social:
-                    return "Social";
-
-                case ProjectCategory.Sports:
-                    return "Sports";
-
-                case ProjectCategory.Travel:
-                    return "Travel";
-
-                case ProjectCategory.UtilitiesAndTools:
-                    return "Utilities & tools";
-
-                default:
-                    return "";
+                char ch = catStr[i];
+                if (i == 0 || char.IsLower(ch))
+                {
+                    name += ch;
+                }
+                else if (char.IsUpper(ch) || ch == '&')
+                {
+                    name += " " + char.ToLower(ch);
+                }
             }
+            return name;
         }
         public static ProjectCategory GetCategoryFromTitle(string name)
         {
-            switch (name)
-            {
-                case "Books & reference":
-                    return ProjectCategory.BooksAndReference;
-
-                case "Business":
-                    return ProjectCategory.Business;
-
-                case "Developer tools":
-                    return ProjectCategory.DeveloperTools;
-
-                case "Education":
-                    return ProjectCategory.Education;
-
-                case "Entertainment":
-                    return ProjectCategory.Entertainment;
-
-                case "Food & dining":
-                    return ProjectCategory.FoodAndDining;
-
-                case "Government & politics":
-                    return ProjectCategory.GovernmentAndPolitics;
-
-                case "Kids & family":
-                    return ProjectCategory.KidsAndFamily;
-
-                case "Lifestyle":
-                    return ProjectCategory.Lifestyle;
-
-                case "Medical":
-                    return ProjectCategory.Medical;
-
-                case "Multimedia design":
-                    return ProjectCategory.MultimediaDesign;
-
-                case "Music":
-                    return ProjectCategory.MultimediaDesign;
-
-                case "Navigation & maps":
-                    return ProjectCategory.NavigationAndMaps;
-
-                case "News & weather":
-                    return ProjectCategory.NewsAndWeather;
-
-                case "Personal finance":
-                    return ProjectCategory.PersonalFinance;
-
-                case "Personalization":
-                    return ProjectCategory.Personalization;
-
-                case "Photo & video":
-                    return ProjectCategory.PhotoAndVideo;
-
-                case "Productivity":
-                    return ProjectCategory.Productivity;
-
-                case "Security":
-                    return ProjectCategory.Security;
-
-                case "Shopping":
-                    return ProjectCategory.Shopping;
-
-                case "Social":
-                    return ProjectCategory.Social;
-
-                case "Sports":
-                    return ProjectCategory.Sports;
-
-                case "Travel":
-                    return ProjectCategory.Travel;
-
-                case "Utilities & tools":
-                    return ProjectCategory.UtilitiesAndTools;
-
-                default:
-                    return ProjectCategory.BooksAndReference;
-            }
+            string catStr = name.ToString()
+                .Replace(" ", string.Empty).Replace("&", "And");
+            return (ProjectCategory)Enum.Parse(typeof(ProjectCategory), catStr, true);
         }
 
         /// <summary>
         /// Checks if the user is the owner of this project
         /// </summary>
         public bool IsOwner(string userId)
-		{
+        {
             var owner = Collaborators.Find(c => c.IsOwner == true);
             return owner.DiscordId == userId;
-		}
+        }
 
         /// <summary>
         /// Checks if the user is a developer for this project
         /// </summary>
         public bool IsDeveloper(string userId)
-		{
+        {
             var user = Collaborators.Find(c => c.DiscordId == userId);
             return user.Role == Collaborator.RoleType.Developer;
-		}
+        }
         /// <summary>
         /// Checks if the user is a translator for this project
         /// </summary>
         public bool IsTranslator(string userId)
-		{
+        {
             var user = Collaborators.Find(c => c.DiscordId == userId);
             return user.Role == Collaborator.RoleType.Translator;
-		}
+        }
         /// <summary>
         /// Checks if the user is a beta tester for this project
         /// </summary>
         public bool IsBetaTester(string userId)
-		{
+        {
             var user = Collaborators.Find(c => c.DiscordId == userId);
             return user.Role == Collaborator.RoleType.BetaTester;
-		}
+        }
 
         public IEnumerable<Collaborator> GetDevelopers()
-		{
+        {
             return Collaborators.Where(c => c.Role == Collaborator.RoleType.Developer);
-		}
+        }
         public IEnumerable<Collaborator> GetTranslators()
-		{
+        {
             return Collaborators.Where(c => c.Role == Collaborator.RoleType.Translator);
-		}
+        }
         public IEnumerable<Collaborator> GetBetaTesters()
-		{
+        {
             return Collaborators.Where(c => c.Role == Collaborator.RoleType.BetaTester);
-		}
+        }
 
         public override string ToString()
         {
