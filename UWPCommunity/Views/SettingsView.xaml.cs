@@ -37,6 +37,7 @@ namespace UWPCommunity.Views
             SettingsManager.ProjectCardSizeChanged += SettingsManager_ProjectCardSizeChanged;
             SettingsManager.ShowLlamaBingoChanged += SettingsManager_ShowLlamaBingoChanged;
             SettingsManager.UseDebugApiChanged += SettingsManager_UseDebugApiChanged;
+            SettingsManager.UseBlurEffectsChanged += SettingsManager_UseBlurEffectsChanged; ;
         }
 
         private void SettingsManager_SettingsChanged(string name, object value)
@@ -60,6 +61,7 @@ namespace UWPCommunity.Views
             ShowLlamaBingoBox.IsChecked = SettingsManager.GetShowLlamaBingo();
             ExtendIntoTitleBarBox.IsChecked = SettingsManager.GetExtendIntoTitleBar();
             ShowLiveTileBox.IsChecked = SettingsManager.GetShowLiveTile();
+            UseBlurEffectsBox.IsChecked = SettingsManager.GetUseBlurEffects();
             ShowAppMessagesBox.IsChecked = SettingsManager.AppMessageSettings.GetShowAppMessages();
             ImportanceLevelSlider.Value = SettingsManager.AppMessageSettings.GetImportanceLevel();
             AppVersionRun.Text = App.GetVersion();
@@ -89,6 +91,10 @@ namespace UWPCommunity.Views
         }
 
         #region Settings Manager
+        private void SettingsManager_UseBlurEffectsChanged(bool value)
+        {
+            UseBlurEffectsBox.IsChecked = value;
+        }
 
         private void SettingsManager_UseDebugApiChanged(bool value)
         {
@@ -124,6 +130,16 @@ namespace UWPCommunity.Views
         private void ProjectCardSize_ValueChanged(Microsoft.UI.Xaml.Controls.NumberBox sender, Microsoft.UI.Xaml.Controls.NumberBoxValueChangedEventArgs args)
         {
             SettingsManager.SetProjectCardSize(new Point(ProjectCardWidth.Value, ProjectCardHeight.Value));
+        }
+
+        private void UseBlurEffectsBox_Checked(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.SetUseBlurEffects(true);
+        }
+
+        private void UseBlurEffectsBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            SettingsManager.SetUseBlurEffects(false);
         }
 
         private void ShowLlamaBingoBox_Checked(object sender, RoutedEventArgs e)

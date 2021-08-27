@@ -312,6 +312,27 @@ namespace UWPCommunity
         public delegate void ExtendIntoTitleBarChangedHandler(bool value);
         public static event ExtendIntoTitleBarChangedHandler ExtendIntoTitleBarChanged;
 
+        public static bool GetUseBlurEffects()
+        {
+            if (localSettings.Values.TryGetValue("UseBlurEffects", out object value))
+            {
+                return (bool)value;
+            }
+            else
+            {
+                SetExtendIntoTitleBar(true);
+                return true;
+            }
+        }
+        public static void SetUseBlurEffects(bool value)
+        {
+            localSettings.Values["UseBlurEffects"] = value;
+            UseBlurEffectsChanged?.Invoke(value);
+            SettingsChanged?.Invoke("UseBlurEffects", value);
+        }
+        public delegate void UseBlurEffectsChangedHandler(bool value);
+        public static event UseBlurEffectsChangedHandler UseBlurEffectsChanged;
+
         public delegate void SettingsChangedHandler(string name, object value);
         public static event SettingsChangedHandler SettingsChanged;
 

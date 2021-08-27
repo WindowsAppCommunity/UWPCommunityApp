@@ -64,6 +64,9 @@
                 <CheckBox x:Name="ShowLiveTileBox" Content="Show live tile"
                           Checked="ShowLiveTileBox_Checked" Unchecked="ShowLiveTileBox_Unchecked"/>
 
+                <CheckBox x:Name="UseBlurEffectsBox" Content="Use blur effects"
+                          Checked="UseBlurEffectsBox_Checked" Unchecked="UseBlurEffectsBox_Unchecked"/>
+
                 <Button x:Name="DefaultButton" Content="Restore default settings"
                         Click="DefaultButton_Click"/>
 
