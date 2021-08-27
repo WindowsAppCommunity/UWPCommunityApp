@@ -8,7 +8,7 @@
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:converters="using:UWPCommunity.Converters"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
-    xmlns:fluent="using:Fluent.Icons.Compact"
+    xmlns:fluent="using:Fluent.Icons"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -30,12 +30,12 @@
                     <Button Visibility="{x:Bind Project.DownloadLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
                             Click="DownloadLinkButton_Click" Windows10version1809:CornerRadius="0"
                             ToolTipService.ToolTip="Download" AutomationProperties.Name="Download">
-                        <fluent:FluentIconElement Symbol="ArrowDownload"/>
+                        <fluent:FluentIconElement Symbol="ArrowDownload24"/>
                     </Button>
                     <Button Visibility="{x:Bind Project.ExternalLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
                             Click="ExternalLinkButton_Click" Windows10version1809:CornerRadius="0"
                             ToolTipService.ToolTip="Open website" AutomationProperties.Name="Open website">
-                        <fluent:FluentIconElement Symbol="Globe"/>
+                        <fluent:FluentIconElement Symbol="Globe24"/>
                     </Button>
                     <Button Visibility="{x:Bind Project.GitHubLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
                             Click="GitHubLinkButton_Click" Windows10version1809:CornerRadius="0"
@@ -58,7 +58,7 @@
         <Button x:Name="CloseButton" VerticalAlignment="Top" HorizontalAlignment="Right"
                 Click="CloseButton_Click" Width="48" Height="40" Windows10version1809:CornerRadius="0"
                 ToolTipService.ToolTip="Close" AutomationProperties.Name="Go back">
-            <fluent:FluentIconElement Symbol="Dismiss"/>
+            <fluent:FluentIconElement Symbol="Dismiss24"/>
         </Button>
     </Grid>
 </Page>

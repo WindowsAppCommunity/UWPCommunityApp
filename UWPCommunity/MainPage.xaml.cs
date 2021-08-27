@@ -1,4 +1,4 @@
-﻿using Fluent.Icons.Compact;
+﻿using Fluent.Icons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -166,7 +166,7 @@ namespace UWPCommunity
             new PageInfo()
             {
                 PageType = typeof(Views.HomeView),
-                Icon = new FluentIconElement(FluentSymbol.Home),
+                Icon = new FluentIconElement(FluentSymbol.Home24),
                 Title = "Home",
                 Subhead = "The front page of the UWP Community",
                 Path = "home"
@@ -175,7 +175,7 @@ namespace UWPCommunity
             new PageInfo()
             {
                 PageType = typeof(Views.ProjectsView),
-                Icon = new FluentIconElement(FluentSymbol.Library),
+                Icon = new FluentIconElement(FluentSymbol.Library24),
                 Title = "Projects",
                 Subhead = "Explore registered projects",
                 Path = "projects"
@@ -184,7 +184,7 @@ namespace UWPCommunity
             new PageInfo()
             {
                 PageType = typeof(Views.LaunchView),
-                Icon = new FluentIconElement(FluentSymbol.Rocket),
+                Icon = new FluentIconElement(FluentSymbol.Rocket24),
                 Title = "Launch",
                 Subhead = "Explore Launch participants",
                 Path = "launch"
@@ -204,7 +204,7 @@ namespace UWPCommunity
             new PageInfo()
             {
                 PageType = typeof(Views.DashboardView),
-                Icon = new FluentIconElement(FluentSymbol.Board),
+                Icon = new FluentIconElement(FluentSymbol.Board24),
                 Title = "Dashboard",
                 Subhead = "Manage and register your apps",
                 Path = "dashboard",

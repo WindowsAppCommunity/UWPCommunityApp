@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:UWPCommunity.Controls"
     xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
-    xmlns:fluent="using:Fluent.Icons.Compact"
+    xmlns:fluent="using:Fluent.Icons"
     mc:Ignorable="d"
     NavigationCacheMode="Required">
 
@@ -28,35 +28,35 @@
         <CommandBar Grid.Row="1" DefaultLabelPosition="Right">
             <AppBarButton Label="Reset" Click="ResetBoardButton_Click">
                 <AppBarButton.Icon>
-                    <fluent:FluentIconElement Symbol="Dismiss"/>
+                    <fluent:FluentIconElement Symbol="Dismiss24"/>
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton Label="Share" Click="CopyLink_Click">
                 <AppBarButton.Icon>
-                    <fluent:FluentIconElement Symbol="Share"/>
+                    <fluent:FluentIconElement Symbol="Share24"/>
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton Label="Load from Clipboard" Click="LoadLink_Click">
                 <AppBarButton.Icon>
-                    <fluent:FluentIconElement Symbol="ClipboardLink"/>
+                    <fluent:FluentIconElement Symbol="ClipboardLink24"/>
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarToggleButton x:Name="CompactOverlayButton" Label="Compact Overlay"
                                 Checked="CompactOverlayButton_Checked" Unchecked="CompactOverlayButton_Unchecked">
                 <AppBarToggleButton.Icon>
-                    <fluent:FluentIconElement Symbol="Open"/>
+                    <fluent:FluentIconElement Symbol="Open24"/>
                 </AppBarToggleButton.Icon>
             </AppBarToggleButton>
 
             <CommandBar.SecondaryCommands>
                 <AppBarButton Label="Save As Image" Click="SaveImage_Click">
                     <AppBarButton.Icon>
-                        <fluent:FluentIconElement Symbol="Save"/>
+                        <fluent:FluentIconElement Symbol="Save24"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton x:Name="HistoryButton" Label="History">
                     <AppBarButton.Icon>
-                        <fluent:FluentIconElement Symbol="History"/>
+                        <fluent:FluentIconElement Symbol="History24"/>
                     </AppBarButton.Icon>
                     <AppBarButton.Flyout>
                         <Flyout>

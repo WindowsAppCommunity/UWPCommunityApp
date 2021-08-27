@@ -10,7 +10,7 @@
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:viewmodels="using:UWPCommunity.ViewModels"
-    xmlns:fluent="using:Fluent.Icons.Compact"
+    xmlns:fluent="using:Fluent.Icons"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	mc:Ignorable="d">
 
@@ -121,9 +121,6 @@
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                 <Setter Property="Padding" Value="12"/>
                             </Style>
-                            <Style TargetType="fluent:FluentIconElement">
-                                <Setter Property="FontSize" Value="38"/>
-                            </Style>
                             <Style TargetType="TextBlock">
                                 <Setter Property="FontSize" Value="24"/>
                                 <Setter Property="TextLineBounds" Value="Tight"/>
@@ -137,7 +134,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <fluent:FluentIconElement Symbol="DeveloperBoard" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <fluent:FluentIconElement Symbol="DeveloperBoard24" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 <TextBlock Text="Become a Developer" Grid.Column="1" HorizontalAlignment="Center"/>
                             </Grid>
                         </Button>
@@ -147,7 +144,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <fluent:FluentIconElement Symbol="Edit" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <fluent:FluentIconElement Symbol="Edit24" VerticalAlignment="Center" HorizontalAlignment="Left" />
                                 <TextBlock Text="Edit profile" Grid.Column="1" HorizontalAlignment="Left"/>
                             </Grid>
                         </Button>
@@ -157,7 +154,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <fluent:FluentIconElement Symbol="AppsAddIn" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <fluent:FluentIconElement Symbol="AppsAddIn24" VerticalAlignment="Center" HorizontalAlignment="Left" />
                                 <TextBlock Text="Register an app" Grid.Column="1" HorizontalAlignment="Left"/>
                             </Grid>
                         </Button>
@@ -167,7 +164,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <fluent:FluentIconElement Symbol="Bot" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <fluent:FluentIconElement Symbol="Bot24" VerticalAlignment="Center" HorizontalAlignment="Left" />
                                 <TextBlock Text="Manage roles" Grid.Column="1" HorizontalAlignment="Left"/>
                             </Grid>
                         </Button>

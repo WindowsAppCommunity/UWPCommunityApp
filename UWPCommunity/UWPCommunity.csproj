@@ -361,8 +361,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fluent.Icons.Compact">
-      <Version>1.1.90.2</Version>
+    <PackageReference Include="Fluent.Icons">
+      <Version>1.1.110</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
       <Version>4.2.0</Version>

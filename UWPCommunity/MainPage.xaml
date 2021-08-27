@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
-    xmlns:fluent="using:Fluent.Icons.Compact"
+    xmlns:fluent="using:Fluent.Icons"
     mc:Ignorable="d"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
@@ -36,7 +36,7 @@
                         ToolTipService.ToolTip="Sign in" AutomationProperties.Name="Sign in"
                         HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
                     <StackPanel Spacing="8" Orientation="Horizontal">
-                        <fluent:FluentIconElement Symbol="PersonAdd"/>
+                        <fluent:FluentIconElement Symbol="PersonAdd24"/>
                         <TextBlock Text="Sign in"/>
                     </StackPanel>
                 </Button>
@@ -58,12 +58,12 @@
                         <MenuFlyout Placement="Bottom">
                             <MenuFlyoutItem Text="Edit Profile" Click="EditProfileButton_Click">
                                 <MenuFlyoutItem.Icon>
-                                    <fluent:FluentIconElement Symbol="Edit" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    <fluent:FluentIconElement Symbol="Edit24" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem Text="Log out" Click="SignOutButton_Click">
                                 <MenuFlyoutItem.Icon>
-                                    <fluent:FluentIconElement Symbol="SignOut" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    <fluent:FluentIconElement Symbol="SignOut24" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout>

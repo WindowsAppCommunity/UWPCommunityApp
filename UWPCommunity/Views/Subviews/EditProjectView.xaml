@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tkui="using:Microsoft.Toolkit.Uwp.UI"
-    xmlns:fluent="using:Fluent.Icons.Compact"
+    xmlns:fluent="using:Fluent.Icons"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -101,23 +101,23 @@
             <AppBarButton x:Name="CancelButton" Label="Cancel"
                           Click="CancelButton_Click">
                 <AppBarButton.Icon>
-                    <fluent:FluentIconElement Symbol="Dismiss"/>
+                    <fluent:FluentIconElement Symbol="Dismiss24"/>
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton Label="Drafts...">
                 <AppBarButton.Icon>
-                    <fluent:FluentIconElement Symbol="Drafts"/>
+                    <fluent:FluentIconElement Symbol="Drafts24"/>
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="Save as draft" Click="SaveDraftButton_Click">
                             <MenuFlyoutItem.Icon>
-                                <fluent:FluentIconElement Symbol="SaveAs"/>
+                                <fluent:FluentIconElement Symbol="SaveEdit24"/>
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="Load draft" Click="LoadDraftButton_Click">
                             <MenuFlyoutItem.Icon>
-                                <fluent:FluentIconElement Symbol="DocumentEdit"/>
+                                <fluent:FluentIconElement Symbol="DocumentEdit24"/>
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
@@ -128,7 +128,7 @@
                           Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
                           Click="SubmitButton_Click">
                 <AppBarButton.Icon>
-                    <fluent:FluentIconElement Symbol="Checkmark"/>
+                    <fluent:FluentIconElement Symbol="Checkmark24"/>
                 </AppBarButton.Icon>
             </AppBarButton>
         </CommandBar>

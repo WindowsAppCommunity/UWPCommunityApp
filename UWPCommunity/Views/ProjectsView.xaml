@@ -9,7 +9,7 @@
     xmlns:converters="using:UWPCommunity.Converters"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:viewmodels="using:UWPCommunity.ViewModels"
-    xmlns:fluent="using:Fluent.Icons.Compact"
+    xmlns:fluent="using:Fluent.Icons"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -31,7 +31,7 @@
                             PlaceholderText="Search projects" Margin="0,0,5,0" HorizontalAlignment="Stretch"
                             QuerySubmitted="SearchBox_QuerySubmitted" TabIndex="2">
                 <AutoSuggestBox.QueryIcon>
-                    <fluent:FluentIconElement Symbol="Search"/>
+                    <fluent:FluentIconElement Symbol="Search24"/>
                 </AutoSuggestBox.QueryIcon>
             </AutoSuggestBox>
             <winui:DropDownButton x:Name="FilterButton" toolkit:DockPanel.Dock="Left" AutomationProperties.Name="Sort" TabIndex="0">
@@ -48,7 +48,7 @@
                     </MenuFlyout>
                 </winui:DropDownButton.Flyout>
                 <StackPanel Orientation="Horizontal">
-                    <fluent:FluentIconElement Symbol="ArrowSort" Margin="0,0,5,0"/>
+                    <fluent:FluentIconElement Symbol="ArrowSort24" Margin="0,0,5,0"/>
                     <TextBlock Text="Sort"/>
                 </StackPanel>
             </winui:DropDownButton>
@@ -56,7 +56,7 @@
                                      Margin="5,0,0,0" IsCheckedChanged="CategoryButton_IsCheckedChanged"
                                      AutomationProperties.Name="Filter by category" TabIndex="1">
                 <StackPanel Orientation="Horizontal">
-                    <fluent:FluentIconElement Symbol="GroupList" Margin="0,0,5,0"/>
+                    <fluent:FluentIconElement Symbol="GroupList24" Margin="0,0,5,0"/>
                     <TextBlock Text="Category"/>
                 </StackPanel>
                 <winui:ToggleSplitButton.Flyout>
@@ -98,14 +98,14 @@
                                                 Click="DownloadLinkButton_Click" ToolTipService.ToolTip="Download"
                                                 AutomationProperties.Name="Download" Windows10version1809:CornerRadius="0">
                                             <Button.Content>
-                                                <fluent:FluentIconElement Symbol="ArrowDownload"/>
+                                                <fluent:FluentIconElement Symbol="ArrowDownload24"/>
                                             </Button.Content>
                                         </Button>
                                         <Button Visibility="{x:Bind Project.ExternalLink, Converter={StaticResource NullToVisibilityConverter}}"
                                                 Click="ExternalLinkButton_Click" ToolTipService.ToolTip="Open website"
                                                 AutomationProperties.Name="Open website" Windows10version1809:CornerRadius="0">
                                             <Button.Content>
-                                                <fluent:FluentIconElement Symbol="Globe"/>
+                                                <fluent:FluentIconElement Symbol="Globe24"/>
                                             </Button.Content>
                                         </Button>
                                         <Button Visibility="{x:Bind Project.GitHubLink, Converter={StaticResource NullToVisibilityConverter}}"
