@@ -63,13 +63,15 @@ namespace UWPCommunity.Views
                 if (roles.Any(r => r.Id == Api.SpecialRoles["Developer"]))
                 {
                     // User is a developer, set the buttons accordingly
-                    BecomeDeveloperButton.Visibility = Visibility.Collapsed;
+                    if (BecomeDeveloperButton != null)
+                        BecomeDeveloperButton.Visibility = Visibility.Collapsed;
                     RegisterAppButton.Visibility = Visibility.Visible;
                 }
                 else
                 {
                     // User is NOT a developer, set the buttons accordingly
-                    BecomeDeveloperButton.Visibility = Visibility.Visible;
+                    if (BecomeDeveloperButton != null)
+                        BecomeDeveloperButton.Visibility = Visibility.Visible;
                     RegisterAppButton.Visibility = Visibility.Collapsed;
                 }
             }
@@ -85,8 +87,14 @@ namespace UWPCommunity.Views
             try
             {
                 ViewModel.AllProjects?.Clear();
+                ViewModel.AllProjects ??= new ObservableCollection<ProjectViewModel>();
                 var projs = await Api.GetUserProjects(UserManager.DiscordUser.DiscordId);
-                ViewModel.AllProjects = projs.Select(p => new ProjectViewModel(p)).ToList();
+                foreach (var proj in projs)
+                {
+                    proj.Collaborators = await Api.GetProjectCollaborators(proj.Id, true);
+                    ViewModel.AllProjects.Add(new ProjectViewModel(proj));
+                    Bindings.Update();
+                }
             }
             catch (Flurl.Http.FlurlHttpException ex)
             {

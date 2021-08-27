@@ -20,40 +20,48 @@ namespace UwpCommunityBackend
 
         public static string Token { get; set; }
 
+        public static IFlurlRequest GetBase(bool authenticate)
+        {
+            var request = BaseUrl.WithTimeout(10);
+            if (authenticate)
+                request = request.WithOAuthBearerToken(Token);
+            return request;
+        }
+
         #region /projects/
         /// <summary>
         /// Gets the complete list of registered projects
         /// </summary>
-        public static async Task<List<Project>> GetProjects()
+        public static async Task<List<Project>> GetProjects(bool authenticate = false)
         {
-            return await BaseUrl.AppendPathSegment("projects")
+            return await GetBase(authenticate).AppendPathSegment("projects")
                 .GetJsonAsync<List<Project>>();
         }
 
         /// <summary>
         /// Gets the complete list of projects that are registered for the specified Launch year
         /// </summary>
-        public static async Task<LaunchProjects> GetLaunchProjects(int year)
+        public static async Task<LaunchProjects> GetLaunchProjects(int year, bool authenticate = false)
         {
-            return await BaseUrl.AppendPathSegments("projects", "launch", year.ToString())
+            return await GetBase(authenticate).AppendPathSegments("projects", "launch", year.ToString())
                 .GetJsonAsync<LaunchProjects>();
         }
 
         /// <summary>
         /// Gets the project with the specified ID
         /// </summary>
-        public static async Task<Project> GetProject(int projectId)
+        public static async Task<Project> GetProject(int projectId, bool authenticate = false)
         {
-            return await BaseUrl.AppendPathSegments("projects", "id", projectId.ToString())
+            return await GetBase(authenticate).AppendPathSegments("projects", "id", projectId.ToString())
                 .GetJsonAsync<Project>();
         }
 
         /// <summary>
         /// Gets the list of collaborators for the specified project
         /// </summary>
-        public static async Task<List<Collaborator>> GetProjectCollaborators(int projectId)
+        public static async Task<List<Collaborator>> GetProjectCollaborators(int projectId, bool authenticate = false)
         {
-            return await BaseUrl.AppendPathSegments("projects", "collaborators")
+            return await GetBase(true).AppendPathSegments("projects", "collaborators")
                 .SetQueryParam(nameof(projectId), projectId.ToString())
                 .GetJsonAsync<List<Collaborator>>();
         }
@@ -63,8 +71,7 @@ namespace UwpCommunityBackend
         /// </summary>
         public static async Task<HttpResponseMessage> PostProject(Project info)
         {
-            return await BaseUrl.AppendPathSegments("projects")
-                .WithOAuthBearerToken(Token)
+            return await GetBase(true).AppendPathSegments("projects")
                 .SendUrlEncodedAsync(HttpMethod.Post, info);
         }
 
@@ -73,9 +80,8 @@ namespace UwpCommunityBackend
         /// </summary>
         public static async Task<HttpResponseMessage> PutProject(string appName, Project info)
         {
-            return await BaseUrl.AppendPathSegments("projects")
+            return await GetBase(true).AppendPathSegments("projects")
                 .SetQueryParam(nameof(appName), appName)
-                .WithOAuthBearerToken(Token)
                 .SendJsonAsync(HttpMethod.Put, info);
         }
 
@@ -84,30 +90,27 @@ namespace UwpCommunityBackend
         /// </summary>
         public static async Task<HttpResponseMessage> DeleteProject(DeleteProjectRequest info)
         {
-            return await BaseUrl.AppendPathSegments("projects")
-                .WithOAuthBearerToken(Token)
+            return await GetBase(true).AppendPathSegments("projects")
                 .SendUrlEncodedAsync(HttpMethod.Delete, info);
         }
 
         /// <summary>
         /// Gets the list of projects with the tag specified by the <paramref name="tagId"/>
         /// </summary>
-        public static async Task<List<Project>> GetTags(int tagId)
+        public static async Task<List<Project>> GetTags(int tagId, bool authenticate = false)
         {
-            return await BaseUrl.AppendPathSegments("projects", "tags")
+            return await GetBase(authenticate).AppendPathSegments("projects", "tags")
                 .SetQueryParam(nameof(tagId), tagId)
-                .WithOAuthBearerToken(Token)
                 .GetJsonAsync<List<Project>>();
         }
 
         /// <summary>
         /// Gets the list of projects with the tag specified by the <paramref name="tagName"/>
         /// </summary>
-        public static async Task<List<Project>> GetTags(string tagName)
+        public static async Task<List<Project>> GetTags(string tagName, bool authenticate = false)
         {
-            return await BaseUrl.AppendPathSegments("projects", "tags")
+            return await GetBase(authenticate).AppendPathSegments("projects", "tags")
                 .SetQueryParam(nameof(tagName), tagName)
-                .WithOAuthBearerToken(Token)
                 .GetJsonAsync<List<Project>>();
         }
         #endregion
@@ -119,8 +122,7 @@ namespace UwpCommunityBackend
         /// <param name="userId">The Discord ID of the user</param>
         public static async Task<List<Project>> GetUserProjects(string userId)
         {
-            return await BaseUrl.AppendPathSegments("user", userId, "projects")
-                .WithOAuthBearerToken(Token)
+            return await GetBase(true).AppendPathSegments("user", userId, "projects")
                 .GetJsonAsync<List<Project>>();
         }
 
@@ -128,9 +130,9 @@ namespace UwpCommunityBackend
         /// Gets the user's profile information
         /// </summary>
         /// <param name="userId">The Discord ID of the user</param>
-        public static async Task<Collaborator> GetUser(string userId)
+        public static async Task<Collaborator> GetUser(string userId, bool authenticate = false)
         {
-            return await BaseUrl.AppendPathSegments("user", userId)
+            return await GetBase(authenticate).AppendPathSegments("user", userId)
                 .GetJsonAsync<Collaborator>();
         }
 
@@ -139,8 +141,7 @@ namespace UwpCommunityBackend
         /// </summary>
         public static async Task<HttpResponseMessage> SetUser(Dictionary<string, string> newInfo)
         {
-            return await BaseUrl.AppendPathSegments("user")
-                .WithOAuthBearerToken(Token)
+            return await GetBase(true).AppendPathSegments("user")
                 .SendUrlEncodedAsync(HttpMethod.Put, newInfo);
         }
 
@@ -149,8 +150,7 @@ namespace UwpCommunityBackend
         /// </summary>
         public static async Task<HttpResponseMessage> PostUser(Dictionary<string, string> info)
         {
-            return await BaseUrl.AppendPathSegments("user")
-                .WithOAuthBearerToken(Token)
+            return await GetBase(true).AppendPathSegments("user")
                 .SendUrlEncodedAsync(HttpMethod.Post, info);
         }
         #endregion
@@ -161,7 +161,7 @@ namespace UwpCommunityBackend
         /// </summary>
         public static async Task<Discord.Models.User> GetDiscordUser(string userId)
         {
-            return await BaseUrl.AppendPathSegments("bot", "user", userId)
+            return await GetBase(true).AppendPathSegments("bot", "user", userId)
                 .GetJsonAsync<Discord.Models.User>();
         }
 
@@ -170,7 +170,7 @@ namespace UwpCommunityBackend
         /// </summary>
         public static async Task<List<Discord.Models.Role>> GetDiscordUserRoles(string userId)
         {
-            return await BaseUrl.AppendPathSegments("bot", "user", userId, "roles")
+            return await GetBase(true).AppendPathSegments("bot", "user", userId, "roles")
                 .GetJsonAsync<List<Discord.Models.Role>>();
         }
         #endregion

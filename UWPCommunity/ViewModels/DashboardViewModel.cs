@@ -10,14 +10,20 @@ namespace UWPCommunity.ViewModels
 {
     public class DashboardViewModel : ObservableObject
     {
-        private List<ProjectViewModel> _AllProjects;
-        public List<ProjectViewModel> AllProjects
+        public DashboardViewModel()
+        {
+            AllProjects.CollectionChanged += AllProjects_CollectionChanged;
+        }
+
+        private ObservableCollection<ProjectViewModel> _AllProjects = new ObservableCollection<ProjectViewModel>();
+        public ObservableCollection<ProjectViewModel> AllProjects
         {
             get => _AllProjects;
             set
             {
+                AllProjects.CollectionChanged -= AllProjects_CollectionChanged;
                 SetProperty(ref _AllProjects, value);
-                UpdateSections();
+                AllProjects.CollectionChanged += AllProjects_CollectionChanged;
             }
         }
 
@@ -56,6 +62,27 @@ namespace UWPCommunity.ViewModels
             ProjectsDeveloper = new ObservableCollection<ProjectViewModel>(AllProjects.Where(p => p.IsDeveloper));
             ProjectsBetaTester = new ObservableCollection<ProjectViewModel>(AllProjects.Where(p => p.IsBetaTester));
             ProjectsTranslator = new ObservableCollection<ProjectViewModel>(AllProjects.Where(p => p.IsTranslator));
+        }
+
+        private void AllProjects_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                foreach (object item in e.NewItems)
+                {
+                    if (!(item is ProjectViewModel pvm))
+                        continue;
+
+                    if (pvm.IsOwner)
+                        ProjectsOwner.Add(pvm);
+                    if (pvm.IsDeveloper)
+                        ProjectsDeveloper.Add(pvm);
+                    if (pvm.IsBetaTester)
+                        ProjectsBetaTester.Add(pvm);
+                    if (pvm.IsTranslator)
+                        ProjectsTranslator.Add(pvm);
+                }
+            }
         }
     }
 }
