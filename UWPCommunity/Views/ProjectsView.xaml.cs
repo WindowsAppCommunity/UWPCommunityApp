@@ -313,10 +313,10 @@ namespace UWPCommunity.Views
                     break;
 
                 case "Launch Year (Latest-Oldest)":
-                    sorted = collection.OrderByDescending(x => x.Project.LaunchYear);
+                    sorted = collection.OrderByDescending(x => x.Project.GetLastLaunchYear() ?? 0);
                     break;
                 case "Launch Year (Oldest-Latest)":
-                    sorted = collection.OrderBy(x => x.Project.LaunchYear);
+                    sorted = collection.OrderBy(x => x.Project.GetLastLaunchYear() ?? 0);
                     break;
 
                 default:

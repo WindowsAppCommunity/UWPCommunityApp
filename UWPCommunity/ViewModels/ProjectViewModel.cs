@@ -29,7 +29,7 @@ namespace UWPCommunity.ViewModels
         public bool IsOwner {
             get
 			{
-                if (UserManager.DiscordUser == null)
+                if (UserManager.DiscordUser == null || !Project.IsCollaboratorsAvailable)
                     return false;
                 return Project.IsOwner(UserManager.DiscordUser.DiscordId);
             }
@@ -38,7 +38,7 @@ namespace UWPCommunity.ViewModels
         {
             get
             {
-                if (UserManager.DiscordUser == null)
+                if (UserManager.DiscordUser == null || !Project.IsCollaboratorsAvailable)
                     return false;
                 return Project.IsDeveloper(UserManager.DiscordUser.DiscordId);
             }
@@ -47,7 +47,7 @@ namespace UWPCommunity.ViewModels
         {
             get
             {
-                if (UserManager.DiscordUser == null)
+                if (UserManager.DiscordUser == null || !Project.IsCollaboratorsAvailable)
                     return false;
                 return Project.IsTranslator(UserManager.DiscordUser.DiscordId);
             }
@@ -56,7 +56,7 @@ namespace UWPCommunity.ViewModels
         {
             get
             {
-                if (UserManager.DiscordUser == null)
+                if (UserManager.DiscordUser == null || !Project.IsCollaboratorsAvailable)
                     return false;
                 return Project.IsBetaTester(UserManager.DiscordUser.DiscordId);
             }

@@ -12,9 +12,7 @@ namespace UwpCommunityBackend.Models
 
         [JsonProperty("collaborators")]
         public List<Collaborator> Collaborators { get; set; }
-
-        [JsonProperty("launchYear")]
-        public short? LaunchYear { get; set; }
+        public bool IsCollaboratorsAvailable => Collaborators != null && Collaborators.Count > 0;
 
         [JsonProperty("createdAt")]
         public string CreatedAt { get; set; }
@@ -182,6 +180,17 @@ namespace UwpCommunityBackend.Models
         public IEnumerable<Collaborator> GetBetaTesters()
         {
             return Collaborators.Where(c => c.Role == Collaborator.RoleType.BetaTester);
+        }
+
+        public int? GetLastLaunchYear()
+        {
+            int lastYear = -1;
+            foreach (Tag tag in Tags.Where(t => t.Name.StartsWith("Launch ")))
+            {
+                if (int.TryParse(tag.Name, out int year) && year > lastYear)
+                    lastYear = year;
+            }
+            return lastYear >= 0 ? lastYear : (int?)null;
         }
 
         public override string ToString()
