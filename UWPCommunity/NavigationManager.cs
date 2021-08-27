@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Controls;
 using UWPCommunity.Views;
 using Windows.UI.Xaml;
 using Flurl;
-using System.Linq;
+using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
 
 namespace UWPCommunity
 {
@@ -194,12 +194,15 @@ namespace UWPCommunity
         public string Path { get; set; }
         public string Tooltip { get; set; }
         public Visibility Visibility { get; set; } = Visibility.Visible;
+        public bool RequiresAuth { get; set; } = false;
 
         // Derived properties
         public NavigationViewItem NavViewItem {
-            get {
+            get
+            {
                 var item = new NavigationViewItem()
                 {
+                    Tag = this,
                     Icon = Icon,
                     Content = Title,
                     Visibility = Visibility

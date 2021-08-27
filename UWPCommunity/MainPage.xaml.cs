@@ -32,12 +32,7 @@ namespace UWPCommunity
 
             foreach (PageInfo page in Pages)
             {
-                MainNav.MenuItems.Add(new NavigationViewItem()
-                {
-                    Content = page.Title,
-                    Icon = page.Icon,
-                    Visibility = page.Visibility,
-                });
+                MainNav.MenuItems.Add(page.NavViewItem);
             }
             MainNav.SelectedItem = MainNav.MenuItems[0];
 
@@ -99,7 +94,7 @@ namespace UWPCommunity
                     MainNav.SelectedItem = null;
                     return;
                 }
-                MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as NavigationViewItem).Content.ToString() == page.Title);
+                MainNav.SelectedItem = MainNav.MenuItems.ToList().Find((obj) => (obj as NavigationViewItem).Tag == page);
             }
             catch
             {
@@ -125,13 +120,28 @@ namespace UWPCommunity
                 AutomationProperties.SetName(UserButton, UserManager.DiscordUser.Username);
                 ToolTipService.SetToolTip(UserButton, UserManager.DiscordUser.Username);
                 UserProfileName.Text = UserManager.DiscordUser.Username;
-                (MainNav.MenuItems[4] as NavigationViewItem).Visibility = Visibility.Visible;
             }
             else
             {
                 SignInButton.Visibility = Visibility.Visible;
                 UserButton.Visibility = Visibility.Collapsed;
-                (MainNav.MenuItems[4] as NavigationViewItem).Visibility = Visibility.Collapsed;
+            }
+
+            // Update navigation items that require authentication
+            foreach (object menuItem in MainNav.MenuItems)
+            {
+                if (!(menuItem is NavigationViewItem navItem))
+                    continue;
+
+                if (navItem.Tag is PageInfo info && info.RequiresAuth)
+                {
+                    navItem.Visibility = isLoggedIn.Value ? Visibility.Visible : Visibility.Collapsed;
+                    if (!isLoggedIn.Value && navItem.IsSelected)
+                    {
+                        // Navigate away from the page
+                        NavigationManager.NavigateToHome();
+                    }
+                }
             }
         }
 
@@ -149,7 +159,7 @@ namespace UWPCommunity
                 return;
             }
 
-            PageInfo pageInfo = Pages.Find((info) => info.Title == navItem.Content.ToString());
+            PageInfo pageInfo = navItem.Tag as PageInfo;
             if (pageInfo == null)
             {
                 NavigationManager.NavigateToHome();
@@ -216,7 +226,8 @@ namespace UWPCommunity
                 Title = "Dashboard",
                 Subhead = "Manage and register your apps",
                 Path = "dashboard",
-                Visibility = Visibility.Collapsed
+                Visibility = Visibility.Collapsed,
+                RequiresAuth = true
             },
         };
 
