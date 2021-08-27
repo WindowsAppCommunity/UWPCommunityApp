@@ -70,6 +70,8 @@ namespace UWPCommunity.Views
         private void ParticipantsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Project item = ParticipantsGridView.SelectedItem as Project;
+            if (item == null)
+                return;
             //ParticipantsGridView.PrepareConnectedAnimation("projectView", item, "HeroImageStartCtl");
             NavigationManager.NavigateToViewProject(item);
         }
