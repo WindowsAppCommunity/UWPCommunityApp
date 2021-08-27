@@ -71,20 +71,19 @@ namespace UWPCommunity
 
         public static ElementTheme GetAppTheme()
         {
-            return ThemeFromName(localSettings.Values["AppTheme"] as string);
+            return ThemeFromName(GetAppThemeName());
         }
         public static string GetAppThemeName()
         {
-            var theme = localSettings.Values["AppTheme"] as string;
-            if (String.IsNullOrEmpty(theme))
+            if (localSettings.Values.TryGetValue("AppTheme", out object value))
+            {
+                return value.ToString();
+            }
+            else
             {
                 var defaultTheme = "Default";
                 SetAppTheme(defaultTheme);
                 return defaultTheme;
-            }
-            else
-            {
-                return theme;
             }
         }
         public static void SetAppTheme(ElementTheme theme)
@@ -100,17 +99,7 @@ namespace UWPCommunity
         }
         private static ElementTheme ThemeFromName(string themeName)
         {
-            switch (themeName)
-            {
-                case "Light":
-                    return ElementTheme.Light;
-
-                case "Dark":
-                    return ElementTheme.Dark;
-
-                default:
-                    return ElementTheme.Default;
-            }
+            return (ElementTheme)Enum.Parse(typeof(ElementTheme), themeName, true);
         }
         public static void ApplyAppTheme(ElementTheme theme)
         {
@@ -127,19 +116,23 @@ namespace UWPCommunity
         public const string PROD_API_URL = "https://uwpcommunity-site-backend.herokuapp.com";
         public static bool GetUseDebugApi()
         {
-            try
+            if (localSettings.Values.TryGetValue("UseDebugApi", out object value))
             {
-                return Boolean.Parse(localSettings.Values["UseDebugApi"] as string);
+                // Older versions stored this a string
+                if (value is bool boolVal)
+                    return boolVal;
+                else
+                    return bool.Parse(value.ToString());
             }
-            catch
+            else
             {
-                SetUseDebugApi(false);
-                return false;
+                SetUseDebugApi(true);
+                return true;
             }
         }
         public static void SetUseDebugApi(bool value)
         {
-            localSettings.Values["UseDebugApi"] = value.ToString();
+            localSettings.Values["UseDebugApi"] = value;
             ApplyUseDebugApi(value);
             UseDebugApiChanged?.Invoke(value);
             SettingsChanged?.Invoke("UseDebugApi", value);
@@ -156,11 +149,11 @@ namespace UWPCommunity
 
         public static Point GetProjectCardSize()
         {
-            try
+            if (localSettings.Values.TryGetValue("ProjectCardSize", out object value))
             {
-                return (Point)localSettings.Values["ProjectCardSize"];
+                return (Point)value;
             }
-            catch
+            else
             {
                 var defaultRect = new Point(300, 300);
                 SetProjectCardSize(defaultRect);
@@ -178,11 +171,11 @@ namespace UWPCommunity
 
         public static bool GetShowLlamaBingo()
         {
-            try
+            if (localSettings.Values.TryGetValue("ShowLlamaBingo", out object value))
             {
-                return (bool)localSettings.Values["ShowLlamaBingo"];
+                return (bool)value;
             }
-            catch
+            else
             {
                 SetShowLlamaBingo(true);
                 return true;
@@ -199,11 +192,11 @@ namespace UWPCommunity
 
         public static string GetSavedLlamaBingo()
         {
-            try
+            if (localSettings.Values.TryGetValue("SavedLlamaBingo", out object value))
             {
-                return (string)localSettings.Values["SavedLlamaBingo"];
+                return value.ToString();
             }
-            catch
+            else
             {
                 SetSavedLlamaBingo(null);
                 return null;
@@ -220,11 +213,11 @@ namespace UWPCommunity
 
         public static bool GetShowLiveTile()
         {
-            try
+            if (localSettings.Values.TryGetValue("ShowLiveTile", out object value))
             {
-                return (bool)localSettings.Values["ShowLiveTile"];
+                return (bool)value;
             }
-            catch
+            else
             {
                 SetShowLiveTile(true);
                 return true;
@@ -300,11 +293,11 @@ namespace UWPCommunity
 
         public static bool GetExtendIntoTitleBar()
         {
-            try
+            if (localSettings.Values.TryGetValue("ExtendIntoTitleBar", out object value))
             {
-                return (bool)localSettings.Values["ExtendIntoTitleBar"];
+                return (bool)value;
             }
-            catch
+            else
             {
                 SetExtendIntoTitleBar(true);
                 return true;
@@ -336,11 +329,11 @@ namespace UWPCommunity
 
             public static bool GetShowAppMessages()
             {
-                try
+                if (localSettings.Values.TryGetValue("ShowAppMessages", out object value))
                 {
-                    return (bool)localSettings.Values["ShowAppMessages"];
+                    return (bool)value;
                 }
-                catch
+                else
                 {
                     SetShowAppMessages(true);
                     return true;
@@ -357,11 +350,11 @@ namespace UWPCommunity
 
             public static string GetLastAppMessageId()
             {
-                try
+                if (localSettings.Values.TryGetValue("LastAppMessageId", out object value))
                 {
-                    return (string)localSettings.Values["LastAppMessageId"];
+                    return value.ToString();
                 }
-                catch
+                else
                 {
                     SetLastAppMessageId(null);
                     return null;
@@ -378,11 +371,11 @@ namespace UWPCommunity
 
             public static int GetImportanceLevel()
             {
-                try
+                if (localSettings.Values.TryGetValue("ImportanceLevel", out object value))
                 {
-                    return (int)localSettings.Values["ImportanceLevel"];
+                    return (int)value;
                 }
-                catch
+                else
                 {
                     SetImportanceLevel(3);
                     return 3;
