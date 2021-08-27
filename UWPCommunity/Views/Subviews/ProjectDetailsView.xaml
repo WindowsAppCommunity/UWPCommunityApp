@@ -17,30 +17,33 @@
     </Page.Resources>
 
     <Grid>
-        <Grid Padding="10">
+        <Grid Padding="8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             
-            <StackPanel toolkit:DockPanel.Dock="Top" Orientation="Vertical" Spacing="5">
-                <StackPanel Orientation="Horizontal" Spacing="5">
+            <StackPanel toolkit:DockPanel.Dock="Top" Orientation="Vertical" Spacing="4">
+                <StackPanel Orientation="Horizontal" Spacing="4">
                     <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{x:Bind Project.AppName}"
                                FontWeight="SemiBold" x:Name="TitleBlock"/>
                     <Button Visibility="{x:Bind Project.DownloadLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
                             Click="DownloadLinkButton_Click" Windows10version1809:CornerRadius="0"
-                            ToolTipService.ToolTip="Download" AutomationProperties.Name="Download">
-                        <fluent:FluentIconElement Symbol="ArrowDownload24"/>
+                            ToolTipService.ToolTip="Download" AutomationProperties.Name="Download"
+                            VerticalAlignment="Stretch">
+                        <fluent:FluentIconElement Symbol="ArrowDownload24" Margin="-4,0,0,0"/>
                     </Button>
                     <Button Visibility="{x:Bind Project.ExternalLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
                             Click="ExternalLinkButton_Click" Windows10version1809:CornerRadius="0"
-                            ToolTipService.ToolTip="Open website" AutomationProperties.Name="Open website">
-                        <fluent:FluentIconElement Symbol="Globe24"/>
+                            ToolTipService.ToolTip="Open website" AutomationProperties.Name="Open website"
+                            VerticalAlignment="Stretch">
+                        <fluent:FluentIconElement Symbol="Globe24" Margin="-1,0,0,0"/>
                     </Button>
                     <Button Visibility="{x:Bind Project.GitHubLink, Mode=TwoWay, Converter={StaticResource NullToVisibilityConverter}}"
                             Click="GitHubLinkButton_Click" Windows10version1809:CornerRadius="0"
-                            ToolTipService.ToolTip="Open GitHub repo" AutomationProperties.Name="Open GitHub repo">
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF90;" />
+                            ToolTipService.ToolTip="Open GitHub repo" AutomationProperties.Name="Open GitHub repo"
+                            VerticalAlignment="Stretch">
+                        <fluent:FluentIconElement Symbol="Code24" Margin="-1,0,0,0" />
                     </Button>
                 </StackPanel>
                 <TextBlock RelativePanel.Below="TitleBlock" Text="{x:Bind Project.Description}"
@@ -52,13 +55,13 @@
             </StackPanel>
 
             <Image x:Name="HeroImageCtl" Source="{x:Bind Project.HeroImageSafe}" Stretch="Uniform"
-                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,0,0" Grid.Row="1"/>
+                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,8,0,0" Grid.Row="1"/>
         </Grid>
 
         <Button x:Name="CloseButton" VerticalAlignment="Top" HorizontalAlignment="Right"
-                Click="CloseButton_Click" Width="48" Height="40" Windows10version1809:CornerRadius="0"
+                Click="CloseButton_Click" Width="44" Height="40" Windows10version1809:CornerRadius="0"
                 ToolTipService.ToolTip="Close" AutomationProperties.Name="Go back">
-            <fluent:FluentIconElement Symbol="Dismiss24"/>
+            <fluent:FluentIconElement Symbol="Dismiss24" Margin="-2,-2,0,0"/>
         </Button>
     </Grid>
 </Page>

@@ -96,23 +96,26 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Button Visibility="{x:Bind Project.DownloadLink, Converter={StaticResource NullToVisibilityConverter}}"
                                                 Click="DownloadLinkButton_Click" ToolTipService.ToolTip="Download"
-                                                AutomationProperties.Name="Download" Windows10version1809:CornerRadius="0">
+                                                AutomationProperties.Name="Download" Windows10version1809:CornerRadius="0"
+                                                VerticalAlignment="Stretch">
                                             <Button.Content>
-                                                <fluent:FluentIconElement Symbol="ArrowDownload24"/>
+                                                <fluent:FluentIconElement Symbol="ArrowDownload24" Margin="-4,0,0,0"/>
                                             </Button.Content>
                                         </Button>
                                         <Button Visibility="{x:Bind Project.ExternalLink, Converter={StaticResource NullToVisibilityConverter}}"
                                                 Click="ExternalLinkButton_Click" ToolTipService.ToolTip="Open website"
-                                                AutomationProperties.Name="Open website" Windows10version1809:CornerRadius="0">
+                                                AutomationProperties.Name="Open website" Windows10version1809:CornerRadius="0"
+                                                VerticalAlignment="Stretch">
                                             <Button.Content>
-                                                <fluent:FluentIconElement Symbol="Globe24"/>
+                                                <fluent:FluentSymbolIcon Symbol="Globe24" Margin="-1,0,0,0"/>
                                             </Button.Content>
                                         </Button>
                                         <Button Visibility="{x:Bind Project.GitHubLink, Converter={StaticResource NullToVisibilityConverter}}"
                                                 Click="GitHubLinkButton_Click" ToolTipService.ToolTip="Open GitHub repo"
-                                                AutomationProperties.Name="Open GitHub repo" Windows10version1809:CornerRadius="0">
+                                                AutomationProperties.Name="Open GitHub repo" Windows10version1809:CornerRadius="0"
+                                                VerticalAlignment="Stretch">
                                             <Button.Content>
-                                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF90;" />
+                                                <fluent:FluentSymbolIcon Symbol="Code24" Margin="-1,0,0,0"/>
                                             </Button.Content>
                                         </Button>
                                     </StackPanel>
