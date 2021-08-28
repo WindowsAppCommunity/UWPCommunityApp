@@ -50,20 +50,7 @@ namespace UWPCommunity
         {
             return await Launcher.LaunchUriAsync(uri);
         }
-        public async static Task<bool> OpenInBrowser(string url)
-        {
-            // Wrap in a try-catch block in order to prevent the
-            // app from crashing from invalid links.
-            // (specifically from project badges)
-            try
-            {
-                return await OpenInBrowser(new Uri(url));
-            }
-            catch
-            {
-                return false;
-            }
-        }
+        public async static Task<bool> OpenInBrowser(string url) => await OpenInBrowser(new Uri(url));
 
         public static async Task<bool> OpenDiscordInvite(string inviteCode)
         {
