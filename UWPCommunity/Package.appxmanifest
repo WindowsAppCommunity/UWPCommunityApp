@@ -7,65 +7,65 @@
   xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
   IgnorableNamespaces="uap mp">
 
-  <Identity
-    Name="52374YoshiAskharoun.UWPCommunity"
-    Publisher="CN=CD3113F3-18EB-4B8D-9D8A-C6D373E7A464"
-    Version="1.4.0.0" />
+	<Identity
+	  Name="52374YoshiAskharoun.UWPCommunity"
+	  Publisher="CN=CD3113F3-18EB-4B8D-9D8A-C6D373E7A464"
+	  Version="1.5.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="3a704640-a193-4af4-81ce-4d14572f0603" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+	<mp:PhoneIdentity PhoneProductId="3a704640-a193-4af4-81ce-4d14572f0603" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
-  <Properties>
-    <DisplayName>UWP Community</DisplayName>
-    <PublisherDisplayName>Joshua Askharoun</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
-  </Properties>
+	<Properties>
+		<DisplayName>UWP Community</DisplayName>
+		<PublisherDisplayName>Joshua Askharoun</PublisherDisplayName>
+		<Logo>Assets\StoreLogo.png</Logo>
+	</Properties>
 
-  <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
-  </Dependencies>
+	<Dependencies>
+		<TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+	</Dependencies>
 
-  <Resources>
-    <Resource Language="x-generate"/>
-  </Resources>
+	<Resources>
+		<Resource Language="x-generate"/>
+	</Resources>
 
-  <Applications>
-    <Application Id="App"
-      Executable="$targetnametoken$.exe"
-      EntryPoint="UWPCommunity.App">
-      <uap:VisualElements
-        DisplayName="UWP Community"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="A companion app for the UWP Community website"
-        BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
-          <uap:ShowNameOnTiles>
-            <uap:ShowOn Tile="square310x310Logo"/>
-            <uap:ShowOn Tile="wide310x150Logo"/>
-          </uap:ShowNameOnTiles>
-        </uap:DefaultTile >
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
-      </uap:VisualElements>
-      <uap:ApplicationContentUriRules>
-        <uap:Rule Type="include" Match="https://uwpcommunity.com/*" WindowsRuntimeAccess="none"/>
-      </uap:ApplicationContentUriRules>
-      <Extensions>
-        <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="uwpcommunity">
-            <uap:Logo>Assets\AppLogo.png</uap:Logo>
-            <uap:DisplayName>UWP Community</uap:DisplayName>
-          </uap:Protocol>
-        </uap:Extension>
-        <uap3:Extension Category="windows.appUriHandler">
-          <uap3:AppUriHandler>
-            <uap3:Host Name="uwpcommunity.com" />
-          </uap3:AppUriHandler>
-        </uap3:Extension>
-      </Extensions>
-    </Application>
-  </Applications>
+	<Applications>
+		<Application Id="App"
+		  Executable="$targetnametoken$.exe"
+		  EntryPoint="UWPCommunity.App">
+			<uap:VisualElements
+			  DisplayName="UWP Community"
+			  Square150x150Logo="Assets\Square150x150Logo.png"
+			  Square44x44Logo="Assets\Square44x44Logo.png"
+			  Description="A companion app for the UWP Community website"
+			  BackgroundColor="transparent">
+				<uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
+					<uap:ShowNameOnTiles>
+						<uap:ShowOn Tile="square310x310Logo"/>
+						<uap:ShowOn Tile="wide310x150Logo"/>
+					</uap:ShowNameOnTiles>
+				</uap:DefaultTile >
+				<uap:SplashScreen Image="Assets\SplashScreen.png" />
+			</uap:VisualElements>
+			<uap:ApplicationContentUriRules>
+				<uap:Rule Type="include" Match="https://uwpcommunity.com/*" WindowsRuntimeAccess="none"/>
+			</uap:ApplicationContentUriRules>
+			<Extensions>
+				<uap:Extension Category="windows.protocol">
+					<uap:Protocol Name="uwpcommunity">
+						<uap:Logo>Assets\AppLogo.png</uap:Logo>
+						<uap:DisplayName>UWP Community</uap:DisplayName>
+					</uap:Protocol>
+				</uap:Extension>
+				<uap3:Extension Category="windows.appUriHandler">
+					<uap3:AppUriHandler>
+						<uap3:Host Name="uwpcommunity.com" />
+					</uap3:AppUriHandler>
+				</uap3:Extension>
+			</Extensions>
+		</Application>
+	</Applications>
 
-  <Capabilities>
-    <Capability Name="internetClient" />
-  </Capabilities>
+	<Capabilities>
+		<Capability Name="internetClient" />
+	</Capabilities>
 </Package>
