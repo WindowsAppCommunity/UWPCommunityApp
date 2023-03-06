@@ -237,55 +237,59 @@ namespace UWPCommunity
             if (value)
             {
                 // Load all app messages
-                var messages = await YoshiServer.Api.GetAppMessages("UWPCommunity");
-                foreach (YoshiServer.Models.AppMessage message in messages)
+                try
                 {
-                    if (message.Importance > 1)
-                        continue;
+                    var messages = await YoshiServer.Api.GetAppMessages("UWPCommunity");
+                    foreach (YoshiServer.Models.AppMessage message in messages)
+                    {
+                        if (message.Importance > 1)
+                            continue;
 
-                    // Update live tile
-                    TileBindingContentAdaptive text = new TileBindingContentAdaptive
-                    {
-                        Children =
+                        // Update live tile
+                        TileBindingContentAdaptive text = new TileBindingContentAdaptive
                         {
-                            new AdaptiveText()
+                            Children =
                             {
-                                Text = message.Title,
-                                HintWrap = true,
-                            },
-                            new AdaptiveText()
-                            {
-                                Text = message.Message,
-                                HintStyle = AdaptiveTextStyle.CaptionSubtle,
-                                HintWrap = true
+                                new AdaptiveText()
+                                {
+                                    Text = message.Title,
+                                    HintWrap = true,
+                                },
+                                new AdaptiveText()
+                                {
+                                    Text = message.Message,
+                                    HintStyle = AdaptiveTextStyle.CaptionSubtle,
+                                    HintWrap = true
+                                }
                             }
-                        }
-                    };
-                    var tileContent = new TileContent()
-                    {
-                        Visual = new TileVisual()
+                        };
+                        var tileContent = new TileContent()
                         {
-                            TileMedium = new TileBinding()
+                            Visual = new TileVisual()
                             {
-                                Branding = TileBranding.Logo,
-                                Content = text
-                            },
-                            TileWide = new TileBinding()
-                            {
-                                Branding = TileBranding.NameAndLogo,
-                                Content = text
-                            },
-                            TileLarge = new TileBinding()
-                            {
-                                Branding = TileBranding.NameAndLogo,
-                                Content = text
+                                TileMedium = new TileBinding()
+                                {
+                                    Branding = TileBranding.Logo,
+                                    Content = text
+                                },
+                                TileWide = new TileBinding()
+                                {
+                                    Branding = TileBranding.NameAndLogo,
+                                    Content = text
+                                },
+                                TileLarge = new TileBinding()
+                                {
+                                    Branding = TileBranding.NameAndLogo,
+                                    Content = text
+                                }
                             }
-                        }
-                    };
-                    var notification = new TileNotification(tileContent.GetXml());
-                    TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
-                    TileUpdateManager.CreateTileUpdaterForApplication().Update(notification);
+                        };
+                        var notification = new TileNotification(tileContent.GetXml());
+                        TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
+                        TileUpdateManager.CreateTileUpdaterForApplication().Update(notification);
+                    }
                 }
+                catch { }
             }
         }
         public delegate void ShowLiveTileChangedHandler(bool value);
