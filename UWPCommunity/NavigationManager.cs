@@ -55,11 +55,6 @@ namespace UWPCommunity
             PageFrame.Navigate(destinationPage, parameter);
         }
 
-        public static void NavigateToEditProject(object project)
-        {
-            PageFrame.Navigate(typeof(Views.Subviews.EditProjectView), project);
-        }
-
         public static void NavigateToViewProject(object project)
         {
             PageFrame.Navigate(typeof(Views.Subviews.ProjectDetailsView), project);

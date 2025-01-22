@@ -63,9 +63,9 @@ namespace UWPCommunity.Views
             );
         }
 
-        private void LaunchButton_Click(object sender, RoutedEventArgs e)
+        private async void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationManager.NavigateToDashboard();
+            await NavigationManager.OpenInBrowser("https://windowsappcommunity.com/launch");
         }
 
         private void ParticipantsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)

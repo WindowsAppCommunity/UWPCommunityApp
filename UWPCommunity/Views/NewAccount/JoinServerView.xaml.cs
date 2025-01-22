@@ -30,19 +30,6 @@ namespace UWPCommunity.Views.NewAccount
         private async void JoinButton_Click(object sender, RoutedEventArgs e)
         {
             await NavigationManager.OpenDiscordInvite(Common.DISCORD_INVITE);
-
-            ContinueButton.Visibility = Visibility.Visible;
-        }
-
-        private void SignOutButton_Click(object sender, RoutedEventArgs e)
-        {
-            UserManager.SignOut();
-            NavigationManager.Navigate(typeof(HomeView));
-        }
-
-        private void ContinueButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationManager.Navigate(typeof(SetUpProfileView), null);
         }
     }
 }

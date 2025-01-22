@@ -26,41 +26,10 @@ namespace UWPCommunity.ViewModels
             set => SetProperty(ref _Project, value);
         }
 
-        public bool IsOwner {
-            get
-			{
-                if (UserManager.DiscordUser == null || !Project.IsCollaboratorsAvailable)
-                    return false;
-                return Project.IsOwner(UserManager.DiscordUser.DiscordId);
-            }
-        }
-        public bool IsDeveloper
-        {
-            get
-            {
-                if (UserManager.DiscordUser == null || !Project.IsCollaboratorsAvailable)
-                    return false;
-                return Project.IsDeveloper(UserManager.DiscordUser.DiscordId);
-            }
-        }
-        public bool IsTranslator
-        {
-            get
-            {
-                if (UserManager.DiscordUser == null || !Project.IsCollaboratorsAvailable)
-                    return false;
-                return Project.IsTranslator(UserManager.DiscordUser.DiscordId);
-            }
-        }
-        public bool IsBetaTester
-        {
-            get
-            {
-                if (UserManager.DiscordUser == null || !Project.IsCollaboratorsAvailable)
-                    return false;
-                return Project.IsBetaTester(UserManager.DiscordUser.DiscordId);
-            }
-        }
+        public bool IsOwner => false;
+        public bool IsDeveloper => false;
+        public bool IsTranslator => false;
+        public bool IsBetaTester => false;
 
         private double _CardWidth;
         public double CardWidth
