@@ -9,6 +9,8 @@ using Windows.UI.Xaml.Navigation;
 using System.Net.Http;
 using UWPCommunity.ViewModels;
 using UwpCommunityBackend;
+using System.Threading.Tasks;
+using Windows.UI.Xaml;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -75,13 +77,12 @@ namespace UWPCommunity.Views
         private async void ExternalLinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             Project project = null;
-            if ((sender as Button)?.DataContext is Project _proj)
+            if (sender is FrameworkElement frameworkElement)
             {
-                project = _proj;
-            }
-            else if ((sender as Button)?.DataContext is ProjectViewModel _projVM)
-            {
-                project = _projVM.Project;
+                if (frameworkElement.DataContext is Project proj)
+                    project = proj;
+                else if (frameworkElement.DataContext is ProjectViewModel projVm)
+                    project = projVm.Project;
             }
 
             if (project != null)
@@ -103,7 +104,7 @@ namespace UWPCommunity.Views
                     CloseButtonText = "Ok",
                     RequestedTheme = SettingsManager.GetAppTheme()
                 };
-                ContentDialogResult result = await dialog.ShowAsync();
+                await dialog.ShowAsync();
             }
         }
 
@@ -198,28 +199,27 @@ namespace UWPCommunity.Views
             RefreshProjects();
         }
 
-        private void SortOption_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void SortOption_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Sort((sender as RadioMenuFlyoutItem).Text);
+            await Sort(((MenuFlyoutItem)sender).Text);
         }
 
-        private void CategoryItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void CategoryItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             CategoryButton.IsChecked = true;
             SearchBox.Text = "";
             // TODO: Check for null here
-            var option = sender as RadioMenuFlyoutItem;
-            FilterByCategory(option.Text);
+            await FilterByCategory(((MenuFlyoutItem)sender).Text);
             Bindings.Update();
         }
 
-        private void CategoryButton_IsCheckedChanged(Microsoft.UI.Xaml.Controls.ToggleSplitButton sender, Microsoft.UI.Xaml.Controls.ToggleSplitButtonIsCheckedChangedEventArgs args)
+        private async void CategoryButton_IsCheckedChanged(Microsoft.UI.Xaml.Controls.ToggleSplitButton sender, Microsoft.UI.Xaml.Controls.ToggleSplitButtonIsCheckedChangedEventArgs args)
         {
             SearchBox.Text = "";
             if (sender.IsChecked)
             {
                 // Filter is enabled
-                FilterByCategory();
+                await FilterByCategory();
             }
             else
             {
@@ -227,14 +227,14 @@ namespace UWPCommunity.Views
                 ViewModel.Projects = new ObservableCollection<ProjectViewModel>(ViewModel.AllProjects);
                 // Must call Sort() here because FilterByCategory() won't
                 // do it for us in this branch
-                Sort();
+                await Sort();
             }
             Bindings.Update();
         }
 
-        private void SearchByName(string query)
+        private async Task SearchByName(string query)
         {
-            if (String.IsNullOrWhiteSpace(query))
+            if (string.IsNullOrWhiteSpace(query))
             {
                 ViewModel.Projects = new ObservableCollection<ProjectViewModel>(ViewModel.AllProjects);
                 Bindings.Update();
@@ -247,7 +247,7 @@ namespace UWPCommunity.Views
             if (CategoryButton.IsChecked)
                 FilterByCategory(collection: results);
             else
-                Sort(collection: results);
+                await Sort(collection: results);
 
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Projects: Search",
                 new Dictionary<string, string> {
@@ -256,10 +256,9 @@ namespace UWPCommunity.Views
             );
         }
 
-        private void FilterByCategory(string category = null, IEnumerable<ProjectViewModel> collection = null)
+        private async Task FilterByCategory(string category = null, IEnumerable<ProjectViewModel> collection = null)
         {
-            if (collection == null)
-                collection = ViewModel.AllProjects;
+            collection ??= ViewModel.AllProjects;
 
             if (category == null)
             {
@@ -269,7 +268,7 @@ namespace UWPCommunity.Views
                     ? ((RadioMenuFlyoutItem)CategoryFlyout.Items[0]).Text : option.Text;
             }
 
-            Sort(collection: collection.Where(x => x.Project.Category.Equals(category)));
+            await Sort(collection: collection.Where(x => x.Project.Category.Equals(category)));
 
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Projects: Category filter",
                 new Dictionary<string, string> {
@@ -278,40 +277,47 @@ namespace UWPCommunity.Views
             );
         }
 
-        private void Sort(string mode = null, IEnumerable<ProjectViewModel> collection = null)
+        private async Task Sort(string sortMode = null, IEnumerable<ProjectViewModel> collection = null)
         {
-            collection ??= ViewModel.AllProjects;
-            if (mode == null)
+            if (sortMode == null)
             {
-                var sortOption = (RadioMenuFlyoutItem)SortFlyout.Items.First(i => (i as RadioMenuFlyoutItem).IsChecked);
-                mode = sortOption.Text;
+                var sortOption = SortFlyout.Items
+                    .OfType<RadioMenuFlyoutItem>()
+                    .FirstOrDefault(i => i.IsChecked);
+                sortMode = sortOption?.Text;
             }
+            
+            var sorted = await Task.Run(() => {
+                collection ??= ViewModel.AllProjects;
 
-            IOrderedEnumerable<ProjectViewModel> sorted = mode switch
-            {
-                "Alphabetical (A-Z)" => collection.OrderBy(x => x.Project.AppName),
-                "Alphabetical (Z-A)" => collection.OrderByDescending(x => x.Project.AppName),
-                "Date Created (Latest-Oldest)" => collection.OrderByDescending(x => DateTime.Parse(x.Project.CreatedAt)),
-                "Date Created (Oldest-Latest)" => collection.OrderBy(x => DateTime.Parse(x.Project.CreatedAt)),
-                "Last Modified (Latest-Oldest)" => collection.OrderByDescending(x => DateTime.Parse(x.Project.UpdatedAt)),
-                "Last Modified (Oldest-Latest)" => collection.OrderBy(x => DateTime.Parse(x.Project.UpdatedAt)),
-                "Launch Year (Latest-Oldest)" => collection.OrderByDescending(x => x.Project.GetLastLaunchYear() ?? 0),
-                "Launch Year (Oldest-Latest)" => collection.OrderBy(x => x.Project.GetLastLaunchYear() ?? 0),
-                _ => collection.OrderBy(x => x.Project.AppName),
-            };
+                IOrderedEnumerable<ProjectViewModel> sorted = sortMode switch
+                {
+                    "Alphabetical (A-Z)" => collection.OrderBy(x => x.Project.AppName),
+                    "Alphabetical (Z-A)" => collection.OrderByDescending(x => x.Project.AppName),
+                    "Date Created (Latest-Oldest)" => collection.OrderByDescending(x => x.Project.CreatedAt),
+                    "Date Created (Oldest-Latest)" => collection.OrderBy(x => x.Project.CreatedAt),
+                    "Last Modified (Latest-Oldest)" => collection.OrderByDescending(x => x.Project.UpdatedAt),
+                    "Last Modified (Oldest-Latest)" => collection.OrderBy(x => x.Project.UpdatedAt),
+                    "Launch Year (Latest-Oldest)" => collection.OrderByDescending(x => x.Project.GetLastLaunchYear() ?? 0),
+                    "Launch Year (Oldest-Latest)" => collection.OrderBy(x => x.Project.GetLastLaunchYear() ?? 0),
+                    _ => collection.OrderBy(x => x.Project.AppName),
+                };
+                return sorted;
+            });
+
             ViewModel.Projects = new ObservableCollection<ProjectViewModel>(sorted);
             Bindings.Update();
 
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Projects: Sort",
                 new Dictionary<string, string> {
-                    { "Mode", mode },
+                    { "Mode", sortMode },
                 }
             );
         }
 
-        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            SearchByName(args.QueryText);
+            await SearchByName(args.QueryText);
         }
     }
 }

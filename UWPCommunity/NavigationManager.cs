@@ -31,7 +31,19 @@ namespace UWPCommunity
         {
             return await Launcher.LaunchUriAsync(uri);
         }
-        public async static Task<bool> OpenInBrowser(string url) => await OpenInBrowser(new Uri(url));
+        public static async Task<bool> OpenInBrowser(string url)
+        {
+            Uri uri;
+            try
+            {
+                uri = new Uri(url);
+                return await OpenInBrowser(uri);
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         public static async Task<bool> OpenDiscordInvite(string inviteCode)
         {

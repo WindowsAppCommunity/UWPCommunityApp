@@ -15,10 +15,10 @@ namespace UwpCommunityBackend.Models
         public bool IsCollaboratorsAvailable => Collaborators != null && Collaborators.Count > 0;
 
         [JsonProperty("createdAt")]
-        public string CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [JsonProperty("updatedAt")]
-        public string UpdatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
         [JsonProperty("needsManualReview")]
         public bool NeedsManualReview { get; set; }

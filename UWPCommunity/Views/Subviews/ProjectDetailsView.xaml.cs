@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using UwpCommunityBackend;
 using UwpCommunityBackend.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -25,26 +26,33 @@ namespace UWPCommunity.Views.Subviews
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //ConnectedAnimation animation =
-            //    ConnectedAnimationService.GetForCurrentView().GetAnimation("projectView");
-            //if (animation != null)
-            //{
-            //    animation.TryStart(HeroImageCtl);
-            //}
             PreviousPage = e.SourcePageType;
 
-            var project = e.Parameter as Project;
-            if (project != null)
+            if (e.Parameter is Project project)
             {
                 Project = project;
-
-                // Set up the CollaboratorsBlock, since it can't be done with
-                // just bindings
-                CollaboratorsBlock.Text += String.Join(", ",
-                    Project.Collaborators.Where(c => c.IsOwner == true).Select(c => c.Name));
+                UpdateCollaboratorsBlock();
             }
 
             base.OnNavigatedTo(e);
+        }
+
+        private async Task UpdateCollaboratorsBlock()
+        {
+            try
+            {
+                Project.Collaborators = await Api.GetProjectCollaborators(Project.Id);
+
+                var collaboratorNames = Project.Collaborators
+                    .Where(c => c.IsOwner)
+                    .Select(c => c.Name);
+
+                await Dispatcher.RunAsync(default, () =>
+                {
+                    CollaboratorsBlock.Text += string.Join(", ", collaboratorNames);
+                });
+            }
+            catch { }
         }
 
         private async void ExternalLinkButton_Click(object sender, RoutedEventArgs e)
