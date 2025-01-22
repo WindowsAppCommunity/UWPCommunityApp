@@ -26,18 +26,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="BackdropGrid" x:Load="{x:Bind UseBackdropBlur, Mode=OneWay}">
-            <!--This grid handles the blurred backdrop-->
-            <controls:ImageEx Source="{x:Bind ImageSource, Mode=OneWay}" Stretch="UniformToFill"
-                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                              Opacity="0.5"/>
-            <Border>
-                <Border.Background>
-                    <media:BackdropBlurBrush Amount="10"/>
-                </Border.Background>
-            </Border>
-        </Grid>
-        <controls:ImageEx Source="{x:Bind ImageSource, Mode=OneWay}" Stretch="Uniform"
+        <controls:ImageEx Source="{x:Bind ImageSource, Mode=OneWay}" Stretch="UniformToFill"
                           VerticalAlignment="Center" HorizontalAlignment="Center"
                           CacheMode="BitmapCache" IsCacheEnabled="True"/>
 
