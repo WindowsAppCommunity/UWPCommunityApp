@@ -305,8 +305,9 @@ namespace UWPCommunity.Views
                 return sorted;
             });
 
-            ViewModel.Projects = new ObservableCollection<ProjectViewModel>(sorted);
-            Bindings.Update();
+            ViewModel.Projects.Clear();
+            foreach (var project in sorted)
+                ViewModel.Projects.Add(project);
 
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Projects: Sort",
                 new Dictionary<string, string> {

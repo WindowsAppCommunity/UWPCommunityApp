@@ -26,9 +26,10 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <controls:ImageEx Source="{x:Bind ImageSource, Mode=OneWay}" Stretch="UniformToFill"
-                          VerticalAlignment="Center" HorizontalAlignment="Center"
-                          CacheMode="BitmapCache" IsCacheEnabled="True"/>
+        <Border Background="{x:Bind ImageBackgroundBrush, Mode=OneWay}"/>
+
+        <Image Source="{x:Bind ImageSource, Mode=OneWay}" Stretch="Uniform"
+               VerticalAlignment="Center" HorizontalAlignment="Center" />
 
         <Border Grid.Row="1" Grid.RowSpan="2" Opacity="0.75"
                 Background="{ThemeResource SystemChromeMediumColor}"/>
