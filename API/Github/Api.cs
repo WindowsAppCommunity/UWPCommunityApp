@@ -12,7 +12,7 @@ namespace Github
         private const string USER_AGENT = "UWP Community App";
 
         /// <summary>
-        /// Gets the list of all collaborators for the sepcified repo
+        /// Gets the list of all collaborators for the specified repo
         /// </summary>
         public static async Task<List<Contributor>> GetContributors(string owner, string repo)
         {

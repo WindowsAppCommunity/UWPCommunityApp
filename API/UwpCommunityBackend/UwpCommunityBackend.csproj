@@ -8,8 +8,4 @@
     <PackageReference Include="Flurl.Http" Version="2.4.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Discord\Discord.csproj" />
-  </ItemGroup>
-
 </Project>

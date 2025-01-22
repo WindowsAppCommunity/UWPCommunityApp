@@ -1,7 +1,5 @@
 ﻿using Flurl;
 using Flurl.Http;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -152,61 +150,6 @@ namespace UwpCommunityBackend
         {
             return await GetBase(true).AppendPathSegments("user")
                 .SendUrlEncodedAsync(HttpMethod.Post, info);
-        }
-        #endregion
-
-        #region /bot/
-        /// <summary>
-        /// Gets the user's profile information from Discord
-        /// </summary>
-        public static async Task<Discord.Models.User> GetDiscordUser(string userId)
-        {
-            return await GetBase(true).AppendPathSegments("bot", "user", userId)
-                .GetJsonAsync<Discord.Models.User>();
-        }
-
-        /// <summary>
-        /// Gets the user's roles in the UWP Community Discord server
-        /// </summary>
-        public static async Task<List<Discord.Models.Role>> GetDiscordUserRoles(string userId)
-        {
-            return await GetBase(true).AppendPathSegments("bot", "user", userId, "roles")
-                .GetJsonAsync<List<Discord.Models.Role>>();
-        }
-        #endregion
-
-        #region /signin/
-        public static async Task<HttpResponseMessage> Redirect(string code)
-        {
-            return await BaseUrl.AppendPathSegments("signin", "redirect")
-                .SetQueryParam(nameof(code), code)
-                .GetAsync();
-        }
-
-        public static async Task<Tuple<Discord.Models.TokenResponse, string>> UseRefreshToken(string refreshToken)
-        {
-            var httpResponse = await BaseUrl.AppendPathSegments("signin", "refresh")
-                .SetQueryParam(nameof(refreshToken), refreshToken)
-                .GetAsync();
-
-            // TODO: Use response.IsSuccessStatusCode
-            // At the moment, the API returns 200 OK even if there was an error.
-            var responseString = await httpResponse.Content.ReadAsStringAsync();
-
-            // The API returns an escaped string containing a JSON object. The following two
-            // lines unescape the string and remove the enclosing qoutes.
-            responseString = System.Text.RegularExpressions.Regex.Unescape(responseString);
-            responseString = responseString.Substring(1, responseString.Length - 2);
-            if (responseString.Contains("error"))
-            {
-                //JsonConvert.DeserializeObject<TokenResponseError>(responseString)
-                return new Tuple<Discord.Models.TokenResponse, string>(null, "An error occurred, perhaps an invalid refresh token?");
-            }
-            else
-            {
-                return new Tuple<Discord.Models.TokenResponse, string>(
-                    JsonConvert.DeserializeObject<Discord.Models.TokenResponse>(responseString), null);
-            }
         }
         #endregion
 
