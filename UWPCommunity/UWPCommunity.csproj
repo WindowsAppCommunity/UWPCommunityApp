@@ -314,9 +314,6 @@
     <PackageReference Include="Fluent.Icons">
       <Version>1.1.110</Version>
     </PackageReference>
-    <PackageReference Include="ksemenenko.ColorThief">
-      <Version>1.1.1.4</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
       <Version>4.3.0</Version>
     </PackageReference>
