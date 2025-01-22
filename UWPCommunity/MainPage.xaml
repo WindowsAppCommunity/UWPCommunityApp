@@ -16,18 +16,22 @@
                           SelectionChanged="NavigationView_SelectionChanged">
 
         <winui:NavigationView.PaneHeader>
-            <Viewbox Margin="5" x:Name="HeaderLogo">
-                <StackPanel Orientation="Horizontal">
-                    <Viewbox Height="120" Width="120">
-                        <FontIcon Glyph="🐱‍🏍" FontFamily="Segoe UI Emoji"/>
-                    </Viewbox>
+            <Grid Margin="4" MaxHeight="80">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Image Source="ms-appx:///Assets/StoreLogo.png"
+                       Stretch="Uniform"/>
 
+                <Viewbox Grid.Column="1" HorizontalAlignment="Left">
                     <StackPanel>
                         <TextBlock Text="UWP" FontSize="60" FontWeight="Bold"/>
                         <TextBlock Text="Community" FontSize="40" Margin="0,-15,0,0"/>
                     </StackPanel>
-                </StackPanel>
-            </Viewbox>
+                </Viewbox>
+            </Grid>
         </winui:NavigationView.PaneHeader>
 
         <Grid>
@@ -36,12 +40,12 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Border x:Name="TitlebarBorder" Background="{ThemeResource NavigationViewTopPaneBackground}">
-                <StackPanel Orientation="Horizontal">
-                        <TextBlock VerticalAlignment="Center" TextLineBounds="Full" Margin="40,0,0,0">
-                            <Run Text="🐱‍🏍" FontSize="25" FontFamily="Segoe UI Emoji"/>
-                            <Run Text="UWP Community" FontSize="20" FontWeight="SemiBold"/>
-                        </TextBlock>
-                    </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="40,0,0,0">
+                    <Image Source="ms-appx:///Assets/StoreLogo.png"
+                           Stretch="Uniform"/>
+                    <TextBlock VerticalAlignment="Center" TextLineBounds="Full"
+                               Text="UWP Community" FontSize="20" FontWeight="SemiBold" />
+                </StackPanel>
             </Border>
             <Frame x:Name="MainFrame" Grid.Row="1"/>
         </Grid>
