@@ -280,49 +280,25 @@ namespace UWPCommunity.Views
 
         private void Sort(string mode = null, IEnumerable<ProjectViewModel> collection = null)
         {
-            if (collection == null)
-                collection = ViewModel.AllProjects;
+            collection ??= ViewModel.AllProjects;
             if (mode == null)
             {
                 var sortOption = (RadioMenuFlyoutItem)SortFlyout.Items.First(i => (i as RadioMenuFlyoutItem).IsChecked);
                 mode = sortOption.Text;
             }
 
-            IOrderedEnumerable<ProjectViewModel> sorted;
-            switch (mode)
+            IOrderedEnumerable<ProjectViewModel> sorted = mode switch
             {
-                case "Alphabetical (A-Z)":
-                    sorted = collection.OrderBy(x => x.Project.AppName);
-                    break;
-                case "Alphabetical (Z-A)":
-                    sorted = collection.OrderByDescending(x => x.Project.AppName);
-                    break;
-
-                case "Date Created (Latest-Oldest)":
-                    sorted = collection.OrderByDescending(x => DateTime.Parse(x.Project.CreatedAt));
-                    break;
-                case "Date Created (Oldest-Latest)":
-                    sorted = collection.OrderBy(x => DateTime.Parse(x.Project.CreatedAt));
-                    break;
-
-                case "Last Modified (Latest-Oldest)":
-                    sorted = collection.OrderByDescending(x => DateTime.Parse(x.Project.UpdatedAt));
-                    break;
-                case "Last Modified (Oldest-Latest)":
-                    sorted = collection.OrderBy(x => DateTime.Parse(x.Project.UpdatedAt));
-                    break;
-
-                case "Launch Year (Latest-Oldest)":
-                    sorted = collection.OrderByDescending(x => x.Project.GetLastLaunchYear() ?? 0);
-                    break;
-                case "Launch Year (Oldest-Latest)":
-                    sorted = collection.OrderBy(x => x.Project.GetLastLaunchYear() ?? 0);
-                    break;
-
-                default:
-                    sorted = collection.OrderBy(x => x.Project.AppName);
-                    break;
-            }
+                "Alphabetical (A-Z)" => collection.OrderBy(x => x.Project.AppName),
+                "Alphabetical (Z-A)" => collection.OrderByDescending(x => x.Project.AppName),
+                "Date Created (Latest-Oldest)" => collection.OrderByDescending(x => DateTime.Parse(x.Project.CreatedAt)),
+                "Date Created (Oldest-Latest)" => collection.OrderBy(x => DateTime.Parse(x.Project.CreatedAt)),
+                "Last Modified (Latest-Oldest)" => collection.OrderByDescending(x => DateTime.Parse(x.Project.UpdatedAt)),
+                "Last Modified (Oldest-Latest)" => collection.OrderBy(x => DateTime.Parse(x.Project.UpdatedAt)),
+                "Launch Year (Latest-Oldest)" => collection.OrderByDescending(x => x.Project.GetLastLaunchYear() ?? 0),
+                "Launch Year (Oldest-Latest)" => collection.OrderBy(x => x.Project.GetLastLaunchYear() ?? 0),
+                _ => collection.OrderBy(x => x.Project.AppName),
+            };
             ViewModel.Projects = new ObservableCollection<ProjectViewModel>(sorted);
             Bindings.Update();
 

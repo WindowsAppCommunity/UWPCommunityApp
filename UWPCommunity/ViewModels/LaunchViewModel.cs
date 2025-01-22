@@ -70,21 +70,15 @@ namespace UWPCommunity.ViewModels
 
         public async Task RefreshProjects()
         {
-            var launchYear = DateTime.Now.Year;
+            var launchYear = 2020;
             ICollection<Project> launchProjects = Array.Empty<Project>();
 
-            do
+            try
             {
-                try
-                {
-                    var launch = await Api.GetLaunchProjects(launchYear--);
-                    launchProjects = launch.Projects;
-                }
-                catch
-                {
-                    continue;
-                }
-            } while (launchProjects.Count <= 0 && launchYear >= 2020);
+                var launch = await Api.GetLaunchProjects(launchYear);
+                launchProjects = launch.Projects;
+            }
+            catch { }
 
             LaunchYear = launchYear;
             Loaded = true;
