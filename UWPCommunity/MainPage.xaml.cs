@@ -24,7 +24,6 @@ namespace UWPCommunity
         {
             this.InitializeComponent();
 
-            UserManager.OnLoginStateChanged += Common_OnLoginStateChanged;
             MainFrame.Navigated += MainFrame_Navigated;
             Loaded += MainPage_Loaded;
             NavigationManager.PageFrame = MainFrame;
@@ -67,7 +66,7 @@ namespace UWPCommunity
                 newValue ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -78,9 +77,6 @@ namespace UWPCommunity
             }
             else
             {
-                await UserManager.SignInFromVault(false);
-                UpdateSignInUI();
-
                 if (e.Parameter is Tuple<Type, object> launchInfo && launchInfo.Item1 != null)
                     NavigationManager.Navigate(launchInfo.Item1, launchInfo.Item2);
             }
@@ -108,49 +104,6 @@ namespace UWPCommunity
             }
         }
 
-        private void Common_OnLoginStateChanged(bool isLoggedIn)
-        {
-            UpdateSignInUI(isLoggedIn);
-        }
-        private void UpdateSignInUI(bool? isLoggedIn = null)
-        {
-            if (!isLoggedIn.HasValue)
-                isLoggedIn = UserManager.IsLoggedIn;
-
-            if (isLoggedIn.Value)
-            {
-                SignInButton.Visibility = Visibility.Collapsed;
-                UserButton.Visibility = Visibility.Visible;
-                UserProfilePicture.ProfilePicture =
-                    new Windows.UI.Xaml.Media.Imaging.BitmapImage(UserManager.DiscordUser.AvatarUri);
-                AutomationProperties.SetName(UserButton, UserManager.DiscordUser.Username);
-                ToolTipService.SetToolTip(UserButton, UserManager.DiscordUser.Username);
-                UserProfileName.Text = UserManager.DiscordUser.Username;
-            }
-            else
-            {
-                SignInButton.Visibility = Visibility.Visible;
-                UserButton.Visibility = Visibility.Collapsed;
-            }
-
-            // Update navigation items that require authentication
-            foreach (object menuItem in MainNav.MenuItems)
-            {
-                if (!(menuItem is NavigationViewItem navItem))
-                    continue;
-
-                if (navItem.Tag is PageInfo info && info.RequiresAuth)
-                {
-                    navItem.Visibility = isLoggedIn.Value ? Visibility.Visible : Visibility.Collapsed;
-                    if (!isLoggedIn.Value && navItem.IsSelected)
-                    {
-                        // Navigate away from the page
-                        NavigationManager.NavigateToHome();
-                    }
-                }
-            }
-        }
-
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             if (args.IsSettingsSelected)
@@ -174,15 +127,6 @@ namespace UWPCommunity
 
             if (pageInfo != null && pageInfo.PageType.BaseType == typeof(Page))
                 MainFrame.Navigate(pageInfo.PageType);
-        }
-
-        private void SignInButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationManager.RequestSignIn(typeof(Views.DashboardView));
-        }
-        private void SignOutButton_Click(object sender, RoutedEventArgs e)
-        {
-            UserManager.SignOut();
         }
 
         public static List<PageInfo> Pages = new List<PageInfo>
@@ -224,24 +168,7 @@ namespace UWPCommunity
                 Subhead = "Play XAML Llama's 'Llamingo'",
                 Path = "llamabingo"
             },
-
-            new PageInfo()
-            {
-                PageType = typeof(Views.DashboardView),
-                Icon = new FluentIconElement(FluentSymbol.Board24),
-                Title = "Dashboard",
-                Subhead = "Manage and register your apps",
-                Path = "dashboard",
-                Visibility = Visibility.Collapsed,
-                RequiresAuth = true
-            },
         };
-
-        private void EditProfileButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new Views.Dialogs.EditProfileDialog();
-            dialog.ShowAsync();
-        }
 
         private void PreferencesButton_Click(object sender, RoutedEventArgs e)
         {
@@ -265,7 +192,7 @@ namespace UWPCommunity
 
                     MessageBox.Title = message.Title;
                     MessageContentBox.Text = message.Message;
-                    MessageTimestampRun.Text = date.ToShortDateString() + " " + date.ToShortTimeString();
+                    MessageTimestampRun.Text = $"{date.ToShortDateString()} {date.ToShortTimeString()}";
                     MessageAuthorRun.Text = message.Author;
                     MessageBox.IsOpen = true;
                     SettingsManager.AppMessageSettings.SetLastAppMessageId(message.Id);

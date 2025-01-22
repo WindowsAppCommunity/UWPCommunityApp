@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UwpCommunityBackend.Models;
-using UWPCommunity.Views.Dialogs;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;

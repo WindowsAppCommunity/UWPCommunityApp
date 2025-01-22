@@ -30,58 +30,13 @@
             </Viewbox>
         </winui:NavigationView.PaneHeader>
 
-        <winui:NavigationView.PaneFooter>
-            <Grid>
-                <Button x:Name="SignInButton" Visibility="Visible" Click="SignInButton_Click"
-                        Style="{ThemeResource AccentButtonStyle}" Windows10version1809:CornerRadius="0"
-                        ToolTipService.ToolTip="Sign in" AutomationProperties.Name="Sign in"
-                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
-                    <StackPanel Spacing="8" Orientation="Horizontal">
-                        <fluent:FluentIconElement Symbol="PersonAdd24"/>
-                        <TextBlock Text="Sign in"/>
-                    </StackPanel>
-                </Button>
-
-                <Button x:Name="UserButton" Visibility="Collapsed" Background="Transparent"
-                        Windows10version1809:CornerRadius="0" HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left" Style="{ThemeResource ButtonRevealStyle}">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <Viewbox x:Name="UserProfilePictureBox" MaxHeight="9999">
-                                <winui:PersonPicture x:Name="UserProfilePicture" PreferSmallImage="True"/>
-                            </Viewbox>
-                            <TextBlock x:Name="UserProfileName" Text="Username"
-                                       VerticalAlignment="Center" TextLineBounds="Tight"/>
-                        </StackPanel>
-                    </Button.Content>
-
-                    <Button.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <MenuFlyoutItem Text="Edit Profile" Click="EditProfileButton_Click">
-                                <MenuFlyoutItem.Icon>
-                                    <fluent:FluentIconElement Symbol="Edit24" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Log out" Click="SignOutButton_Click">
-                                <MenuFlyoutItem.Icon>
-                                    <fluent:FluentIconElement Symbol="SignOut24" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                        </MenuFlyout>
-
-                    </Button.Flyout>
-                </Button>
-            </Grid>
-        </winui:NavigationView.PaneFooter>
-
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="TitlebarRow" Height="0"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Border x:Name="TitlebarBorder" Background="{ThemeResource NavigationViewTopPaneBackground}">
-
-                    <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center" TextLineBounds="Full" Margin="40,0,0,0">
                             <Run Text="🐱‍🏍" FontSize="25" FontFamily="Segoe UI Emoji"/>
                             <Run Text="UWP Community" FontSize="20" FontWeight="SemiBold"/>
@@ -112,11 +67,8 @@
                     <VisualState.Setters>
                         <Setter Target="MainNav.PaneDisplayMode" Value="LeftMinimal"/>
                         <Setter Target="MainNav.IsTitleBarAutoPaddingEnabled" Value="False"/>
-                        <Setter Target="HeaderLogo.Margin" Value="0,0,20,20"/>
+                        <!--<Setter Target="HeaderLogo.Margin" Value="0,0,20,20"/>-->
                         <Setter Target="TitlebarRow.Height" Value="40"/>
-                        <Setter Target="UserProfilePictureBox.MaxHeight" Value="20"/>
-                        <Setter Target="SignInButton.Padding" Value="8,10"/>
-                        <Setter Target="UserButton.Padding" Value="8,10"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

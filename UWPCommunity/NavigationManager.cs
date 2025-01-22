@@ -13,11 +13,6 @@ namespace UWPCommunity
     {
         public static Frame PageFrame { get; set; }
 
-        public static void NavigateToDashboard()
-        {
-            RequestSignIn(typeof(DashboardView));
-        }
-
         public static void NavigateToHome()
         {
             Navigate(typeof(HomeView));
@@ -32,20 +27,6 @@ namespace UWPCommunity
             Navigate(typeof(SettingsView), page);
         }
 
-        public static async void RequestSignIn(Type returnToPage)
-        {
-            if (!UserManager.IsLoggedIn)
-            {
-                var privacyPolicyResult = await new Views.Dialogs.ConfirmPrivacyPolicyDialog().ShowAsync();
-                if (privacyPolicyResult != ContentDialogResult.Primary)
-                    return;
-
-                PageFrame.Navigate(typeof(LoginView), returnToPage);
-            }
-            else
-                PageFrame.Navigate(returnToPage);
-        }
-
         public async static Task<bool> OpenInBrowser(Uri uri)
         {
             return await Launcher.LaunchUriAsync(uri);
@@ -56,13 +37,13 @@ namespace UWPCommunity
         {
             var quarrelLaunchUri = new Uri("quarrel://invite/" + inviteCode);
             var launchUri = new Uri("https://discord.gg/" + inviteCode);
-            switch (await Launcher.QueryUriSupportAsync(quarrelLaunchUri, LaunchQuerySupportType.Uri)) {
-                case LaunchQuerySupportStatus.Available:
-                    return await Launcher.LaunchUriAsync(quarrelLaunchUri);
 
-                default:
-                    return await OpenInBrowser(launchUri);
-            }
+            var quarrelSupportStatus = await Launcher.QueryUriSupportAsync(quarrelLaunchUri, LaunchQuerySupportType.Uri);
+            return quarrelSupportStatus switch
+            {
+                LaunchQuerySupportStatus.Available => await Launcher.LaunchUriAsync(quarrelLaunchUri),
+                _ => await OpenInBrowser(launchUri),
+            };
         }
 
         public static void Navigate(Type destinationPage)
