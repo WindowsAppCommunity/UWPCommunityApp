@@ -51,7 +51,7 @@
                                 TextWrapping="WrapWholeWords" Style="{StaticResource TitleTextBlockStyle}" FontFamily="Segoe UI Semibold" FontWeight="Normal"/>
                             <TextBlock Text="{x:Bind ViewModel.CardDetails}"
                                 TextWrapping="WrapWholeWords" Style="{StaticResource BodyTextBlockStyle}"/>
-                            <Button Content="Get started" Margin="0,10,0,0" Style="{StaticResource AccentButtonStyle}" Click="LaunchButton_Click"/>
+                            <Button Content="View 2021 showcase" Margin="0,10,0,0" Style="{StaticResource AccentButtonStyle}" Click="LaunchButton_Click"/>
                         </StackPanel>
                     </Grid>
                 </controls:DropShadowPanel>
@@ -88,7 +88,11 @@
                     <controls:AdaptiveGridView.Header>
                         <Grid>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock Text="Participants" Style="{StaticResource SubheaderTextBlockStyle}"/>
+                                <TextBlock Style="{StaticResource SubheaderTextBlockStyle}"
+                                           x:Name="ParticipantsHeader" x:Load="{x:Bind ViewModel.Loaded}">
+                                    <Run Text="{x:Bind ViewModel.LaunchYear}" d:Text="2020" />
+                                    <Run Text="Participants" />
+                                </TextBlock>
                                 <StackPanel x:Name="LoadingIndicator" Orientation="Horizontal">
                                     <winui:ProgressRing IsActive="True" Width="30" Height="30" Visibility="Visible" Margin="20,10,10,10"/>
                                     <TextBlock Text="Fetching projects..." Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>

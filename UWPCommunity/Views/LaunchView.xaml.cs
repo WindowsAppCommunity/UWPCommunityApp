@@ -1,11 +1,7 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
-using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using UwpCommunityBackend.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -53,7 +49,7 @@ namespace UWPCommunity.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.PersistantProject = e.Parameter as Project;
+            ViewModel.PersistentProject = e.Parameter as Project;
 
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent("Launch: Navigated to",
                 new System.Collections.Generic.Dictionary<string, string> {
@@ -65,7 +61,7 @@ namespace UWPCommunity.Views
 
         private async void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
-            await NavigationManager.OpenInBrowser("https://windowsappcommunity.com/launch");
+            await NavigationManager.OpenInBrowser("https://windowsappcommunity.com/launch/2021");
         }
 
         private void ParticipantsGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -79,9 +75,9 @@ namespace UWPCommunity.Views
 
         private void ParticipantsGridView_Loaded(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.PersistantProject != null)
+            if (ViewModel.PersistentProject != null)
             {
-                ParticipantsGridView.ScrollIntoView(ViewModel.PersistantProject);
+                ParticipantsGridView.ScrollIntoView(ViewModel.PersistentProject);
                 //ConnectedAnimation animation =
                 //    ConnectedAnimationService.GetForCurrentView().GetAnimation("projectView");
                 //if (animation != null)

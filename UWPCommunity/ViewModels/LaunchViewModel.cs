@@ -1,4 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using UwpCommunityBackend;
@@ -15,11 +17,25 @@ namespace UWPCommunity.ViewModels
             set => SetProperty(ref _LaunchProjects, value);
         }
 
-        private Project _PersistantProject;
-        public Project PersistantProject
+        private int _LaunchYear;
+        public int LaunchYear
         {
-            get => _PersistantProject;
-            set => SetProperty(ref _PersistantProject, value);
+            get => _LaunchYear;
+            set => SetProperty(ref _LaunchYear, value);
+        }
+
+        private bool _Loaded;
+        public bool Loaded
+        {
+            get => _Loaded;
+            set => SetProperty(ref _Loaded, value);
+        }
+
+        private Project _PersistentProject;
+        public Project PersistentProject
+        {
+            get => _PersistentProject;
+            set => SetProperty(ref _PersistentProject, value);
         }
 
         private string _CardTitle;
@@ -54,8 +70,25 @@ namespace UWPCommunity.ViewModels
 
         public async Task RefreshProjects()
         {
-            var launch = await Api.GetLaunchProjects(2020);
-            LaunchProjects = new ObservableCollection<Project>(launch.Projects);
+            var launchYear = DateTime.Now.Year;
+            ICollection<Project> launchProjects = Array.Empty<Project>();
+
+            do
+            {
+                try
+                {
+                    var launch = await Api.GetLaunchProjects(launchYear--);
+                    launchProjects = launch.Projects;
+                }
+                catch
+                {
+                    continue;
+                }
+            } while (launchProjects.Count <= 0 && launchYear >= 2020);
+
+            LaunchYear = launchYear;
+            Loaded = true;
+            LaunchProjects = new ObservableCollection<Project>(launchProjects);
         }
     }
 }

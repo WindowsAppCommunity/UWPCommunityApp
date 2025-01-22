@@ -24,7 +24,7 @@ namespace UWPCommunity.Views
             // Get the card information from the website frontend
             var card = (await UwpCommunityBackend.Api.GetCard("home")).Main;
             CardSubtitle.Text = card.Subtitle;
-            CardDetails.Text = String.Join("\r\n", card.Details);
+            CardDetails.Text = string.Join("\r\n", card.Details);
             try
             {
                 SettingsManager.ApplyLiveTile(SettingsManager.GetShowLiveTile());
