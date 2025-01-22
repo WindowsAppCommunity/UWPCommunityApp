@@ -72,13 +72,15 @@ namespace UwpCommunityBackend.Models
         public string Role { get; set; } = "Developer";
 
         [JsonIgnore]
-        public Uri HeroImageUri => new Uri(HeroImageSafe);
-
-        [JsonIgnore]
-        /// <summary>
-        /// A duplicate of HeroImage, but returns a dummy image if null
-        /// </summary>
-        public string HeroImageSafe => HeroImage ?? "https://uwpcommunity.com/assets/img/LaunchHero.png";
+        public Uri HeroImageUri
+        {
+            get
+            {
+                return Uri.TryCreate(HeroImage, UriKind.Absolute, out var uri)
+                    ? uri
+                    : new Uri("https://uwpcommunity.com/assets/img/LaunchHero.png");
+            }
+        }
 
         [JsonIgnore]
         public Collaborator Owner => Collaborators?.First(c => c.IsOwner);

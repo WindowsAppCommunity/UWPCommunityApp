@@ -54,8 +54,12 @@
                            Text="Developed by: "/>
             </StackPanel>
 
-            <Image x:Name="HeroImageCtl" Source="{x:Bind Project.HeroImageSafe}" Stretch="Uniform"
-                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,8,0,0" Grid.Row="1"/>
+            <Image x:Name="HeroImageCtl" Stretch="Uniform" Margin="0,8,0,0" Grid.Row="1"
+                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Image.Source>
+                    <BitmapImage UriSource="{x:Bind Project.HeroImageUri}"/>
+                </Image.Source>
+            </Image>
         </Grid>
 
         <Button x:Name="CloseButton" VerticalAlignment="Top" HorizontalAlignment="Right"

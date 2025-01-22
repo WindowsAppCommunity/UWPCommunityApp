@@ -84,7 +84,6 @@
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="viewmodels:ProjectViewModel">
                             <controls:GridViewCardItem TitleText="{x:Bind Project.AppName}"
-                                                       ImageSource="{x:Bind Project.HeroImageSafe}"
                                                        BodyText="{x:Bind Project.Description}"
                                                        IsEditable="{x:Bind IsOwner}"
                                                        IsDeletable="{x:Bind IsOwner}"
@@ -92,6 +91,9 @@
                                                        AutomationProperties.Name="{x:Bind Project.AppName}"
                                                        Width="{x:Bind CardWidth, Mode=OneWay}" Height="{x:Bind CardHeight, Mode=OneWay}"
                                                        x:Name="HeroImageStartCtl">
+                                <controls:GridViewCardItem.ImageSource>
+                                    <BitmapImage UriSource="{x:Bind Project.HeroImageUri}"/>
+                                </controls:GridViewCardItem.ImageSource>
                                 <controls:GridViewCardItem.BadgeContent>
                                     <StackPanel Orientation="Horizontal">
                                         <Button Visibility="{x:Bind Project.DownloadLink, Converter={StaticResource NullToVisibilityConverter}}"
