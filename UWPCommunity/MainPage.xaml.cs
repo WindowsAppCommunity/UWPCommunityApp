@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -25,7 +24,6 @@ namespace UWPCommunity
             this.InitializeComponent();
 
             MainFrame.Navigated += MainFrame_Navigated;
-            Loaded += MainPage_Loaded;
             NavigationManager.PageFrame = MainFrame;
 
             SizeChanged += MainPage_SizeChanged;
@@ -39,11 +37,6 @@ namespace UWPCommunity
             (MainNav.MenuItems[3] as NavigationViewItem).Visibility =
                 SettingsManager.GetShowLlamaBingo() ? Visibility.Visible : Visibility.Collapsed;
             SettingsManager.ShowLlamaBingoChanged += SettingsManager_ShowLlamaBingoChanged;
-        }
-
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            ShowLatestAppMessage();
         }
 
         private void MainPage_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -169,39 +162,5 @@ namespace UWPCommunity
                 Path = "llamabingo"
             },
         };
-
-        private void PreferencesButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationManager.NavigateToSettings(SettingsPages.AppMessages);
-        }
-
-        private async void ShowLatestAppMessage()
-        {
-            int level = SettingsManager.AppMessageSettings.GetImportanceLevel();
-            if (level <= 0)
-                return;
-
-            try
-            {
-                // Load most recent app message
-                var message = (await YoshiServer.Api.GetAppMessages("UWPCommunity", 0))[0];
-                if (message.Id != SettingsManager.AppMessageSettings.GetLastAppMessageId()
-                    && message.Importance <= level)
-                {
-                    var date = new DateTime(1970, 1, 1).AddSeconds(message.Timestamp).ToLocalTime();
-
-                    MessageBox.Title = message.Title;
-                    MessageContentBox.Text = message.Message;
-                    MessageTimestampRun.Text = $"{date.ToShortDateString()} {date.ToShortTimeString()}";
-                    MessageAuthorRun.Text = message.Author;
-                    MessageBox.IsOpen = true;
-                    SettingsManager.AppMessageSettings.SetLastAppMessageId(message.Id);
-                }
-            }
-            catch (Flurl.Http.FlurlHttpException)
-            {
-                // Ignore error
-            }
-        }
     }
 }

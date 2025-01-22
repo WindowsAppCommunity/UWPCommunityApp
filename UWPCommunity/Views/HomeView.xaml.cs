@@ -21,13 +21,12 @@ namespace UWPCommunity.Views
 
         private async void HomeView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Get the card information from the website frontend
-            var card = (await UwpCommunityBackend.Api.GetCard("home")).Main;
-            CardSubtitle.Text = card.Subtitle;
-            CardDetails.Text = string.Join("\r\n", card.Details);
             try
             {
-                SettingsManager.ApplyLiveTile(SettingsManager.GetShowLiveTile());
+                // Get the card information from the website frontend
+                var card = (await UwpCommunityBackend.Api.GetCard("home")).Main;
+                CardSubtitle.Text = card.Subtitle;
+                CardDetails.Text = string.Join("\r\n", card.Details);
             }
             catch (Flurl.Http.FlurlHttpException)
             {

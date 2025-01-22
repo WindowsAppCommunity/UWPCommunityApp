@@ -1,10 +1,6 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
-using System;
-using System.Threading.Tasks;
-using UwpCommunityBackend.Models;
+﻿using System;
 using Windows.Foundation;
 using Windows.Storage;
-using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 
 namespace UWPCommunity
@@ -27,11 +23,8 @@ namespace UWPCommunity
                 SetShowLlamaBingo(true);
             if (!localSettings.Values.ContainsKey("SavedLlamaBingo") || overrideCurr)
                 SetSavedLlamaBingo(null);
-            if (!localSettings.Values.ContainsKey("ShowLiveTile") || overrideCurr)
-                SetShowLiveTile(true);
             if (!localSettings.Values.ContainsKey("ExtendIntoTitleBar") || overrideCurr)
                 SetExtendIntoTitleBar(true);
-            AppMessageSettings.LoadDefaults(overrideCurr);
         }
 
         public static async void ResetApp()
@@ -182,90 +175,6 @@ namespace UWPCommunity
         public delegate void SavedLlamaBingoChangedHandler(string boardData);
         public static event SavedLlamaBingoChangedHandler SavedLlamaBingoChanged;
 
-        public static bool GetShowLiveTile()
-        {
-            if (localSettings.Values.TryGetValue("ShowLiveTile", out object value))
-            {
-                return (bool)value;
-            }
-            else
-            {
-                SetShowLiveTile(true);
-                return true;
-            }
-        }
-        public static void SetShowLiveTile(bool value)
-        {
-            localSettings.Values["ShowLiveTile"] = value;
-            ApplyLiveTile(value);
-            ShowLiveTileChanged?.Invoke(value);
-            SettingsChanged?.Invoke("ShowLiveTile", value);
-        }
-        public static async void ApplyLiveTile(bool value)
-        {
-            TileUpdateManager.CreateTileUpdaterForApplication().Clear();
-
-            if (value)
-            {
-                // Load all app messages
-                try
-                {
-                    var messages = await YoshiServer.Api.GetAppMessages("UWPCommunity");
-                    foreach (YoshiServer.Models.AppMessage message in messages)
-                    {
-                        if (message.Importance > 1)
-                            continue;
-
-                        // Update live tile
-                        TileBindingContentAdaptive text = new TileBindingContentAdaptive
-                        {
-                            Children =
-                            {
-                                new AdaptiveText()
-                                {
-                                    Text = message.Title,
-                                    HintWrap = true,
-                                },
-                                new AdaptiveText()
-                                {
-                                    Text = message.Message,
-                                    HintStyle = AdaptiveTextStyle.CaptionSubtle,
-                                    HintWrap = true
-                                }
-                            }
-                        };
-                        var tileContent = new TileContent()
-                        {
-                            Visual = new TileVisual()
-                            {
-                                TileMedium = new TileBinding()
-                                {
-                                    Branding = TileBranding.Logo,
-                                    Content = text
-                                },
-                                TileWide = new TileBinding()
-                                {
-                                    Branding = TileBranding.NameAndLogo,
-                                    Content = text
-                                },
-                                TileLarge = new TileBinding()
-                                {
-                                    Branding = TileBranding.NameAndLogo,
-                                    Content = text
-                                }
-                            }
-                        };
-                        var notification = new TileNotification(tileContent.GetXml());
-                        TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
-                        TileUpdateManager.CreateTileUpdaterForApplication().Update(notification);
-                    }
-                }
-                catch { }
-            }
-        }
-        public delegate void ShowLiveTileChangedHandler(bool value);
-        public static event ShowLiveTileChangedHandler ShowLiveTileChanged;
-
         public static bool GetExtendIntoTitleBar()
         {
             if (localSettings.Values.TryGetValue("ExtendIntoTitleBar", out object value))
@@ -287,104 +196,7 @@ namespace UWPCommunity
         public delegate void ExtendIntoTitleBarChangedHandler(bool value);
         public static event ExtendIntoTitleBarChangedHandler ExtendIntoTitleBarChanged;
 
-        public static bool GetUseBlurEffects()
-        {
-            if (localSettings.Values.TryGetValue("UseBlurEffects", out object value))
-            {
-                return (bool)value;
-            }
-            else
-            {
-                SetExtendIntoTitleBar(true);
-                return true;
-            }
-        }
-        public static void SetUseBlurEffects(bool value)
-        {
-            localSettings.Values["UseBlurEffects"] = value;
-            UseBlurEffectsChanged?.Invoke(value);
-            SettingsChanged?.Invoke("UseBlurEffects", value);
-        }
-        public delegate void UseBlurEffectsChangedHandler(bool value);
-        public static event UseBlurEffectsChangedHandler UseBlurEffectsChanged;
-
         public delegate void SettingsChangedHandler(string name, object value);
         public static event SettingsChangedHandler SettingsChanged;
-
-        public static class AppMessageSettings
-        {
-            public static void LoadDefaults(bool overrideCurr = true)
-            {
-                if (!localSettings.Values.ContainsKey("LastAppMessageId") || overrideCurr)
-                    SetLastAppMessageId(null);
-                if (!localSettings.Values.ContainsKey("ShowAppMessages") || overrideCurr)
-                    SetShowAppMessages(true);
-                if (!localSettings.Values.ContainsKey("ImportanceLevel") || overrideCurr)
-                    SetImportanceLevel(3);
-            }
-
-            public static bool GetShowAppMessages()
-            {
-                if (localSettings.Values.TryGetValue("ShowAppMessages", out object value))
-                {
-                    return (bool)value;
-                }
-                else
-                {
-                    SetShowAppMessages(true);
-                    return true;
-                }
-            }
-            public static void SetShowAppMessages(bool value)
-            {
-                localSettings.Values["ShowAppMessages"] = value;
-                ShowAppMessagesChanged?.Invoke(value);
-                SettingsChanged?.Invoke("ShowAppMessages", value);
-            }
-            public delegate void ShowAppMessagesChangedHandler(bool value);
-            public static event ShowAppMessagesChangedHandler ShowAppMessagesChanged;
-
-            public static string GetLastAppMessageId()
-            {
-                if (localSettings.Values.TryGetValue("LastAppMessageId", out object value))
-                {
-                    return value.ToString();
-                }
-                else
-                {
-                    SetLastAppMessageId(null);
-                    return null;
-                }
-            }
-            public static void SetLastAppMessageId(string messageId)
-            {
-                localSettings.Values["LastAppMessageId"] = messageId;
-                LastAppMessageIdChanged?.Invoke(messageId);
-                SettingsChanged?.Invoke("LastAppMessageId", messageId);
-            }
-            public delegate void LastAppMessageIdChangedHandler(string messageId);
-            public static event LastAppMessageIdChangedHandler LastAppMessageIdChanged;
-
-            public static int GetImportanceLevel()
-            {
-                if (localSettings.Values.TryGetValue("ImportanceLevel", out object value))
-                {
-                    return (int)value;
-                }
-                else
-                {
-                    SetImportanceLevel(3);
-                    return 3;
-                }
-            }
-            public static void SetImportanceLevel(int level)
-            {
-                localSettings.Values["ImportanceLevel"] = level;
-                ImportanceLevelChanged?.Invoke(level);
-                SettingsChanged?.Invoke("ImportanceLevel", level);
-            }
-            public delegate void ImportanceLevelChangedHandler(int level);
-            public static event ImportanceLevelChangedHandler ImportanceLevelChanged;
-        }
     }
 }

@@ -42,12 +42,6 @@
 
                 <CheckBox x:Name="ExtendIntoTitleBarBox" Content="Extend into title bar"
                           Checked="ExtendIntoTitleBarBox_Checked" Unchecked="ExtendIntoTitleBarBox_Unchecked"/>
-                
-                <CheckBox x:Name="ShowLiveTileBox" Content="Show live tile"
-                          Checked="ShowLiveTileBox_Checked" Unchecked="ShowLiveTileBox_Unchecked"/>
-
-                <CheckBox x:Name="UseBlurEffectsBox" Content="Use blur effects"
-                          Checked="UseBlurEffectsBox_Checked" Unchecked="UseBlurEffectsBox_Unchecked"/>
 
                 <Button x:Name="DefaultButton" Content="Restore default settings"
                         Click="DefaultButton_Click"/>
@@ -57,25 +51,6 @@
                         <SolidColorBrush Color="DarkRed"/>
                     </Button.Background>
                 </Button>
-
-            </StackPanel>
-        </PivotItem>
-
-        <!-- Messages -->
-        <PivotItem Header="Messages">
-            <StackPanel>
-                <CheckBox x:Name="ShowAppMessagesBox" Content="Show new messages on startup"
-                          Checked="ShowAppMessagesBox_Checked" Unchecked="ShowAppMessagesBox_Unchecked"/>
-
-                <StackPanel Spacing="-5">
-                    <Slider x:Name="ImportanceLevelSlider" Minimum="0" Maximum="3"
-                        Value="3" TickFrequency="1" SmallChange="1" LargeChange="1" Width="150"
-                        ValueChanged="ImportanceLevelSlider_ValueChanged" HorizontalAlignment="Left"/>
-
-                    <TextBlock x:Name="ImportanceLevelDesc" xmlns:converters="using:UWPCommunity.Converters"
-                               Text="{x:Bind converters:SliderValueToStringConverter.Convert(ImportanceLevelSlider.Value), Mode=OneWay}"
-                               Foreground="{x:Bind converters:SliderValueToColorConverter.Convert(ImportanceLevelSlider.Value), Mode=OneWay}"/>
-                </StackPanel>
 
             </StackPanel>
         </PivotItem>
